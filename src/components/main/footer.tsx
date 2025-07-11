@@ -58,7 +58,7 @@ export default function FooterSection() {
             <h4 className="text-lg font-semibold text-foreground">Quick Links</h4>
             <nav className="flex flex-col space-y-3">
               {[
-                { href: "/admin/dashboard", label: "Admin" },
+                { href: "/admin/login", label: "Admin" },
                 { href: "#about", label: "About" },
                 { href: "#projects", label: "Projects" },
                 { href: "#experience", label: "Experience" },
