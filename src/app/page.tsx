@@ -13,6 +13,7 @@ import CertificationsSection from '@/components/main/certificate'
 import ContactSection from '@/components/main/contact'
 import FooterSection from '@/components/main/footer'
 import toast from 'react-hot-toast';
+import Education from '@/components/main/education'
 
 export default function HomePage() {
   const [projects, setProjects] = useState<Project[]>([])
@@ -67,6 +68,7 @@ if (error) {
   return (
     <div className="min-h-screen bg-background">
       <HeroSection />
+      <Education />
       <SkillsSection skills={skills} />
       <ProjectsSection projects={projects} />
       <ExperienceSection experiences={experiences} />

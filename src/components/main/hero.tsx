@@ -1,7 +1,8 @@
-import { Briefcase, Mail, ArrowRight, Code, Coffee } from 'lucide-react'
+import { Briefcase, Mail, ArrowRight, Code, Coffee, LinkedinIcon, Github } from 'lucide-react'
 import Link from 'next/link'
 import { Button } from '../ui/button'
 import Image from 'next/image'
+import { GitHubProject, LinkedInProfile } from '@/data/static_link'
 
 export default function HeroSection() {
   return (
@@ -68,26 +69,39 @@ export default function HeroSection() {
                 </p>
                 <p className="text-lg text-foreground max-w-lg mx-auto lg:mx-0">
                   Specializing in 
-                  <span className="text-secondary font-medium"> Go, React, </span>
+                  <span className="text-secondary font-medium"> Go, NextJS, </span>
                   and 
                   <span className="text-accent font-medium"> cloud-native solutions</span>.
                 </p>
               </div>
+
+              {/* Email Contact */}
+              <div className="flex items-center justify-center lg:justify-start space-x-3 py-2">
+                <div className="flex items-center space-x-2 bg-card/80 backdrop-blur-sm rounded-full px-4 py-2 border border-border/50 hover:border-primary/30 transition-all duration-300 group">
+                  <Mail className="h-4 w-4 text-primary group-hover:scale-110 transition-transform" />
+                  <a 
+                    href="mailto:mishrashardendu22@gmail.com"
+                    className="text-foreground hover:text-primary transition-colors duration-300 font-medium"
+                  >
+                    mishrashardendu22@gmail.com
+                  </a>
+                </div>
+              </div>
               
               {/* CTA Buttons */}
               <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-4">
-                <Link href="#projects">
+                <Link href={GitHubProject}>
                   <Button size="lg" className="group bg-gradient-to-r from-primary to-secondary hover:from-primary/90 hover:to-secondary/90 text-primary-foreground border-0 shadow-lg hover:shadow-primary/25 transition-all duration-300">
-                    <Briefcase className="mr-2 h-5 w-5 transition-transform group-hover:scale-110" />
-                    View Projects
+                    <Github className="mr-2 h-5 w-5 transition-transform group-hover:scale-110" />
+                    GitHub - Check Out My Projects
                     <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
                   </Button>
                 </Link>
                 
-                <Link href="#contact">
+                <Link href={LinkedInProfile}>
                   <Button variant="outline" size="lg" className="group border-2 border-primary/30 hover:border-primary/50 bg-background/80 backdrop-blur-sm hover:bg-primary/5 text-foreground hover:text-primary transition-all duration-300 shadow-lg">
-                    <Mail className="mr-2 h-5 w-5 transition-transform group-hover:scale-110" />
-                    Get in Touch
+                    <LinkedinIcon className="mr-2 h-5 w-5 transition-transform group-hover:scale-110" />
+                    Super Active on LinkedIn Lets Connect
                   </Button>
                 </Link>
               </div>
