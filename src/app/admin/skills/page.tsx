@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { ProtectedRoute } from '../../../components/auth/protected-route'
+
 import { Button } from '../../../components/ui/button'
 import { Alert, AlertDescription } from '../../../components/ui/alert'
 import { skillsAPI } from '../../../util/apiResponse.util'
@@ -97,7 +97,7 @@ export default function AdminSkillsPage() {
     )
 
   return (
-    <ProtectedRoute>
+    <div className="space-y-8">
         <header className="text-center space-y-6">
           <h1 className="text-2xl md:text-3xl font-heading font-extrabold bg-gradient-to-r from-accent via-primary to-secondary bg-clip-text text-transparent leading-tight">
             Skills - Manage your technical skills and competencies.
@@ -210,6 +210,6 @@ export default function AdminSkillsPage() {
             )}
           </>
         )}
-    </ProtectedRoute>
+      </div>
   )
 }

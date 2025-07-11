@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { ProtectedRoute } from '../../../components/auth/protected-route'
+
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../../../components/ui/card'
 import { Button } from '../../../components/ui/button'
 import { Badge } from '../../../components/ui/badge'
@@ -159,8 +159,7 @@ export default function AdminExperiencesPage() {
   const currentData = experiences.slice((page - 1) * limit, page * limit)
 
   return (
-    <ProtectedRoute>
-      <div className="space-y-12 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div className="space-y-12 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-12 space-y-8">
           <h1 className="text-2xl md:text-3xl font-heading font-bold bg-gradient-to-r from-secondary via-primary to-accent bg-clip-text text-transparent leading-tight">
             Experiences Manage your professional experiences and work history.
@@ -265,6 +264,5 @@ export default function AdminExperiencesPage() {
           </>
         )}
       </div>
-    </ProtectedRoute>
   )
 }

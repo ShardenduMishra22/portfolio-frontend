@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { ProtectedRoute } from '../../../components/auth/protected-route'
+
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../../../components/ui/card'
 import { Button } from '../../../components/ui/button'
 import { Input } from '../../../components/ui/input'
@@ -49,8 +49,7 @@ export default function AdminProfilePage() {
   )
 
   return (
-    <ProtectedRoute>
-      <div className="space-y-12 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div className="space-y-12 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
         <header className="text-center mb-16 space-y-6">
           <h1 className="text-4xl sm:text-5xl font-heading font-bold bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent leading-tight">
             Admin Profile
@@ -135,6 +134,5 @@ export default function AdminProfilePage() {
           </Card>
         </div>
       </div>
-    </ProtectedRoute>
   )
 }

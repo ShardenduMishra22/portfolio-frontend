@@ -29,10 +29,15 @@ api.interceptors.response.use(
   },
   (error) => {
     if (error.response?.status === 401) {
-      // Clear token and redirect to login
+      // Clear token and redirect to home page for non-admin users
       if (typeof window !== 'undefined') {
         localStorage.removeItem('jwt_token')
-        window.location.href = '/admin/login'
+        // Check if we're on an admin page (except login)
+        const isAdminPage = window.location.pathname.startsWith('/admin') && 
+                           window.location.pathname !== '/admin/login'
+        if (isAdminPage) {
+          window.location.href = '/'
+        }
       }
     }
     console.error('API Error:', error)

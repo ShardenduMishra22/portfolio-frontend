@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { ProtectedRoute } from "../../../components/auth/protected-route";
+
 import { Alert, AlertDescription } from "../../../components/ui/alert";
 import { certificationsAPI, projectsAPI, skillsAPI } from "../../../util/apiResponse.util";
 import {
@@ -155,8 +155,7 @@ export default function AdminCertificationsPage() {
   const currentData = certifications.slice((page - 1) * limit, page * limit);
 
   return (
-    <ProtectedRoute>
-      <div className="space-y-4 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div className="space-y-4 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-6 space-y-4">
           <h1 className="text-2xl md:text-3xl font-heading font-bold bg-gradient-to-r from-primary via-accent to-secondary bg-clip-text text-transparent leading-tight">
             Certifications - Manage your certifications and professional achievements.
@@ -267,6 +266,5 @@ export default function AdminCertificationsPage() {
           </>
         )}
       </div>
-    </ProtectedRoute>
   );
 }

@@ -89,6 +89,8 @@ export const useAuth = create<AuthState>()(
       logout: () => {
         if (typeof window !== 'undefined') {
           localStorage.removeItem('jwt_token')
+          // Redirect to home page after logout
+          window.location.href = '/'
         }
         set({
           token: null,

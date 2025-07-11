@@ -2,7 +2,7 @@
 
 import { ReactNode, useEffect, useState } from 'react'
 import Link from 'next/link'
-import { usePathname } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 import { useAuth } from '../../hooks/use-auth'
 import { Button } from '../../components/ui/button'
 import {
@@ -16,7 +16,6 @@ import {
   Award,
 } from 'lucide-react'
 
-
 const navigation = [
   { name: 'Dashboard', href: '/admin/dashboard', icon: LayoutDashboard },
   { name: 'Projects', href: '/admin/projects', icon: Briefcase },
@@ -29,11 +28,19 @@ const navigation = [
 export default function AdminLayout({ children }: { children: ReactNode }) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const pathname = usePathname()
-  const { logout } = useAuth()
+  const router = useRouter()
+  const { logout, isAuthenticated, isLoading } = useAuth()
 
   type Profile = { email: string }
   const [profile, setProfile] = useState<Profile | null>(null)
   const [error, setError] = useState('')
+
+  // Check authentication and redirect if not authenticated
+  useEffect(() => {
+    if (!isLoading && !isAuthenticated && pathname !== '/admin/login') {
+      router.push('/')
+    }
+  }, [isAuthenticated, isLoading, pathname, router])
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -50,6 +57,25 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
   }, [])
 
   const isActive = (href: string) => pathname === href
+
+  // Show loading while checking authentication
+  if (isLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-primary"></div>
+      </div>
+    )
+  }
+
+  // Don't render admin layout for login page
+  if (pathname === '/admin/login') {
+    return <>{children}</>
+  }
+
+  // Don't render admin layout if not authenticated
+  if (!isAuthenticated) {
+    return null
+  }
 
   return (
     <div className="min-h-screen flex flex-col bg-background text-foreground font-sans">

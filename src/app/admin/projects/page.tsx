@@ -3,7 +3,7 @@ import dynamic from 'next/dynamic'
 const TiptapModalEditor = dynamic(() => import('../../../components/TipTap').then(mod => ({ default: mod.TiptapModalEditor })), { ssr: false })
 
 import { useEffect, useState } from 'react'
-import { ProtectedRoute } from '../../../components/auth/protected-route'
+
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../../../components/ui/card'
 import { Button } from '../../../components/ui/button'
 import { Badge } from '../../../components/ui/badge'
@@ -169,8 +169,7 @@ export default function AdminProjectsPage() {
   }
 
   return (
-    <ProtectedRoute>
-      <div className="space-y- max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div className="space-y- max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-12 space-y-8">
           <h1 className="text-2xl md:text-3xl font-heading font-bold bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent leading-tight">
             Projects - Manage your portfolio projects and showcase your best work.
@@ -450,6 +449,5 @@ export default function AdminProjectsPage() {
           </>
         )}
       </div>
-    </ProtectedRoute>
   )
 }

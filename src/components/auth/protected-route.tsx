@@ -11,18 +11,18 @@ interface ProtectedRouteProps {
 
 export function ProtectedRoute({ children, fallback }: ProtectedRouteProps) {
   const { isAuthenticated, isLoading } = useAuth()
-  // const router = useRouter()
+  const router = useRouter()
   const [hydrated, setHydrated] = useState(false)
 
   useEffect(() => {
     setHydrated(true)
   }, [])
 
-  // useEffect(() => {
-  //   if (hydrated && !isLoading && !isAuthenticated) {
-  //     router.push('/')
-  //   }
-  // }, [hydrated, isAuthenticated, isLoading, router])
+  useEffect(() => {
+    if (hydrated && !isLoading && !isAuthenticated) {
+      router.push('/')
+    }
+  }, [hydrated, isAuthenticated, isLoading, router])
 
   if (!hydrated || isLoading) {
     return fallback || (

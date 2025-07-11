@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { ProtectedRoute } from '../../../components/auth/protected-route'
+
 import { Button } from '../../../components/ui/button'
 import { Badge } from '../../../components/ui/badge'
 import { projectsAPI, experiencesAPI, skillsAPI, certificationsAPI } from '../../../util/apiResponse.util'
@@ -61,8 +61,7 @@ export default function AdminDashboardPage() {
   )
 
   return (
-    <ProtectedRoute>
-      <div className="space-y-10">
+    <div className="space-y-10">
         {/* Enhanced Header */}
         <div className="text-center mb-12 space-y-6">
           <h1 className="text-2xl md:text-3xl font-heading font-bold bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent leading-tight">
@@ -244,6 +243,5 @@ export default function AdminDashboardPage() {
           </div>
         </div>
       </div>
-    </ProtectedRoute>
   )
 } 
