@@ -22,4 +22,3 @@ coverage/
 
 # Logs
 pnpm-debug.log*
-pnpm-lock.yaml
