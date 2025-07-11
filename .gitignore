@@ -1,0 +1,25 @@
+# Node modules
+node_modules/
+Portfolio.postman_collection.json
+
+# Production build
+.next/
+out/
+dist/
+build/
+
+# Testing coverage
+coverage/
+
+# Env files
+.env*
+
+# System files
+.DS_Store
+
+# Editor settings
+.vscode/
+
+# Logs
+pnpm-debug.log*
+pnpm-lock.yaml
