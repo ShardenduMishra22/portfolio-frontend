@@ -2,7 +2,9 @@ import './globals.css'
 import type { Metadata } from 'next'
 import { Toaster } from 'react-hot-toast'
 import { ThemeProvider } from 'next-themes'
+import { Analytics } from "@vercel/analytics/next"
 import { Fredoka, Poppins, Inter } from 'next/font/google'
+import { SpeedInsights } from "@vercel/speed-insights/next"
 import ThemeToggleClient from '@/components/ThemeToggleClient'
 
 const fredoka = Fredoka({
@@ -81,6 +83,8 @@ export default function RootLayout({
             </div>
             {children}
             <Toaster position="top-right" reverseOrder />
+            <Analytics />
+            <SpeedInsights />
           </div>
         </ThemeProvider>
       </body>
