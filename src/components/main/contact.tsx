@@ -371,7 +371,7 @@ tooltip: {
             ></div>
             <span className="font-medium">{lang}</span>
           </div>
-          <span className="text-muted-foreground">{languagePie.datasets[0].data[i]}%</span>
+          <span className="text-foreground">{languagePie.datasets[0].data[i]}%</span>
         </div>
         {usageMap[lang] && (
           <div className="text-xs text-muted-foreground pl-5">Usage: {usageMap[lang]}</div>
