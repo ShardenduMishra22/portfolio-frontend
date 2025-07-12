@@ -4,7 +4,7 @@ export const metadata = {
   openGraph: {
     title: "Experiences | Mishra Shardendu Portfolio",
     description: "Explore the professional experiences and roles held by Mishra Shardendu, including responsibilities and accomplishments.",
-    url: "https://mishrashardendu.com/experiences",
+    url: "https://mishrashardendu22.is-a.dev/experiences",
     type: "website",
     siteName: "Shardendu Mishra Portfolio",
   },

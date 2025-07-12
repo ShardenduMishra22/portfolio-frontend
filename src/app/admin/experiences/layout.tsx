@@ -14,7 +14,7 @@ export const metadata = {
   openGraph: {
     title: "Admin | Experiences | Mishra Shardendu Portfolio",
     description: "Admin panel for managing experiences in the Mishra Shardendu portfolio.",
-    url: "https://mishrashardendu.com/admin/experiences",
+    url: "https://mishrashardendu22.is-a.dev/admin/experiences",
     type: "website",
     siteName: "Shardendu Mishra Portfolio",
   },

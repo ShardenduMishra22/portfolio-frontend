@@ -40,7 +40,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: 'website',
     locale: 'en_US',
-    url: 'https://mishrashardendu.com',
+    url: 'https://mishrashardendu22.is-a.dev',
     title: 'Shardendu Mishra - Software Developer and Engineer',
     description: 'Software Developer and Engineer passionate about building impactful applications with modern technologies.',
     siteName: 'Shardendu Mishra Portfolio',

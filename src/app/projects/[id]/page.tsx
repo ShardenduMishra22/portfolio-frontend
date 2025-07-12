@@ -368,7 +368,7 @@ function ProjectJsonLd({ project }: { project: Project }) {
     '@type': 'CreativeWork',
     name: project.project_name,
     description: project.small_description,
-    url: `https://mishrashardendu.com/projects/${project.id}`,
+    url: `https://mishrashardendu22.is-a.dev/projects/${project.id}`,
     creator: {
       '@type': 'Person',
       name: 'Shardendu Mishra',

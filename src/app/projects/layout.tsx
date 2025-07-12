@@ -4,7 +4,7 @@ export const metadata = {
   openGraph: {
     title: "Projects | Mishra Shardendu Portfolio",
     description: "Discover projects completed by Mishra Shardendu, featuring technologies used, goals, and outcomes.",
-    url: "https://mishrashardendu.com/projects",
+    url: "https://mishrashardendu22.is-a.dev/projects",
     type: "website",
     siteName: "Shardendu Mishra Portfolio",
   },

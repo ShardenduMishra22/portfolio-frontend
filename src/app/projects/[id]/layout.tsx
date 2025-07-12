@@ -10,7 +10,7 @@ export async function generateMetadata({ params }: { params : any}) {
     openGraph: {
       title: `${project.project_name} | Project | Mishra Shardendu Portfolio`,
       description: project.small_description,
-      url: `https://mishrashardendu.com/projects/${params.id}`,
+      url: `https://mishrashardendu22.is-a.dev/projects/${params.id}`,
       type: 'article',
       siteName: 'Shardendu Mishra Portfolio',
       images: project.images ? project.images.map((img) => ({ url: img })) : [],

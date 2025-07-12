@@ -4,7 +4,7 @@ export const metadata = {
   openGraph: {
     title: "Certifications | Mishra Shardendu Portfolio",
     description: "Browse all professional certifications earned by Mishra Shardendu, including details and achievements.",
-    url: "https://mishrashardendu.com/certifications",
+    url: "https://mishrashardendu22.is-a.dev/certifications",
     type: "website",
     siteName: "Shardendu Mishra Portfolio",
   },

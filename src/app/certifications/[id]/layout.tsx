@@ -11,7 +11,7 @@ export async function generateMetadata({ params }: { params: any }) {
     openGraph: {
       title: `${cert.title} | Certification | Mishra Shardendu Portfolio`,
       description: cert.description,
-      url: `https://mishrashardendu.com/certifications/${params.id}`,
+      url: `https://mishrashardendu22.is-a.dev/certifications/${params.id}`,
       type: 'article',
       siteName: 'Shardendu Mishra Portfolio',
       images: cert.images ? cert.images.map((img) => ({ url: img })) : [],

@@ -12,7 +12,7 @@ export const metadata = {
   openGraph: {
     title: "Admin Login | Mishra Shardendu Portfolio",
     description: "Login to the admin panel of the Mishra Shardendu portfolio.",
-    url: "https://mishrashardendu.com/admin/login",
+    url: "https://mishrashardendu22.is-a.dev/admin/login",
     type: "website",
     siteName: "Shardendu Mishra Portfolio",
   },
