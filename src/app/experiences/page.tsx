@@ -10,7 +10,6 @@ import { ExternalLink, ChevronLeft, ChevronRight, MoreHorizontal, Building2, Zap
 import Link from 'next/link';
 import toast from 'react-hot-toast';
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from '../../components/ui/select';
-import { Label } from '../../components/ui/label';
 import ReactMarkdown from 'react-markdown';
 
 export default function ExperiencesPage() {
