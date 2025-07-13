@@ -36,7 +36,6 @@ export const useAuth = create<AuthState>()(
         set({ isLoading: true })
         try {
           const response = await authAPI.login(credentials)
-          console.log('Login response:', response)
 
           // Defensive checks for backend response shape
           if (!response || typeof response !== 'object') {

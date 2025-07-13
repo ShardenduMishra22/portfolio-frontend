@@ -11,6 +11,7 @@ import Link from 'next/link';
 import toast from 'react-hot-toast';
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from '../../components/ui/select';
 import { Label } from '../../components/ui/label';
+import ReactMarkdown from 'react-markdown';
 
 export default function ExperiencesPage() {
   const [experiences, setExperiences] = useState<Experience[]>([]);
@@ -223,8 +224,12 @@ export default function ExperiencesPage() {
                     </CardHeader>
 
                     <CardContent className="relative z-10 flex-1 flex flex-col justify-between space-y-4">
-                      <p className="text-sm text-foreground line-clamp-3">
-                        {experience.description.length > 150 ? experience.description.slice(0, 150) + '...' : experience.description}
+                      <p className="text-foreground/70 leading-relaxed text-base">
+                        <div className="text-foreground/80 leading-relaxed text-base">
+                          <ReactMarkdown>
+                            {experience.description.length > 150 ? `${experience.description.substring(0, 150)}...` : experience.description}
+                          </ReactMarkdown>
+                        </div>
                       </p>
 
                       <div className="flex flex-wrap gap-1.5">

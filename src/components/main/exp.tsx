@@ -4,7 +4,8 @@ import { Badge } from '../ui/badge'
 import { Award, ArrowRight, Building2, Calendar, ChevronLeft, ChevronRight, Briefcase } from 'lucide-react'
 import Link from 'next/link'
 import { Experience } from '@/data/types.data'
-import { useState } from 'react'
+import React, { useState } from 'react'
+import ReactMarkdown from 'react-markdown'
 
 interface ExperienceSectionProps {
   experiences: Experience[]
@@ -86,7 +87,11 @@ export default function ExperienceSection({ experiences }: ExperienceSectionProp
 
                     <div className="space-y-4">
                       <p className="text-foreground/70 leading-relaxed text-base">
-                        {exp.description.length > 150 ? `${exp.description.substring(0, 150)}...` : exp.description}
+                        <div className="text-foreground/80 leading-relaxed text-base">
+                          <ReactMarkdown>
+                            {exp.description.length > 150 ? `${exp.description.substring(0, 150)}...` : exp.description}
+                          </ReactMarkdown>
+                        </div>
                       </p>
 
                       <div className="flex flex-wrap gap-2">
