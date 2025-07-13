@@ -169,42 +169,7 @@ export default function ExperienceDetailPage({ params }: { params: any }) {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {experience.images.map((src, i) => (
                   <div key={i} className="space-y-2">
-                    {src.includes('www.linkedin.com') ? (
-                      <div className="bg-muted/50 rounded-lg p-4 border">
-                        <div className="flex items-center gap-2 mb-3">
-                          <ExternalLink className="w-4 h-4 text-blue-600" />
-                          <span className="text-sm font-medium">LinkedIn Post</span>
-                        </div>
-                        <div className="w-full h-96 bg-background rounded border overflow-hidden">
-                          <iframe
-                            src={src}
-                            width="504"
-                            height="1236"
-                            allowFullScreen
-                            title={`LinkedIn post ${i + 1}`}
-                            className="w-full h-full"
-                            style={{ 
-                              border: 'none',
-                              transform: 'scale(0.7)',
-                              transformOrigin: 'top left',
-                              width: '142.86%',
-                              height: '142.86%'
-                            }}
-                          />
-                        </div>
-                        <div className="mt-2">
-                          <a
-                            href={src}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="text-sm text-blue-600 hover:text-blue-800 flex items-center gap-1"
-                          >
-                            <ExternalLink className="w-3 h-3" />
-                            View on LinkedIn
-                          </a>
-                        </div>
-                      </div>
-                    ) : (
+                    {(
                       <div className="bg-muted/50 rounded-lg p-4 border">
                         <div className="flex items-center gap-2 mb-3">
                           <ImageIcon className="w-4 h-4" />
