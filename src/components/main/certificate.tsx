@@ -4,7 +4,8 @@ import { Badge } from '../ui/badge'
 import { Award, Clock, ArrowRight, Star } from 'lucide-react'
 import Link from 'next/link'
 import { Certification } from '@/data/types.data'
-import { useState } from 'react'
+import React, { useState } from 'react'
+import ReactMarkdown from 'react-markdown'
 
 interface CertificationsSectionProps {
   certifications: Certification[]
@@ -94,16 +95,16 @@ export default function CertificationsSection({ certifications }: Certifications
                       </CardDescription>
                       <div className="flex items-center mt-2 text-sm text-foreground bg-muted/30 px-2 py-1 rounded-full w-fit">
                         <Clock className="mr-2 h-3 w-3" />
-                        {cert.issue_date} - {cert.expiry_date}
+                        {cert.issue_date} 
                       </div>
                     </div>
                   </div>
                 </CardHeader>
 
                 <CardContent className="space-y-3 relative z-10">
-                  <p className="text-sm text-foreground line-clamp-2 leading-relaxed">
+                  <ReactMarkdown >
                     {cert.description.length > 120 ? `${cert.description.substring(0, 120)}...` : cert.description}
-                  </p>
+                  </ReactMarkdown>
 
                   <div className="flex flex-wrap gap-2">
                     {cert.skills.slice(0, 4).map((skill, idx) => (

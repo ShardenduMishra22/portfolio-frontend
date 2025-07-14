@@ -11,7 +11,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import toast from 'react-hot-toast';
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from '../../components/ui/select';
-import { Label } from '../../components/ui/label';
+import ReactMarkdown from 'react-markdown';
 
 export default function CertificationsPage() {
   const [certifications, setCertifications] = useState<Certification[]>([]);
@@ -217,33 +217,31 @@ export default function CertificationsPage() {
                             {cert.title}
                           </CardTitle>
                           <CardDescription className="text-sm text-foreground">
-                            {cert.issuer} • {cert.issue_date} to {cert.expiry_date}
+                            {cert.issuer} • {cert.issue_date}
                           </CardDescription>
                         </div>
-                        {cert.images?.[0] && (
-                          <div className="relative h-10 w-10 rounded overflow-hidden border border-border">
-                            <Image src={cert.images[0]} alt="cert" fill className="object-cover" />
-                          </div>
-                        )}
                       </div>
                     </CardHeader>
 
                     <CardContent className="relative z-10 flex-1 flex flex-col justify-between space-y-4">
-                      <p className="text-sm text-foreground line-clamp-3">
-                        {cert.description.length > 150 ? cert.description.slice(0, 150) + '...' : cert.description}
-                      </p>
+                        <p className="text-sm text-foreground line-clamp-3">
+                          <ReactMarkdown>
+                            {cert.description.length > 150 ? cert.description.slice(0, 150) + '...' : cert.description}
+                          </ReactMarkdown>
+                        </p>
 
-                      <div className="flex flex-wrap gap-1.5">
-                        {cert.skills.map((skill, idx) => (
-                          <Badge
-                            key={idx}
-                            variant="outline"
-                            className="text-xs px-2 py-1 bg-gradient-to-r from-primary/10 to-secondary/10 border-primary/20"
-                          >
-                            {skill}
-                          </Badge>
-                        ))}
-                      </div>
+<div className="flex flex-wrap gap-1.5">
+  {cert.skills.slice(0, 5).map((skill, idx) => (
+    <Badge
+      key={idx}
+      variant="outline"
+      className="text-xs px-2 py-1 bg-gradient-to-r from-primary/10 to-secondary/10 border-primary/20"
+    >
+      {skill}
+    </Badge>
+  ))}
+</div>
+
 
                       <div className="flex items-center justify-between pt-2">
                         <div className="flex items-center gap-2">

@@ -26,7 +26,7 @@ const certificationSchema = z.object({
   certificate_url: z.string().url('Must be a valid URL'),
   images: z.string().optional(),
   issue_date: z.string().min(1, 'Issue date is required'),
-  expiry_date: z.string().min(1, 'Expiry date is required'),
+  expiry_date: z.string().min(0, 'Expiry date is required'),
 });
 
 type CertificationFormData = z.infer<typeof certificationSchema>;
