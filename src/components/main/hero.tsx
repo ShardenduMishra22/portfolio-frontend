@@ -63,7 +63,7 @@ export default function HeroSection() {
               {/* Description */}
               <div className="space-y-4">
                 <p className="text-xl leading-relaxed text-foreground max-w-lg mx-auto lg:mx-0">
-                  Full Stack Developer passionate about building 
+                  Software Engineer passionate about building 
                   <span className="text-primary font-medium"> impactful applications </span>
                   with modern technologies.
                 </p>
