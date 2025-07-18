@@ -3,6 +3,8 @@ const page = () => {
     <div>
       <h1>Blog</h1>
       <p>Welcome to my blog! Here you&apos;ll find my latest thoughts and updates.</p>
+    
+        test
     </div>
   )
 }
