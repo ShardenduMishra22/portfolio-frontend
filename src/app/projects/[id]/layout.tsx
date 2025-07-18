@@ -3,7 +3,6 @@ import { projectsAPI } from '../../../util/apiResponse.util';
 export async function generateMetadata({ params }: { params : any}) {
   const { id } = await params
   const response = await projectsAPI.getProjectById(id);
-  console.log('Project response:', response);
 
   const project = response.data;
   if (!project) return {};

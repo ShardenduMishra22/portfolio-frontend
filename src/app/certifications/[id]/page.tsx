@@ -63,7 +63,7 @@ export default function CertificationDetailPage({ params }: { params: any }) {
       }
     };
     fetchCertification();
-  }, [params.id]);
+  }, []);
 
   if (loading) {
     return (
