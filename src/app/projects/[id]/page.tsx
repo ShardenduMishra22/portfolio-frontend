@@ -23,6 +23,7 @@ import {
 import ReactMarkdown from 'react-markdown';
 import Link from 'next/link';
 import toast from 'react-hot-toast';
+import Image from 'next/image';
 
 export default function ProjectDetailPage({ params }: { params : any}) {
   const [project, setProject] = useState<Project | null>(null);
@@ -44,7 +45,7 @@ export default function ProjectDetailPage({ params }: { params : any}) {
       }
     };
     fetchProject();
-  }, []);
+  }, [params]);
 
   const handleShare = async () => {
     setShareClicked(true);
@@ -306,13 +307,18 @@ export default function ProjectDetailPage({ params }: { params : any}) {
                       {children}
                     </blockquote>
                   ),
-                  img: ({ src, alt }) => (
-                    <img 
-                      src={src} 
-                      alt={alt} 
-                      className="w-full max-w-2xl mx-auto rounded-lg shadow-sm mb-4"
-                    />
-                  ),
+                  img: ({ src, alt }) => {
+                    const imgSrc = typeof src === 'string' ? src : '';
+                    return (
+                      <Image 
+                        src={imgSrc}
+                        alt={alt || ''}
+                        width={800}
+                        height={600}
+                        className="w-full max-w-2xl mx-auto rounded-lg shadow-sm mb-4"
+                      />
+                    );
+                  },
                 }}
               >
                 {project.description}

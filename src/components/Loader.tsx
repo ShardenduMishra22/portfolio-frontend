@@ -36,7 +36,7 @@ const Loader = () => {
       clearInterval(messageInterval)
       clearInterval(dotsInterval)
     }
-  }, [])
+  }, [messages.length]);
 
   useEffect(() => {
     const temp: JSX.Element[] = []

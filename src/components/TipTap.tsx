@@ -319,7 +319,7 @@ useEffect(() => {
   return () => {
     editor.off('update', updateContent)
   }
-}, [editor])
+}, [editor, onChange]);
 
 
   if (!editor) return null
