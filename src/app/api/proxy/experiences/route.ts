@@ -79,7 +79,6 @@ async function proxy(req: NextRequest) {
 
     return new Response(axiosRes.data, {
       status: axiosRes.status,
-      headers: responseHeaders,
     });
   } catch {
     return new Response(JSON.stringify({ error: 'Backend unreachable' }), {

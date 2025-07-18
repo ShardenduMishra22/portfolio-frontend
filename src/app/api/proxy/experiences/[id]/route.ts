@@ -35,7 +35,7 @@ async function proxy(req: NextRequest, id: string) {
 
   const target = targets[index++ % targets.length];
   const reqUrl = new URL(req.url);
-  const backendUrl = `${target}/api/projects/${id}${reqUrl.search}`;
+  const backendUrl = `${target}/api/experiences/${id}${reqUrl.search}`;
 
   const headers: Record<string, string> = {};
   for (const [k, v] of req.headers.entries()) {
