@@ -33,8 +33,9 @@ export default function ProjectDetailPage({ params }: { params : any}) {
 
   useEffect(() => {
     const fetchProject = async () => {
+      const { id } = await params;
       try {
-        const response = await projectsAPI.getProjectById(params.id);
+        const response = await projectsAPI.getProjectById(id);
         setProject(response.data);
       } catch (err) {
         setError('Failed to load project');
@@ -43,7 +44,7 @@ export default function ProjectDetailPage({ params }: { params : any}) {
       }
     };
     fetchProject();
-  }, [params.id]);
+  }, []);
 
   const handleShare = async () => {
     setShareClicked(true);

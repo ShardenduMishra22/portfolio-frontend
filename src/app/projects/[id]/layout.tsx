@@ -1,7 +1,10 @@
 import { projectsAPI } from '../../../util/apiResponse.util';
 
 export async function generateMetadata({ params }: { params : any}) {
-  const response = await projectsAPI.getProjectById(params.id);
+  const { id } = await params
+  const response = await projectsAPI.getProjectById(id);
+  console.log('Project response:', response);
+
   const project = response.data;
   if (!project) return {};
   return {
@@ -10,7 +13,7 @@ export async function generateMetadata({ params }: { params : any}) {
     openGraph: {
       title: `${project.project_name} | Project | Mishra Shardendu Portfolio`,
       description: project.small_description,
-      url: `https://mishrashardendu22.is-a.dev/projects/${params.id}`,
+      url: `https://mishrashardendu22.is-a.dev/projects/${id}`,
       type: 'article',
       siteName: 'Shardendu Mishra Portfolio',
       images: project.images ? project.images.map((img) => ({ url: img })) : [],
