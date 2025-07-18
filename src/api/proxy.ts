@@ -31,7 +31,7 @@ async function proxy(req: NextRequest) {
 
   const url = new URL(req.url);
   const path = url.pathname.replace('/api/proxy', '');
-  const fullUrl = `${target}/api${path}${url.search}`;
+  const fullUrl = `${target}${path}${url.search}`;
 
   const method = req.method || 'GET';
   const headers = Object.fromEntries(req.headers.entries());
