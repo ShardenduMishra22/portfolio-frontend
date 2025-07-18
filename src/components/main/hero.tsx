@@ -21,14 +21,16 @@ export default function HeroSection() {
               
               {/* Main image container */}
               <div className="relative bg-gradient-to-br from-card to-card/80 p-3 rounded-2xl shadow-xl border border-border/50 group-hover:border-primary/30 transition-all duration-500">
-                <Image
-                  src="/Professional.webp"
-                  alt="Professional"
-                  width={400}
-                  height={400}
-                  priority
-                  className="rounded-xl object-cover w-full h-auto transition-transform duration-500 group-hover:scale-[1.02]"
-                />
+<Image
+  src="/Professional.webp"
+  alt="Professional"
+  width={500}
+  height={500}
+  priority
+  className="rounded-xl object-cover w-full h-auto max-w-[500px] transition-transform duration-500 group-hover:scale-[1.02]"
+/>
+
+
               </div>
               
               {/* Professional accent icons */}
