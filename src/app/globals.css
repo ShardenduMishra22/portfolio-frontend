@@ -3,6 +3,10 @@
 
 @custom-variant dark (&:is(.dark *));
 
+html {
+  scroll-behavior: smooth;
+}
+
 :root {
   font-family: var(--font-body);
   --font-body: 'Inter', sans-serif;
@@ -169,18 +173,22 @@ h3, h4 {
   }
 }
 
-/* Ripple effect for buttons */
-.animate-ripple {
-  position: absolute;
-  border-radius: 9999px;
-  transform: scale(0);
-  animation: ripple 0.5s linear;
-  opacity: 0.5;
-  pointer-events: none;
-}
-@keyframes ripple {
-  to {
+@keyframes blast {
+  0% {
+    background-position: -200% 0;
     opacity: 0;
-    transform: scale(2);
+    transform: scale(0.8);
   }
+  50% {
+    opacity: 1;
+    transform: scale(1.05);
+  }
+  100% {
+    background-position: 200% 0;
+    transform: scale(1);
+  }
+}
+
+.animate-blast {
+  animation: blast 1s ease-out forwards;
 }
