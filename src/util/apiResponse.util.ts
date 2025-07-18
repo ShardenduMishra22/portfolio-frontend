@@ -2,7 +2,6 @@ import api from './api'
 import {
   ApiResponse,
   AuthRequest,
-  AuthResponse,
   SkillsRequest,
   SkillsResponse,
   Project,
@@ -16,13 +15,6 @@ import {
   UpdateCertificationRequest,
 } from '../data/types.data'
 
-// Authentication API
-/**
- * authAPI.login
- * Calls the backend /admin/auth endpoint with credentials.
- * Expects a response with a top-level token and user data in 'data'.
- * Returns the raw backend response for flexible handling.
- */
 export const authAPI = {
   login: async (credentials: AuthRequest): Promise<any> => {
     const response = await api.post('/admin/auth', credentials)
