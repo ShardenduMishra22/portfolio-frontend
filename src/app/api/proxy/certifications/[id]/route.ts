@@ -19,13 +19,13 @@ const unsafeHeaders = new Set([
 
 export async function GET(
   req: NextRequest,
-  context: { params: { id: any } }
+  { params }: { params: { id: string } }
 ) {
-  const { id } = context.params;
-  return proxy(req, id);
+  return proxy(req, params.id);
 }
 
-async function proxy(req: NextRequest, id: string) {
+
+async function proxy(req: NextRequest, id: any) {
   if (targets.length === 0) {
     return new Response(
       JSON.stringify({ error: 'No backend targets configured' }),

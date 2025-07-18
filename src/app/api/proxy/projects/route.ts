@@ -30,10 +30,8 @@ async function proxy(req: NextRequest) {
   index = (index + 1) % targets.length;
 
   const url = new URL(req.url);
-  console.log('Proxying request to:', url);
 
   const fullUrl = target + url.pathname.replace('/api/proxy/projects', '/api/projects') + url.search;
-  console.log('Full URL:', fullUrl);
 
   const method = req.method || 'GET';
   const headers = Object.fromEntries(req.headers.entries());
@@ -69,7 +67,6 @@ async function proxy(req: NextRequest) {
       validateStatus: () => true,
     });
 
-    console.log('Axios response:', axiosRes);
 
     const responseHeaders = new Headers();
     Object.entries(axiosRes.headers).forEach(([key, value]) => {

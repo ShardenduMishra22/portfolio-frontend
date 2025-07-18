@@ -30,10 +30,8 @@ async function proxy(req: NextRequest) {
   index = (index + 1) % targets.length;
 
   const url = new URL(req.url);
-  console.log('Proxying request to:', url);
 
   const fullUrl = target + url.pathname.replace('/api/proxy/experiences', '/api/experiences') + url.search;
-  console.log('Full URL:', fullUrl);
 
   const method = req.method || 'GET';
   const headers = Object.fromEntries(req.headers.entries());
