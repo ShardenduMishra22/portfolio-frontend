@@ -1,11 +1,10 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { Home, GraduationCap, Code, Briefcase, Award, Mail, User, ChevronRight, Sparkles, Heart } from 'lucide-react'
+import { Home, GraduationCap, Code, Briefcase, Award, Mail, User, ChevronRight, Sparkles, Heart, Book } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { projectsAPI, experiencesAPI, skillsAPI, certificationsAPI } from '../util/apiResponse.util'
 import { Project, Experience, Certification } from '../data/types.data'
-import Loader from '@/components/Loader'
 import Error from '@/components/Error'
 import HeroSection from '@/components/main/hero'
 import SkillsSection from '@/components/main/skill'
@@ -14,8 +13,17 @@ import ExperienceSection from '@/components/main/exp'
 import CertificationsSection from '@/components/main/certificate'
 import ContactSection from '@/components/main/contact'
 import FooterSection from '@/components/main/footer'
-import toast from 'react-hot-toast'
 import Education from '@/components/main/education'
+import toast from 'react-hot-toast'
+
+// Import skeleton components
+import { 
+  SkillsSkeleton, 
+  ProjectsSkeleton, 
+  ExperienceSkeleton, 
+  CertificationsSkeleton, 
+  EducationSkeleton 
+} from '@/components/main/loading'
 
 const navItems = [
   { href: '#hero', label: 'Home', icon: Home },
@@ -25,6 +33,7 @@ const navItems = [
   { href: '#experience', label: 'Experience', icon: User },
   { href: '#certifications', label: 'Certifications', icon: Award },
   { href: '#contact', label: 'Contact', icon: Mail },
+  // { href: '/blog', label: 'Blog', icon: Book },
 ]
 
 function NavLink({ href, label, icon: Icon, isActive, isExpanded }: {
@@ -83,12 +92,11 @@ function NavLink({ href, label, icon: Icon, isActive, isExpanded }: {
 function Sidebar() {
   const [isExpanded, setIsExpanded] = useState(false)
   const [activeSection, setActiveSection] = useState('hero')
-const [hasAnimated, setHasAnimated] = useState(false)
+  const [hasAnimated, setHasAnimated] = useState(false)
 
-useEffect(() => {
-  if (!isExpanded) setHasAnimated(false)
-}, [isExpanded])
-
+  useEffect(() => {
+    if (!isExpanded) setHasAnimated(false)
+  }, [isExpanded])
 
   useEffect(() => {
     const handleScroll = () => {
@@ -134,29 +142,21 @@ useEffect(() => {
                 <Sparkles className="h-5 w-5 text-sidebar-primary-foreground" />
               </div>
               <div className="absolute -top-1 -right-1 w-3 h-3 bg-secondary rounded-full border-2 border-sidebar animate-pulse" />
-              
-
             </div>
             
             {/* Profile info when expanded */}
-{isExpanded && (
-  <div
-    className="flex-1 animate-in slide-in-from-left duration-300"
-    onAnimationEnd={() => setHasAnimated(true)}
-  >
-    {hasAnimated && (
-<div
-  className="text-sm font-semibold bg-gradient-to-r from-pink-500 via-yellow-400 to-green-500 bg-[length:200%_100%] bg-clip-text text-transparent animate-blast"
->
-  I Love Golang and Fedora
-</div>
-
-
-
-    )}
-  </div>
-)}
-
+            {isExpanded && (
+              <div
+                className="flex-1 animate-in slide-in-from-left duration-300"
+                onAnimationEnd={() => setHasAnimated(true)}
+              >
+                {hasAnimated && (
+                  <div className="text-sm font-semibold bg-gradient-to-r from-pink-500 via-yellow-400 to-green-500 bg-[length:200%_100%] bg-clip-text text-transparent animate-blast">
+                    I Love Golang and Fedora
+                  </div>
+                )}
+              </div>
+            )}
           </div>
         </div>
 
@@ -203,28 +203,56 @@ export default function HomePage() {
   const [experiences, setExperiences] = useState<Experience[]>([])
   const [skills, setSkills] = useState<string[]>([])
   const [certifications, setCertifications] = useState<Certification[]>([])
-  const [loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState({
+    projects: true,
+    experiences: true,
+    skills: true,
+    certifications: true,
+    education: true
+  })
   const [error, setError] = useState('')
 
   useEffect(() => {
     const fetchData = async () => {
       try {
+        // Fetch all data concurrently
         const [projectsRes, experiencesRes, skillsRes, certificationsRes] = await Promise.all([
           projectsAPI.getAllProjects(),
           experiencesAPI.getAllExperiences(),
           skillsAPI.getSkills(),
           certificationsAPI.getAllCertifications(),
         ])
+
+        // Set data and update loading states individually
         setProjects(Array.isArray(projectsRes.data) ? projectsRes.data : [])
+        setLoading(prev => ({ ...prev, projects: false }))
+
         setExperiences(Array.isArray(experiencesRes.data) ? experiencesRes.data : [])
+        setLoading(prev => ({ ...prev, experiences: false }))
+
         setSkills(Array.isArray(skillsRes.data) ? skillsRes.data : [])
+        setLoading(prev => ({ ...prev, skills: false }))
+
         setCertifications(Array.isArray(certificationsRes.data) ? certificationsRes.data : [])
+        setLoading(prev => ({ ...prev, certifications: false }))
+
+        // Simulate education loading (assuming it's static or has its own API)
+        setTimeout(() => {
+          setLoading(prev => ({ ...prev, education: false }))
+        }, 1000)
+
         toast.success('Homepage data loaded!')
       } catch (err) {
         setError('Failed to load homepage data')
         toast.error('Failed to load homepage data')
-      } finally {
-        setLoading(false)
+        // Set all loading states to false on error
+        setLoading({
+          projects: false,
+          experiences: false,
+          skills: false,
+          certifications: false,
+          education: false
+        })
       }
     }
     fetchData()
@@ -261,47 +289,27 @@ export default function HomePage() {
         
         <section id="education" className="scroll-mt-20 relative">
           <div className="absolute inset-0 bg-gradient-to-r from-transparent via-secondary/5 to-transparent opacity-50 pointer-events-none" />
-          <Education />
+          {loading.education ? <EducationSkeleton /> : <Education />}
         </section>
         
         <section id="skills" className="scroll-mt-20 relative">
           <div className="absolute inset-0 bg-gradient-to-l from-transparent via-accent/5 to-transparent opacity-50 pointer-events-none" />
-          <SkillsSection skills={skills} />
-          {loading && skills.length === 0 && (
-            <div className="flex items-center justify-center py-12">
-              <Loader />
-            </div>
-          )}
+          {loading.skills ? <SkillsSkeleton /> : <SkillsSection skills={skills} />}
         </section>
         
         <section id="projects" className="scroll-mt-20 relative">
           <div className="absolute inset-0 bg-gradient-to-r from-transparent via-primary/5 to-transparent opacity-50 pointer-events-none" />
-          <ProjectsSection projects={projects} />
-          {loading && projects.length === 0 && (
-            <div className="flex items-center justify-center py-12">
-              <Loader />
-            </div>
-          )}
+          {loading.projects ? <ProjectsSkeleton /> : <ProjectsSection projects={projects} />}
         </section>
         
         <section id="experience" className="scroll-mt-20 relative">
           <div className="absolute inset-0 bg-gradient-to-l from-transparent via-muted/5 to-transparent opacity-50 pointer-events-none" />
-          <ExperienceSection experiences={experiences} />
-          {loading && experiences.length === 0 && (
-            <div className="flex items-center justify-center py-12">
-              <Loader />
-            </div>
-          )}
+          {loading.experiences ? <ExperienceSkeleton /> : <ExperienceSection experiences={experiences} />}
         </section>
         
         <section id="certifications" className="scroll-mt-20 relative">
           <div className="absolute inset-0 bg-gradient-to-r from-transparent via-secondary/5 to-transparent opacity-50 pointer-events-none" />
-          <CertificationsSection certifications={certifications} />
-          {loading && certifications.length === 0 && (
-            <div className="flex items-center justify-center py-12">
-              <Loader />
-            </div>
-          )}
+          {loading.certifications ? <CertificationsSkeleton /> : <CertificationsSection certifications={certifications} />}
         </section>
         
         <section id="contact" className="scroll-mt-20 relative">
