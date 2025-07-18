@@ -19,7 +19,7 @@ const unsafeHeaders = new Set([
 
 export async function GET(
   req: NextRequest,
-  context: { params: { id: string } }
+  context: { params: { id: any } }
 ) {
   const { id } = context.params;
   return proxy(req, id);
