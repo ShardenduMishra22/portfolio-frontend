@@ -30,12 +30,34 @@ async function proxy(req: NextRequest) {
   index = (index + 1) % targets.length;
 
   const url = new URL(req.url);
-  const path = url.pathname.replace('/api/proxy', '');
-  const fullUrl = `${target}${path}${url.search}`;
+  console.log('Proxying request to:', url);
+
+  const fullUrl = target + url.pathname.replace('/api/proxy/projects', '/api/projects') + url.search;
+  console.log('Full URL:', fullUrl);
 
   const method = req.method || 'GET';
   const headers = Object.fromEntries(req.headers.entries());
   const body = method !== 'GET' && method !== 'HEAD' ? await req.text() : undefined;
+  const unsafeHeaders = [
+    'host',
+    'connection',
+    'cookie',
+    'pragma',
+    'referer',
+    'x-forwarded-for',
+    'x-forwarded-host',
+    'x-forwarded-port',
+    'x-forwarded-proto',
+    'sec-fetch-site',
+    'sec-fetch-mode',
+    'sec-fetch-dest',
+    'sec-ch-ua',
+    'sec-ch-ua-mobile',
+    'sec-ch-ua-platform',
+    'user-agent',
+  ];
+
+  unsafeHeaders.forEach(h => delete headers[h.toLowerCase()]);
 
   try {
     const axiosRes = await axios.request({
@@ -46,6 +68,8 @@ async function proxy(req: NextRequest) {
       responseType: 'arraybuffer',
       validateStatus: () => true,
     });
+
+    console.log('Axios response:', axiosRes);
 
     const responseHeaders = new Headers();
     Object.entries(axiosRes.headers).forEach(([key, value]) => {
@@ -66,4 +90,4 @@ async function proxy(req: NextRequest) {
       headers: { 'Content-Type': 'application/json' },
     });
   }
-}
+} 
