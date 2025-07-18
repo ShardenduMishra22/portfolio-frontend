@@ -1,5 +1,4 @@
 'use client'
-import { Button } from "@/components/ui/button";
 import { createAuthClient } from "better-auth/react";
 import { BookOpen, Sparkles, ArrowRight, Quote } from "lucide-react";
 
@@ -9,6 +8,7 @@ const page = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-card to-muted/20 flex items-center justify-center p-6">
       <div className="w-full max-w-md">
+        {/* Header Section */}
         <div className="text-center mb-8 space-y-4">
           <div className="inline-flex items-center justify-center w-16 h-16 bg-primary/10 rounded-full mb-4">
             <BookOpen className="w-8 h-8 text-primary" />
@@ -18,7 +18,7 @@ const page = () => {
             Welcome to Your Blog
           </h1>
           
-          <p className="text-foreground text-lg font-subheading">
+          <p className="text-muted-foreground text-lg font-subheading">
             Share your thoughts and inspire others
           </p>
         </div>
@@ -29,7 +29,7 @@ const page = () => {
             <Quote className="w-5 h-5 text-accent mt-1 flex-shrink-0" />
             <div>
               <p className="text-card-foreground/80 italic text-sm leading-relaxed">
-                &quot;The best way to find out if you can trust somebody is to trust them.&quot;
+                &#34;The best way to find out if you can trust somebody is to trust them.&#34;
               </p>
               <p className="text-accent text-xs mt-2 font-medium">— Ernest Hemingway</p>
             </div>
@@ -48,7 +48,7 @@ const page = () => {
             </p>
           </div>
 
-          <Button
+          <button
             onClick={() => authClient.signIn.social({
               provider: 'google',
               callbackURL: '/blog/landing',
@@ -78,10 +78,10 @@ const page = () => {
               <span>Continue with Google</span>
               <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
             </div>
-          </Button>
+          </button>
 
           <div className="mt-6 text-center">
-            <p className="text-xs text-foreground">
+            <p className="text-xs text-muted-foreground">
               By continuing, you agree to our terms and privacy policy
             </p>
           </div>
@@ -89,7 +89,7 @@ const page = () => {
 
         {/* Call to Action */}
         <div className="text-center mt-8">
-          <p className="text-foreground text-sm">
+          <p className="text-muted-foreground text-sm">
             Ready to share your unique perspective with the world?
           </p>
         </div>
