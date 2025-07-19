@@ -80,7 +80,7 @@ const CreateBlogPage = () => {
       if (response.success) {
         setSuccess('Blog post created successfully!')
         setTimeout(() => {
-          router.push('/blog/landing')
+          router.push('/blog/dashboard')
         }, 1500)
       } else {
         setError(response.error || 'Failed to create blog post')

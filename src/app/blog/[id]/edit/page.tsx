@@ -130,7 +130,7 @@ const BlogEditPage = ({ params }: { params: Promise<{ id: string }> }) => {
           <AlertCircle className="w-16 h-16 text-destructive mx-auto mb-4" />
           <h2 className="text-2xl font-bold text-foreground mb-2">Access Denied</h2>
           <p className="text-foreground mb-4">{error}</p>
-          <Button onClick={() => router.push('/blog/landing')}>
+          <Button onClick={() => router.push('/blog/dashboard')}>
             <ArrowLeft className="w-4 h-4 mr-2" />
             Back to Blog
           </Button>
@@ -144,8 +144,8 @@ const BlogEditPage = ({ params }: { params: Promise<{ id: string }> }) => {
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
           <h2 className="text-2xl font-bold text-foreground mb-2">Blog not found</h2>
-          <p className="text-foreground mb-4">The blog post you're trying to edit doesn't exist.</p>
-          <Button onClick={() => router.push('/blog/landing')}>
+          <p className="text-foreground mb-4">The blog post you&apos;re trying to edit doesn&apos;t exist.</p>
+          <Button onClick={() => router.push('/blog/dashboard')}>
             <ArrowLeft className="w-4 h-4 mr-2" />
             Back to Blog
           </Button>

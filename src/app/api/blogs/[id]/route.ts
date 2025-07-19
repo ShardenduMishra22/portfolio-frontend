@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/index";
-import { blogTable, userProfilesTable } from "@/db/schema";
-import { eq } from "drizzle-orm";
+import { blogTable, userProfilesTable, likesTable, commentsTable, blogViewsTable } from "@/db/schema";
+import { eq, count } from "drizzle-orm";
 import { user as usersTable } from "@/db/authSchema";
 // GET /api/blogs/:id - Get blog by ID
 export async function GET(
@@ -50,9 +50,23 @@ export async function GET(
       );
     }
 
+    // Get counts for likes, comments, and views
+    const [likesCount, commentsCount, viewsCount] = await Promise.all([
+      db.select({ count: count() }).from(likesTable).where(eq(likesTable.blogId, blogId)),
+      db.select({ count: count() }).from(commentsTable).where(eq(commentsTable.blogId, blogId)),
+      db.select({ count: count() }).from(blogViewsTable).where(eq(blogViewsTable.blogId, blogId))
+    ]);
+
+    const blogWithCounts = {
+      ...blog[0],
+      likes: likesCount[0]?.count || 0,
+      comments: commentsCount[0]?.count || 0,
+      views: viewsCount[0]?.count || 0,
+    };
+
     return NextResponse.json({
       success: true,
-      data: blog[0],
+      data: blogWithCounts,
     });
   } catch (error) {
     console.error("Error fetching blog:", error);

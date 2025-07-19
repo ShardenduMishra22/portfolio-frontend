@@ -15,7 +15,8 @@ import {
   Heart,
   MessageCircle,
   ArrowRight,
-  User
+  User,
+  Bookmark
 } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import { blogsService } from '@/services/blogs'
@@ -55,6 +56,34 @@ const BlogPage = () => {
       setError('Failed to load blogs')
     } finally {
       setLoading(false)
+    }
+  }
+
+  const handleLike = async (blogId: string) => {
+    if (!session?.data?.user?.id) {
+      router.push('/blog/dashboard') // Redirect to login
+      return
+    }
+    
+    try {
+      await blogsService.likeBlog(blogId, { userId: session.data.user.id })
+      await fetchBlogs() // Refresh the blog list
+    } catch (error) {
+      console.error('Error liking blog:', error)
+    }
+  }
+
+  const handleBookmark = async (blogId: string) => {
+    if (!session?.data?.user?.id) {
+      router.push('/blog/dashboard') // Redirect to login
+      return
+    }
+    
+    try {
+      await blogsService.bookmarkBlog(blogId, { userId: session.data.user.id })
+      await fetchBlogs() // Refresh the blog list
+    } catch (error) {
+      console.error('Error bookmarking blog:', error)
     }
   }
 
@@ -228,27 +257,42 @@ const BlogPage = () => {
                     <div className="flex items-center space-x-4 text-sm text-foreground">
                       <div className="flex items-center space-x-1">
                         <Eye className="w-4 h-4" />
-                        <span>{Array.isArray(blog.views) ? blog.views.length : (blog.views || 0)}</span>
+                        <span>{typeof blog.views === 'number' ? blog.views : 0}</span>
                       </div>
-                      <div className="flex items-center space-x-1">
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => handleLike(blog.id.toString())}
+                        className="flex items-center space-x-1 p-1 h-auto text-foreground hover:text-destructive"
+                      >
                         <Heart className="w-4 h-4" />
-                        <span>{Array.isArray(blog.likes) ? blog.likes.length : (blog.likes || 0)}</span>
-                      </div>
+                        <span>{typeof blog.likes === 'number' ? blog.likes : 0}</span>
+                      </Button>
                       <div className="flex items-center space-x-1">
                         <MessageCircle className="w-4 h-4" />
-                        <span>{Array.isArray(blog.comments) ? blog.comments.length : (blog.comments || 0)}</span>
+                        <span>{typeof blog.comments === 'number' ? blog.comments : 0}</span>
                       </div>
                     </div>
                     
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      onClick={() => router.push(`/blog/${blog.id}`)}
-                      className="text-primary hover:text-primary/80 group-hover:bg-primary/10"
-                    >
-                      <span className="mr-1">Read More</span>
-                      <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                    </Button>
+                    <div className="flex items-center space-x-2">
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => handleBookmark(blog.id.toString())}
+                        className="text-foreground hover:text-primary"
+                      >
+                        <Bookmark className="w-4 h-4" />
+                      </Button>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => router.push(`/blog/${blog.id}`)}
+                        className="text-primary hover:text-primary/80 group-hover:bg-primary/10"
+                      >
+                        <span className="mr-1">Read More</span>
+                        <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                      </Button>
+                    </div>
                   </div>
                 </CardContent>
               </Card>

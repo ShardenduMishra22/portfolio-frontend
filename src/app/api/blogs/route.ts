@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/index";
-import { blogTable, userProfilesTable } from "@/db/schema";
-import { eq, desc, like, and, or } from "drizzle-orm";
+import { blogTable, userProfilesTable, likesTable, commentsTable, blogViewsTable } from "@/db/schema";
+import { eq, desc, like, and, or, count } from "drizzle-orm";
 import { user as usersTable } from "@/db/authSchema";
 
 // GET /api/blogs - List blogs with filtering and pagination
@@ -68,20 +68,38 @@ export async function GET(request: NextRequest) {
       .limit(limit)
       .offset(offset);
 
+    // Get counts for each blog
+    const blogsWithCounts = await Promise.all(
+      blogs.map(async (blog) => {
+        const [likesCount, commentsCount, viewsCount] = await Promise.all([
+          db.select({ count: count() }).from(likesTable).where(eq(likesTable.blogId, blog.id)),
+          db.select({ count: count() }).from(commentsTable).where(eq(commentsTable.blogId, blog.id)),
+          db.select({ count: count() }).from(blogViewsTable).where(eq(blogViewsTable.blogId, blog.id))
+        ]);
+
+        return {
+          ...blog,
+          likes: likesCount[0]?.count || 0,
+          comments: commentsCount[0]?.count || 0,
+          views: viewsCount[0]?.count || 0,
+        };
+      })
+    );
+
     // Get total count for pagination
     const totalCount = await db
-      .select({ count: blogTable.id })
+      .select({ count: count() })
       .from(blogTable)
       .where(whereClause);
 
     return NextResponse.json({
       success: true,
-      data: blogs,
+      data: blogsWithCounts,
       pagination: {
         page,
         limit,
-        total: totalCount.length,
-        totalPages: Math.ceil(totalCount.length / limit),
+        total: totalCount[0]?.count || 0,
+        totalPages: Math.ceil((totalCount[0]?.count || 0) / limit),
       },
     });
   } catch (error) {

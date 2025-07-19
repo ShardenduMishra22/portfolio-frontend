@@ -70,11 +70,11 @@ const BlogPostPage = ({ params }: { params: Promise<{ id: string }> }) => {
     try {
       setLoading(true)
       const response = await blogsService.getBlogById(resolvedParams.id)
-      if (response.success) {
+      if (response.success && response.data) {
         setBlog(response.data)
-        setLikesCount(response.data.likes || 0)
-        setViewsCount(response.data.views || 0)
-        setCommentsCount(response.data.comments || 0)
+        setLikesCount(typeof response.data.likes === 'number' ? response.data.likes : 0)
+        setViewsCount(typeof response.data.views === 'number' ? response.data.views : 0)
+        setCommentsCount(typeof response.data.comments === 'number' ? response.data.comments : 0)
       }
     } catch (error) {
       console.error('Error fetching blog:', error)
@@ -97,9 +97,9 @@ const BlogPostPage = ({ params }: { params: Promise<{ id: string }> }) => {
 
   const addView = async () => {
     try {
-      if (session?.user?.id) {
+      if (session?.data?.user?.id) {
         await blogsService.addBlogView(resolvedParams.id, {
-          userId: session.user.id,
+          userId: session.data.user.id,
           ipAddress: '127.0.0.1',
           userAgent: navigator.userAgent
         })
@@ -110,14 +110,14 @@ const BlogPostPage = ({ params }: { params: Promise<{ id: string }> }) => {
   }
 
   const handleLike = async () => {
-    if (!session?.user?.id) return
+    if (!session?.data?.user?.id) return
     
     try {
       if (isLiked) {
-        await blogsService.unlikeBlog(resolvedParams.id, { userId: session.user.id })
+        await blogsService.unlikeBlog(resolvedParams.id, { userId: session.data.user.id })
         setLikesCount(prev => prev - 1)
       } else {
-        await blogsService.likeBlog(resolvedParams.id, { userId: session.user.id })
+        await blogsService.likeBlog(resolvedParams.id, { userId: session.data.user.id })
         setLikesCount(prev => prev + 1)
       }
       setIsLiked(!isLiked)
@@ -127,13 +127,13 @@ const BlogPostPage = ({ params }: { params: Promise<{ id: string }> }) => {
   }
 
   const handleBookmark = async () => {
-    if (!session?.user?.id) return
+    if (!session?.data?.user?.id) return
     
     try {
       if (isBookmarked) {
-        await blogsService.unbookmarkBlog(resolvedParams.id, { userId: session.user.id })
+        await blogsService.unbookmarkBlog(resolvedParams.id, { userId: session.data.user.id })
       } else {
-        await blogsService.bookmarkBlog(resolvedParams.id, { userId: session.user.id })
+        await blogsService.bookmarkBlog(resolvedParams.id, { userId: session.data.user.id })
       }
       setIsBookmarked(!isBookmarked)
     } catch (error) {
@@ -142,12 +142,12 @@ const BlogPostPage = ({ params }: { params: Promise<{ id: string }> }) => {
   }
 
   const handleAddComment = async () => {
-    if (!session?.user?.id || !newComment.trim()) return
+    if (!session?.data?.user?.id || !newComment.trim()) return
     
     try {
       const response = await blogsService.addBlogComment(resolvedParams.id, {
         content: newComment.trim(),
-        userId: session.user.id
+        userId: session.data.user.id
       })
       
       if (response.success) {
@@ -187,7 +187,7 @@ const BlogPostPage = ({ params }: { params: Promise<{ id: string }> }) => {
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
           <h2 className="text-2xl font-bold text-foreground mb-2">Blog not found</h2>
-          <p className="text-foreground mb-4">The blog post you're looking for doesn't exist.</p>
+          <p className="text-foreground mb-4">The blog post you&apos;re looking for doesn&lsquo;t exist.</p>
           <Button onClick={() => router.push('/blog/landing')}>
             <ArrowLeft className="w-4 h-4 mr-2" />
             Back to Blog
@@ -217,8 +217,12 @@ const BlogPostPage = ({ params }: { params: Promise<{ id: string }> }) => {
                 <Share2 className="w-4 h-4 mr-2" />
                 Share
               </Button>
-              {session && blog.authorId === session.user?.id && (
-                <Button variant="outline" size="sm">
+              {session?.data?.user && blog.authorId === session.data.user.id && (
+                <Button 
+                  variant="outline" 
+                  size="sm"
+                  onClick={() => router.push(`/blog/${resolvedParams.id}/edit`)}
+                >
                   <Edit className="w-4 h-4 mr-2" />
                   Edit
                 </Button>
@@ -239,14 +243,14 @@ const BlogPostPage = ({ params }: { params: Promise<{ id: string }> }) => {
                 <div className="flex items-start justify-between">
                   <div className="flex items-center space-x-3">
                     <Avatar className="w-12 h-12">
-                      <AvatarImage src={blog.author?.avatar || ''} />
+                      <AvatarImage src={blog.authorProfile?.avatar || ''} />
                       <AvatarFallback className="bg-primary/10 text-primary">
-                        {getInitials(blog.author?.firstName || '', blog.author?.lastName || '')}
+                        {getInitials(blog.authorProfile?.firstName || '', blog.authorProfile?.lastName || '')}
                       </AvatarFallback>
                     </Avatar>
                     <div>
                       <p className="font-semibold text-foreground">
-                        {blog.author?.firstName} {blog.author?.lastName}
+                        {blog.authorProfile?.firstName} {blog.authorProfile?.lastName}
                       </p>
                       <p className="text-sm text-foreground flex items-center">
                         <Calendar className="w-4 h-4 mr-1" />
@@ -324,13 +328,13 @@ const BlogPostPage = ({ params }: { params: Promise<{ id: string }> }) => {
               
               <CardContent className="space-y-6">
                 {/* Add Comment */}
-                {session && (
+                {session?.data?.user && (
                   <div className="space-y-4">
                     <div className="flex items-start space-x-3">
                       <Avatar className="w-8 h-8">
-                        <AvatarImage src={session.user?.image || ''} />
+                        <AvatarImage src={session.data.user.image || ''} />
                         <AvatarFallback className="bg-primary/10 text-primary text-xs">
-                          {getInitials(session.user?.name?.split(' ')[0] || '', session.user?.name?.split(' ')[1] || '')}
+                          {getInitials(session.data.user.name?.split(' ')[0] || '', session.data.user.name?.split(' ')[1] || '')}
                         </AvatarFallback>
                       </Avatar>
                       <div className="flex-1 space-y-2">
@@ -416,14 +420,14 @@ const BlogPostPage = ({ params }: { params: Promise<{ id: string }> }) => {
               <CardContent>
                 <div className="flex items-center space-x-3 mb-4">
                   <Avatar className="w-12 h-12">
-                    <AvatarImage src={blog.author?.avatar || ''} />
+                    <AvatarImage src={blog.authorProfile?.avatar || ''} />
                     <AvatarFallback className="bg-primary/10 text-primary">
-                      {getInitials(blog.author?.firstName || '', blog.author?.lastName || '')}
+                      {getInitials(blog.authorProfile?.firstName || '', blog.authorProfile?.lastName || '')}
                     </AvatarFallback>
                   </Avatar>
                   <div>
                     <p className="font-semibold text-foreground">
-                      {blog.author?.firstName} {blog.author?.lastName}
+                      {blog.authorProfile?.firstName} {blog.authorProfile?.lastName}
                     </p>
                     <p className="text-sm text-foreground">
                       {blog.author?.email}
