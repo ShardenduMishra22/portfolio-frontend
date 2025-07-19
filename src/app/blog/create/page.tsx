@@ -50,8 +50,12 @@ const CreateBlogPage = () => {
       return
     }
 
-    if (!session?.user?.id) {
+    // Try different session structures
+    const userId =  session?.data?.user?.id
+    
+    if (!userId) {
       console.error('No user ID found in session')
+      console.log('Available session data:', session)
       return
     }
 
@@ -61,17 +65,25 @@ const CreateBlogPage = () => {
       const response = await blogsService.createBlog({
         title: title.trim(),
         content: content.trim(),
-        tags: tags,
-        authorId: session.user.id
       })
 
       if (response.success) {
         router.push('/blog/landing')
       } else {
         console.error('Blog creation failed:', response)
+        // You could add a toast notification here
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error creating blog:', error)
+      // Handle specific error cases
+      if (error?.response?.status === 400) {
+        console.error('Bad request - check your input data')
+      } else if (error?.response?.status === 401) {
+        console.error('Unauthorized - please log in again')
+        router.push('/blog')
+      } else if (error?.response?.status === 404) {
+        console.error('Author not found - please check your session')
+      }
     } finally {
       setIsSubmitting(false)
     }
@@ -82,11 +94,30 @@ const CreateBlogPage = () => {
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto mb-4"></div>
-          <p className="text-foreground">Please log in to create a blog post.</p>
+          <p className="text-foreground">Loading session...</p>
         </div>
       </div>
     )
   }
+
+  if (!session.data?.user) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto mb-4"></div>
+          <p className="text-foreground mb-4">Please log in to create a blog post.</p>
+          <Button 
+            onClick={() => router.push('/blog')}
+            className="bg-primary hover:bg-primary/90"
+          >
+            Go to Login
+          </Button>
+        </div>
+      </div>
+    )
+  }
+
+
 
 
 
@@ -147,7 +178,7 @@ const CreateBlogPage = () => {
                   <span>Post Title</span>
                 </CardTitle>
                 <CardDescription>
-                  Write a compelling title that captures your readers' attention
+                  Write a compelling title that captures your readers&apos; attention
                 </CardDescription>
               </CardHeader>
               <CardContent>
