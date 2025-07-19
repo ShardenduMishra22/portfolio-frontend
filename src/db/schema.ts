@@ -5,7 +5,7 @@ export const blogTable = pgTable("blog", {
   id: integer().primaryKey().generatedAlwaysAsIdentity(),
   tags: text("tags").array(),
   title: varchar("title", { length: 255 }).notNull(),
-  content: varchar("content", { length: 1000 }).notNull(),
+  content: text("content").notNull(),
   authorId: text("author_id").notNull().references(() => user.id, { onDelete: "cascade" }),
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at").defaultNow().notNull(),

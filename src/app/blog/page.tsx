@@ -16,7 +16,7 @@ const page = () => {
             Welcome to Your Blog
           </h1>
           
-          <p className="text-muted-foreground text-lg font-subheading">
+          <p className="text-foreground text-lg font-subheading">
             Share your thoughts and inspire others
           </p>
         </div>
@@ -79,7 +79,7 @@ const page = () => {
           </button>
 
           <div className="mt-6 text-center">
-            <p className="text-xs text-muted-foreground">
+            <p className="text-xs text-foreground">
               By continuing, you agree to our terms and privacy policy
             </p>
           </div>
@@ -87,7 +87,7 @@ const page = () => {
 
         {/* Call to Action */}
         <div className="text-center mt-8">
-          <p className="text-muted-foreground text-sm">
+          <p className="text-foreground text-sm">
             Ready to share your unique perspective with the world?
           </p>
         </div>

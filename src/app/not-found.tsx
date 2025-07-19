@@ -48,7 +48,7 @@ export default function NotFound() {
             <h2 className="text-3xl md:text-4xl font-heading text-foreground tracking-tight">
               Oops! Page Not Found
             </h2>
-            <p className="text-lg md:text-xl text-muted-foreground font-body max-w-md mx-auto leading-relaxed">
+            <p className="text-lg md:text-xl text-foreground font-body max-w-md mx-auto leading-relaxed">
               The page you&apos;re looking for seems to have vanished into the digital void.
             </p>
           </div>
@@ -106,7 +106,7 @@ export default function NotFound() {
           </div>
 
           {/* Additional help section with enhanced styling */}
-          <div className={`text-sm text-muted-foreground space-y-3 transition-all duration-1000 delay-700 ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+          <div className={`text-sm text-foreground space-y-3 transition-all duration-1000 delay-700 ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
             <div className="flex items-center justify-center gap-2">
               <div className="w-12 h-px bg-gradient-to-r from-transparent via-muted-foreground/50 to-transparent" />
               <span className="text-xs uppercase tracking-wider">Need Help?</span>
@@ -118,7 +118,7 @@ export default function NotFound() {
           </div>
 
           {/* Subtle footer */}
-          <div className={`text-xs text-muted-foreground/70 transition-all duration-1000 delay-1000 ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+          <div className={`text-xs text-foreground/70 transition-all duration-1000 delay-1000 ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
             <p>Lost? Contact support if you believe this is an error.</p>
           </div>
         </div>

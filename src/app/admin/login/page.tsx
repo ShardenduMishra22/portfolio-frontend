@@ -73,7 +73,7 @@ export default function AdminLoginPage() {
             <div className="space-y-1">
               <Label htmlFor="email">Email</Label>
               <div className="relative">
-                <Mail className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                <Mail className="absolute left-3 top-3 h-4 w-4 text-foreground" />
                 <Input
                   id="email"
                   type="email"
@@ -88,7 +88,7 @@ export default function AdminLoginPage() {
             <div className="space-y-1">
               <Label htmlFor="password">Password</Label>
               <div className="relative">
-                <Lock className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                <Lock className="absolute left-3 top-3 h-4 w-4 text-foreground" />
                 <Input
                   id="password"
                   type={showPassword ? 'text' : 'password'}
@@ -98,7 +98,7 @@ export default function AdminLoginPage() {
                 />
                 <button
                   type="button"
-                  className="absolute right-3 top-2.5 text-muted-foreground"
+                  className="absolute right-3 top-2.5 text-foreground"
                   onClick={() => setShowPassword(!showPassword)}
                 >
                   {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
@@ -110,7 +110,7 @@ export default function AdminLoginPage() {
             <div className="space-y-1">
               <Label htmlFor="admin_pass">Admin Password</Label>
               <div className="relative">
-                <Shield className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                <Shield className="absolute left-3 top-3 h-4 w-4 text-foreground" />
                 <Input
                   id="admin_pass"
                   type={showAdminPass ? 'text' : 'password'}
@@ -120,7 +120,7 @@ export default function AdminLoginPage() {
                 />
                 <button
                   type="button"
-                  className="absolute right-3 top-2.5 text-muted-foreground"
+                  className="absolute right-3 top-2.5 text-foreground"
                   onClick={() => setShowAdminPass(!showAdminPass)}
                 >
                   {showAdminPass ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
