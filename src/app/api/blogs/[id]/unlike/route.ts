@@ -4,15 +4,15 @@ import { likesTable, blogTable } from "@/db/schema";
 import { eq, and } from "drizzle-orm";
 import { user as usersTable } from "@/db/authSchema";
 
-// DELETE /api/blogs/:id/unlike - Unlike a blog
-export async function DELETE(
+// POST /api/blogs/:id/unlike - Unlike a blog
+export async function POST(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const blogId = parseInt((await params).id);
-    const { searchParams } = new URL(request.url);
-    const userId = parseInt(searchParams.get("userId") || "");
+    const body = await request.json();
+    const { userId } = body;
 
     if (isNaN(blogId)) {
       return NextResponse.json(
@@ -21,9 +21,9 @@ export async function DELETE(
       );
     }
 
-    if (isNaN(userId)) {
+    if (!userId) {
       return NextResponse.json(
-        { success: false, error: "Valid userId is required" },
+        { success: false, error: "UserId is required" },
         { status: 400 }
       );
     }
@@ -46,7 +46,7 @@ export async function DELETE(
     const user = await db
       .select()
       .from(usersTable)
-      .where(eq(usersTable.id, userId.toString()))
+      .where(eq(usersTable.id, userId))
       .limit(1);
 
     if (user.length === 0) {
@@ -60,7 +60,7 @@ export async function DELETE(
     const existingLike = await db
       .select()
       .from(likesTable)
-      .where(and(eq(likesTable.blogId, blogId), eq(likesTable.userId, userId.toString())))
+      .where(and(eq(likesTable.blogId, blogId), eq(likesTable.userId, userId)))
       .limit(1);
 
     if (existingLike.length === 0) {
@@ -73,7 +73,7 @@ export async function DELETE(
     // Remove like
     await db
       .delete(likesTable)
-      .where(and(eq(likesTable.blogId, blogId), eq(likesTable.userId, userId.toString())));
+      .where(and(eq(likesTable.blogId, blogId), eq(likesTable.userId, userId)));
 
     return NextResponse.json({
       success: true,

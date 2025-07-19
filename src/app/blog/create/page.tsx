@@ -117,17 +117,40 @@ const CreateBlogPage = () => {
 
   if (!session.data?.user) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto mb-4"></div>
-          <p className="text-foreground mb-4">Please log in to create a blog post.</p>
-          <Button 
-            onClick={() => router.push('/blog')}
-            className="bg-primary hover:bg-primary/90"
-          >
-            Go to Login
-          </Button>
-        </div>
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-background via-card to-muted/20">
+        <Card className="w-full max-w-md bg-card/60 backdrop-blur-sm border-border/50">
+          <CardHeader className="text-center">
+            <div className="mx-auto mb-4 w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center">
+              <BookOpen className="w-8 h-8 text-primary" />
+            </div>
+            <CardTitle className="text-2xl font-bold text-foreground">Create Blog Post</CardTitle>
+            <CardDescription className="text-foreground">
+              You need to be logged in to create a blog post
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="text-center space-y-4">
+              <p className="text-foreground">Please log in to create a blog post.</p>
+              <div className="flex flex-col space-y-2">
+                <Button 
+                  onClick={() => authClient.signIn.social({ provider: 'google' })}
+                  className="bg-primary hover:bg-primary/90 w-full"
+                >
+                  <Sparkles className="w-4 h-4 mr-2" />
+                  Login with Google
+                </Button>
+                <Button 
+                  variant="outline"
+                  onClick={() => router.push('/blog')}
+                  className="w-full"
+                >
+                  <ArrowLeft className="w-4 h-4 mr-2" />
+                  Back to Blog
+                </Button>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
       </div>
     )
   }

@@ -44,7 +44,8 @@ interface Comment {
   }
 }
 
-const BlogPostPage = ({ params }: { params: { id: string } }) => {
+const BlogPostPage = ({ params }: { params: Promise<{ id: string }> }) => {
+  const resolvedParams = React.use(params)
   const session = authClient.useSession()
   const router = useRouter()
   const [blog, setBlog] = useState<Blog | null>(null)
@@ -58,17 +59,17 @@ const BlogPostPage = ({ params }: { params: { id: string } }) => {
   const [commentsCount, setCommentsCount] = useState(0)
 
   useEffect(() => {
-    if (params.id) {
+    if (resolvedParams.id) {
       fetchBlogPost()
       fetchComments()
       addView()
     }
-  }, [params.id])
+  }, [resolvedParams.id])
 
   const fetchBlogPost = async () => {
     try {
       setLoading(true)
-      const response = await blogsService.getBlogById(params.id)
+      const response = await blogsService.getBlogById(resolvedParams.id)
       if (response.success) {
         setBlog(response.data)
         setLikesCount(response.data.likes || 0)
@@ -84,7 +85,7 @@ const BlogPostPage = ({ params }: { params: { id: string } }) => {
 
   const fetchComments = async () => {
     try {
-      const response = await blogsService.getBlogComments(params.id)
+      const response = await blogsService.getBlogComments(resolvedParams.id)
       if (response.success && response.data) {
         // The API returns comments directly in data array, not data.data
         setComments(Array.isArray(response.data) ? response.data : [])
@@ -96,21 +97,27 @@ const BlogPostPage = ({ params }: { params: { id: string } }) => {
 
   const addView = async () => {
     try {
-      await blogsService.addBlogView(params.id)
+      if (session?.user?.id) {
+        await blogsService.addBlogView(resolvedParams.id, {
+          userId: session.user.id,
+          ipAddress: '127.0.0.1',
+          userAgent: navigator.userAgent
+        })
+      }
     } catch (error) {
       console.error('Error adding view:', error)
     }
   }
 
   const handleLike = async () => {
-    if (!session) return
+    if (!session?.user?.id) return
     
     try {
       if (isLiked) {
-        await blogsService.unlikeBlog(params.id)
+        await blogsService.unlikeBlog(resolvedParams.id, { userId: session.user.id })
         setLikesCount(prev => prev - 1)
       } else {
-        await blogsService.likeBlog(params.id)
+        await blogsService.likeBlog(resolvedParams.id, { userId: session.user.id })
         setLikesCount(prev => prev + 1)
       }
       setIsLiked(!isLiked)
@@ -120,13 +127,13 @@ const BlogPostPage = ({ params }: { params: { id: string } }) => {
   }
 
   const handleBookmark = async () => {
-    if (!session) return
+    if (!session?.user?.id) return
     
     try {
       if (isBookmarked) {
-        await blogsService.unbookmarkBlog(params.id)
+        await blogsService.unbookmarkBlog(resolvedParams.id, { userId: session.user.id })
       } else {
-        await blogsService.bookmarkBlog(params.id)
+        await blogsService.bookmarkBlog(resolvedParams.id, { userId: session.user.id })
       }
       setIsBookmarked(!isBookmarked)
     } catch (error) {
@@ -135,12 +142,12 @@ const BlogPostPage = ({ params }: { params: { id: string } }) => {
   }
 
   const handleAddComment = async () => {
-    if (!session || !newComment.trim()) return
+    if (!session?.user?.id || !newComment.trim()) return
     
     try {
-      const response = await blogsService.addBlogComment(params.id, {
+      const response = await blogsService.addBlogComment(resolvedParams.id, {
         content: newComment.trim(),
-        userId: session.user?.id || ''
+        userId: session.user.id
       })
       
       if (response.success) {

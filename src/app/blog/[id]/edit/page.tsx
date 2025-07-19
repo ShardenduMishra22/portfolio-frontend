@@ -26,7 +26,8 @@ import { blogsService } from '@/services/blogs'
 import { Blog } from '@/services/types'
 import TipTap from '@/components/TipTap'
 
-const EditBlogPage = ({ params }: { params: { id: string } }) => {
+const BlogEditPage = ({ params }: { params: Promise<{ id: string }> }) => {
+  const resolvedParams = React.use(params)
   const session = authClient.useSession()
   const router = useRouter()
   const [blog, setBlog] = useState<Blog | null>(null)
@@ -38,32 +39,27 @@ const EditBlogPage = ({ params }: { params: { id: string } }) => {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
+  const [success, setSuccess] = useState('')
 
   useEffect(() => {
-    if (params.id) {
-      fetchBlog()
+    if (resolvedParams.id) {
+      fetchBlogPost()
     }
-  }, [params.id])
+  }, [resolvedParams.id])
 
-  const fetchBlog = async () => {
+  const fetchBlogPost = async () => {
     try {
       setLoading(true)
-      const response = await blogsService.getBlogById(params.id)
-      if (response.success) {
+      const response = await blogsService.getBlogById(resolvedParams.id)
+      if (response.success && response.data) {
         const blogData = response.data
         setBlog(blogData)
         setTitle(blogData.title)
         setContent(blogData.content)
         setTags(blogData.tags || [])
-        
-        // Check if user is the author
-        if (session && blogData.authorId !== session.user?.id) {
-          setError('You are not authorized to edit this blog post')
-        }
       }
     } catch (error) {
       console.error('Error fetching blog:', error)
-      setError('Failed to load blog post')
     } finally {
       setLoading(false)
     }
@@ -82,7 +78,7 @@ const EditBlogPage = ({ params }: { params: { id: string } }) => {
 
   const handleSubmit = async () => {
     if (!title.trim() || !content.trim()) {
-      setError('Title and content are required')
+      setError('Please fill in both title and content')
       return
     }
 
@@ -90,20 +86,19 @@ const EditBlogPage = ({ params }: { params: { id: string } }) => {
       setIsSubmitting(true)
       setError('')
       
-      const response = await blogsService.updateBlog(params.id, {
+      const response = await blogsService.updateBlog(resolvedParams.id, {
         title: title.trim(),
         content: content.trim(),
-        tags: tags
       })
 
       if (response.success) {
-        router.push(`/blog/${params.id}`)
+        router.push(`/blog/${resolvedParams.id}`)
       } else {
         setError('Failed to update blog post')
       }
     } catch (error) {
       console.error('Error updating blog:', error)
-      setError('Failed to update blog post')
+      setError('An error occurred while updating the blog post')
     } finally {
       setIsSubmitting(false)
     }
@@ -369,15 +364,21 @@ const EditBlogPage = ({ params }: { params: { id: string } }) => {
                 </div>
                 <div className="flex items-center justify-between">
                   <span className="text-sm text-foreground">Views:</span>
-                  <span className="text-sm font-medium">{blog.views || 0}</span>
+                  <span className="text-sm font-medium">
+                    {Array.isArray(blog.views) ? blog.views.length : blog.views || 0}
+                  </span>
                 </div>
                 <div className="flex items-center justify-between">
                   <span className="text-sm text-foreground">Likes:</span>
-                  <span className="text-sm font-medium">{blog.likes || 0}</span>
+                  <span className="text-sm font-medium">
+                    {Array.isArray(blog.likes) ? blog.likes.length : blog.likes || 0}
+                  </span>
                 </div>
                 <div className="flex items-center justify-between">
                   <span className="text-sm text-foreground">Comments:</span>
-                  <span className="text-sm font-medium">{blog.comments || 0}</span>
+                  <span className="text-sm font-medium">
+                    {Array.isArray(blog.comments) ? blog.comments.length : blog.comments || 0}
+                  </span>
                 </div>
               </CardContent>
             </Card>
@@ -421,4 +422,4 @@ const EditBlogPage = ({ params }: { params: { id: string } }) => {
   )
 }
 
-export default EditBlogPage 
+export default BlogEditPage 
