@@ -1,9 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/index";
-import { bookmarksTable, blogTable, usersTable } from "@/db/schema";
+import { bookmarksTable, blogTable } from "@/db/schema";
 import { eq, and } from "drizzle-orm";
+import { user as usersTable } from "@/db/authSchema";
 
-// POST /api/blogs/:id/bookmark - Bookmark a blog
 export async function POST(
   request: NextRequest,
   { params }: { params: { id: string } }

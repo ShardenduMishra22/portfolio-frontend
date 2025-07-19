@@ -1,7 +1,8 @@
-import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/index";
-import { reportsTable, usersTable } from "@/db/schema";
 import { eq, desc } from "drizzle-orm";
+import { reportsTable } from "@/db/schema";
+import { user as usersTable } from "@/db/authSchema";
+import { NextRequest, NextResponse } from "next/server";
 
 // GET /api/reports - List reports (admin only)
 export async function GET(request: NextRequest) {

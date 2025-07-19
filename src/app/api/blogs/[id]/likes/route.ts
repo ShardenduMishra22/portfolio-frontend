@@ -1,7 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/index";
-import { likesTable, blogTable, usersTable, userProfilesTable } from "@/db/schema";
+import { likesTable, blogTable, userProfilesTable } from "@/db/schema";
 import { eq, desc } from "drizzle-orm";
+import { user as usersTable } from "@/db/authSchema";
 
 // GET /api/blogs/:id/likes - Get likes for a blog
 export async function GET(

@@ -1,7 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/index";
-import { likesTable, blogTable, usersTable } from "@/db/schema";
+import { likesTable, blogTable } from "@/db/schema";
 import { eq, and } from "drizzle-orm";
+import { user as usersTable } from "@/db/authSchema";
 
 // DELETE /api/blogs/:id/unlike - Unlike a blog
 export async function DELETE(
@@ -45,7 +46,7 @@ export async function DELETE(
     const user = await db
       .select()
       .from(usersTable)
-      .where(eq(usersTable.id, userId))
+      .where(eq(usersTable.id, userId.toString()))
       .limit(1);
 
     if (user.length === 0) {
@@ -59,7 +60,7 @@ export async function DELETE(
     const existingLike = await db
       .select()
       .from(likesTable)
-      .where(and(eq(likesTable.blogId, blogId), eq(likesTable.userId, userId)))
+      .where(and(eq(likesTable.blogId, blogId), eq(likesTable.userId, userId.toString())))
       .limit(1);
 
     if (existingLike.length === 0) {
@@ -72,7 +73,7 @@ export async function DELETE(
     // Remove like
     await db
       .delete(likesTable)
-      .where(and(eq(likesTable.blogId, blogId), eq(likesTable.userId, userId)));
+      .where(and(eq(likesTable.blogId, blogId), eq(likesTable.userId, userId.toString())));
 
     return NextResponse.json({
       success: true,

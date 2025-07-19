@@ -1,7 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/index";
-import { bookmarksTable, blogTable, usersTable } from "@/db/schema";
+import { bookmarksTable, blogTable } from "@/db/schema";
 import { eq, and } from "drizzle-orm";
+import { user as usersTable } from "@/db/authSchema";
 
 // DELETE /api/blogs/:id/unbookmark - Unbookmark a blog
 export async function DELETE(
@@ -45,7 +46,7 @@ export async function DELETE(
     const user = await db
       .select()
       .from(usersTable)
-      .where(eq(usersTable.id, userId))
+      .where(eq(usersTable.id, userId.toString()))
       .limit(1);
 
     if (user.length === 0) {
@@ -59,7 +60,7 @@ export async function DELETE(
     const existingBookmark = await db
       .select()
       .from(bookmarksTable)
-      .where(and(eq(bookmarksTable.blogId, blogId), eq(bookmarksTable.userId, userId)))
+      .where(and(eq(bookmarksTable.blogId, blogId), eq(bookmarksTable.userId, userId.toString())))
       .limit(1);
 
     if (existingBookmark.length === 0) {
@@ -72,7 +73,7 @@ export async function DELETE(
     // Remove bookmark
     await db
       .delete(bookmarksTable)
-      .where(and(eq(bookmarksTable.blogId, blogId), eq(bookmarksTable.userId, userId)));
+      .where(and(eq(bookmarksTable.blogId, blogId), eq(bookmarksTable.userId, userId.toString())));
 
     return NextResponse.json({
       success: true,

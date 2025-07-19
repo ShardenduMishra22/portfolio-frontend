@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/index";
-import { blogTable, usersTable, userProfilesTable } from "@/db/schema";
+import { blogTable, userProfilesTable } from "@/db/schema";
 import { eq } from "drizzle-orm";
-
+import { user as usersTable } from "@/db/authSchema";
 // GET /api/blogs/:id - Get blog by ID
 export async function GET(
   request: NextRequest,

@@ -1,7 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/index";
-import { commentsTable, blogTable, usersTable, userProfilesTable } from "@/db/schema";
+import { commentsTable, blogTable, userProfilesTable } from "@/db/schema";
 import { eq, desc } from "drizzle-orm";
+import { user as usersTable } from "@/db/authSchema";
 
 // GET /api/blogs/:id/comments - Get comments for a blog
 export async function GET(

@@ -1,7 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/index";
-import { likesTable, blogTable, usersTable } from "@/db/schema";
+import { likesTable, blogTable } from "@/db/schema";
 import { eq, and } from "drizzle-orm";
+import { user as usersTable } from "@/db/authSchema";
 
 // POST /api/blogs/:id/like - Like a blog
 export async function POST(

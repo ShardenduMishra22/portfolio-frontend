@@ -1,7 +1,7 @@
-import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/index";
-import { notificationsTable } from "@/db/schema";
 import { eq } from "drizzle-orm";
+import { notificationsTable } from "@/db/schema";
+import { NextRequest, NextResponse } from "next/server";
 
 // DELETE /api/notifications/:id - Delete notification
 export async function DELETE(

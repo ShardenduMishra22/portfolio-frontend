@@ -1,7 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/index";
-import { blogTable, usersTable, userProfilesTable } from "@/db/schema";
+import { blogTable, userProfilesTable } from "@/db/schema";
 import { eq, desc, like, and, or } from "drizzle-orm";
+import { user as usersTable } from "@/db/authSchema";
 
 // GET /api/blogs - List blogs with filtering and pagination
 export async function GET(request: NextRequest) {
@@ -34,7 +35,7 @@ export async function GET(request: NextRequest) {
     if (author) {
       // Join with users and profiles to search by author name
       // This is a simplified version - you might want to add a proper join
-      conditions.push(eq(blogTable.authorId, parseInt(author)));
+      conditions.push(eq(blogTable.authorId, author));
     }
 
     const whereClause = conditions.length > 0 ? and(...conditions) : undefined;

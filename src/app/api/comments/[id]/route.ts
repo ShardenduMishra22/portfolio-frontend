@@ -3,6 +3,54 @@ import { db } from "@/index";
 import { commentsTable } from "@/db/schema";
 import { eq } from "drizzle-orm";
 
+export async function PATCH(
+  request: NextRequest,
+  { params }: { params: { id: string } }
+){
+  try {
+    const commentId = parseInt(params.id);
+    const body = await request.json();
+
+    const { content } = body;
+    
+    if (isNaN(commentId)) {
+      return NextResponse.json(
+        { success: false, error: "Invalid comment ID" },
+        { status: 400 }
+      );
+    }
+
+    await db
+      .update(commentsTable)
+      .set({ content })
+      .where(eq(commentsTable.id, commentId))
+
+    const updatedComment = await db
+      .select()
+      .from(commentsTable)
+      .where(eq(commentsTable.id, commentId))
+      .limit(1);
+
+    if (updatedComment.length === 0) {
+      return NextResponse.json(
+        { success: false, error: "Comment not found" },
+        { status: 404 }
+      );
+    }
+
+    return NextResponse.json({
+      success: true,
+      data: updatedComment[0],
+    });
+  } catch (error) {
+    console.error("Error updating comment:", error);
+    return NextResponse.json(
+      { success: false, error: "Failed to update comment" },
+      { status: 500 }
+    );
+  }
+}
+
 // DELETE /api/comments/:id - Delete comment
 export async function DELETE(
   request: NextRequest,

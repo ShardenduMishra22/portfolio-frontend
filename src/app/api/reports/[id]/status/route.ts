@@ -1,9 +1,8 @@
-import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/index";
-import { reportsTable } from "@/db/schema";
 import { eq } from "drizzle-orm";
+import { reportsTable } from "@/db/schema";
+import { NextRequest, NextResponse } from "next/server";
 
-// PATCH /api/reports/:id/status - Update report status
 export async function PATCH(
   request: NextRequest,
   { params }: { params: { id: string } }

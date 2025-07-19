@@ -1,7 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/index";
-import { historyTable, blogTable, usersTable } from "@/db/schema";
+import { historyTable, blogTable } from "@/db/schema";
 import { eq, and } from "drizzle-orm";
+import { user as usersTable } from "@/db/authSchema";
 
 // POST /api/blogs/:id/history - Add blog to user history
 export async function POST(
