@@ -144,7 +144,7 @@ const BlogPage = () => {
                   <div className="absolute -top-2 -right-2 w-5 h-5 bg-green-400 rounded-full border-3 border-white dark:border-slate-800 animate-pulse"></div>
                 </div>
                 <div>
-                  <h1 className="text-4xl font-bold text-slate-900 dark:text-white font-heading bg-gradient-to-r from-slate-900 to-slate-600 dark:from-white dark:to-slate-300 bg-clip-text text-transparent">All Blogs</h1>
+                  <h1 className="text-4xl font-bold  dark:text-white font-heading bg-gradient-to-r from-slate-900 to-slate-600 dark:from-white dark:to-slate-300 bg-clip-text text-transparent">All Blogs</h1>
                   <p className="text-lg text-slate-600 dark:text-slate-400 mt-2">Discover amazing stories and insights from our community</p>
                 </div>
               </div>

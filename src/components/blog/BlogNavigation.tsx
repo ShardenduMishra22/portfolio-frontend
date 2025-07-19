@@ -2,7 +2,7 @@
 
 import React from 'react'
 import Link from 'next/link'
-import { usePathname } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 import { cn } from '@/lib/utils'
 import { 
   BookOpen, 
@@ -44,12 +44,13 @@ export default function BlogNavigation() {
   const pathname = usePathname()
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const [isLoggingOut, setIsLoggingOut] = useState(false)
+  const router = useRouter()
 
   const handleLogout = async () => {
     setIsLoggingOut(true)
     try {
       await authClient.signOut()
-      window.location.href = '/'
+      router.push('/blog')
     } catch (error) {
       console.error('Logout error:', error)
       setIsLoggingOut(false)
@@ -101,7 +102,7 @@ export default function BlogNavigation() {
                       <div className="font-semibold">{item.name}</div>
                       <div className={cn(
                         "text-sm transition-colors",
-                        isActive ? "text-primary-foreground/80" : "text-muted-foreground"
+                        isActive ? "text-primary-foreground/80" : "text-foreground"
                       )}>
                         {item.description}
                       </div>
@@ -215,13 +216,6 @@ export default function BlogNavigation() {
           </div>
         </div>
       </div>
-
-      {/* Main content wrapper for desktop */}
-      <div className="hidden lg:block lg:pl-72">
-        <div className="min-h-screen">
-          {/* This div will be replaced by the actual content */}
-        </div>
-      </div>
     </>
   )
-} 
+}

@@ -51,23 +51,13 @@ const BlogDashboardPage = () => {
   const [sortBy, setSortBy] = useState('newest')
   const [error, setError] = useState('')
   const [deletingBlogId, setDeletingBlogId] = useState<string | null>(null)
-  const [currentUser, setCurrentUser] = useState<any>(null)
+  const session = authClient.useSession()
 
   useEffect(() => {
     fetchBlogs()
-    getCurrentUser()
   }, [])
 
-  const getCurrentUser = async () => {
-    try {
-      const session = await authClient.getSession()
-      if (session.data?.user) {
-        setCurrentUser(session.data.user)
-      }
-    } catch (error) {
-      console.error('Error getting current user:', error)
-    }
-  }
+  const currentUser = session.data?.user
 
   const isAuthor = (blogAuthorId: string) => {
     return currentUser?.id === blogAuthorId
@@ -78,20 +68,24 @@ const BlogDashboardPage = () => {
       setLoading(true)
       setError('')
       
+      console.log('Fetching blogs...')
       const response = await blogsService.getBlogs()
       console.log('Blog fetch response:', response)
       
       if (response.success && response.data) {
         console.log('Blogs data:', response.data)
         // Fix: The API returns blogs directly in data array, not data.data
-        setBlogs(Array.isArray(response.data) ? response.data : [])
+        const blogsArray = Array.isArray(response.data) ? response.data : []
+        console.log('Setting blogs:', blogsArray)
+        setBlogs(blogsArray)
       } else {
-        setError(response.error || 'Failed to fetch blogs')
-        console.error('Blog fetch failed:', response.error)
+        const errorMsg = response.error || 'Failed to fetch blogs'
+        setError(errorMsg)
+        console.error('Blog fetch failed:', errorMsg)
       }
     } catch (error) {
       console.error('Error fetching blogs:', error)
-      setError('Failed to load blogs')
+      setError('Failed to load blogs. Please check your connection and try again.')
     } finally {
       setLoading(false)
     }
@@ -167,7 +161,7 @@ const BlogDashboardPage = () => {
       if (response.success) {
         toast.success('Blog post deleted successfully')
         // Remove the blog from the local state
-        setBlogs(blogs.filter(blog => blog.id !== blogId))
+        setBlogs(blogs.filter(blog => String(blog.id) !== String(blogId)))
       } else {
         toast.error(response.error || 'Failed to delete blog post')
       }
@@ -179,19 +173,43 @@ const BlogDashboardPage = () => {
     }
   }
 
-  if (loading) {
+  if (loading || session.isPending) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-50 via-white to-slate-100 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto mb-4"></div>
-          <p className="text-foreground">Loading blog dashboard...</p>
+          <div className="relative mx-auto mb-6 w-16 h-16 bg-gradient-to-br from-blue-500 via-purple-500 to-pink-500 rounded-2xl flex items-center justify-center shadow-xl">
+            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-white"></div>
+          </div>
+          <p className="text-slate-700 dark:text-slate-300 text-lg font-medium">Loading dashboard...</p>
+        </div>
+      </div>
+    )
+  }
+
+  // Redirect if not authenticated
+  if (!session.data?.user) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-50 via-white to-slate-100 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900">
+        <div className="text-center max-w-md mx-auto p-8">
+          <div className="relative mx-auto mb-6 w-24 h-24 bg-gradient-to-br from-blue-500 via-purple-500 to-pink-500 rounded-3xl flex items-center justify-center shadow-xl">
+            <BarChart3 className="w-12 h-12 text-white" />
+          </div>
+          <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-4">Authentication Required</h2>
+          <p className="text-slate-600 dark:text-slate-400 mb-6">Please log in to access your blog dashboard.</p>
+          <Button 
+            onClick={() => authClient.signIn.social({ provider: 'google' })} 
+            className="h-12 px-8 bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white shadow-xl shadow-blue-500/25 rounded-xl font-semibold transition-all duration-300 hover:scale-105"
+          >
+            Login with Google
+          </Button>
         </div>
       </div>
     )
   }
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-100 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900">
+
       {/* Header */}
       <header className="border-b border-slate-200 dark:border-slate-700 bg-white/80 dark:bg-slate-800/80 backdrop-blur-xl sticky top-0 z-40 shadow-sm">
         <div className="container mx-auto px-8 py-8">
@@ -464,9 +482,9 @@ const BlogDashboardPage = () => {
                                   variant="ghost"
                                   size="sm"
                                   className="text-red-600 dark:text-red-400 hover:text-red-700 dark:hover:text-red-300 group-hover:bg-red-50 dark:group-hover:bg-red-900/20 rounded-xl h-10 w-10"
-                                  disabled={deletingBlogId === blog.id}
+                                  disabled={deletingBlogId === String(blog.id)}
                                 >
-                                  {deletingBlogId === blog.id ? (
+                                  {deletingBlogId === String(blog.id) ? (
                                     <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-current"></div>
                                   ) : (
                                     <Trash2 className="w-5 h-5" />
@@ -486,7 +504,7 @@ const BlogDashboardPage = () => {
                                 <AlertDialogFooter>
                                   <AlertDialogCancel>Cancel</AlertDialogCancel>
                                   <AlertDialogAction
-                                    onClick={() => handleDeleteBlog(blog.id)}
+                                    onClick={() => handleDeleteBlog(blog.id.toString())}
                                     className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
                                   >
                                     Delete Post

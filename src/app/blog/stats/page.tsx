@@ -476,10 +476,10 @@ const BlogStatsPage = () => {
                           </Avatar>
                           <div>
                             <p className="font-medium text-sm">{blog.title}</p>
-                            <p className="text-xs text-muted-foreground">{formatDate(blog.createdAt)}</p>
+                            <p className="text-xs text-foreground">{formatDate(blog.createdAt)}</p>
                           </div>
                         </div>
-                        <div className="flex items-center space-x-2 text-xs text-muted-foreground">
+                        <div className="flex items-center space-x-2 text-xs text-foreground">
                           <Eye className="w-3 h-3" />
                           <span>0</span>
                           <Heart className="w-3 h-3" />
@@ -506,11 +506,11 @@ const BlogStatsPage = () => {
                         <div key={authorName} className="flex items-center justify-between p-3 rounded-lg bg-muted/30">
                           <div>
                             <p className="font-medium text-sm">{authorName}</p>
-                            <p className="text-xs text-muted-foreground">{authorStats.count} posts</p>
+                            <p className="text-xs text-foreground">{authorStats.count} posts</p>
                           </div>
                           <div className="text-right">
                             <p className="text-sm font-medium">{formatNumber(authorStats.totalViews)} views</p>
-                            <p className="text-xs text-muted-foreground">{formatNumber(authorStats.totalLikes)} likes</p>
+                            <p className="text-xs text-foreground">{formatNumber(authorStats.totalLikes)} likes</p>
                           </div>
                         </div>
                       ))}
@@ -678,21 +678,21 @@ const BlogStatsPage = () => {
                           </Avatar>
                           <div>
                             <h3 className="font-semibold">{authorName}</h3>
-                            <p className="text-sm text-muted-foreground">{authorStats.count} posts published</p>
+                            <p className="text-sm text-foreground">{authorStats.count} posts published</p>
                           </div>
                         </div>
                         <div className="flex items-center space-x-6">
                           <div className="text-center">
                             <div className="text-lg font-bold text-green-500">{formatNumber(authorStats.totalViews)}</div>
-                            <div className="text-xs text-muted-foreground">Total Views</div>
+                            <div className="text-xs text-foreground">Total Views</div>
                           </div>
                           <div className="text-center">
                             <div className="text-lg font-bold text-red-500">{formatNumber(authorStats.totalLikes)}</div>
-                            <div className="text-xs text-muted-foreground">Total Likes</div>
+                            <div className="text-xs text-foreground">Total Likes</div>
                           </div>
                           <div className="text-center">
                             <div className="text-lg font-bold text-blue-500">{formatNumber(Math.round(authorStats.totalViews / authorStats.count))}</div>
-                            <div className="text-xs text-muted-foreground">Avg Views/Post</div>
+                            <div className="text-xs text-foreground">Avg Views/Post</div>
                           </div>
                         </div>
                       </div>
@@ -720,7 +720,7 @@ const BlogStatsPage = () => {
                         </Badge>
                         <div className="text-right">
                           <div className="text-lg font-bold">{count}</div>
-                          <div className="text-xs text-muted-foreground">posts</div>
+                          <div className="text-xs text-foreground">posts</div>
                         </div>
                       </div>
                     ))}
