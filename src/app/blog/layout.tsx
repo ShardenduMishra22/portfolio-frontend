@@ -1,5 +1,5 @@
 "use client"
-import { authClient } from "@/lib/authClient"
+import { AuthUser } from "@/lib/authClient"
 import { useRouter } from "next/navigation"
 import { JSX, ReactNode, useEffect } from "react"
 
@@ -7,8 +7,7 @@ export default function Layout({ children }: { children: ReactNode }): JSX.Eleme
   const router = useRouter()
   useEffect(() => {
     const checkSession = async () => {
-      const session = await authClient.getSession()
-      if (session.data !== null) {
+      if (AuthUser) {
         router.push("/blog/landing")
       }else {
         router.push("/blog")

@@ -1,8 +1,6 @@
 'use client'
-import { createAuthClient } from "better-auth/react";
+import { authClient } from "@/lib/authClient";
 import { BookOpen, Sparkles, ArrowRight, Quote } from "lucide-react";
-
-const authClient = createAuthClient();
 
 const page = () => {
   return (
