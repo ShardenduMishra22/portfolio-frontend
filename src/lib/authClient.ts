@@ -10,8 +10,9 @@ export type GoogleUser = {
     image?: string | null | undefined; 
 } | undefined;
 
+export type Session = {
+  user: GoogleUser;
+  expires: string;
+} | null;
 
-export const authClient = createAuthClient()
-
-export const session = authClient.useSession()
-export const AuthUser : GoogleUser = session.data?.user
+export const authClient = createAuthClient();
