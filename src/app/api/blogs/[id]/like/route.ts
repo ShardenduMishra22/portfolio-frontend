@@ -7,10 +7,10 @@ import { user as usersTable } from "@/db/authSchema";
 // POST /api/blogs/:id/like - Like a blog
 export async function POST(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const blogId = parseInt(params.id);
+    const blogId = parseInt((await params).id);
     const body = await request.json();
     const { userId } = body;
 

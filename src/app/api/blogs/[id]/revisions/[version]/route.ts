@@ -6,11 +6,11 @@ import { eq, and } from "drizzle-orm";
 // GET /api/blogs/:id/revisions/:version - Get specific revision by version
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string; version: string } }
+  { params }: { params: Promise<{ id: string; version: string }> }
 ) {
   try {
-    const blogId = parseInt(params.id);
-    const version = parseInt(params.version);
+    const blogId = parseInt((await params).id);
+    const version = parseInt((await params).version);
 
     if (isNaN(blogId)) {
       return NextResponse.json(

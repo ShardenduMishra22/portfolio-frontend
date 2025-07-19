@@ -6,10 +6,10 @@ import { eq } from "drizzle-orm";
 // POST /api/blogs/:id/views - Add view to blog
 export async function POST(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const blogId = parseInt(params.id);
+    const blogId = parseInt((await params).id);
     const body = await request.json();
     const { userId, ipAddress, userAgent } = body;
 
@@ -68,10 +68,10 @@ export async function POST(
 // GET /api/blogs/:id/views - Get views for a blog
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const blogId = parseInt(params.id);
+    const blogId = parseInt((await params).id);
     const { searchParams } = new URL(request.url);
     const page = parseInt(searchParams.get("page") || "1");
     const limit = parseInt(searchParams.get("limit") || "10");

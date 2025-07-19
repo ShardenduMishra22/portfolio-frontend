@@ -6,10 +6,10 @@ import { eq, desc } from "drizzle-orm";
 // GET /api/blogs/:id/revisions - Get revisions for a blog
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const blogId = parseInt(params.id);
+    const blogId = parseInt((await params).id);
     const { searchParams } = new URL(request.url);
     const page = parseInt(searchParams.get("page") || "1");
     const limit = parseInt(searchParams.get("limit") || "10");
@@ -81,10 +81,10 @@ export async function GET(
 // POST /api/blogs/:id/revisions - Create a new revision
 export async function POST(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const blogId = parseInt(params.id);
+    const blogId = parseInt((await params).id);
     const body = await request.json();
     const { title, content, tags } = body;
 

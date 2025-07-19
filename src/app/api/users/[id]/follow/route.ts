@@ -6,10 +6,10 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const followingId = parseInt(params.id);
+    const followingId = parseInt((await params).id);
     const body = await request.json();
     const { followerId } = body;
 

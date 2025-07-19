@@ -7,10 +7,10 @@ import { user as usersTable } from "@/db/authSchema";
 // DELETE /api/blogs/:id/unbookmark - Unbookmark a blog
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const blogId = parseInt(params.id);
+    const blogId = parseInt((await params).id);
     const { searchParams } = new URL(request.url);
     const userId = parseInt(searchParams.get("userId") || "");
 

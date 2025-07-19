@@ -7,10 +7,10 @@ import { user as usersTable } from "@/db/authSchema";
 // GET /api/blogs/:id/comments - Get comments for a blog
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const blogId = parseInt(params.id);
+    const blogId = parseInt((await params).id);
     const { searchParams } = new URL(request.url);
     const page = parseInt(searchParams.get("page") || "1");
     const limit = parseInt(searchParams.get("limit") || "10");
@@ -91,10 +91,10 @@ export async function GET(
 // POST /api/blogs/:id/comments - Create a new comment
 export async function POST(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const blogId = parseInt(params.id);
+    const blogId = parseInt((await params).id);
     const body = await request.json();
     const { content, userId } = body;
 

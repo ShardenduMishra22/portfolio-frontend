@@ -7,10 +7,10 @@ import { followersTable, userProfilesTable } from "@/db/schema";
 // GET /api/users/:id/followers - Get followers for a user
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const userId = parseInt(params.id);
+    const userId = parseInt((await params).id);
     const { searchParams } = new URL(request.url);
     const page = parseInt(searchParams.get("page") || "1");
     const limit = parseInt(searchParams.get("limit") || "10");

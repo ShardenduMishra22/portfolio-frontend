@@ -6,10 +6,10 @@ import { eq, and } from "drizzle-orm";
 // GET /api/blogs/:id/categories - Get categories for a blog
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const blogId = parseInt(params.id);
+    const blogId = parseInt((await params).id);
 
     if (isNaN(blogId)) {
       return NextResponse.json(
@@ -66,10 +66,10 @@ export async function GET(
 // POST /api/blogs/:id/categories - Add category to blog
 export async function POST(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const blogId = parseInt(params.id);
+    const blogId = parseInt((await params).id);
     const body = await request.json();
     const { categoryId } = body;
 

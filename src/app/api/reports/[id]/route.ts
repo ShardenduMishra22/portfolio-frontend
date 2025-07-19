@@ -7,10 +7,10 @@ import { NextRequest, NextResponse } from "next/server";
 // GET /api/reports/:id - Get report by ID
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const reportId = parseInt(params.id);
+    const reportId = parseInt((await params).id);
 
     if (isNaN(reportId)) {
       return NextResponse.json(

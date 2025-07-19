@@ -6,10 +6,10 @@ import { user as usersTable } from "@/db/authSchema";
 // GET /api/blogs/:id - Get blog by ID
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const blogId = parseInt(params.id);
+    const blogId = parseInt((await params).id);
 
     if (isNaN(blogId)) {
       return NextResponse.json(
@@ -66,10 +66,10 @@ export async function GET(
 // PATCH /api/blogs/:id - Update blog
 export async function PATCH(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const blogId = parseInt(params.id);
+    const blogId = parseInt((await params).id);
     const body = await request.json();
     const { title, content, tags } = body;
 
@@ -130,10 +130,10 @@ export async function PATCH(
 // DELETE /api/blogs/:id - Delete blog
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const blogId = parseInt(params.id);
+    const blogId = parseInt((await params).id);
 
     if (isNaN(blogId)) {
       return NextResponse.json(

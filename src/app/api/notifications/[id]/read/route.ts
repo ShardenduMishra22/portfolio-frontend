@@ -6,10 +6,10 @@ import { NextRequest, NextResponse } from "next/server";
 // PATCH /api/notifications/:id/read - Mark notification as read
 export async function PATCH(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const notificationId = parseInt(params.id);
+    const notificationId = parseInt((await params).id);
 
     if (isNaN(notificationId)) {
       return NextResponse.json(

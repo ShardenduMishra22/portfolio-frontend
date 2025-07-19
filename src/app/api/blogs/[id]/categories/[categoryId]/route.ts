@@ -6,11 +6,11 @@ import { eq, and } from "drizzle-orm";
 // DELETE /api/blogs/:id/categories/:categoryId - Remove category from blog
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string; categoryId: string } }
+  { params }: { params: Promise<{ id: string; categoryId: string }> }
 ) {
   try {
-    const blogId = parseInt(params.id);
-    const categoryId = parseInt(params.categoryId);
+    const blogId = parseInt((await params).id);
+    const categoryId = parseInt((await params).categoryId);
 
     if (isNaN(blogId)) {
       return NextResponse.json(

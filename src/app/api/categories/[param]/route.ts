@@ -1,15 +1,83 @@
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/index";
 import { categoriesTable } from "@/db/schema";
-import { eq } from "drizzle-orm";
+import { eq, or } from "drizzle-orm";
 
-// PATCH /api/categories/:id - Update category
-export async function PATCH(
+// GET /api/categories/:param - Get category by ID or slug
+export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ param: string }> }
 ) {
   try {
-    const categoryId = parseInt(params.id);
+    const { param } = await params;
+
+    if (!param) {
+      return NextResponse.json(
+        { success: false, error: "Parameter is required" },
+        { status: 400 }
+      );
+    }
+
+    // Check if param is a number (ID) or string (slug)
+    const isId = !isNaN(parseInt(param));
+
+    let category;
+    if (isId) {
+      // Search by ID
+      category = await db
+        .select({
+          id: categoriesTable.id,
+          name: categoriesTable.name,
+          slug: categoriesTable.slug,
+          description: categoriesTable.description,
+          createdAt: categoriesTable.createdAt,
+        })
+        .from(categoriesTable)
+        .where(eq(categoriesTable.id, parseInt(param)))
+        .limit(1);
+    } else {
+      // Search by slug
+      category = await db
+        .select({
+          id: categoriesTable.id,
+          name: categoriesTable.name,
+          slug: categoriesTable.slug,
+          description: categoriesTable.description,
+          createdAt: categoriesTable.createdAt,
+        })
+        .from(categoriesTable)
+        .where(eq(categoriesTable.slug, param))
+        .limit(1);
+    }
+
+    if (category.length === 0) {
+      return NextResponse.json(
+        { success: false, error: "Category not found" },
+        { status: 404 }
+      );
+    }
+
+    return NextResponse.json({
+      success: true,
+      data: category[0],
+    });
+  } catch (error) {
+    console.error("Error fetching category:", error);
+    return NextResponse.json(
+      { success: false, error: "Failed to fetch category" },
+      { status: 500 }
+    );
+  }
+}
+
+// PATCH /api/categories/:param - Update category by ID
+export async function PATCH(
+  request: NextRequest,
+  { params }: { params: Promise<{ param: string }> }
+) {
+  try {
+    const { param } = await params;
+    const categoryId = parseInt(param);
     const body = await request.json();
     const { name, slug, description } = body;
 
@@ -40,8 +108,10 @@ export async function PATCH(
         .select()
         .from(categoriesTable)
         .where(
-          (name && categoriesTable.name === name) || 
-          (slug && categoriesTable.slug === slug)
+          or(
+            name ? eq(categoriesTable.name, name) : undefined,
+            slug ? eq(categoriesTable.slug, slug) : undefined
+          )
         )
         .limit(1);
 
@@ -83,13 +153,14 @@ export async function PATCH(
   }
 }
 
-// DELETE /api/categories/:id - Delete category
+// DELETE /api/categories/:param - Delete category by ID
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ param: string }> }
 ) {
   try {
-    const categoryId = parseInt(params.id);
+    const { param } = await params;
+    const categoryId = parseInt(param);
 
     if (isNaN(categoryId)) {
       return NextResponse.json(

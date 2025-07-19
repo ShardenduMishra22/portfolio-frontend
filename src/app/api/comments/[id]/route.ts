@@ -5,10 +5,10 @@ import { eq } from "drizzle-orm";
 
 export async function PATCH(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ){
   try {
-    const commentId = parseInt(params.id);
+    const commentId = parseInt((await params).id);
     const body = await request.json();
 
     const { content } = body;
@@ -54,10 +54,10 @@ export async function PATCH(
 // DELETE /api/comments/:id - Delete comment
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const commentId = parseInt(params.id);
+    const commentId = parseInt((await params).id);
 
     if (isNaN(commentId)) {
       return NextResponse.json(

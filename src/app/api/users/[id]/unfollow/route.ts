@@ -7,10 +7,10 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const followingId = parseInt(params.id);
+    const followingId = parseInt((await params).id);
     const { searchParams } = new URL(request.url);
     const followerId = parseInt(searchParams.get("followerId") || "");
 
