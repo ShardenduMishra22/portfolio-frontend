@@ -2,6 +2,7 @@
 import { authClient } from "@/lib/authClient"
 import { useRouter, usePathname } from "next/navigation"
 import { JSX, ReactNode, useEffect, useState } from "react"
+import BlogNavigation from "@/components/blog/BlogNavigation"
 
 export default function Layout({ children }: { children: ReactNode }): JSX.Element {
   const router = useRouter()
@@ -37,5 +38,12 @@ export default function Layout({ children }: { children: ReactNode }): JSX.Eleme
     )
   }
 
-  return <>{children}</>
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-100 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900">
+      <BlogNavigation />
+      <div className="lg:pl-72">
+        {children}
+      </div>
+    </div>
+  )
 }

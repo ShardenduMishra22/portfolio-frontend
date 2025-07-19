@@ -195,7 +195,7 @@ const BlogSearch: React.FC<BlogSearchProps> = ({
                   <div className="flex flex-wrap gap-2">
                     {searchTerm && (
                       <Badge variant="secondary" className="flex items-center space-x-1">
-                        <span>Search: "{searchTerm}"</span>
+                        <span>Search: &quot;{searchTerm}&quot;</span>
                         <button
                           onClick={() => onSearchChange('')}
                           className="ml-1 hover:text-foreground"
@@ -254,7 +254,7 @@ const BlogSearch: React.FC<BlogSearchProps> = ({
           {searchTerm && (
             <Badge variant="secondary" className="flex items-center space-x-1">
               <Search className="w-3 h-3" />
-              <span>"{searchTerm}"</span>
+              <span>&quot;{searchTerm}&quot;</span>
               <button
                 onClick={() => onSearchChange('')}
                 className="ml-1 hover:text-foreground"

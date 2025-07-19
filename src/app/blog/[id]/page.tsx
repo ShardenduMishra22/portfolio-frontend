@@ -176,20 +176,31 @@ const BlogPostPage = ({ params }: { params: Promise<{ id: string }> }) => {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-50 via-white to-slate-100 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900">
+        <div className="text-center">
+          <div className="relative mx-auto mb-6 w-16 h-16 bg-gradient-to-br from-blue-500 via-purple-500 to-pink-500 rounded-2xl flex items-center justify-center shadow-xl">
+            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-white"></div>
+          </div>
+          <p className="text-slate-700 dark:text-slate-300 text-lg font-medium">Loading blog post...</p>
+        </div>
       </div>
     )
   }
 
   if (!blog) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-50 via-white to-slate-100 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900">
         <div className="text-center">
-          <h2 className="text-2xl font-bold text-foreground mb-2">Blog not found</h2>
-          <p className="text-foreground mb-4">The blog post you&apos;re looking for doesn&lsquo;t exist.</p>
-          <Button onClick={() => router.push('/blog/landing')}>
-            <ArrowLeft className="w-4 h-4 mr-2" />
+          <div className="relative mx-auto mb-6 w-20 h-20 bg-gradient-to-br from-red-500 via-pink-500 to-rose-500 rounded-2xl flex items-center justify-center shadow-xl">
+            <BookOpen className="w-10 h-10 text-white" />
+          </div>
+          <h2 className="text-3xl font-bold text-slate-900 dark:text-white mb-3">Blog not found</h2>
+          <p className="text-slate-600 dark:text-slate-400 text-lg mb-6">The blog post you&apos;re looking for doesn&lsquo;t exist.</p>
+          <Button 
+            onClick={() => router.push('/blog/landing')}
+            className="h-12 px-8 bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white shadow-xl shadow-blue-500/25 rounded-xl font-semibold transition-all duration-300 hover:scale-105"
+          >
+            <ArrowLeft className="w-5 h-5 mr-3" />
             Back to Blog
           </Button>
         </div>

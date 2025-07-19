@@ -155,23 +155,31 @@ const BlogEditPage = ({ params }: { params: Promise<{ id: string }> }) => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-card to-muted/20">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-100 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900">
       {/* Header */}
-      <header className="border-b border-border/50 bg-card/60 backdrop-blur-sm">
-        <div className="container mx-auto px-6 py-4">
+      <header className="border-b border-slate-200 dark:border-slate-700 bg-white/80 dark:bg-slate-800/80 backdrop-blur-xl sticky top-0 z-40 shadow-sm">
+        <div className="container mx-auto px-8 py-6">
           <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-4">
+            <div className="flex items-center space-x-6">
               <Button
                 variant="ghost"
                 onClick={() => router.back()}
-                className="text-foreground hover:text-foreground"
+                className="text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-700 rounded-xl h-12 px-4"
               >
-                <ArrowLeft className="w-4 h-4 mr-2" />
+                <ArrowLeft className="w-5 h-5 mr-3" />
                 Back
               </Button>
-              <div className="flex items-center space-x-2">
-                <BookOpen className="w-8 h-8 text-primary" />
-                <h1 className="text-2xl font-bold text-foreground font-heading">Edit Post</h1>
+              <div className="flex items-center space-x-4">
+                <div className="relative">
+                  <div className="w-12 h-12 bg-gradient-to-br from-amber-500 via-orange-500 to-red-500 rounded-2xl flex items-center justify-center shadow-lg">
+                    <BookOpen className="w-6 h-6 text-white" />
+                  </div>
+                  <div className="absolute -top-1 -right-1 w-4 h-4 bg-yellow-400 rounded-full border-2 border-white dark:border-slate-800"></div>
+                </div>
+                <div>
+                  <h1 className="text-3xl font-bold text-slate-900 dark:text-white font-heading">Edit Post</h1>
+                  <p className="text-base text-slate-600 dark:text-slate-400 mt-1">Update your blog post content</p>
+                </div>
               </div>
             </div>
             
@@ -179,18 +187,18 @@ const BlogEditPage = ({ params }: { params: Promise<{ id: string }> }) => {
               <Button
                 variant="outline"
                 onClick={() => setIsPreview(!isPreview)}
-                className="bg-card/60 backdrop-blur-sm border-border/50"
+                className="h-12 px-6 border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700 rounded-xl font-semibold"
               >
-                {isPreview ? <EyeOff className="w-4 h-4 mr-2" /> : <Eye className="w-4 h-4 mr-2" />}
+                {isPreview ? <EyeOff className="w-5 h-5 mr-3" /> : <Eye className="w-5 h-5 mr-3" />}
                 {isPreview ? 'Edit' : 'Preview'}
               </Button>
               
               <Button
                 onClick={handleSubmit}
                 disabled={isSubmitting || !title.trim() || !content.trim()}
-                className="bg-gradient-to-r from-primary to-secondary hover:from-primary/90 hover:to-secondary/90"
+                className="h-12 px-8 bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-600 hover:to-orange-700 text-white shadow-xl shadow-amber-500/25 rounded-xl font-semibold transition-all duration-300 hover:scale-105"
               >
-                <Save className="w-4 h-4 mr-2" />
+                <Save className="w-5 h-5 mr-3" />
                 {isSubmitting ? 'Saving...' : 'Save Changes'}
               </Button>
             </div>
