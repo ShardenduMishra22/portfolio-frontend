@@ -3,6 +3,7 @@ import { db } from "@/index";
 import { blogTable, userProfilesTable, likesTable, commentsTable, blogViewsTable } from "@/db/schema";
 import { eq, count } from "drizzle-orm";
 import { user as usersTable } from "@/db/authSchema";
+import { auth } from "@/lib/auth";
 // GET /api/blogs/:id - Get blog by ID
 export async function GET(
   request: NextRequest,
@@ -156,6 +157,18 @@ export async function DELETE(
       );
     }
 
+    // Get current user session
+    const session = await auth.getSession(request);
+    
+    if (!session) {
+      return NextResponse.json(
+        { success: false, error: "Authentication required" },
+        { status: 401 }
+      );
+    }
+
+    const currentUserId = session.user.id;
+
     // Check if blog exists
     const existingBlog = await db
       .select()
@@ -167,6 +180,14 @@ export async function DELETE(
       return NextResponse.json(
         { success: false, error: "Blog not found" },
         { status: 404 }
+      );
+    }
+
+    // Check if current user is the author of the blog
+    if (existingBlog[0].authorId !== currentUserId) {
+      return NextResponse.json(
+        { success: false, error: "You can only delete your own blog posts" },
+        { status: 403 }
       );
     }
 

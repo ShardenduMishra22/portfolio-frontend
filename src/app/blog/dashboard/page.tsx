@@ -22,11 +22,25 @@ import {
   Star,
   Edit,
   Trash2,
-  BarChart3
+  BarChart3,
+  AlertTriangle
 } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import { blogsService } from '@/services/blogs'
 import { Blog } from '@/services/types'
+import { authClient } from '@/lib/authClient'
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from '@/components/ui/alert-dialog'
+import toast from 'react-hot-toast'
 
 const BlogDashboardPage = () => {
   const router = useRouter()
@@ -36,10 +50,28 @@ const BlogDashboardPage = () => {
   const [activeTab, setActiveTab] = useState('all')
   const [sortBy, setSortBy] = useState('newest')
   const [error, setError] = useState('')
+  const [deletingBlogId, setDeletingBlogId] = useState<string | null>(null)
+  const [currentUser, setCurrentUser] = useState<any>(null)
 
   useEffect(() => {
     fetchBlogs()
+    getCurrentUser()
   }, [])
+
+  const getCurrentUser = async () => {
+    try {
+      const session = await authClient.getSession()
+      if (session.data?.user) {
+        setCurrentUser(session.data.user)
+      }
+    } catch (error) {
+      console.error('Error getting current user:', error)
+    }
+  }
+
+  const isAuthor = (blogAuthorId: string) => {
+    return currentUser?.id === blogAuthorId
+  }
 
   const fetchBlogs = async () => {
     try {
@@ -127,6 +159,26 @@ const BlogDashboardPage = () => {
 
   const stats = getTotalStats()
 
+  const handleDeleteBlog = async (blogId: string) => {
+    try {
+      setDeletingBlogId(blogId)
+      const response = await blogsService.deleteBlog(blogId)
+      
+      if (response.success) {
+        toast.success('Blog post deleted successfully')
+        // Remove the blog from the local state
+        setBlogs(blogs.filter(blog => blog.id !== blogId))
+      } else {
+        toast.error(response.error || 'Failed to delete blog post')
+      }
+    } catch (error) {
+      console.error('Error deleting blog:', error)
+      toast.error('Failed to delete blog post')
+    } finally {
+      setDeletingBlogId(null)
+    }
+  }
+
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
@@ -152,6 +204,14 @@ const BlogDashboardPage = () => {
             </div>
             
             <div className="flex items-center space-x-4">
+              <Button
+                onClick={() => router.push('/blog/stats')}
+                variant="outline"
+                className="border-border/50"
+              >
+                <BarChart3 className="w-4 h-4 mr-2" />
+                View Stats
+              </Button>
               <Button
                 onClick={() => router.push('/blog/create')}
                 className="bg-gradient-to-r from-primary to-secondary hover:from-primary/90 hover:to-secondary/90"
@@ -341,15 +401,56 @@ const BlogDashboardPage = () => {
                           </div>
                         </div>
                         
-                        <Button
-                          variant="ghost"
-                          size="sm"
-                          onClick={() => router.push(`/blog/${blog.id}`)}
-                          className="text-primary hover:text-primary/80 group-hover:bg-primary/10"
-                        >
-                          <span className="mr-1">Read More</span>
-                          <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                        </Button>
+                        <div className="flex items-center space-x-2">
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => router.push(`/blog/${blog.id}`)}
+                            className="text-primary hover:text-primary/80 group-hover:bg-primary/10"
+                          >
+                            <span className="mr-1">Read More</span>
+                            <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                          </Button>
+                          
+                          {isAuthor(blog.authorId) && (
+                            <AlertDialog>
+                              <AlertDialogTrigger asChild>
+                                <Button
+                                  variant="ghost"
+                                  size="sm"
+                                  className="text-destructive hover:text-destructive/80 group-hover:bg-destructive/10"
+                                  disabled={deletingBlogId === blog.id}
+                                >
+                                  {deletingBlogId === blog.id ? (
+                                    <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-destructive"></div>
+                                  ) : (
+                                    <Trash2 className="w-4 h-4" />
+                                  )}
+                                </Button>
+                              </AlertDialogTrigger>
+                              <AlertDialogContent>
+                                <AlertDialogHeader>
+                                  <AlertDialogTitle className="flex items-center gap-2">
+                                    <AlertTriangle className="w-5 h-5 text-destructive" />
+                                    Delete Blog Post
+                                  </AlertDialogTitle>
+                                  <AlertDialogDescription>
+                                    Are you sure you want to delete &quot;{blog.title}&quot;? This action cannot be undone and will permanently remove the blog post and all its associated data (likes, comments, views).
+                                  </AlertDialogDescription>
+                                </AlertDialogHeader>
+                                <AlertDialogFooter>
+                                  <AlertDialogCancel>Cancel</AlertDialogCancel>
+                                  <AlertDialogAction
+                                    onClick={() => handleDeleteBlog(blog.id)}
+                                    className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+                                  >
+                                    Delete Post
+                                  </AlertDialogAction>
+                                </AlertDialogFooter>
+                              </AlertDialogContent>
+                            </AlertDialog>
+                          )}
+                        </div>
                       </div>
                     </CardContent>
                   </Card>

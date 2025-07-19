@@ -136,5 +136,11 @@ export const blogsService = {
   getBlogRevision: async (id: string, version: string): Promise<ApiResponse<any>> => {
     const response = await localAPI.get(`/blogs/${id}/revisions/${version}`)
     return response.data
+  },
+
+  // Get blog statistics
+  getBlogStats: async (): Promise<ApiResponse<any>> => {
+    const response = await localAPI.get('/blogs/stats')
+    return response.data
   }
 } 
