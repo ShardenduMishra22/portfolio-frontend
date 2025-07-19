@@ -1,3 +1,5 @@
+'use client'
+
 import { authClient } from '@/lib/authClient'
 import React from 'react'
 
