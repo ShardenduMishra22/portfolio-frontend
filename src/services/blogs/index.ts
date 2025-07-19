@@ -13,7 +13,7 @@ const localAPI = axios.create({
 
 export const blogsService = {
   // Get all blogs with pagination
-  getBlogs: async (params?: PaginationParams): Promise<ApiResponse<PaginatedResponse<Blog>>> => {
+  getBlogs: async (params?: PaginationParams): Promise<ApiResponse<Blog[]>> => {
     const response = await localAPI.get('/blogs', { params })
     return response.data
   },
@@ -43,13 +43,13 @@ export const blogsService = {
   },
 
   // Get blog comments
-  getBlogComments: async (id: string, params?: PaginationParams): Promise<ApiResponse<PaginatedResponse<any>>> => {
+  getBlogComments: async (id: string, params?: PaginationParams): Promise<ApiResponse<any[]>> => {
     const response = await localAPI.get(`/blogs/${id}/comments`, { params })
     return response.data
   },
 
   // Add comment to blog
-  addBlogComment: async (id: string, commentData: { content: string }): Promise<ApiResponse<any>> => {
+  addBlogComment: async (id: string, commentData: { content: string; userId: string }): Promise<ApiResponse<any>> => {
     const response = await localAPI.post(`/blogs/${id}/comments`, commentData)
     return response.data
   },

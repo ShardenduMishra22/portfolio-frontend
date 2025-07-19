@@ -8,11 +8,12 @@ export interface ApiResponse<T = any> {
 
 // User types
 export interface User {
-  id: number;
+  id: string; // Changed from number to string to match API
   email: string;
-  username: string;
-  createdAt: string;
-  updatedAt: string;
+  username?: string; // Made optional since API doesn't always return it
+  name?: string; // Added name field that API returns
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 export interface CreateUserRequest {
@@ -51,9 +52,18 @@ export interface Blog {
   title: string;
   content: string;
   excerpt?: string;
-  published: boolean;
-  authorId: number;
-  author?: User;
+  published?: boolean;
+  authorId: string; // Changed from number to string to match API
+  author?: {
+    id: string;
+    email: string;
+  };
+  authorProfile?: {
+    firstName?: string;
+    lastName?: string;
+    avatar?: string;
+  };
+  tags?: string[]; // Added tags field
   categories?: Category[];
   likes?: Like[];
   comments?: Comment[];
@@ -69,6 +79,8 @@ export interface CreateBlogRequest {
   excerpt?: string;
   published?: boolean;
   categoryIds?: number[];
+  tags?: string[];
+  authorId: string;
 }
 
 export interface UpdateBlogRequest {
@@ -84,15 +96,24 @@ export interface Comment {
   id: number;
   content: string;
   blogId: number;
-  authorId: number;
-  author?: User;
+  userId: string; // Changed from number to string to match API
+  user?: {
+    id: string;
+    email: string;
+  };
+  userProfile?: {
+    firstName?: string;
+    lastName?: string;
+    avatar?: string;
+  };
   createdAt: string;
-  updatedAt: string;
+  updatedAt?: string;
 }
 
 export interface CreateCommentRequest {
   content: string;
-  blogId: number;
+  userId: string; // Added userId to match API requirements
+  blogId?: number; // Made optional since it's passed in URL
 }
 
 export interface UpdateCommentRequest {

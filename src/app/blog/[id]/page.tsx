@@ -85,8 +85,9 @@ const BlogPostPage = ({ params }: { params: { id: string } }) => {
   const fetchComments = async () => {
     try {
       const response = await blogsService.getBlogComments(params.id)
-      if (response.success) {
-        setComments(response.data.data || [])
+      if (response.success && response.data) {
+        // The API returns comments directly in data array, not data.data
+        setComments(Array.isArray(response.data) ? response.data : [])
       }
     } catch (error) {
       console.error('Error fetching comments:', error)
@@ -138,7 +139,8 @@ const BlogPostPage = ({ params }: { params: { id: string } }) => {
     
     try {
       const response = await blogsService.addBlogComment(params.id, {
-        content: newComment.trim()
+        content: newComment.trim(),
+        userId: session.user?.id || ''
       })
       
       if (response.success) {

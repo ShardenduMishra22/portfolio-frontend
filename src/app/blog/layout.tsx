@@ -12,7 +12,7 @@ export default function Layout({ children }: { children: ReactNode }): JSX.Eleme
       try {
         const session = await authClient.getSession()
         if (session.data !== null) {
-          router.push("/blog/landing")
+          router.push("/blog/dashboard")
         } else {
           router.push("/blog")
         }

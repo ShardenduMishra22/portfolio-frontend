@@ -25,7 +25,7 @@ export const blog = pgTable("blog", {
 	id: integer().primaryKey().generatedAlwaysAsIdentity({ name: "blog_id_seq", startWith: 1, increment: 1, minValue: 1, maxValue: 2147483647, cache: 1 }),
 	tags: text().array(),
 	title: varchar({ length: 255 }).notNull(),
-	content: varchar({ length: 1000 }).notNull(),
+	content: text().notNull(),
 	authorId: text("author_id").notNull(),
 	createdAt: timestamp("created_at", { mode: 'string' }).defaultNow().notNull(),
 	updatedAt: timestamp("updated_at", { mode: 'string' }).defaultNow().notNull(),

@@ -1,99 +1,263 @@
 'use client'
-import { authClient } from "@/lib/authClient";
-import { BookOpen, Sparkles, ArrowRight, Quote } from "lucide-react";
 
-const page = () => {
-  return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-card to-muted/20 flex items-center justify-center p-6">
-      <div className="w-full max-w-md">
-        {/* Header Section */}
-        <div className="text-center mb-8 space-y-4">
-          <div className="inline-flex items-center justify-center w-16 h-16 bg-primary/10 rounded-full mb-4">
-            <BookOpen className="w-8 h-8 text-primary" />
-          </div>
-          
-          <h1 className="text-3xl font-bold text-foreground font-heading">
-            Welcome to Your Blog
-          </h1>
-          
-          <p className="text-foreground text-lg font-subheading">
-            Share your thoughts and inspire others
-          </p>
-        </div>
+import React, { useEffect, useState } from 'react'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { Badge } from '@/components/ui/badge'
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import { 
+  BookOpen, 
+  Plus, 
+  Search, 
+  Calendar,
+  Eye,
+  Heart,
+  MessageCircle,
+  ArrowRight,
+  User
+} from 'lucide-react'
+import { useRouter } from 'next/navigation'
+import { blogsService } from '@/services/blogs'
+import { Blog } from '@/services/types'
+import { authClient } from '@/lib/authClient'
 
-        {/* Inspirational Quote */}
-        <div className="bg-card/50 backdrop-blur-sm border border-border/50 rounded-lg p-6 mb-8">
-          <div className="flex items-start space-x-3">
-            <Quote className="w-5 h-5 text-accent mt-1 flex-shrink-0" />
-            <div>
-              <p className="text-card-foreground/80 italic text-sm leading-relaxed">
-                &#34;The best way to find out if you can trust somebody is to trust them.&#34;
-              </p>
-              <p className="text-accent text-xs mt-2 font-medium">— Ernest Hemingway</p>
-            </div>
-          </div>
-        </div>
+const BlogPage = () => {
+  const router = useRouter()
+  const [blogs, setBlogs] = useState<Blog[]>([])
+  const [loading, setLoading] = useState(true)
+  const [searchTerm, setSearchTerm] = useState('')
+  const [error, setError] = useState('')
+  const session = authClient.useSession()
 
-        {/* Sign In Card */}
-        <div className="bg-card/60 backdrop-blur-sm border border-border/50 rounded-xl p-8 shadow-xl">
-          <div className="text-center mb-6">
-            <div className="inline-flex items-center space-x-2 text-primary mb-2">
-              <Sparkles className="w-5 h-5" />
-              <span className="font-semibold">Get Started</span>
-            </div>
-            <p className="text-card-foreground/70 text-sm">
-              Begin your blogging journey with a single click
-            </p>
-          </div>
+  useEffect(() => {
+    fetchBlogs()
+  }, [])
 
-          <button
-            onClick={() => authClient.signIn.social({
-              provider: 'google',
-              callbackURL: '/blog/landing',
-              errorCallbackURL: '/not-found',
-            })}
-            className="w-full group relative overflow-hidden bg-gradient-to-r from-primary to-secondary hover:from-primary/90 hover:to-secondary/90 text-primary-foreground font-semibold py-4 px-6 rounded-lg transition-all duration-300 hover:shadow-lg hover:scale-[1.02] active:scale-[0.98]"
-          >
-            <div className="flex items-center justify-center space-x-3">
-              <svg className="w-5 h-5" viewBox="0 0 24 24">
-                <path
-                  fill="currentColor"
-                  d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
-                />
-                <path
-                  fill="currentColor"
-                  d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"
-                />
-                <path
-                  fill="currentColor"
-                  d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"
-                />
-                <path
-                  fill="currentColor"
-                  d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"
-                />
-              </svg>
-              <span>Continue with Google</span>
-              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-            </div>
-          </button>
+  const fetchBlogs = async () => {
+    try {
+      setLoading(true)
+      setError('')
+      
+      const response = await blogsService.getBlogs()
+      console.log('Blog fetch response:', response)
+      
+      if (response.success && response.data) {
+        console.log('Blogs data:', response.data)
+        // Fix: The API returns blogs directly in data array, not data.data
+        setBlogs(Array.isArray(response.data) ? response.data : [])
+      } else {
+        setError(response.error || 'Failed to fetch blogs')
+        console.error('Blog fetch failed:', response.error)
+      }
+    } catch (error) {
+      console.error('Error fetching blogs:', error)
+      setError('Failed to load blogs')
+    } finally {
+      setLoading(false)
+    }
+  }
 
-          <div className="mt-6 text-center">
-            <p className="text-xs text-foreground">
-              By continuing, you agree to our terms and privacy policy
-            </p>
-          </div>
-        </div>
+  const formatDate = (dateString: string) => {
+    return new Date(dateString).toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric'
+    })
+  }
 
-        {/* Call to Action */}
-        <div className="text-center mt-8">
-          <p className="text-foreground text-sm">
-            Ready to share your unique perspective with the world?
-          </p>
+  const truncateText = (text: string, maxLength: number = 150) => {
+    if (text.length <= maxLength) return text
+    return text.substring(0, maxLength) + '...'
+  }
+
+  const filteredBlogs = blogs.filter(blog => 
+    blog.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    blog.content.toLowerCase().includes(searchTerm.toLowerCase())
+  )
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto mb-4"></div>
+          <p className="text-foreground">Loading blogs...</p>
         </div>
       </div>
-    </div>
-  );
-};
+    )
+  }
 
-export default page;
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-background via-card to-muted/20">
+      {!session.data?.user && (
+        <div className="flex items-center justify-center py-12">
+          <p className="text-foreground">Please log in to create a blog post.</p>
+          <Button onClick={() => authClient.signIn.social({ provider: 'google' })} className="ml-4">
+            Login
+          </Button>
+        </div>
+      )}
+      {/* Header */}
+      <header className="border-b border-border/50 bg-card/60 backdrop-blur-sm">
+        <div className="container mx-auto px-6 py-4">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center space-x-4">
+              <div className="flex items-center space-x-2">
+                <BookOpen className="w-8 h-8 text-primary" />
+                <h1 className="text-2xl font-bold text-foreground font-heading">All Blogs</h1>
+              </div>
+            </div>
+            
+            <div className="flex items-center space-x-4">
+              <Button
+                onClick={() => router.push('/blog/create')}
+                className="bg-gradient-to-r from-primary to-secondary hover:from-primary/90 hover:to-secondary/90"
+              >
+                <Plus className="w-4 h-4 mr-2" />
+                Create New Post
+              </Button>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      {/* Main Content */}
+      <main className="container mx-auto px-6 py-8">
+        {/* Search */}
+        <div className="mb-8">
+          <div className="relative">
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-foreground/50 w-4 h-4" />
+            <Input
+              placeholder="Search blogs..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="pl-10 bg-card/60 backdrop-blur-sm border-border/50"
+            />
+          </div>
+        </div>
+
+        {/* Error Message */}
+        {error && (
+          <div className="mb-6 p-4 bg-destructive/10 border border-destructive rounded-lg">
+            <p className="text-destructive">{error}</p>
+          </div>
+        )}
+
+        {/* Blog Count */}
+        <div className="mb-6">
+          <p className="text-foreground">
+            Showing {filteredBlogs.length} of {blogs.length} blogs
+          </p>
+        </div>
+
+        {/* Blogs Grid */}
+        {filteredBlogs.length === 0 ? (
+          <div className="text-center py-12">
+            <BookOpen className="w-16 h-16 text-foreground mx-auto mb-4" />
+            <h3 className="text-lg font-semibold text-foreground mb-2">
+              {searchTerm ? 'No blogs found' : 'No blogs yet'}
+            </h3>
+            <p className="text-foreground mb-4">
+              {searchTerm ? 'Try adjusting your search terms' : 'Create your first blog post to get started'}
+            </p>
+            {!searchTerm && (
+              <Button onClick={() => router.push('/blog/create')}>
+                <Plus className="w-4 h-4 mr-2" />
+                Create First Post
+              </Button>
+            )}
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {filteredBlogs.map((blog) => (
+              <Card key={blog.id} className="bg-card/60 backdrop-blur-sm border-border/50 hover:shadow-lg transition-all duration-300 hover:scale-[1.02] group">
+                <CardHeader>
+                  <div className="flex items-start justify-between">
+                    <div className="flex items-center space-x-3">
+                      <Avatar className="w-10 h-10">
+                        <AvatarImage src={blog.authorProfile?.avatar || ''} />
+                        <AvatarFallback className="bg-primary/10 text-primary text-sm">
+                          {blog.authorProfile?.firstName && blog.authorProfile?.lastName
+                            ? `${blog.authorProfile.firstName.charAt(0)}${blog.authorProfile.lastName.charAt(0)}`
+                            : blog.author?.email?.charAt(0).toUpperCase() || 'U'
+                          }
+                        </AvatarFallback>
+                      </Avatar>
+                      <div>
+                        <p className="font-medium text-foreground">
+                          {blog.authorProfile?.firstName && blog.authorProfile?.lastName
+                            ? `${blog.authorProfile.firstName} ${blog.authorProfile.lastName}`
+                            : blog.author?.email || 'Unknown Author'
+                          }
+                        </p>
+                        <p className="text-xs text-foreground flex items-center">
+                          <Calendar className="w-3 h-3 mr-1" />
+                          {formatDate(blog.createdAt)}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </CardHeader>
+                
+                <CardContent>
+                  <CardTitle className="text-xl mb-3 line-clamp-2 group-hover:text-primary transition-colors">
+                    {blog.title}
+                  </CardTitle>
+                  <CardDescription className="line-clamp-3 text-sm leading-relaxed">
+                    {truncateText(blog.content)}
+                  </CardDescription>
+                  
+                  {blog.tags && blog.tags.length > 0 && (
+                    <div className="flex flex-wrap gap-2 mt-4">
+                      {blog.tags.slice(0, 3).map((tag, index) => (
+                        <Badge key={index} variant="secondary" className="text-xs">
+                          {tag}
+                        </Badge>
+                      ))}
+                      {blog.tags.length > 3 && (
+                        <Badge variant="outline" className="text-xs">
+                          +{blog.tags.length - 3} more
+                        </Badge>
+                      )}
+                    </div>
+                  )}
+                </CardContent>
+                
+                <CardContent className="pt-4">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center space-x-4 text-sm text-foreground">
+                      <div className="flex items-center space-x-1">
+                        <Eye className="w-4 h-4" />
+                        <span>{Array.isArray(blog.views) ? blog.views.length : (blog.views || 0)}</span>
+                      </div>
+                      <div className="flex items-center space-x-1">
+                        <Heart className="w-4 h-4" />
+                        <span>{Array.isArray(blog.likes) ? blog.likes.length : (blog.likes || 0)}</span>
+                      </div>
+                      <div className="flex items-center space-x-1">
+                        <MessageCircle className="w-4 h-4" />
+                        <span>{Array.isArray(blog.comments) ? blog.comments.length : (blog.comments || 0)}</span>
+                      </div>
+                    </div>
+                    
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={() => router.push(`/blog/${blog.id}`)}
+                      className="text-primary hover:text-primary/80 group-hover:bg-primary/10"
+                    >
+                      <span className="mr-1">Read More</span>
+                      <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                    </Button>
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        )}
+      </main>
+    </div>
+  )
+}
+
+export default BlogPage
