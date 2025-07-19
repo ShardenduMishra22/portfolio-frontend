@@ -8,7 +8,7 @@ export default function Layout({ children }: { children: ReactNode }): JSX.Eleme
   useEffect(() => {
     const checkSession = async () => {
       const session = await authClient.getSession()
-      if (session) {
+      if (session.data !== null) {
         router.push("/blog/landing")
       }else {
         router.push("/blog")

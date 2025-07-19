@@ -27,5 +27,18 @@ export const auth = betterAuth({
       enabled: true,
       maxAge: 5 * 60,                   // cache session in cookie for 5 min
     },
-  },
+    },
+    callbacks: {
+      session: async ({ session, user }: { session: any; user: any }) => {
+        return {
+          ...session,
+          user: {
+            id: user.id,
+            name: user.name,
+            email: user.email,
+            image: user.image,
+          },
+        };
+      },
+    },
 });
