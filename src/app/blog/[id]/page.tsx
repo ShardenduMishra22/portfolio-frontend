@@ -18,7 +18,8 @@ import {
   Calendar,
   Send,
   BookOpen,
-  Clock
+  Clock,
+  Check // Added for success feedback
 } from 'lucide-react'
 import { blogsService } from '@/services/blogs'
 import { Blog } from '@/services/types'
@@ -54,6 +55,7 @@ const BlogPostPage = ({ params }: { params: Promise<{ id: string }> }) => {
   const [likesCount, setLikesCount] = useState(0)
   const [viewsCount, setViewsCount] = useState(0)
   const [commentsCount, setCommentsCount] = useState(0)
+  const [shareSuccess, setShareSuccess] = useState(false) // Added for share feedback
 
   useEffect(() => {
     if (resolvedParams.id) {
@@ -134,6 +136,33 @@ const BlogPostPage = ({ params }: { params: Promise<{ id: string }> }) => {
       setIsBookmarked(!isBookmarked)
     } catch (error) {
       console.error('Error toggling bookmark:', error)
+    }
+  }
+
+  // Added share functionality
+  const handleShare = async () => {
+    try {
+      const currentUrl = window.location.href
+      await navigator.clipboard.writeText(currentUrl)
+      
+      // Show success feedback
+      setShareSuccess(true)
+      setTimeout(() => setShareSuccess(false), 2000)
+    } catch (error) {
+      console.error('Failed to copy URL:', error)
+      // Fallback for browsers that don't support clipboard API
+      const textArea = document.createElement('textarea')
+      textArea.value = window.location.href
+      document.body.appendChild(textArea)
+      textArea.select()
+      try {
+        document.execCommand('copy')
+        setShareSuccess(true)
+        setTimeout(() => setShareSuccess(false), 2000)
+      } catch (fallbackError) {
+        console.error('Fallback copy failed:', fallbackError)
+      }
+      document.body.removeChild(textArea)
     }
   }
 
@@ -246,9 +275,27 @@ const BlogPostPage = ({ params }: { params: Promise<{ id: string }> }) => {
             </Button>
             
             <div className="flex items-center space-x-3">
-              <Button variant="outline" size="default">
-                <Share2 className="w-4 h-4 mr-2" />
-                Share
+              <Button 
+                variant="outline" 
+                size="default"
+                onClick={handleShare}
+                className={`transition-all duration-200 ${
+                  shareSuccess 
+                    ? 'bg-green-50 border-green-200 text-green-700 dark:bg-green-950/20 dark:border-green-800 dark:text-green-400' 
+                    : ''
+                }`}
+              >
+                {shareSuccess ? (
+                  <>
+                    <Check className="w-4 h-4 mr-2" />
+                    Copied!
+                  </>
+                ) : (
+                  <>
+                    <Share2 className="w-4 h-4 mr-2" />
+                    Share
+                  </>
+                )}
               </Button>
             </div>
           </div>
