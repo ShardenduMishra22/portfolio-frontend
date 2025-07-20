@@ -1,8 +1,7 @@
 'use client'
 
 import React, { useEffect, useState } from 'react'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { Badge } from '@/components/ui/badge'
+import { CardHeader } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
@@ -15,7 +14,6 @@ import {
   Heart,
   MessageCircle,
   ArrowRight,
-  User,
   Bookmark
 } from 'lucide-react'
 import { useRouter } from 'next/navigation'
@@ -120,18 +118,6 @@ const BlogPage = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-100 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900">
-      {!session.data?.user && (
-        <div className="flex items-center justify-center py-12 bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border-b border-slate-200 dark:border-slate-700">
-          <p className="text-slate-700 dark:text-slate-300 text-lg">Please log in to create a blog post.</p>
-          <Button 
-            onClick={() => authClient.signIn.social({ provider: 'google' })} 
-            className="ml-6 h-12 px-8 bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white shadow-xl shadow-blue-500/25 rounded-xl font-semibold transition-all duration-300 hover:scale-105"
-          >
-            Login with Google
-          </Button>
-        </div>
-      )}
-      {/* Header */}
       <header className="border-b border-slate-200 dark:border-slate-700 bg-white/90 dark:bg-slate-800/90 backdrop-blur-xl sticky top-0 z-40 shadow-lg">
         <div className="container mx-auto px-8 py-8">
           <div className="flex items-center justify-between">

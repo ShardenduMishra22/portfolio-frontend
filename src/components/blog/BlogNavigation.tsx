@@ -8,9 +8,6 @@ import {
   BookOpen, 
   BarChart3, 
   Plus, 
-  Home,
-  User,
-  Settings,
   LogOut,
   Menu,
   X
@@ -45,6 +42,7 @@ export default function BlogNavigation() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const [isLoggingOut, setIsLoggingOut] = useState(false)
   const router = useRouter()
+  const session = authClient.useSession()
 
   const handleLogout = async () => {
     setIsLoggingOut(true)
@@ -200,6 +198,9 @@ export default function BlogNavigation() {
 
           {/* Footer */}
           <div className="p-6 border-t border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800">
+            {
+              session.data ? (
+
             <Button
               onClick={handleLogout}
               disabled={isLoggingOut}
@@ -213,6 +214,17 @@ export default function BlogNavigation() {
               )}
               {isLoggingOut ? 'Signing out...' : 'Sign Out'}
             </Button>
+            ) : (
+                    <div className="flex items-center justify-center py-12 bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border-b border-slate-200 dark:border-slate-700">
+                      <p className="text-slate-700 dark:text-slate-300 text-lg">Please log in to create a blog post.</p>
+                      <Button 
+                        onClick={() => authClient.signIn.social({ provider: 'google' })} 
+                        className="ml-6 h-12 px-8 bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white shadow-xl shadow-blue-500/25 rounded-xl font-semibold transition-all duration-300 hover:scale-105"
+                      >
+                        Login with Google
+                      </Button>
+                    </div>
+                  )}
           </div>
         </div>
       </div>
