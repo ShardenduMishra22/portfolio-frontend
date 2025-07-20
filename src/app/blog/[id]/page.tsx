@@ -73,7 +73,6 @@ const BlogPostPage = ({ params }: { params: Promise<{ id: string }> }) => {
         setViewsCount(typeof response.data.views === 'number' ? response.data.views : 0)
         setCommentsCount(typeof response.data.comments === 'number' ? response.data.comments : 0)
       }
-      console.log('Blog post fetched:', response)
     } catch (error) {
       console.error('Error fetching blog:', error)
     } finally {
@@ -84,7 +83,6 @@ const BlogPostPage = ({ params }: { params: Promise<{ id: string }> }) => {
   const fetchComments = async () => {
     try {
       const response = await blogsService.getBlogComments(resolvedParams.id)
-      console.log('Comments fetched:', response)
       if (response.success && response.data) {
         setComments(Array.isArray(response.data) ? response.data : [])
       }

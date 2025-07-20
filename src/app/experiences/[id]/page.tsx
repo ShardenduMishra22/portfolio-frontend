@@ -22,7 +22,6 @@ export default function ExperienceDetailPage({ params }: { params: any }) {
     const fetchExperience = async () => {
       try {
         const response = await experiencesAPI.getExperienceById(params.id);
-        console.log('Fetched experience:', response);
         setExperience(response.data);
       } catch {
         setError('Failed to load experience');

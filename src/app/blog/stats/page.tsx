@@ -62,10 +62,8 @@ const BlogStatsPage = () => {
       setError('')
       
       const response = await blogsService.getBlogStats()
-      console.log('Stats fetch response:', response)
       
       if (response.success && response.data) {
-        console.log('Stats data:', response.data)
         setApiStats(response.data)
         const blogsResponse = await blogsService.getBlogs()
         if (blogsResponse.success && blogsResponse.data) {
@@ -198,8 +196,8 @@ const BlogStatsPage = () => {
     blogs.filter(blog => {
       const matchesSearch = blog.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
                            blog.content.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                           (blog.authorProfile?.firstName && blog.authorProfile?.lastName &&
-                            `${blog.authorProfile.firstName} ${blog.authorProfile.lastName}`.toLowerCase().includes(searchTerm.toLowerCase()))
+                           (blog.author.name && blog.author.name &&
+                            `${blog.author.name} ${blog.author.name}`.toLowerCase().includes(searchTerm.toLowerCase()))
       return matchesSearch
     })
   )
@@ -433,10 +431,10 @@ const BlogStatsPage = () => {
       <div className="flex items-center justify-between">
         <div className="flex items-center space-x-3 flex-1 min-w-0">
           <Avatar className="w-10 h-10 flex-shrink-0">
-            <AvatarImage src={calculatedStats.topPerformingPost.authorProfile?.avatar || ''} />
+            <AvatarImage src={calculatedStats.topPerformingPost.author?.avatar || ''} />
             <AvatarFallback className="bg-primary/10 text-primary text-sm">
-              {calculatedStats.topPerformingPost.authorProfile?.firstName && calculatedStats.topPerformingPost.authorProfile?.lastName
-                ? `${calculatedStats.topPerformingPost.authorProfile.firstName.charAt(0)}${calculatedStats.topPerformingPost.authorProfile.lastName.charAt(0)}`
+              {calculatedStats.topPerformingPost.author?.name
+                ? `${calculatedStats.topPerformingPost.author.name.charAt(0)}${calculatedStats.topPerformingPost.author.name.charAt(0)}`
                 : calculatedStats.topPerformingPost.author?.email?.charAt(0).toUpperCase() || 'U'
               }
             </AvatarFallback>
@@ -444,8 +442,8 @@ const BlogStatsPage = () => {
           <div className="flex-1 min-w-0">
             <h3 className="font-bold text-foreground mb-1 line-clamp-1">{calculatedStats.topPerformingPost.title}</h3>
             <p className="text-sm text-foreground">
-              by {calculatedStats.topPerformingPost.authorProfile?.firstName && calculatedStats.topPerformingPost.authorProfile?.lastName
-                ? `${calculatedStats.topPerformingPost.authorProfile.firstName} ${calculatedStats.topPerformingPost.authorProfile.lastName}`
+              by {calculatedStats.topPerformingPost.author?.name
+                ? `${calculatedStats.topPerformingPost.author.name}`
                 : calculatedStats.topPerformingPost.author?.email || 'Unknown Author'
               } • {formatDate(calculatedStats.topPerformingPost.createdAt)}
             </p>
@@ -517,10 +515,10 @@ const BlogStatsPage = () => {
               <div key={blog.id} className="flex items-center justify-between p-3 rounded-lg bg-muted/50">
                 <div className="flex items-center space-x-3">
                   <Avatar className="w-7 h-7">
-                    <AvatarImage src={blog.authorProfile?.avatar || ''} />
+                    <AvatarImage src={blog.author?.avatar || ''} />
                     <AvatarFallback className="bg-primary/10 text-primary text-xs">
-                      {blog.authorProfile?.firstName && blog.authorProfile?.lastName
-                        ? `${blog.authorProfile.firstName.charAt(0)}${blog.authorProfile.lastName.charAt(0)}`
+                      {blog.author?.name
+                        ? `${blog.author.name.charAt(0)}${blog.author.name.charAt(0)}`
                         : blog.author?.email?.charAt(0).toUpperCase() || 'U'
                       }
                     </AvatarFallback>
@@ -614,18 +612,18 @@ const BlogStatsPage = () => {
           <CardHeader className="pb-3">
             <div className="flex items-center space-x-3">
               <Avatar className="w-8 h-8">
-                <AvatarImage src={blog.authorProfile?.avatar || ''} />
+                <AvatarImage src={blog.author?.avatar || ''} />
                 <AvatarFallback className="bg-primary/10 text-primary text-xs">
-                  {blog.authorProfile?.firstName && blog.authorProfile?.lastName
-                    ? `${blog.authorProfile.firstName.charAt(0)}${blog.authorProfile.lastName.charAt(0)}`
+                  {blog.author?.name
+                    ? `${blog.author.name.charAt(0)}${blog.author.name.charAt(0)}`
                     : blog.author?.email?.charAt(0).toUpperCase() || 'U'
                   }
                 </AvatarFallback>
               </Avatar>
               <div className="flex-1 min-w-0">
                 <p className="font-medium text-sm truncate">
-                  {blog.authorProfile?.firstName && blog.authorProfile?.lastName
-                    ? `${blog.authorProfile.firstName} ${blog.authorProfile.lastName}`
+                  {blog.author?.name
+                    ? blog.author.name
                     : blog.author?.email || 'Unknown Author'
                   }
                 </p>

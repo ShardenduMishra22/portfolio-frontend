@@ -64,14 +64,10 @@ const BlogDashboardPage = () => {
       setLoading(true)
       setError('')
       
-      console.log('Fetching blogs...')
       const response = await blogsService.getBlogs()
-      console.log('Blog fetch response:', response)
       
       if (response.success && response.data) {
-        console.log('Blogs data:', response.data)
         const blogsArray = Array.isArray(response.data) ? response.data : []
-        console.log('Setting blogs:', blogsArray)
         setBlogs(blogsArray)
       } else {
         const errorMsg = response.error || 'Failed to fetch blogs'

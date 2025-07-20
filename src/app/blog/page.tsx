@@ -44,10 +44,8 @@ const BlogPage = () => {
       const minLoadingTime = 800 // 800ms minimum loading time
       
       const response = await blogsService.getBlogs()
-      console.log('Blog fetch response:', response)
       
       if (response.success && response.data) {
-        console.log('Blogs data:', response.data)
         setBlogs(Array.isArray(response.data) ? response.data : [])
       } else {
         setError(response.error || 'Failed to fetch blogs')

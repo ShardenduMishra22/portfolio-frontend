@@ -65,7 +65,6 @@ const CreateBlogPage = () => {
     
     if (!userId) {
       setError('No user ID found in session. Please log in again.')
-      console.log('Available session data:', session)
       return
     }
 

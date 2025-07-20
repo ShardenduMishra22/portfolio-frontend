@@ -57,7 +57,7 @@ export default function ProjectDetailPage({ params }: { params : any}) {
           url: window.location.href,
         });
       } catch (err) {
-        console.log('Error sharing:', err);
+        console.error('Error sharing:', err);
       }
     } else {
       toast.success('Project link copied to clipboard!');
