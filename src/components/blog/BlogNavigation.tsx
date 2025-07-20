@@ -4,7 +4,7 @@ import React, { useState } from 'react'
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
 import { cn } from '@/lib/utils'
-import { BookOpen, BarChart3, Plus, LogOut, Menu, X, Glasses } from 'lucide-react'
+import { BookOpen, BarChart3, Plus, LogOut, Menu, X, Glasses, User2Icon } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { authClient } from '@/lib/authClient'
 
@@ -32,7 +32,13 @@ const navigationItems = [
     href: '/blog/create',
     icon: Plus,
     description: 'Write a new blog post'
-  }
+  },
+  {
+    name: 'Main Website',
+    href: '/',
+    icon: User2Icon,
+    description: 'Go back to the main website'
+  },
 ]
 
 export default function BlogNavigation() {
