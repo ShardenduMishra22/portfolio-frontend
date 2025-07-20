@@ -281,7 +281,6 @@ export default function HomePage() {
       
       <Sidebar />
       
-      {/* Main content with enhanced spacing and transitions */}
       <div className="pl-20 transition-all duration-500 ease-out">
         <section id="hero" className="relative">
           <HeroSection />

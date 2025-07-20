@@ -147,8 +147,8 @@ const CreateBlogPage = () => {
             <div className="w-16 h-16 bg-primary/10 rounded-2xl flex items-center justify-center mx-auto mb-4">
               <BookOpen className="w-8 h-8 text-primary" />
             </div>
-            <CardTitle className="text-xl font-heading">Create Blog Post</CardTitle>
-            <CardDescription>You need to be logged in to create a blog post</CardDescription>
+            <CardTitle className="text-xl font-heading text-black dark:text-white">Create Blog Post</CardTitle>
+            <CardDescription className="text-black dark:text-white">You need to be logged in to create a blog post</CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
             <Button 
@@ -244,13 +244,13 @@ const CreateBlogPage = () => {
             {/* Title Input */}
             <Card className="bg-card border-border">
               <CardHeader className="pb-3">
-                <CardTitle className="flex items-center space-x-2 text-base font-heading">
+                <CardTitle className="flex items-center space-x-2 text-base font-heading text-black dark:text-white">
                   <div className="w-6 h-6 bg-primary/10 rounded-lg flex items-center justify-center">
                     <Sparkles className="w-3 h-3 text-primary" />
                   </div>
                   Post Title
                 </CardTitle>
-                <CardDescription className="text-sm">
+                <CardDescription className="text-sm text-black dark:text-white">
                   Write a compelling title for your post
                 </CardDescription>
               </CardHeader>
@@ -267,18 +267,18 @@ const CreateBlogPage = () => {
             {/* Content Editor */}
             <Card className="bg-card border-border">
               <CardHeader className="pb-3">
-                <CardTitle className="flex items-center space-x-2 text-base font-heading">
+                <CardTitle className="flex items-center space-x-2 text-base font-heading text-black dark:text-white">
                   <div className="w-6 h-6 bg-secondary/10 rounded-lg flex items-center justify-center">
                     <BookOpen className="w-3 h-3 text-secondary" />
                   </div>
                   Content
                 </CardTitle>
-                <CardDescription className="text-sm">
+                <CardDescription className="text-sm text-black dark:text-white">
                   Write your blog post content
                 </CardDescription>
               </CardHeader>
               <CardContent className="pt-0">
-                <div className="min-h-[400px] bg-background rounded-lg p-4 border border-border">
+                <div className="min-h-[400px] bg-background rounded-lg p-4 ">
                   <TiptapModalEditor
                     value={content}
                     onChange={setContent}
@@ -293,13 +293,13 @@ const CreateBlogPage = () => {
             {/* Tags */}
             <Card className="bg-card border-border">
               <CardHeader className="pb-3">
-                <CardTitle className="flex items-center space-x-2 text-base font-heading">
+                <CardTitle className="flex items-center space-x-2 text-base font-heading text-black dark:text-white">
                   <div className="w-6 h-6 bg-accent/10 rounded-lg flex items-center justify-center">
                     <Tag className="w-3 h-3 text-accent" />
                   </div>
                   Tags
                 </CardTitle>
-                <CardDescription className="text-sm">
+                <CardDescription className="text-sm text-black dark:text-white">
                   Add relevant tags
                 </CardDescription>
               </CardHeader>
@@ -348,24 +348,24 @@ const CreateBlogPage = () => {
             {isPreview && (
               <Card className="bg-card border-border">
                 <CardHeader className="pb-3">
-                  <CardTitle className="flex items-center space-x-2 text-base font-heading">
-                    <div className="w-6 h-6 bg-primary/10 rounded-lg flex items-center justify-center">
-                      <Eye className="w-3 h-3 text-primary" />
-                    </div>
-                    Preview
-                  </CardTitle>
-                  <CardDescription className="text-sm">
-                    How your post will appear
-                  </CardDescription>
+                                  <CardTitle className="flex items-center space-x-2 text-base font-heading text-black dark:text-white">
+                  <div className="w-6 h-6 bg-primary/10 rounded-lg flex items-center justify-center">
+                    <Eye className="w-3 h-3 text-primary" />
+                  </div>
+                  Preview
+                </CardTitle>
+                <CardDescription className="text-sm text-black dark:text-white">
+                  How your post will appear
+                </CardDescription>
                 </CardHeader>
                 <CardContent className="pt-0">
                   <div className="space-y-4 bg-muted/50 rounded-lg p-4">
-                    <h1 className="text-xl font-bold font-heading text-foreground">
+                    <h1 className="text-xl font-bold font-heading text-black dark:text-white">
                       {title || 'Your post title will appear here'}
                     </h1>
                     <Separator />
                     <div 
-                      className="prose prose-sm max-w-none text-foreground"
+                      className="prose prose-sm max-w-none text-black dark:text-white"
                       dangerouslySetInnerHTML={{ __html: content }}
                     />
                     {tags.length > 0 && (
@@ -385,7 +385,7 @@ const CreateBlogPage = () => {
             {/* Publishing Tips */}
             <Card className="bg-card border-border">
               <CardHeader className="pb-3">
-                <CardTitle className="flex items-center space-x-2 text-base font-heading">
+                <CardTitle className="flex items-center space-x-2 text-base font-heading text-black dark:text-white">
                   <div className="w-6 h-6 bg-primary/10 rounded-lg flex items-center justify-center">
                     <Sparkles className="w-3 h-3 text-primary" />
                   </div>
@@ -395,25 +395,25 @@ const CreateBlogPage = () => {
               <CardContent className="pt-0 space-y-3">
                 <div className="flex items-start space-x-3">
                   <div className="w-2 h-2 bg-primary rounded-full mt-2 flex-shrink-0"></div>
-                  <p className="text-sm text-foreground">
+                  <p className="text-sm text-black dark:text-white">
                     Write a compelling title
                   </p>
                 </div>
                 <div className="flex items-start space-x-3">
                   <div className="w-2 h-2 bg-secondary rounded-full mt-2 flex-shrink-0"></div>
-                  <p className="text-sm text-foreground">
+                  <p className="text-sm text-black dark:text-white">
                     Use clear, engaging content
                   </p>
                 </div>
                 <div className="flex items-start space-x-3">
                   <div className="w-2 h-2 bg-accent rounded-full mt-2 flex-shrink-0"></div>
-                  <p className="text-sm text-foreground">
+                  <p className="text-sm text-black dark:text-white">
                     Add relevant tags
                   </p>
                 </div>
                 <div className="flex items-start space-x-3">
                   <div className="w-2 h-2 bg-destructive rounded-full mt-2 flex-shrink-0"></div>
-                  <p className="text-sm text-foreground">
+                  <p className="text-sm text-black dark:text-white">
                     Preview before publishing
                   </p>
                 </div>

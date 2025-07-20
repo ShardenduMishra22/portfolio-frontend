@@ -61,9 +61,9 @@ export default function BlogNavigation() {
           variant="ghost"
           size="sm"
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-          className="bg-background/90 backdrop-blur-sm border border-border hover:bg-accent/20 text-black dark:text-white"
+          className="bg-background/90 backdrop-blur-sm border border-primary/20 hover:bg-primary/10"
         >
-          {isMobileMenuOpen ? <X className="h-4 w-4 text-black dark:text-white" /> : <Menu className="h-4 w-4 text-black dark:text-white" />}
+          {isMobileMenuOpen ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
         </Button>
       </div>
 
@@ -81,14 +81,23 @@ export default function BlogNavigation() {
                   className={cn(
                     "flex items-center space-x-3 w-full max-w-xs p-4 rounded-lg transition-all",
                     isActive
-                      ? "bg-primary text-foreground"
+                      ? "bg-primary text-primary-foreground"
                       : "bg-card hover:bg-accent/20 border border-border"
                   )}
                 >
-                  <item.icon className="h-5 w-5 text-black dark:text-white" />
+                  <item.icon className={cn(
+                    "h-5 w-5",
+                    isActive ? "text-primary-foreground" : "text-foreground"
+                  )} />
                   <div>
-                    <div className="font-medium text-black dark:text-white">{item.name}</div>
-                    <div className="text-xs text-black dark:text-white">{item.description}</div>
+                    <div className={cn(
+                      "font-medium",
+                      isActive ? "text-primary-foreground" : "text-foreground"
+                    )}>{item.name}</div>
+                    <div className={cn(
+                      "text-xs opacity-70",
+                      isActive ? "text-primary-foreground" : "text-foreground"
+                    )}>{item.description}</div>
                   </div>
                 </Link>
               )
@@ -113,7 +122,6 @@ export default function BlogNavigation() {
                 onClick={async () => {
                   try {
                     await authClient.signIn.social({ provider: 'google' })
-                    // After successful login, redirect to /blog
                     router.push('/blog')
                   } catch (error) {
                     console.error('Login error:', error)
@@ -139,8 +147,8 @@ export default function BlogNavigation() {
                 <BookOpen className="w-5 h-5 text-primary-foreground" />
               </div>
               <div>
-                <h1 className="font-bold text-lg font-heading">Blog Hub</h1>
-                <p className="text-sm text-muted-foreground">Share your thoughts</p>
+                <h1 className="font-bold text-lg font-heading text-foreground">Blog Hub</h1>
+                <p className="text-sm text-foreground">Share your thoughts</p>
               </div>
             </div>
           </div>
@@ -156,14 +164,23 @@ export default function BlogNavigation() {
                   className={cn(
                     "flex items-center space-x-3 px-4 py-3 rounded-lg transition-colors",
                     isActive
-                      ? "bg-primary text-foreground"
-                      : "text-black dark:text-white hover:bg-accent/20"
+                      ? "bg-primary text-primary-foreground"
+                      : "text-foreground hover:bg-accent/20"
                   )}
                 >
-                  <item.icon className="h-4 w-4 text-black dark:text-white" />
+                  <item.icon className={cn(
+                    "h-4 w-4",
+                    isActive ? "text-primary-foreground" : "text-foreground"
+                  )} />
                   <div>
-                    <div className="font-medium text-sm text-black dark:text-white">{item.name}</div>
-                    <div className="text-xs text-black dark:text-white">{item.description}</div>
+                    <div className={cn(
+                      "font-medium text-sm",
+                      isActive ? "text-primary-foreground" : "text-foreground"
+                    )}>{item.name}</div>
+                    <div className={cn(
+                      "text-xs opacity-70",
+                      isActive ? "text-primary-foreground" : "text-foreground"
+                    )}>{item.description}</div>
                   </div>
                 </Link>
               )
@@ -188,12 +205,11 @@ export default function BlogNavigation() {
               </Button>
             ) : (
               <div className="text-center space-y-3">
-                <p className="text-sm text-black dark:text-white">Please log in to continue</p>
+                <p className="text-sm text-foreground">Please log in to continue</p>
                 <Button 
                   onClick={async () => {
                     try {
                       await authClient.signIn.social({ provider: 'google' })
-                      // After successful login, redirect to /blog
                       router.push('/blog')
                     } catch (error) {
                       console.error('Login error:', error)

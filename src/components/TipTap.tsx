@@ -146,16 +146,16 @@ export const TiptapModalEditor = ({ value, onChange }: { value: string; onChange
   const characterLimit = 10000
 
   return (
-    <div className="border border-gray-200 rounded-md overflow-hidden">
+    <div className="border border-border rounded-md overflow-hidden">
       {/* Compact Toolbar */}
-      <div className="bg-gray-50 border-b border-gray-200 p-2">
+      <div className="bg-card border-b border-border p-2">
         <div className="flex items-center gap-1 flex-wrap">
           {/* Basic formatting */}
           <Button
             variant="ghost"
             size="sm"
             onClick={() => editor.chain().focus().toggleBold().run()}
-            className={`h-8 px-2 ${editor.isActive('bold') ? 'bg-blue-100 text-blue-600' : ''}`}
+            className={`h-8 px-2 text-black dark:text-white hover:bg-accent/20 ${editor.isActive('bold') ? 'bg-primary/20 text-primary' : ''}`}
           >
             <Bold className="h-4 w-4" />
           </Button>
@@ -163,7 +163,7 @@ export const TiptapModalEditor = ({ value, onChange }: { value: string; onChange
             variant="ghost"
             size="sm"
             onClick={() => editor.chain().focus().toggleItalic().run()}
-            className={`h-8 px-2 ${editor.isActive('italic') ? 'bg-blue-100 text-blue-600' : ''}`}
+            className={`h-8 px-2 text-black dark:text-white hover:bg-accent/20 ${editor.isActive('italic') ? 'bg-primary/20 text-primary' : ''}`}
           >
             <Italic className="h-4 w-4" />
           </Button>
@@ -171,19 +171,19 @@ export const TiptapModalEditor = ({ value, onChange }: { value: string; onChange
             variant="ghost"
             size="sm"
             onClick={() => editor.chain().focus().toggleUnderline().run()}
-            className={`h-8 px-2 ${editor.isActive('underline') ? 'bg-blue-100 text-blue-600' : ''}`}
+            className={`h-8 px-2 text-black dark:text-white hover:bg-accent/20 ${editor.isActive('underline') ? 'bg-primary/20 text-primary' : ''}`}
           >
             <Underline className="h-4 w-4" />
           </Button>
           
-          <div className="w-px h-6 bg-gray-300 mx-1" />
+          <div className="w-px h-6 bg-border mx-1" />
           
           {/* Headings */}
           <Button
             variant="ghost"
             size="sm"
             onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
-            className={`h-8 px-2 ${editor.isActive('heading', { level: 1 }) ? 'bg-blue-100 text-blue-600' : ''}`}
+            className={`h-8 px-2 text-black dark:text-white hover:bg-accent/20 ${editor.isActive('heading', { level: 1 }) ? 'bg-primary/20 text-primary' : ''}`}
           >
             <Heading1 className="h-4 w-4" />
           </Button>
@@ -191,19 +191,19 @@ export const TiptapModalEditor = ({ value, onChange }: { value: string; onChange
             variant="ghost"
             size="sm"
             onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}
-            className={`h-8 px-2 ${editor.isActive('heading', { level: 2 }) ? 'bg-blue-100 text-blue-600' : ''}`}
+            className={`h-8 px-2 text-black dark:text-white hover:bg-accent/20 ${editor.isActive('heading', { level: 2 }) ? 'bg-primary/20 text-primary' : ''}`}
           >
             <Heading2 className="h-4 w-4" />
           </Button>
           
-          <div className="w-px h-6 bg-gray-300 mx-1" />
+          <div className="w-px h-6 bg-border mx-1" />
           
           {/* Lists */}
           <Button
             variant="ghost"
             size="sm"
             onClick={() => editor.chain().focus().toggleBulletList().run()}
-            className={`h-8 px-2 ${editor.isActive('bulletList') ? 'bg-blue-100 text-blue-600' : ''}`}
+            className={`h-8 px-2 text-black dark:text-white hover:bg-accent/20 ${editor.isActive('bulletList') ? 'bg-primary/20 text-primary' : ''}`}
           >
             <List className="h-4 w-4" />
           </Button>
@@ -211,19 +211,19 @@ export const TiptapModalEditor = ({ value, onChange }: { value: string; onChange
             variant="ghost"
             size="sm"
             onClick={() => editor.chain().focus().toggleOrderedList().run()}
-            className={`h-8 px-2 ${editor.isActive('orderedList') ? 'bg-blue-100 text-blue-600' : ''}`}
+            className={`h-8 px-2 text-black dark:text-white hover:bg-accent/20 ${editor.isActive('orderedList') ? 'bg-primary/20 text-primary' : ''}`}
           >
             <ListOrdered className="h-4 w-4" />
           </Button>
           
-          <div className="w-px h-6 bg-gray-300 mx-1" />
+          <div className="w-px h-6 bg-border mx-1" />
           
           {/* Code */}
           <Button
             variant="ghost"
             size="sm"
             onClick={() => editor.chain().focus().toggleCode().run()}
-            className={`h-8 px-2 ${editor.isActive('code') ? 'bg-blue-100 text-blue-600' : ''}`}
+            className={`h-8 px-2 text-black dark:text-white hover:bg-accent/20 ${editor.isActive('code') ? 'bg-primary/20 text-primary' : ''}`}
           >
             <Code2 className="h-4 w-4" />
           </Button>
@@ -231,31 +231,31 @@ export const TiptapModalEditor = ({ value, onChange }: { value: string; onChange
             variant="ghost"
             size="sm"
             onClick={() => editor.chain().focus().toggleCodeBlock().run()}
-            className={`h-8 px-2 ${editor.isActive('codeBlock') ? 'bg-blue-100 text-blue-600' : ''}`}
+            className={`h-8 px-2 text-black dark:text-white hover:bg-accent/20 ${editor.isActive('codeBlock') ? 'bg-primary/20 text-primary' : ''}`}
           >
             <FileCode className="h-4 w-4" />
           </Button>
           
-          <div className="w-px h-6 bg-gray-300 mx-1" />
+          <div className="w-px h-6 bg-border mx-1" />
           
           {/* Quote */}
           <Button
             variant="ghost"
             size="sm"
             onClick={() => editor.chain().focus().toggleBlockquote().run()}
-            className={`h-8 px-2 ${editor.isActive('blockquote') ? 'bg-blue-100 text-blue-600' : ''}`}
+            className={`h-8 px-2 text-black dark:text-white hover:bg-accent/20 ${editor.isActive('blockquote') ? 'bg-primary/20 text-primary' : ''}`}
           >
             <Quote className="h-4 w-4" />
           </Button>
           
-          <div className="w-px h-6 bg-gray-300 mx-1" />
+          <div className="w-px h-6 bg-border mx-1" />
           
           {/* Undo/Redo */}
           <Button
             variant="ghost"
             size="sm"
             onClick={() => editor.chain().focus().undo().run()}
-            className="h-8 px-2"
+            className="h-8 px-2 text-black dark:text-white hover:bg-accent/20"
             disabled={!editor.can().undo()}
           >
             <Undo className="h-4 w-4" />
@@ -264,14 +264,14 @@ export const TiptapModalEditor = ({ value, onChange }: { value: string; onChange
             variant="ghost"
             size="sm"
             onClick={() => editor.chain().focus().redo().run()}
-            className="h-8 px-2"
+            className="h-8 px-2 text-black dark:text-white hover:bg-accent/20"
             disabled={!editor.can().redo()}
           >
             <Redo className="h-4 w-4" />
           </Button>
           
           {/* Character count */}
-          <div className="ml-auto text-xs text-gray-500">
+          <div className="ml-auto text-xs text-black dark:text-white">
             {characterCount}/{characterLimit}
           </div>
         </div>
