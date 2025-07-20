@@ -25,7 +25,7 @@ export const BlogListExample: React.FC<BlogListExampleProps> = ({ className }) =
         ])
 
         if (blogsResponse.success && blogsResponse.data) {
-          setBlogs(blogsResponse.data.data)
+          setBlogs(blogsResponse.data)
         }
 
         if (categoriesResponse.success && categoriesResponse.data) {
@@ -45,7 +45,7 @@ export const BlogListExample: React.FC<BlogListExampleProps> = ({ className }) =
 
   const handleLikeBlog = async (blogId: string) => {
     try {
-      const response = await blogsService.likeBlog(blogId)
+      const response = await blogsService.likeBlog(blogId, { userId: '1' })
       if (response.success) {
         // Update the blog in the list to reflect the like
         setBlogs(prevBlogs => 
@@ -63,7 +63,7 @@ export const BlogListExample: React.FC<BlogListExampleProps> = ({ className }) =
 
   const handleBookmarkBlog = async (blogId: string) => {
     try {
-      const response = await blogsService.bookmarkBlog(blogId)
+      const response = await blogsService.bookmarkBlog(blogId, { userId: '1' })
       if (response.success) {
         // Update the blog in the list to reflect the bookmark
         setBlogs(prevBlogs => 
@@ -118,7 +118,7 @@ export const BlogListExample: React.FC<BlogListExampleProps> = ({ className }) =
               )}
               
               <div className="flex items-center gap-4 text-sm text-gray-500 mb-3">
-                <span>By {blog.author?.username || 'Unknown'}</span>
+                <span>By {blog.author?.email || 'Unknown'}</span>
                 <span>{new Date(blog.createdAt).toLocaleDateString()}</span>
                 {blog.categories && blog.categories.length > 0 && (
                   <div className="flex gap-1">

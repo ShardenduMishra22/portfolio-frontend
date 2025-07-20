@@ -93,7 +93,7 @@ export const useBackendServices = () => {
     
     getBlogById: (id: string) => executeService(() => blogsService.getBlogById(id)),
     
-    createBlog: (blogData: { title: string; content: string; excerpt?: string; published?: boolean; categoryIds?: number[] }) =>
+    createBlog: (blogData: { title: string; content: string; authorId: string; excerpt?: string; published?: boolean; categoryIds?: number[] }) =>
       executeService(() => blogsService.createBlog(blogData)),
     
     updateBlog: (id: string, blogData: { title?: string; content?: string; excerpt?: string; published?: boolean; categoryIds?: number[] }) =>
@@ -101,15 +101,15 @@ export const useBackendServices = () => {
     
     deleteBlog: (id: string) => executeService(() => blogsService.deleteBlog(id)),
     
-    likeBlog: (id: string) => executeService(() => blogsService.likeBlog(id)),
+    likeBlog: (id: string, userId: string) => executeService(() => blogsService.likeBlog(id, { userId })),
     
-    unlikeBlog: (id: string) => executeService(() => blogsService.unlikeBlog(id)),
+    unlikeBlog: (id: string, userId: string) => executeService(() => blogsService.unlikeBlog(id, { userId })),
     
-    bookmarkBlog: (id: string) => executeService(() => blogsService.bookmarkBlog(id)),
+    bookmarkBlog: (id: string, userId: string) => executeService(() => blogsService.bookmarkBlog(id, { userId })),
     
-    unbookmarkBlog: (id: string) => executeService(() => blogsService.unbookmarkBlog(id)),
+    unbookmarkBlog: (id: string, userId: string) => executeService(() => blogsService.unbookmarkBlog(id, { userId })),
     
-    addToHistory: (id: string) => executeService(() => blogsService.addToHistory(id)),
+    addToHistory: (id: string, userId: string) => executeService(() => blogsService.addToHistory(id, { userId })),
     
     // Category services
     getCategories: (params?: { page?: number; limit?: number; search?: string }) =>

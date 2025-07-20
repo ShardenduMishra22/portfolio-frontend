@@ -7,15 +7,12 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
-import { Textarea } from '@/components/ui/textarea'
-import { Label } from '@/components/ui/label'
 import { Separator } from '@/components/ui/separator'
 import { Alert, AlertDescription } from '@/components/ui/alert'
 import { 
   ArrowLeft, 
   Save, 
   Eye, 
-  EyeOff, 
   Tag, 
   Plus,
   X,
@@ -26,6 +23,8 @@ import {
 } from 'lucide-react'
 import { blogsService } from '@/services/blogs'
 import { TiptapModalEditor } from '@/components/TipTap'
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogClose } from '@/components/ui/dialog'
+import ReactMarkdown from 'react-markdown'
 
 const CreateBlogPage = () => {
   const session = authClient.useSession()
@@ -38,10 +37,16 @@ const CreateBlogPage = () => {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [error, setError] = useState('')
   const [success, setSuccess] = useState('')
+  const [previewOpen, setPreviewOpen] = useState(false)
 
   const handleAddTag = () => {
-    if (newTag.trim() && !tags.includes(newTag.trim())) {
-      setTags([...tags, newTag.trim()])
+    // Split by comma, trim, filter out empty, and avoid duplicates
+    const newTags = newTag
+      .split(',')
+      .map(t => t.trim())
+      .filter(t => t && !tags.includes(t))
+    if (newTags.length > 0) {
+      setTags([...tags, ...newTags])
       setNewTag('')
     }
   }
@@ -201,11 +206,11 @@ const CreateBlogPage = () => {
             <div className="flex items-center space-x-2">
               <Button
                 variant="outline"
-                onClick={() => setIsPreview(!isPreview)}
+                onClick={() => setPreviewOpen(true)}
                 className="h-9 px-3"
               >
-                {isPreview ? <EyeOff className="w-4 h-4 mr-2" /> : <Eye className="w-4 h-4 mr-2" />}
-                {isPreview ? 'Edit' : 'Preview'}
+                <Eye className="w-4 h-4 mr-2" />
+                Preview
               </Button>
               
               <Button
@@ -306,10 +311,15 @@ const CreateBlogPage = () => {
               <CardContent className="pt-0 space-y-4">
                 <div className="flex space-x-2">
                   <Input
-                    placeholder="Add a tag..."
+                    placeholder="Add a tag or comma-separated tags..."
                     value={newTag}
                     onChange={(e) => setNewTag(e.target.value)}
-                    onKeyPress={(e) => e.key === 'Enter' && handleAddTag()}
+                    onKeyPress={(e) => {
+                      if (e.key === 'Enter') {
+                        e.preventDefault();
+                        handleAddTag();
+                      }
+                    }}
                     className="bg-background border-border h-9"
                   />
                   <Button
@@ -344,43 +354,38 @@ const CreateBlogPage = () => {
               </CardContent>
             </Card>
 
-            {/* Preview */}
-            {isPreview && (
-              <Card className="bg-card border-border">
-                <CardHeader className="pb-3">
-                                  <CardTitle className="flex items-center space-x-2 text-base font-heading text-black dark:text-white">
-                  <div className="w-6 h-6 bg-primary/10 rounded-lg flex items-center justify-center">
-                    <Eye className="w-3 h-3 text-primary" />
-                  </div>
-                  Preview
-                </CardTitle>
-                <CardDescription className="text-sm text-black dark:text-white">
-                  How your post will appear
-                </CardDescription>
-                </CardHeader>
-                <CardContent className="pt-0">
-                  <div className="space-y-4 bg-muted/50 rounded-lg p-4">
-                    <h1 className="text-xl font-bold font-heading text-black dark:text-white">
-                      {title || 'Your post title will appear here'}
-                    </h1>
-                    <Separator />
-                    <div 
-                      className="prose prose-sm max-w-none text-black dark:text-white"
-                      dangerouslySetInnerHTML={{ __html: content }}
-                    />
-                    {tags.length > 0 && (
-                      <div className="flex flex-wrap gap-2 pt-4">
-                        {tags.map((tag, index) => (
-                          <Badge key={index} variant="outline" className="text-xs">
-                            {tag}
-                          </Badge>
-                        ))}
-                      </div>
-                    )}
-                  </div>
-                </CardContent>
-              </Card>
-            )}
+<Dialog open={previewOpen} onOpenChange={setPreviewOpen}>
+  <DialogContent className="max-w-6xl w-full max-h-[100%] min-h-[40vh] overflow-y-auto flex flex-col justify-center items-center">
+    <DialogHeader className="w-full">
+      <DialogTitle>Preview Blog Post</DialogTitle>
+      <DialogDescription>How your post will appear to readers</DialogDescription>
+    </DialogHeader>
+    <div className="space-y-4 bg-muted/50 rounded-xl p-10 w-full max-w-5xl mx-auto shadow-lg">
+      <h1 className="text-4xl font-extrabold font-heading text-black dark:text-white mb-4 text-center tracking-tight leading-tight">
+        {title || 'Your post title will appear here'}
+      </h1>
+      <Separator />
+      <div className="prose prose-lg max-w-none text-black dark:text-white mx-auto px-2">
+        <ReactMarkdown>{content || 'Your post content will appear here.'}</ReactMarkdown>
+      </div>
+      {tags.length > 0 && (
+        <div className="flex flex-wrap gap-3 pt-4 justify-center">
+          {tags.map((tag, index) => (
+            <Badge key={index} variant="outline" className="text-sm px-3 py-1 rounded-2xl">
+              {tag}
+            </Badge>
+          ))}
+        </div>
+      )}
+      <DialogClose asChild>
+        <Button className="mt-6 w-1/4 min-w-[150px] mx-auto" variant="outline">
+          Close Preview
+        </Button>
+      </DialogClose>
+    </div>
+  </DialogContent>
+</Dialog>
+
 
             {/* Publishing Tips */}
             <Card className="bg-card border-border">

@@ -11,16 +11,11 @@ import {
   BookOpen, 
   Plus, 
   Search, 
-  Filter,
   Calendar,
   Eye,
   Heart,
   MessageCircle,
   ArrowRight,
-  TrendingUp,
-  Clock,
-  Star,
-  Edit,
   Trash2,
   BarChart3,
   AlertTriangle
@@ -41,6 +36,7 @@ import {
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog'
 import toast from 'react-hot-toast'
+import ReactMarkdown from 'react-markdown'
 
 const BlogDashboardPage = () => {
   const router = useRouter()
@@ -476,7 +472,9 @@ const BlogDashboardPage = () => {
                         {blog.title}
                       </CardTitle>
                       <CardDescription className="line-clamp-3 text-sm mb-3">
-                        {truncateText(blog.content)}
+                        <ReactMarkdown>
+                          {truncateText(blog.content)}
+                        </ReactMarkdown>
                       </CardDescription>
                       
                       {blog.tags && blog.tags.length > 0 && (

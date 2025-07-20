@@ -158,7 +158,7 @@ export async function DELETE(
     }
 
     // Get current user session
-    const session = await auth.getSession(request);
+    const session = await auth.api.getSession({ headers: request.headers });
     
     if (!session) {
       return NextResponse.json(

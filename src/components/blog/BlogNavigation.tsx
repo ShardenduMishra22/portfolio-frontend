@@ -209,8 +209,11 @@ export default function BlogNavigation() {
                 <Button 
                   onClick={async () => {
                     try {
-                      await authClient.signIn.social({ provider: 'google' })
-                      router.push('/blog')
+                      await authClient.signIn.social({
+                        provider: 'google',
+                        callbackURL: '/blog',
+                        errorCallbackURL: '/login?error=oauth'
+                      });
                     } catch (error) {
                       console.error('Login error:', error)
                     }

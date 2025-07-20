@@ -1,7 +1,6 @@
 'use client'
 
 import React, { useEffect, useState } from 'react'
-import { CardHeader } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
@@ -20,6 +19,7 @@ import { useRouter } from 'next/navigation'
 import { blogsService } from '@/services/blogs'
 import { Blog } from '@/services/types'
 import { authClient } from '@/lib/authClient'
+import ReactMarkdown from 'react-markdown'
 
 const BlogPage = () => {
   const router = useRouter()
@@ -164,21 +164,21 @@ const BlogPage = () => {
         {/* Search */}
         <div className="mb-8">
           <div className="relative max-w-2xl mx-auto">
-            <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-muted-foreground w-5 h-5" />
+            <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-foreground w-5 h-5" />
             <Input
               placeholder="Search blogs by title, content, or author..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="pl-12 h-12 bg-card/50 border-border rounded-xl text-base text-foreground placeholder:text-muted-foreground focus:border-primary/50 focus:ring-2 focus:ring-primary/20 transition-all duration-300"
+              className="pl-12 h-12 bg-card/50 border-border rounded-xl text-base text-foreground placeholder:text-foreground focus:border-primary/50 focus:ring-2 focus:ring-primary/20 transition-all duration-300"
             />
             <div className="absolute right-4 top-1/2 transform -translate-y-1/2">
               {loading && searchTerm ? (
-                <div className="flex items-center space-x-2 text-xs font-medium text-muted-foreground bg-muted/50 px-3 py-1.5 rounded-full border border-border">
+                <div className="flex items-center space-x-2 text-xs font-medium text-foreground bg-muted/50 px-3 py-1.5 rounded-full border border-border">
                   <div className="w-3 h-3 border border-primary/30 border-t-primary rounded-full animate-spin"></div>
                   <span>Searching...</span>
                 </div>
               ) : (
-                <span className="text-xs font-medium text-muted-foreground bg-muted/50 px-3 py-1.5 rounded-full border border-border">
+                <span className="text-xs font-medium text-foreground bg-muted/50 px-3 py-1.5 rounded-full border border-border">
                   {filteredBlogs.length} results
                 </span>
               )}
@@ -213,7 +213,7 @@ const BlogPage = () => {
         {/* Loading Indicator */}
         {loading && !showLoadingSkeleton && (
           <div className="mb-6 text-center">
-            <div className="inline-flex items-center space-x-2 text-sm text-muted-foreground">
+            <div className="inline-flex items-center space-x-2 text-sm text-foreground">
               <div className="w-4 h-4 border-2 border-primary/30 border-t-primary rounded-full animate-spin"></div>
               <span>Updating blogs...</span>
             </div>
@@ -345,7 +345,9 @@ const BlogPage = () => {
                       {blog.title}
                     </h3>
                     <p className="text-sm text-black dark:text-white line-clamp-3 leading-relaxed">
-                      {truncateText(blog.content, 150)}
+                      <ReactMarkdown >
+                          {truncateText(blog.content, 150)}
+                      </ReactMarkdown>
                     </p>
                   </div>
                   
@@ -358,7 +360,7 @@ const BlogPage = () => {
                         </span>
                       ))}
                       {blog.tags.length > 3 && (
-                        <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-muted text-muted-foreground border border-border">
+                        <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-muted text-foreground border border-border">
                           +{blog.tags.length - 3}
                         </span>
                       )}

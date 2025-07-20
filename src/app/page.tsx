@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { Home, GraduationCap, Code, Briefcase, Award, Mail, User, ChevronRight, Sparkles, Heart, Book } from 'lucide-react'
+import { Home, GraduationCap, Code, Briefcase, Award, Mail, User, ChevronRight, Sparkles, Heart, Book, Glasses } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { projectsAPI, experiencesAPI, skillsAPI, certificationsAPI } from '../util/apiResponse.util'
 import { Project, Experience, Certification } from '../data/types.data'
@@ -33,7 +33,7 @@ const navItems = [
   { href: '#experience', label: 'Experience', icon: User },
   { href: '#certifications', label: 'Certifications', icon: Award },
   { href: '#contact', label: 'Contact', icon: Mail },
-  // { href: '/blog', label: 'Blog', icon: Book },
+  { href: '/blog', label: 'Blog', icon: Glasses },
 ]
 
 function NavLink({ href, label, icon: Icon, isActive, isExpanded }: {
