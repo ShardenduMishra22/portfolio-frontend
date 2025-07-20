@@ -104,12 +104,36 @@ const CreateBlogPage = () => {
 
   if (!session) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-background">
-        <div className="text-center">
-          <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center mx-auto mb-4">
-            <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-primary"></div>
+      <div className="min-h-screen bg-background">
+        <div className="max-w-4xl mx-auto space-y-6 p-4">
+          {/* Header Skeleton */}
+          <div className="space-y-4">
+            <div className="h-8 w-48 bg-muted/50 rounded animate-pulse" />
+            <div className="h-4 w-64 bg-muted/50 rounded animate-pulse" />
           </div>
-          <p className="text-foreground">Loading session...</p>
+
+          {/* Form Skeleton */}
+          <div className="space-y-6">
+            <div>
+              <div className="h-4 w-16 bg-muted/50 rounded animate-pulse mb-2" />
+              <div className="h-10 w-full bg-muted/50 rounded-lg animate-pulse" />
+            </div>
+            
+            <div>
+              <div className="h-4 w-24 bg-muted/50 rounded animate-pulse mb-2" />
+              <div className="h-32 w-full bg-muted/50 rounded-lg animate-pulse" />
+            </div>
+            
+            <div>
+              <div className="h-4 w-20 bg-muted/50 rounded animate-pulse mb-2" />
+              <div className="h-10 w-full bg-muted/50 rounded-lg animate-pulse" />
+            </div>
+            
+            <div className="flex space-x-3">
+              <div className="h-10 w-24 bg-muted/50 rounded-lg animate-pulse" />
+              <div className="h-10 w-24 bg-muted/50 rounded-lg animate-pulse" />
+            </div>
+          </div>
         </div>
       </div>
     )
@@ -168,8 +192,8 @@ const CreateBlogPage = () => {
                   <BookOpen className="w-4 h-4 text-primary-foreground" />
                 </div>
                 <div>
-                  <h1 className="text-xl font-bold font-heading text-foreground">Create New Post</h1>
-                  <p className="text-sm text-foreground">Share your thoughts</p>
+                  <h1 className="text-xl font-bold font-heading text-black dark:text-white">Create New Post</h1>
+                  <p className="text-sm text-black dark:text-white">Share your thoughts</p>
                 </div>
               </div>
             </div>

@@ -175,12 +175,58 @@ const BlogPostPage = ({ params }: { params: Promise<{ id: string }> }) => {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-background">
-        <div className="text-center">
-          <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center mx-auto mb-4">
-            <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-primary"></div>
+      <div className="min-h-screen bg-background">
+        <div className="max-w-4xl mx-auto space-y-6 p-4">
+          {/* Header Skeleton */}
+          <div className="space-y-4">
+            <div className="h-12 w-3/4 bg-muted/50 rounded animate-pulse" />
+            <div className="flex items-center space-x-4">
+              <div className="w-10 h-10 bg-muted/50 rounded-full animate-pulse" />
+              <div>
+                <div className="h-4 w-32 bg-muted/50 rounded animate-pulse mb-1" />
+                <div className="h-3 w-24 bg-muted/50 rounded animate-pulse" />
+              </div>
+            </div>
           </div>
-          <p className="text-foreground">Loading blog post...</p>
+
+          {/* Content Skeleton */}
+          <div className="space-y-4">
+            <div className="h-4 w-full bg-muted/50 rounded animate-pulse" />
+            <div className="h-4 w-full bg-muted/50 rounded animate-pulse" />
+            <div className="h-4 w-5/6 bg-muted/50 rounded animate-pulse" />
+            <div className="h-4 w-full bg-muted/50 rounded animate-pulse" />
+            <div className="h-4 w-4/5 bg-muted/50 rounded animate-pulse" />
+            <div className="h-4 w-full bg-muted/50 rounded animate-pulse" />
+            <div className="h-4 w-3/4 bg-muted/50 rounded animate-pulse" />
+            <div className="h-4 w-full bg-muted/50 rounded animate-pulse" />
+            <div className="h-4 w-5/6 bg-muted/50 rounded animate-pulse" />
+            <div className="h-4 w-full bg-muted/50 rounded animate-pulse" />
+          </div>
+
+          {/* Actions Skeleton */}
+          <div className="flex items-center space-x-4 pt-6 border-t">
+            <div className="h-10 w-20 bg-muted/50 rounded-lg animate-pulse" />
+            <div className="h-10 w-20 bg-muted/50 rounded-lg animate-pulse" />
+            <div className="h-10 w-20 bg-muted/50 rounded-lg animate-pulse" />
+          </div>
+
+          {/* Comments Skeleton */}
+          <div className="space-y-4 pt-6">
+            <div className="h-6 w-32 bg-muted/50 rounded animate-pulse mb-4" />
+            {Array.from({ length: 3 }).map((_, i) => (
+              <div key={i} className="flex space-x-3">
+                <div className="w-8 h-8 bg-muted/50 rounded-full animate-pulse flex-shrink-0" />
+                <div className="flex-1 space-y-2">
+                  <div className="flex items-center space-x-2">
+                    <div className="h-4 w-24 bg-muted/50 rounded animate-pulse" />
+                    <div className="h-3 w-16 bg-muted/50 rounded animate-pulse" />
+                  </div>
+                  <div className="h-4 w-full bg-muted/50 rounded animate-pulse" />
+                  <div className="h-4 w-3/4 bg-muted/50 rounded animate-pulse" />
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     )

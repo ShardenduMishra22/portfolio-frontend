@@ -61,9 +61,9 @@ export default function BlogNavigation() {
           variant="ghost"
           size="sm"
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-          className="bg-background/90 backdrop-blur-sm border border-primary/20 hover:bg-primary/10"
+          className="bg-background/90 backdrop-blur-sm border border-border hover:bg-accent/20 text-black dark:text-white"
         >
-          {isMobileMenuOpen ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
+          {isMobileMenuOpen ? <X className="h-4 w-4 text-black dark:text-white" /> : <Menu className="h-4 w-4 text-black dark:text-white" />}
         </Button>
       </div>
 
@@ -81,32 +81,49 @@ export default function BlogNavigation() {
                   className={cn(
                     "flex items-center space-x-3 w-full max-w-xs p-4 rounded-lg transition-all",
                     isActive
-                      ? "bg-primary text-primary-foreground"
+                      ? "bg-primary text-foreground"
                       : "bg-card hover:bg-accent/20 border border-border"
                   )}
                 >
-                  <item.icon className="h-5 w-5" />
+                  <item.icon className="h-5 w-5 text-black dark:text-white" />
                   <div>
-                    <div className="font-medium">{item.name}</div>
-                    <div className="text-xs opacity-70">{item.description}</div>
+                    <div className="font-medium text-black dark:text-white">{item.name}</div>
+                    <div className="text-xs text-black dark:text-white">{item.description}</div>
                   </div>
                 </Link>
               )
             })}
             
-            <Button
-              onClick={handleLogout}
-              disabled={isLoggingOut}
-              variant="outline"
-              className="w-full max-w-xs border-destructive/50 text-destructive hover:bg-destructive hover:text-destructive-foreground"
-            >
-              {isLoggingOut ? (
-                <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-current mr-2" />
-              ) : (
-                <LogOut className="h-4 w-4 mr-2" />
-              )}
-              {isLoggingOut ? 'Signing out...' : 'Sign Out'}
-            </Button>
+            {session.data ? (
+              <Button
+                onClick={handleLogout}
+                disabled={isLoggingOut}
+                variant="outline"
+                className="w-full max-w-xs border-destructive/50 text-destructive hover:bg-destructive hover:text-destructive-foreground"
+              >
+                {isLoggingOut ? (
+                  <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-current mr-2" />
+                ) : (
+                  <LogOut className="h-4 w-4 mr-2" />
+                )}
+                {isLoggingOut ? 'Signing out...' : 'Sign Out'}
+              </Button>
+            ) : (
+              <Button 
+                onClick={async () => {
+                  try {
+                    await authClient.signIn.social({ provider: 'google' })
+                    // After successful login, redirect to /blog
+                    router.push('/blog')
+                  } catch (error) {
+                    console.error('Login error:', error)
+                  }
+                }} 
+                className="w-full max-w-xs"
+              >
+                Login with Google
+              </Button>
+            )}
           </div>
         </div>
       )}
@@ -123,7 +140,7 @@ export default function BlogNavigation() {
               </div>
               <div>
                 <h1 className="font-bold text-lg font-heading">Blog Hub</h1>
-                <p className="text-sm text-foreground">Content Management</p>
+                <p className="text-sm text-muted-foreground">Share your thoughts</p>
               </div>
             </div>
           </div>
@@ -139,14 +156,14 @@ export default function BlogNavigation() {
                   className={cn(
                     "flex items-center space-x-3 px-4 py-3 rounded-lg transition-colors",
                     isActive
-                      ? "bg-primary text-primary-foreground"
-                      : "text-foreground hover:bg-accent/20"
+                      ? "bg-primary text-foreground"
+                      : "text-black dark:text-white hover:bg-accent/20"
                   )}
                 >
-                  <item.icon className="h-4 w-4" />
+                  <item.icon className="h-4 w-4 text-black dark:text-white" />
                   <div>
-                    <div className="font-medium text-sm">{item.name}</div>
-                    <div className="text-xs opacity-70">{item.description}</div>
+                    <div className="font-medium text-sm text-black dark:text-white">{item.name}</div>
+                    <div className="text-xs text-black dark:text-white">{item.description}</div>
                   </div>
                 </Link>
               )
@@ -171,9 +188,17 @@ export default function BlogNavigation() {
               </Button>
             ) : (
               <div className="text-center space-y-3">
-                <p className="text-sm text-foreground">Please log in to continue</p>
+                <p className="text-sm text-black dark:text-white">Please log in to continue</p>
                 <Button 
-                  onClick={() => authClient.signIn.social({ provider: 'google' })} 
+                  onClick={async () => {
+                    try {
+                      await authClient.signIn.social({ provider: 'google' })
+                      // After successful login, redirect to /blog
+                      router.push('/blog')
+                    } catch (error) {
+                      console.error('Login error:', error)
+                    }
+                  }} 
                   className="w-full"
                 >
                   Login with Google

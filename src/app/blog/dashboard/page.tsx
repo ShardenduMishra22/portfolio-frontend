@@ -173,12 +173,75 @@ const BlogDashboardPage = () => {
 
   if (loading || session.isPending) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-background">
-        <div className="text-center">
-          <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center mx-auto mb-4">
-            <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-primary"></div>
+      <div className="min-h-screen bg-background">
+        <div className="space-y-6">
+          {/* Header Skeleton */}
+          <div className="flex items-center justify-between">
+            <div>
+              <div className="h-8 w-48 bg-muted/50 rounded animate-pulse mb-2" />
+              <div className="h-4 w-64 bg-muted/50 rounded animate-pulse" />
+            </div>
+            <div className="h-10 w-32 bg-muted/50 rounded-lg animate-pulse" />
           </div>
-          <p className="text-foreground">Loading dashboard...</p>
+
+          {/* Tabs Skeleton */}
+          <div className="flex space-x-1">
+            {Array.from({ length: 4 }).map((_, i) => (
+              <div key={i} className="h-10 w-20 bg-muted/50 rounded-lg animate-pulse" />
+            ))}
+          </div>
+
+          {/* Search Skeleton */}
+          <div className="max-w-2xl">
+            <div className="h-10 w-full bg-muted/50 rounded-lg animate-pulse" />
+          </div>
+
+          {/* Blog Grid Skeleton */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {Array.from({ length: 9 }).map((_, i) => (
+              <div key={i} className="bg-card border border-border rounded-lg">
+                <div className="aspect-[16/10] bg-muted/50 relative overflow-hidden rounded-t-lg" />
+                
+                <div className="p-4">
+                  <div className="flex items-center space-x-3 mb-3">
+                    <div className="w-8 h-8 bg-muted/50 rounded-full animate-pulse" />
+                    <div className="flex-1">
+                      <div className="h-4 w-24 bg-muted/50 rounded animate-pulse mb-1" />
+                      <div className="h-3 w-16 bg-muted/50 rounded animate-pulse" />
+                    </div>
+                  </div>
+                  
+                  <div className="h-6 w-3/4 bg-muted/50 rounded animate-pulse mb-2" />
+                  <div className="h-4 w-full bg-muted/50 rounded animate-pulse mb-1" />
+                  <div className="h-4 w-5/6 bg-muted/50 rounded animate-pulse mb-3" />
+                  
+                  <div className="flex flex-wrap gap-1 mb-4">
+                    <div className="h-5 w-12 bg-muted/50 rounded-full animate-pulse" />
+                    <div className="h-5 w-16 bg-muted/50 rounded-full animate-pulse" />
+                    <div className="h-5 w-14 bg-muted/50 rounded-full animate-pulse" />
+                  </div>
+                  
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center space-x-4">
+                      <div className="flex items-center space-x-1">
+                        <div className="w-4 h-4 bg-muted/50 rounded animate-pulse" />
+                        <div className="h-3 w-8 bg-muted/50 rounded animate-pulse" />
+                      </div>
+                      <div className="flex items-center space-x-1">
+                        <div className="w-4 h-4 bg-muted/50 rounded animate-pulse" />
+                        <div className="h-3 w-8 bg-muted/50 rounded animate-pulse" />
+                      </div>
+                      <div className="flex items-center space-x-1">
+                        <div className="w-4 h-4 bg-muted/50 rounded animate-pulse" />
+                        <div className="h-3 w-8 bg-muted/50 rounded animate-pulse" />
+                      </div>
+                    </div>
+                    <div className="h-8 w-20 bg-muted/50 rounded-lg animate-pulse" />
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     )

@@ -342,8 +342,20 @@ const BlogComments: React.FC<BlogCommentsProps> = ({
         {/* Comments List */}
         <div className="space-y-4">
           {loading ? (
-            <div className="flex items-center justify-center py-6">
-              <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-primary"></div>
+            <div className="space-y-4">
+              {Array.from({ length: 3 }).map((_, i) => (
+                <div key={i} className="flex space-x-3">
+                  <div className="w-8 h-8 bg-muted/50 rounded-full animate-pulse flex-shrink-0" />
+                  <div className="flex-1 space-y-2">
+                    <div className="flex items-center space-x-2">
+                      <div className="h-4 w-24 bg-muted/50 rounded animate-pulse" />
+                      <div className="h-3 w-16 bg-muted/50 rounded animate-pulse" />
+                    </div>
+                    <div className="h-4 w-full bg-muted/50 rounded animate-pulse" />
+                    <div className="h-4 w-3/4 bg-muted/50 rounded animate-pulse" />
+                  </div>
+                </div>
+              ))}
             </div>
           ) : comments.length === 0 ? (
             <div className="text-center py-6">
