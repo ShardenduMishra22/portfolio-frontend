@@ -8,7 +8,7 @@ interface SkillsSectionProps {
 
 export default function SkillsSection({ skills }: SkillsSectionProps) {
   const [currentPage, setCurrentPage] = useState(1)
-  const itemsPerPage = 48
+  const itemsPerPage = 12
   const totalPages = Math.ceil(skills.length / itemsPerPage)
   
   const startIndex = (currentPage - 1) * itemsPerPage
