@@ -56,182 +56,209 @@ const BlogStats: React.FC<BlogStatsProps> = ({
   const getActivityIcon = (type: string) => {
     switch (type) {
       case 'view':
-        return <Eye className="w-4 h-4 text-secondary" />
+        return <Eye className="w-3 h-3 text-secondary" />
       case 'like':
-        return <Heart className="w-4 h-4 text-destructive" />
+        return <Heart className="w-3 h-3 text-destructive" />
       case 'comment':
-        return <MessageCircle className="w-4 h-4 text-accent" />
+        return <MessageCircle className="w-3 h-3 text-accent" />
       case 'bookmark':
-        return <BookOpen className="w-4 h-4 text-primary" />
+        return <BookOpen className="w-3 h-3 text-primary" />
       default:
-        return <Star className="w-4 h-4 text-foreground" />
+        return <Star className="w-3 h-3 text-foreground" />
     }
   }
 
   const getActivityColor = (type: string) => {
     switch (type) {
       case 'view':
-        return 'text-secondary'
+        return 'text-secondary border-secondary/20'
       case 'like':
-        return 'text-destructive'
+        return 'text-destructive border-destructive/20'
       case 'comment':
-        return 'text-accent'
+        return 'text-accent border-accent/20'
       case 'bookmark':
-        return 'text-primary'
+        return 'text-primary border-primary/20'
       default:
-        return 'text-foreground'
+        return 'text-foreground border-border'
     }
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4">
       {/* Main Stats Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <Card className="bg-card/60 backdrop-blur-sm border-border/50">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
+        <Card className="bg-card border-border">
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-foreground">Total Posts</CardTitle>
+            <CardTitle className="text-xs font-medium text-foreground">Posts</CardTitle>
           </CardHeader>
-          <CardContent>
+          <CardContent className="pt-0">
             <div className="flex items-center space-x-2">
-              <PenTool className="w-5 h-5 text-primary" />
-              <span className="text-2xl font-bold text-foreground">{formatNumber(totalPosts)}</span>
+              <div className="w-8 h-8 bg-primary/10 rounded-lg flex items-center justify-center">
+                <PenTool className="w-4 h-4 text-primary" />
+              </div>
+              <span className="text-xl font-bold text-foreground">{formatNumber(totalPosts)}</span>
             </div>
           </CardContent>
         </Card>
 
-        <Card className="bg-card/60 backdrop-blur-sm border-border/50">
+        <Card className="bg-card border-border">
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-foreground">Total Views</CardTitle>
+            <CardTitle className="text-xs font-medium text-foreground">Views</CardTitle>
           </CardHeader>
-          <CardContent>
+          <CardContent className="pt-0">
             <div className="flex items-center space-x-2">
-              <Eye className="w-5 h-5 text-secondary" />
-              <span className="text-2xl font-bold text-foreground">{formatNumber(totalViews)}</span>
+              <div className="w-8 h-8 bg-secondary/10 rounded-lg flex items-center justify-center">
+                <Eye className="w-4 h-4 text-secondary" />
+              </div>
+              <span className="text-xl font-bold text-foreground">{formatNumber(totalViews)}</span>
             </div>
           </CardContent>
         </Card>
 
-        <Card className="bg-card/60 backdrop-blur-sm border-border/50">
+        <Card className="bg-card border-border">
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-foreground">Total Likes</CardTitle>
+            <CardTitle className="text-xs font-medium text-foreground">Likes</CardTitle>
           </CardHeader>
-          <CardContent>
+          <CardContent className="pt-0">
             <div className="flex items-center space-x-2">
-              <Heart className="w-5 h-5 text-destructive" />
-              <span className="text-2xl font-bold text-foreground">{formatNumber(totalLikes)}</span>
+              <div className="w-8 h-8 bg-destructive/10 rounded-lg flex items-center justify-center">
+                <Heart className="w-4 h-4 text-destructive" />
+              </div>
+              <span className="text-xl font-bold text-foreground">{formatNumber(totalLikes)}</span>
             </div>
           </CardContent>
         </Card>
 
-        <Card className="bg-card/60 backdrop-blur-sm border-border/50">
+        <Card className="bg-card border-border">
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-foreground">Total Comments</CardTitle>
+            <CardTitle className="text-xs font-medium text-foreground">Comments</CardTitle>
           </CardHeader>
-          <CardContent>
+          <CardContent className="pt-0">
             <div className="flex items-center space-x-2">
-              <MessageCircle className="w-5 h-5 text-accent" />
-              <span className="text-2xl font-bold text-foreground">{formatNumber(totalComments)}</span>
+              <div className="w-8 h-8 bg-accent/10 rounded-lg flex items-center justify-center">
+                <MessageCircle className="w-4 h-4 text-accent" />
+              </div>
+              <span className="text-xl font-bold text-foreground">{formatNumber(totalComments)}</span>
             </div>
           </CardContent>
         </Card>
       </div>
 
-      {/* Additional Stats */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <Card className="bg-card/60 backdrop-blur-sm border-border/50">
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-foreground">Followers</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="flex items-center space-x-2">
+      {/* Secondary Stats */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+        <Card className="bg-card border-border">
+          <CardContent className="p-4">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-xs text-foreground">Followers</p>
+                <p className="text-lg font-bold text-foreground">{formatNumber(totalFollowers)}</p>
+              </div>
               <Users className="w-5 h-5 text-primary" />
-              <span className="text-xl font-bold text-foreground">{formatNumber(totalFollowers)}</span>
             </div>
           </CardContent>
         </Card>
 
-        <Card className="bg-card/60 backdrop-blur-sm border-border/50">
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-foreground">Bookmarks</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="flex items-center space-x-2">
+        <Card className="bg-card border-border">
+          <CardContent className="p-4">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-xs text-foreground">Bookmarks</p>
+                <p className="text-lg font-bold text-foreground">{formatNumber(totalBookmarks)}</p>
+              </div>
               <BookOpen className="w-5 h-5 text-accent" />
-              <span className="text-xl font-bold text-foreground">{formatNumber(totalBookmarks)}</span>
             </div>
           </CardContent>
         </Card>
 
-        <Card className="bg-card/60 backdrop-blur-sm border-border/50">
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-foreground">Avg. Views/Post</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="flex items-center space-x-2">
+        <Card className="bg-card border-border">
+          <CardContent className="p-4">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-xs text-foreground">Avg. Views</p>
+                <p className="text-lg font-bold text-foreground">{formatNumber(averageViews)}</p>
+              </div>
               <TrendingUp className="w-5 h-5 text-secondary" />
-              <span className="text-xl font-bold text-foreground">{formatNumber(averageViews)}</span>
             </div>
           </CardContent>
         </Card>
       </div>
 
-      {/* Top Performing Post */}
-      {topPerformingPost && (
-        <Card className="bg-card/60 backdrop-blur-sm border-border/50">
-          <CardHeader>
-            <CardTitle className="text-lg">Top Performing Post</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-3">
-              <div className="flex items-center justify-between">
-                <h4 className="font-medium text-foreground line-clamp-1">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+        {/* Top Performing Post */}
+        {topPerformingPost && (
+          <Card className="bg-card border-border">
+            <CardHeader className="pb-2">
+              <CardTitle className="text-sm font-heading">Top Post</CardTitle>
+            </CardHeader>
+            <CardContent className="pt-0">
+              <div className="space-y-2">
+                <h4 className="font-medium text-foreground text-sm line-clamp-2">
                   {topPerformingPost.title}
                 </h4>
-                <Badge variant="secondary" className="bg-primary/10 text-primary">
-                  {formatNumber(topPerformingPost.views)} views
-                </Badge>
+                <div className="flex items-center justify-between">
+                  <Badge variant="secondary" className="bg-primary/10 text-primary border-primary/20">
+                    {formatNumber(topPerformingPost.views)} views
+                  </Badge>
+                  <div className="flex items-center space-x-1 text-xs text-foreground">
+                    <Star className="w-3 h-3" />
+                    <span>Best performer</span>
+                  </div>
+                </div>
               </div>
-              <div className="flex items-center space-x-4 text-sm text-foreground">
-                <div className="flex items-center space-x-1">
-                  <Eye className="w-4 h-4" />
-                  <span>Most viewed</span>
+            </CardContent>
+          </Card>
+        )}
+
+        {/* Engagement Metrics */}
+        <Card className="bg-card border-border">
+          <CardHeader className="pb-2">
+            <CardTitle className="text-sm font-heading">Engagement</CardTitle>
+          </CardHeader>
+          <CardContent className="pt-0">
+            <div className="grid grid-cols-3 gap-2">
+              <div className="text-center">
+                <div className="text-lg font-bold text-primary">
+                  {totalPosts > 0 ? ((totalLikes / totalPosts) * 100).toFixed(1) : '0'}%
                 </div>
-                <div className="flex items-center space-x-1">
-                  <Star className="w-4 h-4" />
-                  <span>Top performer</span>
+                <p className="text-xs text-foreground">Likes</p>
+              </div>
+              <div className="text-center">
+                <div className="text-lg font-bold text-secondary">
+                  {totalPosts > 0 ? ((totalComments / totalPosts) * 100).toFixed(1) : '0'}%
                 </div>
+                <p className="text-xs text-foreground">Comments</p>
+              </div>
+              <div className="text-center">
+                <div className="text-lg font-bold text-accent">
+                  {totalPosts > 0 ? ((totalBookmarks / totalPosts) * 100).toFixed(1) : '0'}%
+                </div>
+                <p className="text-xs text-foreground">Bookmarks</p>
               </div>
             </div>
           </CardContent>
         </Card>
-      )}
+      </div>
 
       {/* Recent Activity */}
       {recentActivity.length > 0 && (
-        <Card className="bg-card/60 backdrop-blur-sm border-border/50">
-          <CardHeader>
-            <CardTitle className="text-lg">Recent Activity</CardTitle>
+        <Card className="bg-card border-border">
+          <CardHeader className="pb-2">
+            <CardTitle className="text-sm font-heading">Recent Activity</CardTitle>
           </CardHeader>
-          <CardContent>
-            <div className="space-y-3">
-              {recentActivity.slice(0, 5).map((activity, index) => (
-                <div key={index} className="flex items-center justify-between py-2">
-                  <div className="flex items-center space-x-3">
+          <CardContent className="pt-0">
+            <div className="space-y-2">
+              {recentActivity.slice(0, 4).map((activity, index) => (
+                <div key={index} className="flex items-center justify-between py-1">
+                  <div className="flex items-center space-x-2">
                     {getActivityIcon(activity.type)}
                     <div>
                       <p className="text-sm font-medium text-foreground">
-                        {activity.count} {activity.type}
-                        {activity.count !== 1 ? 's' : ''}
+                        {activity.count} {activity.type}{activity.count !== 1 ? 's' : ''}
                       </p>
-                      <p className="text-xs text-foreground">
-                        {activity.timeAgo}
-                      </p>
+                      <p className="text-xs text-foreground">{activity.timeAgo}</p>
                     </div>
                   </div>
-                  <Badge 
-                    variant="outline" 
-                    className={`${getActivityColor(activity.type)} border-current`}
-                  >
+                  <Badge variant="outline" className={`text-xs ${getActivityColor(activity.type)}`}>
                     {activity.type}
                   </Badge>
                 </div>
@@ -240,37 +267,8 @@ const BlogStats: React.FC<BlogStatsProps> = ({
           </CardContent>
         </Card>
       )}
-
-      {/* Engagement Rate */}
-      <Card className="bg-card/60 backdrop-blur-sm border-border/50">
-        <CardHeader>
-          <CardTitle className="text-lg">Engagement Metrics</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div className="text-center">
-              <div className="text-2xl font-bold text-primary">
-                {totalPosts > 0 ? ((totalLikes / totalPosts) * 100).toFixed(1) : '0'}%
-              </div>
-              <p className="text-sm text-foreground">Like Rate</p>
-            </div>
-            <div className="text-center">
-              <div className="text-2xl font-bold text-secondary">
-                {totalPosts > 0 ? ((totalComments / totalPosts) * 100).toFixed(1) : '0'}%
-              </div>
-              <p className="text-sm text-foreground">Comment Rate</p>
-            </div>
-            <div className="text-center">
-              <div className="text-2xl font-bold text-accent">
-                {totalPosts > 0 ? ((totalBookmarks / totalPosts) * 100).toFixed(1) : '0'}%
-              </div>
-              <p className="text-sm text-foreground">Bookmark Rate</p>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
     </div>
   )
 }
 
-export default BlogStats 
+export default BlogStats

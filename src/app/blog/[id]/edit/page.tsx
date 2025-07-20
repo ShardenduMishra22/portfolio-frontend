@@ -7,8 +7,6 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
-import { Textarea } from '@/components/ui/textarea'
-import { Label } from '@/components/ui/label'
 import { Separator } from '@/components/ui/separator'
 import { 
   ArrowLeft, 
@@ -39,7 +37,6 @@ const BlogEditPage = ({ params }: { params: Promise<{ id: string }> }) => {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
-  const [success, setSuccess] = useState('')
 
   useEffect(() => {
     if (resolvedParams.id) {
@@ -106,17 +103,24 @@ const BlogEditPage = ({ params }: { params: Promise<{ id: string }> }) => {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+      <div className="min-h-screen flex items-center justify-center bg-background">
+        <div className="text-center">
+          <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center mx-auto mb-4">
+            <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-primary"></div>
+          </div>
+          <p className="text-foreground">Loading blog post...</p>
+        </div>
       </div>
     )
   }
 
   if (!session) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
+      <div className="min-h-screen flex items-center justify-center bg-background">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto mb-4"></div>
+          <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center mx-auto mb-4">
+            <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-primary"></div>
+          </div>
           <p className="text-foreground">Please log in to edit blog posts.</p>
         </div>
       </div>
@@ -125,10 +129,12 @@ const BlogEditPage = ({ params }: { params: Promise<{ id: string }> }) => {
 
   if (error && error.includes('not authorized')) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
+      <div className="min-h-screen flex items-center justify-center bg-background">
         <div className="text-center">
-          <AlertCircle className="w-16 h-16 text-destructive mx-auto mb-4" />
-          <h2 className="text-2xl font-bold text-foreground mb-2">Access Denied</h2>
+          <div className="w-16 h-16 bg-destructive/10 rounded-xl flex items-center justify-center mx-auto mb-4">
+            <AlertCircle className="w-8 h-8 text-destructive" />
+          </div>
+          <h2 className="text-xl font-bold font-heading text-foreground mb-2">Access Denied</h2>
           <p className="text-foreground mb-4">{error}</p>
           <Button onClick={() => router.push('/blog/dashboard')}>
             <ArrowLeft className="w-4 h-4 mr-2" />
@@ -141,9 +147,9 @@ const BlogEditPage = ({ params }: { params: Promise<{ id: string }> }) => {
 
   if (!blog) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
+      <div className="min-h-screen flex items-center justify-center bg-background">
         <div className="text-center">
-          <h2 className="text-2xl font-bold text-foreground mb-2">Blog not found</h2>
+          <h2 className="text-xl font-bold font-heading text-foreground mb-2">Blog not found</h2>
           <p className="text-foreground mb-4">The blog post you&apos;re trying to edit doesn&apos;t exist.</p>
           <Button onClick={() => router.push('/blog/dashboard')}>
             <ArrowLeft className="w-4 h-4 mr-2" />
@@ -155,50 +161,47 @@ const BlogEditPage = ({ params }: { params: Promise<{ id: string }> }) => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-100 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900">
+    <div className="min-h-screen bg-background">
       {/* Header */}
-      <header className="border-b border-slate-200 dark:border-slate-700 bg-white/80 dark:bg-slate-800/80 backdrop-blur-xl sticky top-0 z-40 shadow-sm">
-        <div className="container mx-auto px-8 py-6">
+      <header className="border-b border-border bg-card/50 backdrop-blur-sm sticky top-0 z-40">
+        <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-6">
+            <div className="flex items-center space-x-4">
               <Button
                 variant="ghost"
                 onClick={() => router.back()}
-                className="text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-700 rounded-xl h-12 px-4"
+                className="h-9 px-3"
               >
-                <ArrowLeft className="w-5 h-5 mr-3" />
+                <ArrowLeft className="w-4 h-4 mr-2" />
                 Back
               </Button>
-              <div className="flex items-center space-x-4">
-                <div className="relative">
-                  <div className="w-12 h-12 bg-gradient-to-br from-amber-500 via-orange-500 to-red-500 rounded-2xl flex items-center justify-center shadow-lg">
-                    <BookOpen className="w-6 h-6 text-white" />
-                  </div>
-                  <div className="absolute -top-1 -right-1 w-4 h-4 bg-yellow-400 rounded-full border-2 border-white dark:border-slate-800"></div>
+              <div className="flex items-center space-x-3">
+                <div className="w-8 h-8 bg-secondary rounded-lg flex items-center justify-center">
+                  <BookOpen className="w-4 h-4 text-secondary-foreground" />
                 </div>
                 <div>
-                  <h1 className="text-3xl font-bold text-slate-900 dark:text-white font-heading">Edit Post</h1>
-                  <p className="text-base text-slate-600 dark:text-slate-400 mt-1">Update your blog post content</p>
+                  <h1 className="text-xl font-bold font-heading text-foreground">Edit Post</h1>
+                  <p className="text-sm text-foreground">Update your blog post</p>
                 </div>
               </div>
             </div>
             
-            <div className="flex items-center space-x-4">
+            <div className="flex items-center space-x-2">
               <Button
                 variant="outline"
                 onClick={() => setIsPreview(!isPreview)}
-                className="h-12 px-6 border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700 rounded-xl font-semibold"
+                className="h-9 px-3"
               >
-                {isPreview ? <EyeOff className="w-5 h-5 mr-3" /> : <Eye className="w-5 h-5 mr-3" />}
+                {isPreview ? <EyeOff className="w-4 h-4 mr-2" /> : <Eye className="w-4 h-4 mr-2" />}
                 {isPreview ? 'Edit' : 'Preview'}
               </Button>
               
               <Button
                 onClick={handleSubmit}
                 disabled={isSubmitting || !title.trim() || !content.trim()}
-                className="h-12 px-8 bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-600 hover:to-orange-700 text-white shadow-xl shadow-amber-500/25 rounded-xl font-semibold transition-all duration-300 hover:scale-105"
+                className="h-9 px-4"
               >
-                <Save className="w-5 h-5 mr-3" />
+                <Save className="w-4 h-4 mr-2" />
                 {isSubmitting ? 'Saving...' : 'Save Changes'}
               </Button>
             </div>
@@ -208,54 +211,59 @@ const BlogEditPage = ({ params }: { params: Promise<{ id: string }> }) => {
 
       {/* Error Message */}
       {error && (
-        <div className="container mx-auto px-6 py-4">
-          <Card className="bg-destructive/10 border-destructive/20">
-            <CardContent className="py-4">
-              <div className="flex items-center space-x-2 text-destructive">
-                <AlertCircle className="w-5 h-5" />
-                <span>{error}</span>
-              </div>
-            </CardContent>
-          </Card>
+        <div className="container mx-auto px-4 py-3">
+          <div className="p-3 bg-destructive/10 border border-destructive/20 rounded-lg">
+            <div className="flex items-center space-x-2 text-destructive">
+              <AlertCircle className="w-4 h-4" />
+              <span className="text-sm">{error}</span>
+            </div>
+          </div>
         </div>
       )}
 
       {/* Main Content */}
-      <main className="container mx-auto px-6 py-8">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      <main className="container mx-auto px-4 py-6">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Editor Section */}
           <div className="lg:col-span-2 space-y-6">
             {/* Title Input */}
-            <Card className="bg-card/60 backdrop-blur-sm border-border/50">
-              <CardHeader>
-                <CardTitle className="flex items-center space-x-2">
-                  <Sparkles className="w-5 h-5 text-primary" />
-                  <span>Post Title</span>
+            <Card className="bg-card border-border">
+              <CardHeader className="pb-3">
+                <CardTitle className="flex items-center space-x-2 text-base font-heading">
+                  <div className="w-6 h-6 bg-primary/10 rounded-lg flex items-center justify-center">
+                    <Sparkles className="w-3 h-3 text-primary" />
+                  </div>
+                  Post Title
                 </CardTitle>
-                <CardDescription>
-                  Update your post title to better reflect the content
+                <CardDescription className="text-sm">
+                  Update your post title
                 </CardDescription>
               </CardHeader>
-              <CardContent>
+              <CardContent className="pt-0">
                 <Input
                   placeholder="Enter your post title..."
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
-                  className="text-lg font-medium bg-card/60 backdrop-blur-sm border-border/50"
+                  className="text-lg font-medium bg-background border-border h-12"
                 />
               </CardContent>
             </Card>
 
             {/* Content Editor */}
-            <Card className="bg-card/60 backdrop-blur-sm border-border/50">
-              <CardHeader>
-                <CardTitle>Content</CardTitle>
-                <CardDescription>
-                  Update your blog post content using the rich text editor below
+            <Card className="bg-card border-border">
+              <CardHeader className="pb-3">
+                <CardTitle className="flex items-center space-x-2 text-base font-heading">
+                  <div className="w-6 h-6 bg-secondary/10 rounded-lg flex items-center justify-center">
+                    <BookOpen className="w-3 h-3 text-secondary" />
+                  </div>
+                  Content
+                </CardTitle>
+                <CardDescription className="text-sm">
+                  Update your blog post content
                 </CardDescription>
               </CardHeader>
-              <CardContent>
-                <div className="min-h-[400px]">
+              <CardContent className="pt-0">
+                <div className="min-h-[350px] bg-background rounded-lg p-4 border border-border">
                   <TipTap
                     value={content}
                     onChange={setContent}
@@ -268,30 +276,32 @@ const BlogEditPage = ({ params }: { params: Promise<{ id: string }> }) => {
           {/* Sidebar */}
           <div className="space-y-6">
             {/* Tags */}
-            <Card className="bg-card/60 backdrop-blur-sm border-border/50">
-              <CardHeader>
-                <CardTitle className="flex items-center space-x-2">
-                  <Tag className="w-5 h-5 text-primary" />
-                  <span>Tags</span>
+            <Card className="bg-card border-border">
+              <CardHeader className="pb-3">
+                <CardTitle className="flex items-center space-x-2 text-base font-heading">
+                  <div className="w-6 h-6 bg-accent/10 rounded-lg flex items-center justify-center">
+                    <Tag className="w-3 h-3 text-accent" />
+                  </div>
+                  Tags
                 </CardTitle>
-                <CardDescription>
-                  Update tags to help readers find your post
+                <CardDescription className="text-sm">
+                  Update tags for better discoverability
                 </CardDescription>
               </CardHeader>
-              <CardContent className="space-y-4">
+              <CardContent className="pt-0 space-y-4">
                 <div className="flex space-x-2">
                   <Input
                     placeholder="Add a tag..."
                     value={newTag}
                     onChange={(e) => setNewTag(e.target.value)}
                     onKeyPress={(e) => e.key === 'Enter' && handleAddTag()}
-                    className="bg-card/60 backdrop-blur-sm border-border/50"
+                    className="bg-background border-border h-9"
                   />
                   <Button
                     onClick={handleAddTag}
                     disabled={!newTag.trim()}
                     size="sm"
-                    className="bg-primary hover:bg-primary/90"
+                    className="h-9 w-9 p-0"
                   >
                     <Plus className="w-4 h-4" />
                   </Button>
@@ -303,12 +313,12 @@ const BlogEditPage = ({ params }: { params: Promise<{ id: string }> }) => {
                       <Badge
                         key={index}
                         variant="secondary"
-                        className="flex items-center space-x-1 bg-primary/10 text-primary hover:bg-primary/20"
+                        className="flex items-center space-x-1 text-xs"
                       >
                         <span>{tag}</span>
                         <button
                           onClick={() => handleRemoveTag(tag)}
-                          className="ml-1 hover:text-primary/80"
+                          className="ml-1 hover:text-destructive transition-colors"
                         >
                           <X className="w-3 h-3" />
                         </button>
@@ -321,16 +331,21 @@ const BlogEditPage = ({ params }: { params: Promise<{ id: string }> }) => {
 
             {/* Preview */}
             {isPreview && (
-              <Card className="bg-card/60 backdrop-blur-sm border-border/50">
-                <CardHeader>
-                  <CardTitle>Preview</CardTitle>
-                  <CardDescription>
-                    How your updated post will appear to readers
+              <Card className="bg-card border-border">
+                <CardHeader className="pb-3">
+                  <CardTitle className="flex items-center space-x-2 text-base font-heading">
+                    <div className="w-6 h-6 bg-primary/10 rounded-lg flex items-center justify-center">
+                      <Eye className="w-3 h-3 text-primary" />
+                    </div>
+                    Preview
+                  </CardTitle>
+                  <CardDescription className="text-sm">
+                    How your updated post will appear
                   </CardDescription>
                 </CardHeader>
-                <CardContent>
-                  <div className="space-y-4">
-                    <h1 className="text-2xl font-bold text-foreground font-heading">
+                <CardContent className="pt-0">
+                  <div className="space-y-4 bg-muted/50 rounded-lg p-4">
+                    <h1 className="text-xl font-bold font-heading text-foreground">
                       {title || 'Your post title will appear here'}
                     </h1>
                     <Separator />
@@ -353,11 +368,11 @@ const BlogEditPage = ({ params }: { params: Promise<{ id: string }> }) => {
             )}
 
             {/* Original Post Info */}
-            <Card className="bg-card/60 backdrop-blur-sm border-border/50">
-              <CardHeader>
-                <CardTitle className="text-lg">Original Post Info</CardTitle>
+            <Card className="bg-card border-border">
+              <CardHeader className="pb-3">
+                <CardTitle className="text-base font-heading">Post Stats</CardTitle>
               </CardHeader>
-              <CardContent className="space-y-3">
+              <CardContent className="pt-0 space-y-2">
                 <div className="flex items-center justify-between">
                   <span className="text-sm text-foreground">Created:</span>
                   <span className="text-sm font-medium">
@@ -392,33 +407,38 @@ const BlogEditPage = ({ params }: { params: Promise<{ id: string }> }) => {
             </Card>
 
             {/* Editing Tips */}
-            <Card className="bg-card/60 backdrop-blur-sm border-border/50">
-              <CardHeader>
-                <CardTitle className="text-lg">Editing Tips</CardTitle>
+            <Card className="bg-card border-border">
+              <CardHeader className="pb-3">
+                <CardTitle className="flex items-center space-x-2 text-base font-heading">
+                  <div className="w-6 h-6 bg-primary/10 rounded-lg flex items-center justify-center">
+                    <Sparkles className="w-3 h-3 text-primary" />
+                  </div>
+                  Editing Tips
+                </CardTitle>
               </CardHeader>
-              <CardContent className="space-y-3">
-                <div className="flex items-start space-x-2">
+              <CardContent className="pt-0 space-y-3">
+                <div className="flex items-start space-x-3">
                   <div className="w-2 h-2 bg-primary rounded-full mt-2 flex-shrink-0"></div>
                   <p className="text-sm text-foreground">
-                    Make sure your title accurately reflects the content
+                    Update title to reflect content accurately
                   </p>
                 </div>
-                <div className="flex items-start space-x-2">
+                <div className="flex items-start space-x-3">
                   <div className="w-2 h-2 bg-secondary rounded-full mt-2 flex-shrink-0"></div>
                   <p className="text-sm text-foreground">
-                    Update tags to improve discoverability
+                    Revise tags for better discoverability
                   </p>
                 </div>
-                <div className="flex items-start space-x-2">
+                <div className="flex items-start space-x-3">
                   <div className="w-2 h-2 bg-accent rounded-full mt-2 flex-shrink-0"></div>
                   <p className="text-sm text-foreground">
-                    Preview your changes before saving
+                    Preview changes before saving
                   </p>
                 </div>
-                <div className="flex items-start space-x-2">
-                  <div className="w-2 h-2 bg-muted rounded-full mt-2 flex-shrink-0"></div>
+                <div className="flex items-start space-x-3">
+                  <div className="w-2 h-2 bg-destructive rounded-full mt-2 flex-shrink-0"></div>
                   <p className="text-sm text-foreground">
-                    Consider the impact on existing readers
+                    Consider impact on existing readers
                   </p>
                 </div>
               </CardContent>
@@ -430,4 +450,4 @@ const BlogEditPage = ({ params }: { params: Promise<{ id: string }> }) => {
   )
 }
 
-export default BlogEditPage 
+export default BlogEditPage

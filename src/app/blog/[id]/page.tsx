@@ -87,7 +87,6 @@ const BlogPostPage = ({ params }: { params: Promise<{ id: string }> }) => {
     try {
       const response = await blogsService.getBlogComments(resolvedParams.id)
       if (response.success && response.data) {
-        // The API returns comments directly in data array, not data.data
         setComments(Array.isArray(response.data) ? response.data : [])
       }
     } catch (error) {
@@ -176,12 +175,12 @@ const BlogPostPage = ({ params }: { params: Promise<{ id: string }> }) => {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-50 via-white to-slate-100 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900">
+      <div className="min-h-screen flex items-center justify-center bg-background">
         <div className="text-center">
-          <div className="relative mx-auto mb-6 w-16 h-16 bg-gradient-to-br from-blue-500 via-purple-500 to-pink-500 rounded-2xl flex items-center justify-center shadow-xl">
-            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-white"></div>
+          <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center mx-auto mb-4">
+            <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-primary"></div>
           </div>
-          <p className="text-slate-700 dark:text-slate-300 text-lg font-medium">Loading blog post...</p>
+          <p className="text-foreground">Loading blog post...</p>
         </div>
       </div>
     )
@@ -189,18 +188,15 @@ const BlogPostPage = ({ params }: { params: Promise<{ id: string }> }) => {
 
   if (!blog) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-50 via-white to-slate-100 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900">
+      <div className="min-h-screen flex items-center justify-center bg-background">
         <div className="text-center">
-          <div className="relative mx-auto mb-6 w-20 h-20 bg-gradient-to-br from-red-500 via-pink-500 to-rose-500 rounded-2xl flex items-center justify-center shadow-xl">
-            <BookOpen className="w-10 h-10 text-white" />
+          <div className="w-16 h-16 bg-destructive/10 rounded-xl flex items-center justify-center mx-auto mb-4">
+            <BookOpen className="w-8 h-8 text-destructive" />
           </div>
-          <h2 className="text-3xl font-bold text-slate-900 dark:text-white mb-3">Blog not found</h2>
-          <p className="text-slate-600 dark:text-slate-400 text-lg mb-6">The blog post you&apos;re looking for doesn&lsquo;t exist.</p>
-          <Button 
-            onClick={() => router.push('/blog/landing')}
-            className="h-12 px-8 bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white shadow-xl shadow-blue-500/25 rounded-xl font-semibold transition-all duration-300 hover:scale-105"
-          >
-            <ArrowLeft className="w-5 h-5 mr-3" />
+          <h2 className="text-xl font-bold font-heading text-foreground mb-2">Blog not found</h2>
+          <p className="text-foreground text-sm mb-6">The blog post you&apos;re looking for doesn&apos;t exist.</p>
+          <Button onClick={() => router.push('/blog/landing')}>
+            <ArrowLeft className="w-4 h-4 mr-2" />
             Back to Blog
           </Button>
         </div>
@@ -209,21 +205,21 @@ const BlogPostPage = ({ params }: { params: Promise<{ id: string }> }) => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-card to-muted/20">
+    <div className="min-h-screen bg-background">
       {/* Header */}
-      <header className="border-b border-border/50 bg-card/60 backdrop-blur-sm">
-        <div className="container mx-auto px-6 py-4">
+      <header className="border-b border-border bg-card/50 backdrop-blur-sm sticky top-0 z-10">
+        <div className="container mx-auto px-4 py-3">
           <div className="flex items-center justify-between">
             <Button
               variant="ghost"
               onClick={() => router.back()}
-              className="text-foreground hover:text-foreground"
+              size="sm"
             >
               <ArrowLeft className="w-4 h-4 mr-2" />
               Back
             </Button>
             
-            <div className="flex items-center space-x-4">
+            <div className="flex items-center space-x-2">
               <Button variant="outline" size="sm">
                 <Share2 className="w-4 h-4 mr-2" />
                 Share
@@ -244,103 +240,105 @@ const BlogPostPage = ({ params }: { params: Promise<{ id: string }> }) => {
       </header>
 
       {/* Main Content */}
-      <main className="container mx-auto px-6 py-8">
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
+      <main className="container mx-auto px-4 py-6">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Blog Content */}
-          <div className="lg:col-span-3">
+          <div className="lg:col-span-2">
             {/* Blog Header */}
-            <Card className="bg-card/60 backdrop-blur-sm border-border/50 mb-8">
-              <CardHeader>
-                <div className="flex items-start justify-between">
-                  <div className="flex items-center space-x-3">
-                    <Avatar className="w-12 h-12">
-                      <AvatarImage src={blog.authorProfile?.avatar || ''} />
-                      <AvatarFallback className="bg-primary/10 text-primary">
-                        {getInitials(blog.authorProfile?.firstName || '', blog.authorProfile?.lastName || '')}
-                      </AvatarFallback>
-                    </Avatar>
-                    <div>
-                      <p className="font-semibold text-foreground">
-                        {blog.authorProfile?.firstName} {blog.authorProfile?.lastName}
-                      </p>
-                      <p className="text-sm text-foreground flex items-center">
-                        <Calendar className="w-4 h-4 mr-1" />
-                        {formatDate(blog.createdAt)}
-                      </p>
-                    </div>
+            <Card className="bg-card border-border mb-6">
+              <CardHeader className="pb-4">
+                <div className="flex items-center space-x-3">
+                  <Avatar className="w-10 h-10">
+                    <AvatarImage src={blog.authorProfile?.avatar || ''} />
+                    <AvatarFallback className="bg-primary/10 text-primary text-sm">
+                      {getInitials(blog.authorProfile?.firstName || '', blog.authorProfile?.lastName || '')}
+                    </AvatarFallback>
+                  </Avatar>
+                  <div>
+                    <p className="font-medium text-foreground">
+                      {blog.authorProfile?.firstName} {blog.authorProfile?.lastName}
+                    </p>
+                    <p className="text-xs text-foreground flex items-center">
+                      <Calendar className="w-3 h-3 mr-1" />
+                      {formatDate(blog.createdAt)}
+                    </p>
                   </div>
                 </div>
               </CardHeader>
               
-              <CardContent>
-                <h1 className="text-4xl font-bold text-foreground font-heading mb-4">
+              <CardContent className="pt-0">
+                <h1 className="text-3xl font-bold text-foreground font-heading mb-4">
                   {blog.title}
                 </h1>
                 
-                <div className="flex flex-wrap gap-2 mb-6">
+                <div className="flex flex-wrap gap-1 mb-4">
                   {blog.tags?.map((tag, index) => (
-                    <Badge key={index} variant="secondary" className="text-sm">
+                    <Badge key={index} variant="secondary" className="text-xs">
                       {tag}
                     </Badge>
                   ))}
                 </div>
                 
                 <div 
-                  className="prose prose-lg max-w-none text-foreground"
+                  className="prose prose-sm max-w-none text-foreground"
                   dangerouslySetInnerHTML={{ __html: blog.content }}
                 />
               </CardContent>
             </Card>
 
             {/* Interaction Bar */}
-            <Card className="bg-card/60 backdrop-blur-sm border-border/50 mb-8">
-              <CardContent className="py-4">
+            <Card className="bg-card border-border mb-6">
+              <CardContent className="py-3">
                 <div className="flex items-center justify-between">
-                  <div className="flex items-center space-x-6">
+                  <div className="flex items-center space-x-4">
                     <Button
                       variant="ghost"
                       onClick={handleLike}
-                      className={`flex items-center space-x-2 ${isLiked ? 'text-destructive' : 'text-foreground'}`}
+                      size="sm"
+                      className={`flex items-center space-x-1 ${isLiked ? 'text-destructive' : 'text-foreground'} hover:text-destructive`}
                     >
-                      <Heart className={`w-5 h-5 ${isLiked ? 'fill-current' : ''}`} />
-                      <span>{likesCount}</span>
+                      <Heart className={`w-4 h-4 ${isLiked ? 'fill-current' : ''}`} />
+                      <span className="text-sm">{likesCount}</span>
                     </Button>
                     
-                    <div className="flex items-center space-x-2 text-foreground">
-                      <Eye className="w-5 h-5" />
-                      <span>{viewsCount}</span>
+                    <div className="flex items-center space-x-1 text-foreground">
+                      <Eye className="w-4 h-4" />
+                      <span className="text-sm">{viewsCount}</span>
                     </div>
                     
-                    <div className="flex items-center space-x-2 text-foreground">
-                      <MessageCircle className="w-5 h-5" />
-                      <span>{commentsCount}</span>
+                    <div className="flex items-center space-x-1 text-foreground">
+                      <MessageCircle className="w-4 h-4" />
+                      <span className="text-sm">{commentsCount}</span>
                     </div>
                   </div>
                   
                   <Button
                     variant="ghost"
                     onClick={handleBookmark}
+                    size="sm"
                     className={isBookmarked ? 'text-primary' : 'text-foreground'}
                   >
-                    <Bookmark className={`w-5 h-5 ${isBookmarked ? 'fill-current' : ''}`} />
+                    <Bookmark className={`w-4 h-4 ${isBookmarked ? 'fill-current' : ''}`} />
                   </Button>
                 </div>
               </CardContent>
             </Card>
 
             {/* Comments Section */}
-            <Card className="bg-card/60 backdrop-blur-sm border-border/50">
-              <CardHeader>
-                <CardTitle className="flex items-center space-x-2">
-                  <MessageCircle className="w-5 h-5 text-primary" />
+            <Card className="bg-card border-border">
+              <CardHeader className="pb-3">
+                <CardTitle className="flex items-center space-x-2 text-base font-heading">
+                  <div className="w-6 h-6 bg-primary/10 rounded-full flex items-center justify-center">
+                    <MessageCircle className="w-3 h-3 text-primary" />
+                  </div>
                   <span>Comments ({commentsCount})</span>
                 </CardTitle>
               </CardHeader>
               
-              <CardContent className="space-y-6">
+              <CardContent className="pt-0 space-y-4">
                 {/* Add Comment */}
                 {session?.data?.user && (
-                  <div className="space-y-4">
+                  <div className="space-y-3">
                     <div className="flex items-start space-x-3">
                       <Avatar className="w-8 h-8">
                         <AvatarImage src={session.data.user.image || ''} />
@@ -353,19 +351,18 @@ const BlogPostPage = ({ params }: { params: Promise<{ id: string }> }) => {
                           placeholder="Write a comment..."
                           value={newComment}
                           onChange={(e) => setNewComment(e.target.value)}
-                          className="min-h-[100px] bg-card/60 backdrop-blur-sm border-border/50"
+                          className="min-h-[80px] bg-background border-border resize-none"
                         />
                         <div className="flex items-center justify-between">
                           <p className="text-xs text-foreground">
-                            Press Enter to submit
+                            Press Ctrl+Enter to submit
                           </p>
                           <Button
                             onClick={handleAddComment}
                             disabled={!newComment.trim()}
                             size="sm"
-                            className="bg-primary hover:bg-primary/90"
                           >
-                            <Send className="w-4 h-4 mr-2" />
+                            <Send className="w-3 h-3 mr-1" />
                             Comment
                           </Button>
                         </div>
@@ -377,7 +374,7 @@ const BlogPostPage = ({ params }: { params: Promise<{ id: string }> }) => {
                 <Separator />
 
                 {/* Comments List */}
-                <div className="space-y-6">
+                <div className="space-y-4">
                   {comments.map((comment) => (
                     <div key={comment.id} className="flex items-start space-x-3">
                       <Avatar className="w-8 h-8">
@@ -387,33 +384,25 @@ const BlogPostPage = ({ params }: { params: Promise<{ id: string }> }) => {
                         </AvatarFallback>
                       </Avatar>
                       <div className="flex-1">
-                        <div className="flex items-center space-x-2 mb-2">
-                          <p className="font-medium text-foreground">
+                        <div className="flex items-center space-x-2 mb-1">
+                          <p className="font-medium text-foreground text-sm">
                             {comment.userProfile?.firstName} {comment.userProfile?.lastName}
                           </p>
                           <p className="text-xs text-foreground">
                             {formatDate(comment.createdAt)}
                           </p>
                         </div>
-                        <p className="text-foreground mb-2">{comment.content}</p>
-                        <div className="flex items-center space-x-4">
-                          <Button variant="ghost" size="sm" className="text-foreground hover:text-foreground">
-                            <ThumbsUp className="w-4 h-4 mr-1" />
-                            Like
-                          </Button>
-                          <Button variant="ghost" size="sm" className="text-foreground hover:text-foreground">
-                            <Reply className="w-4 h-4 mr-1" />
-                            Reply
-                          </Button>
-                        </div>
+                        <p className="text-foreground text-sm mb-2">{comment.content}</p>
                       </div>
                     </div>
                   ))}
                   
                   {comments.length === 0 && (
                     <div className="text-center py-8">
-                      <MessageCircle className="w-12 h-12 text-foreground mx-auto mb-4" />
-                      <p className="text-foreground">No comments yet. Be the first to comment!</p>
+                      <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-3">
+                        <MessageCircle className="w-6 h-6 text-primary" />
+                      </div>
+                      <p className="text-foreground text-sm">No comments yet. Be the first to comment!</p>
                     </div>
                   )}
                 </div>
@@ -422,46 +411,62 @@ const BlogPostPage = ({ params }: { params: Promise<{ id: string }> }) => {
           </div>
 
           {/* Sidebar */}
-          <div className="space-y-6">
+          <div className="space-y-4">
             {/* Author Info */}
-            <Card className="bg-card/60 backdrop-blur-sm border-border/50">
-              <CardHeader>
-                <CardTitle className="text-lg">About the Author</CardTitle>
+            <Card className="bg-card border-border">
+              <CardHeader className="pb-3">
+                <CardTitle className="text-base font-heading">About the Author</CardTitle>
               </CardHeader>
-              <CardContent>
+              <CardContent className="pt-0">
                 <div className="flex items-center space-x-3 mb-4">
-                  <Avatar className="w-12 h-12">
+                  <Avatar className="w-10 h-10">
                     <AvatarImage src={blog.authorProfile?.avatar || ''} />
-                    <AvatarFallback className="bg-primary/10 text-primary">
+                    <AvatarFallback className="bg-primary/10 text-primary text-sm">
                       {getInitials(blog.authorProfile?.firstName || '', blog.authorProfile?.lastName || '')}
                     </AvatarFallback>
                   </Avatar>
                   <div>
-                    <p className="font-semibold text-foreground">
+                    <p className="font-medium text-foreground text-sm">
                       {blog.authorProfile?.firstName} {blog.authorProfile?.lastName}
                     </p>
-                    <p className="text-sm text-foreground">
+                    <p className="text-xs text-foreground">
                       {blog.author?.email}
                     </p>
                   </div>
                 </div>
-                <Button variant="outline" className="w-full">
+                <Button variant="outline" size="sm" className="w-full">
                   <User className="w-4 h-4 mr-2" />
                   View Profile
                 </Button>
               </CardContent>
             </Card>
 
-            {/* Related Posts */}
-            <Card className="bg-card/60 backdrop-blur-sm border-border/50">
-              <CardHeader>
-                <CardTitle className="text-lg">Related Posts</CardTitle>
+            {/* Tags */}
+            <Card className="bg-card border-border">
+              <CardHeader className="pb-3">
+                <CardTitle className="text-base font-heading">Tags</CardTitle>
               </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
-                  <div className="p-4 border border-border/50 rounded-lg">
-                    <h4 className="font-medium text-foreground mb-2">Sample Related Post</h4>
-                    <p className="text-sm text-foreground mb-2">
+              <CardContent className="pt-0">
+                <div className="flex flex-wrap gap-1">
+                  {blog.tags?.map((tag, index) => (
+                    <Badge key={index} variant="outline" className="cursor-pointer hover:bg-primary/10 text-xs">
+                      {tag}
+                    </Badge>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Related Posts */}
+            <Card className="bg-card border-border">
+              <CardHeader className="pb-3">
+                <CardTitle className="text-base font-heading">Related Posts</CardTitle>
+              </CardHeader>
+              <CardContent className="pt-0">
+                <div className="space-y-3">
+                  <div className="p-3 border border-border rounded-lg">
+                    <h4 className="font-medium text-foreground mb-2 text-sm">Sample Related Post</h4>
+                    <p className="text-xs text-foreground mb-2">
                       This is a sample related post that would appear here...
                     </p>
                     <div className="flex items-center space-x-2 text-xs text-foreground">
@@ -474,22 +479,6 @@ const BlogPostPage = ({ params }: { params: Promise<{ id: string }> }) => {
                 </div>
               </CardContent>
             </Card>
-
-            {/* Tags */}
-            <Card className="bg-card/60 backdrop-blur-sm border-border/50">
-              <CardHeader>
-                <CardTitle className="text-lg">Tags</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="flex flex-wrap gap-2">
-                  {blog.tags?.map((tag, index) => (
-                    <Badge key={index} variant="outline" className="cursor-pointer hover:bg-primary/10">
-                      {tag}
-                    </Badge>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
           </div>
         </div>
       </main>
@@ -497,4 +486,4 @@ const BlogPostPage = ({ params }: { params: Promise<{ id: string }> }) => {
   )
 }
 
-export default BlogPostPage 
+export default BlogPostPage

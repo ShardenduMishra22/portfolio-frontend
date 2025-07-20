@@ -56,7 +56,6 @@ const CreateBlogPage = () => {
       return
     }
 
-    // Get user ID from session
     const userId = session?.data?.user?.id
     
     if (!userId) {
@@ -74,7 +73,7 @@ const CreateBlogPage = () => {
         title: title.trim(),
         content: content.trim(),
         tags: tags,
-        authorId: userId, // Add the authorId to the request
+        authorId: userId,
       })
 
       if (response.success) {
@@ -88,7 +87,6 @@ const CreateBlogPage = () => {
       }
     } catch (error: any) {
       console.error('Error creating blog:', error)
-      // Handle specific error cases
       if (error?.response?.status === 400) {
         setError('Bad request - please check your input data')
       } else if (error?.response?.status === 401) {
@@ -106,12 +104,12 @@ const CreateBlogPage = () => {
 
   if (!session) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-50 via-white to-slate-100 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900">
+      <div className="min-h-screen flex items-center justify-center bg-background">
         <div className="text-center">
-          <div className="relative mx-auto mb-6 w-16 h-16 bg-gradient-to-br from-blue-500 via-purple-500 to-pink-500 rounded-2xl flex items-center justify-center shadow-xl">
-            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-white"></div>
+          <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center mx-auto mb-4">
+            <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-primary"></div>
           </div>
-          <p className="text-slate-700 dark:text-slate-300 text-lg font-medium">Loading session...</p>
+          <p className="text-foreground">Loading session...</p>
         </div>
       </div>
     )
@@ -119,95 +117,80 @@ const CreateBlogPage = () => {
 
   if (!session.data?.user) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-50 via-white to-slate-100 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900">
-        <Card className="w-full max-w-lg bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-2xl rounded-3xl overflow-hidden">
-          <CardHeader className="text-center pb-8">
-            <div className="relative mx-auto mb-6 w-20 h-20 bg-gradient-to-br from-blue-500 via-purple-500 to-pink-500 rounded-2xl flex items-center justify-center shadow-xl">
-              <BookOpen className="w-10 h-10 text-white" />
-              <div className="absolute -top-2 -right-2 w-6 h-6 bg-green-400 rounded-full border-3 border-white dark:border-slate-800"></div>
+      <div className="min-h-screen flex items-center justify-center bg-background">
+        <Card className="w-full max-w-md">
+          <CardHeader className="text-center pb-4">
+            <div className="w-16 h-16 bg-primary/10 rounded-2xl flex items-center justify-center mx-auto mb-4">
+              <BookOpen className="w-8 h-8 text-primary" />
             </div>
-            <CardTitle className="text-3xl font-bold text-slate-900 dark:text-white">Create Blog Post</CardTitle>
-            <CardDescription className="text-slate-600 dark:text-slate-400 text-lg mt-2">
-              You need to be logged in to create a blog post
-            </CardDescription>
+            <CardTitle className="text-xl font-heading">Create Blog Post</CardTitle>
+            <CardDescription>You need to be logged in to create a blog post</CardDescription>
           </CardHeader>
-          <CardContent className="space-y-6 px-8 pb-8">
-            <div className="text-center space-y-6">
-              <p className="text-slate-700 dark:text-slate-300 text-lg">Please log in to create a blog post.</p>
-              <div className="flex flex-col space-y-4">
-                <Button 
-                  onClick={() => authClient.signIn.social({ provider: 'google' })}
-                  className="h-14 px-8 bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white shadow-xl shadow-blue-500/25 rounded-xl font-bold text-lg transition-all duration-300 hover:scale-105"
-                >
-                  <Sparkles className="w-6 h-6 mr-3" />
-                  Login with Google
-                </Button>
-                <Button 
-                  variant="outline"
-                  onClick={() => router.push('/blog')}
-                  className="h-12 px-6 border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700 rounded-xl font-semibold"
-                >
-                  <ArrowLeft className="w-5 h-5 mr-3" />
-                  Back to Blog
-                </Button>
-              </div>
-            </div>
+          <CardContent className="space-y-4">
+            <Button 
+              onClick={() => authClient.signIn.social({ provider: 'google' })}
+              className="w-full h-10"
+            >
+              <Sparkles className="w-4 h-4 mr-2" />
+              Login with Google
+            </Button>
+            <Button 
+              variant="outline"
+              onClick={() => router.push('/blog')}
+              className="w-full h-10"
+            >
+              <ArrowLeft className="w-4 h-4 mr-2" />
+              Back to Blog
+            </Button>
           </CardContent>
         </Card>
       </div>
     )
   }
 
-
-
-
-
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-100 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900">
+    <div className="min-h-screen bg-background">
       {/* Header */}
-      <header className="border-b border-slate-200 dark:border-slate-700 bg-white/80 dark:bg-slate-800/80 backdrop-blur-xl sticky top-0 z-40 shadow-sm">
-        <div className="container mx-auto px-8 py-6">
+      <header className="border-b border-border bg-card/50 backdrop-blur-sm sticky top-0 z-40">
+        <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-6">
+            <div className="flex items-center space-x-4">
               <Button
                 variant="ghost"
                 onClick={() => router.back()}
-                className="text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-700 rounded-xl h-12 px-4"
+                className="h-9 px-3"
               >
-                <ArrowLeft className="w-5 h-5 mr-3" />
+                <ArrowLeft className="w-4 h-4 mr-2" />
                 Back
               </Button>
-              <div className="flex items-center space-x-4">
-                <div className="relative">
-                  <div className="w-12 h-12 bg-gradient-to-br from-blue-500 via-purple-500 to-pink-500 rounded-2xl flex items-center justify-center shadow-lg">
-                    <BookOpen className="w-6 h-6 text-white" />
-                  </div>
-                  <div className="absolute -top-1 -right-1 w-4 h-4 bg-green-400 rounded-full border-2 border-white dark:border-slate-800"></div>
+              <div className="flex items-center space-x-3">
+                <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
+                  <BookOpen className="w-4 h-4 text-primary-foreground" />
                 </div>
                 <div>
-                  <h1 className="text-3xl font-bold text-slate-900 dark:text-white font-heading">Create New Post</h1>
-                  <p className="text-base text-slate-600 dark:text-slate-400 mt-1">Share your thoughts with the world</p>
+                  <h1 className="text-xl font-bold font-heading text-foreground">Create New Post</h1>
+                  <p className="text-sm text-foreground">Share your thoughts</p>
                 </div>
               </div>
             </div>
             
-            <div className="flex items-center space-x-4">
+            <div className="flex items-center space-x-2">
               <Button
                 variant="outline"
                 onClick={() => setIsPreview(!isPreview)}
-                className="h-12 px-6 border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700 rounded-xl font-semibold"
+                className="h-9 px-3"
               >
-                {isPreview ? <EyeOff className="w-5 h-5 mr-3" /> : <Eye className="w-5 h-5 mr-3" />}
+                {isPreview ? <EyeOff className="w-4 h-4 mr-2" /> : <Eye className="w-4 h-4 mr-2" />}
                 {isPreview ? 'Edit' : 'Preview'}
               </Button>
               
               <Button
                 onClick={handleSubmit}
                 disabled={isSubmitting || !title.trim() || !content.trim()}
-                className="h-12 px-8 bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white shadow-xl shadow-blue-500/25 rounded-xl font-semibold transition-all duration-300 hover:scale-105"
+                className="h-9 px-4"
               >
-                <Save className="w-5 h-5 mr-3" />
-                {isSubmitting ? 'Publishing...' : 'Publish Post'}
+                <Save className="w-4 h-4 mr-2" />
+                {isSubmitting ? 'Publishing...' : 'Publish'}
               </Button>
             </div>
           </div>
@@ -215,63 +198,63 @@ const CreateBlogPage = () => {
       </header>
 
       {/* Main Content */}
-      <main className="container mx-auto px-8 py-10">
+      <main className="container mx-auto px-4 py-6">
         {/* Alert Messages */}
         {error && (
-          <Alert className="mb-8 p-6 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-2xl">
-            <AlertCircle className="h-5 w-5 text-red-600 dark:text-red-400" />
-            <AlertDescription className="text-red-700 dark:text-red-300 font-medium">{error}</AlertDescription>
+          <Alert className="mb-4 bg-destructive/10 border-destructive/20">
+            <AlertCircle className="h-4 w-4 text-destructive" />
+            <AlertDescription className="text-destructive text-sm">{error}</AlertDescription>
           </Alert>
         )}
         
         {success && (
-          <Alert className="mb-8 p-6 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-2xl">
-            <CheckCircle className="h-5 w-5 text-green-600 dark:text-green-400" />
-            <AlertDescription className="text-green-700 dark:text-green-300 font-medium">{success}</AlertDescription>
+          <Alert className="mb-4 bg-green-500/10 border-green-500/20">
+            <CheckCircle className="h-4 w-4 text-green-600" />
+            <AlertDescription className="text-green-600 text-sm">{success}</AlertDescription>
           </Alert>
         )}
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Editor Section */}
-          <div className="lg:col-span-2 space-y-8">
+          <div className="lg:col-span-2 space-y-6">
             {/* Title Input */}
-            <Card className="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-xl rounded-2xl overflow-hidden">
-              <CardHeader className="pb-6">
-                <CardTitle className="flex items-center space-x-3 text-xl">
-                  <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-600 rounded-xl flex items-center justify-center shadow-lg">
-                    <Sparkles className="w-5 h-5 text-white" />
+            <Card className="bg-card border-border">
+              <CardHeader className="pb-3">
+                <CardTitle className="flex items-center space-x-2 text-base font-heading">
+                  <div className="w-6 h-6 bg-primary/10 rounded-lg flex items-center justify-center">
+                    <Sparkles className="w-3 h-3 text-primary" />
                   </div>
-                  <span className="text-slate-900 dark:text-white">Post Title</span>
+                  Post Title
                 </CardTitle>
-                <CardDescription className="text-slate-600 dark:text-slate-400 text-base">
-                  Write a compelling title that captures your readers&apos; attention
+                <CardDescription className="text-sm">
+                  Write a compelling title for your post
                 </CardDescription>
               </CardHeader>
-              <CardContent>
+              <CardContent className="pt-0">
                 <Input
                   placeholder="Enter your post title..."
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
-                  className="text-xl font-semibold bg-slate-50 dark:bg-slate-700 border-slate-200 dark:border-slate-600 focus:border-blue-500 dark:focus:border-blue-400 transition-all duration-300 rounded-xl h-14 px-6"
+                  className="text-lg font-medium bg-background border-border h-12"
                 />
               </CardContent>
             </Card>
 
             {/* Content Editor */}
-            <Card className="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-xl rounded-2xl overflow-hidden">
-              <CardHeader className="pb-6">
-                <CardTitle className="flex items-center space-x-3 text-xl">
-                  <div className="w-10 h-10 bg-gradient-to-br from-emerald-500 to-teal-600 rounded-xl flex items-center justify-center shadow-lg">
-                    <BookOpen className="w-5 h-5 text-white" />
+            <Card className="bg-card border-border">
+              <CardHeader className="pb-3">
+                <CardTitle className="flex items-center space-x-2 text-base font-heading">
+                  <div className="w-6 h-6 bg-secondary/10 rounded-lg flex items-center justify-center">
+                    <BookOpen className="w-3 h-3 text-secondary" />
                   </div>
-                  <span className="text-slate-900 dark:text-white">Content</span>
+                  Content
                 </CardTitle>
-                <CardDescription className="text-slate-600 dark:text-slate-400 text-base">
-                  Write your blog post content using the rich text editor below
+                <CardDescription className="text-sm">
+                  Write your blog post content
                 </CardDescription>
               </CardHeader>
-              <CardContent>
-                <div className="min-h-[500px] bg-slate-50 dark:bg-slate-700 rounded-xl p-6">
+              <CardContent className="pt-0">
+                <div className="min-h-[400px] bg-background rounded-lg p-4 border border-border">
                   <TiptapModalEditor
                     value={content}
                     onChange={setContent}
@@ -282,53 +265,53 @@ const CreateBlogPage = () => {
           </div>
 
           {/* Sidebar */}
-          <div className="space-y-8">
+          <div className="space-y-6">
             {/* Tags */}
-            <Card className="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-xl rounded-2xl overflow-hidden">
-              <CardHeader className="pb-6">
-                <CardTitle className="flex items-center space-x-3 text-xl">
-                  <div className="w-10 h-10 bg-gradient-to-br from-violet-500 to-purple-600 rounded-xl flex items-center justify-center shadow-lg">
-                    <Tag className="w-5 h-5 text-white" />
+            <Card className="bg-card border-border">
+              <CardHeader className="pb-3">
+                <CardTitle className="flex items-center space-x-2 text-base font-heading">
+                  <div className="w-6 h-6 bg-accent/10 rounded-lg flex items-center justify-center">
+                    <Tag className="w-3 h-3 text-accent" />
                   </div>
-                  <span className="text-slate-900 dark:text-white">Tags</span>
+                  Tags
                 </CardTitle>
-                <CardDescription className="text-slate-600 dark:text-slate-400 text-base">
-                  Add relevant tags to help readers find your post
+                <CardDescription className="text-sm">
+                  Add relevant tags
                 </CardDescription>
               </CardHeader>
-              <CardContent className="space-y-6">
-                <div className="flex space-x-3">
+              <CardContent className="pt-0 space-y-4">
+                <div className="flex space-x-2">
                   <Input
                     placeholder="Add a tag..."
                     value={newTag}
                     onChange={(e) => setNewTag(e.target.value)}
                     onKeyPress={(e) => e.key === 'Enter' && handleAddTag()}
-                    className="bg-slate-50 dark:bg-slate-700 border-slate-200 dark:border-slate-600 focus:border-violet-500 dark:focus:border-violet-400 transition-all duration-300 rounded-xl h-12 px-4"
+                    className="bg-background border-border h-9"
                   />
                   <Button
                     onClick={handleAddTag}
                     disabled={!newTag.trim()}
                     size="sm"
-                    className="h-12 px-4 bg-gradient-to-r from-violet-500 to-purple-600 hover:from-violet-600 hover:to-purple-700 text-white shadow-lg rounded-xl"
+                    className="h-9 w-9 p-0"
                   >
-                    <Plus className="w-5 h-5" />
+                    <Plus className="w-4 h-4" />
                   </Button>
                 </div>
                 
                 {tags.length > 0 && (
-                  <div className="flex flex-wrap gap-3">
+                  <div className="flex flex-wrap gap-2">
                     {tags.map((tag, index) => (
                       <Badge
                         key={index}
                         variant="secondary"
-                        className="flex items-center space-x-2 bg-violet-100 dark:bg-violet-900/30 text-violet-700 dark:text-violet-300 hover:bg-violet-200 dark:hover:bg-violet-900/50 border-violet-200 dark:border-violet-700 font-medium px-4 py-2 rounded-xl"
+                        className="flex items-center space-x-1 text-xs"
                       >
                         <span>{tag}</span>
                         <button
                           onClick={() => handleRemoveTag(tag)}
-                          className="ml-1 hover:text-violet-800 dark:hover:text-violet-200 transition-colors"
+                          className="ml-1 hover:text-destructive transition-colors"
                         >
-                          <X className="w-4 h-4" />
+                          <X className="w-3 h-3" />
                         </button>
                       </Badge>
                     ))}
@@ -339,32 +322,32 @@ const CreateBlogPage = () => {
 
             {/* Preview */}
             {isPreview && (
-              <Card className="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-xl rounded-2xl overflow-hidden">
-                <CardHeader className="pb-6">
-                  <CardTitle className="flex items-center space-x-3 text-xl">
-                    <div className="w-10 h-10 bg-gradient-to-br from-amber-500 to-orange-600 rounded-xl flex items-center justify-center shadow-lg">
-                      <Eye className="w-5 h-5 text-white" />
+              <Card className="bg-card border-border">
+                <CardHeader className="pb-3">
+                  <CardTitle className="flex items-center space-x-2 text-base font-heading">
+                    <div className="w-6 h-6 bg-primary/10 rounded-lg flex items-center justify-center">
+                      <Eye className="w-3 h-3 text-primary" />
                     </div>
-                    <span className="text-slate-900 dark:text-white">Preview</span>
+                    Preview
                   </CardTitle>
-                  <CardDescription className="text-slate-600 dark:text-slate-400 text-base">
-                    How your post will appear to readers
+                  <CardDescription className="text-sm">
+                    How your post will appear
                   </CardDescription>
                 </CardHeader>
-                <CardContent>
-                  <div className="space-y-6 bg-slate-50 dark:bg-slate-700 rounded-xl p-6">
-                    <h1 className="text-3xl font-bold text-slate-900 dark:text-white font-heading">
+                <CardContent className="pt-0">
+                  <div className="space-y-4 bg-muted/50 rounded-lg p-4">
+                    <h1 className="text-xl font-bold font-heading text-foreground">
                       {title || 'Your post title will appear here'}
                     </h1>
-                    <Separator className="bg-slate-200 dark:bg-slate-600" />
+                    <Separator />
                     <div 
-                      className="prose prose-lg max-w-none text-slate-700 dark:text-slate-300"
+                      className="prose prose-sm max-w-none text-foreground"
                       dangerouslySetInnerHTML={{ __html: content }}
                     />
                     {tags.length > 0 && (
-                      <div className="flex flex-wrap gap-3 pt-6">
+                      <div className="flex flex-wrap gap-2 pt-4">
                         {tags.map((tag, index) => (
-                          <Badge key={index} variant="outline" className="text-sm border-slate-300 dark:border-slate-600 text-slate-600 dark:text-slate-400 font-medium px-3 py-1">
+                          <Badge key={index} variant="outline" className="text-xs">
                             {tag}
                           </Badge>
                         ))}
@@ -376,38 +359,38 @@ const CreateBlogPage = () => {
             )}
 
             {/* Publishing Tips */}
-            <Card className="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-xl rounded-2xl overflow-hidden">
-              <CardHeader className="pb-6">
-                <CardTitle className="flex items-center space-x-3 text-xl">
-                  <div className="w-10 h-10 bg-gradient-to-br from-rose-500 to-pink-600 rounded-xl flex items-center justify-center shadow-lg">
-                    <Sparkles className="w-5 h-5 text-white" />
+            <Card className="bg-card border-border">
+              <CardHeader className="pb-3">
+                <CardTitle className="flex items-center space-x-2 text-base font-heading">
+                  <div className="w-6 h-6 bg-primary/10 rounded-lg flex items-center justify-center">
+                    <Sparkles className="w-3 h-3 text-primary" />
                   </div>
-                  <span className="text-slate-900 dark:text-white">Publishing Tips</span>
+                  Publishing Tips
                 </CardTitle>
               </CardHeader>
-              <CardContent className="space-y-4">
+              <CardContent className="pt-0 space-y-3">
                 <div className="flex items-start space-x-3">
-                  <div className="w-3 h-3 bg-blue-500 rounded-full mt-2 flex-shrink-0 shadow-sm"></div>
-                  <p className="text-sm text-slate-700 dark:text-slate-300 font-medium">
-                    Write a compelling title that captures attention
+                  <div className="w-2 h-2 bg-primary rounded-full mt-2 flex-shrink-0"></div>
+                  <p className="text-sm text-foreground">
+                    Write a compelling title
                   </p>
                 </div>
                 <div className="flex items-start space-x-3">
-                  <div className="w-3 h-3 bg-emerald-500 rounded-full mt-2 flex-shrink-0 shadow-sm"></div>
-                  <p className="text-sm text-slate-700 dark:text-slate-300 font-medium">
-                    Use clear, engaging content that provides value
+                  <div className="w-2 h-2 bg-secondary rounded-full mt-2 flex-shrink-0"></div>
+                  <p className="text-sm text-foreground">
+                    Use clear, engaging content
                   </p>
                 </div>
                 <div className="flex items-start space-x-3">
-                  <div className="w-3 h-3 bg-violet-500 rounded-full mt-2 flex-shrink-0 shadow-sm"></div>
-                  <p className="text-sm text-slate-700 dark:text-slate-300 font-medium">
-                    Add relevant tags to help readers discover your post
+                  <div className="w-2 h-2 bg-accent rounded-full mt-2 flex-shrink-0"></div>
+                  <p className="text-sm text-foreground">
+                    Add relevant tags
                   </p>
                 </div>
                 <div className="flex items-start space-x-3">
-                  <div className="w-3 h-3 bg-amber-500 rounded-full mt-2 flex-shrink-0 shadow-sm"></div>
-                  <p className="text-sm text-slate-700 dark:text-slate-300 font-medium">
-                    Preview your post before publishing
+                  <div className="w-2 h-2 bg-destructive rounded-full mt-2 flex-shrink-0"></div>
+                  <p className="text-sm text-foreground">
+                    Preview before publishing
                   </p>
                 </div>
               </CardContent>
@@ -419,4 +402,4 @@ const CreateBlogPage = () => {
   )
 }
 
-export default CreateBlogPage 
+export default CreateBlogPage

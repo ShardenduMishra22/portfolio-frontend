@@ -45,21 +45,24 @@ const BlogList: React.FC<BlogListProps> = ({
 
   if (blogs.length === 0) {
     return (
-      <div className="text-center py-12">
-        <BookOpen className="w-16 h-16 text-foreground mx-auto mb-4" />
-        <h3 className="text-lg font-semibold text-foreground mb-2">{emptyMessage}</h3>
+      <div className="text-center py-16">
+        <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+          <BookOpen className="w-8 h-8 text-primary" />
+        </div>
+        <h3 className="text-lg font-semibold font-heading text-foreground mb-2">{emptyMessage}</h3>
+        <p className="text-sm text-foreground">Start creating your first blog post</p>
       </div>
     )
   }
 
   if (layout === 'list') {
     return (
-      <div className="space-y-4">
+      <div className="space-y-3">
         {blogs.map((blog) => (
-          <Card key={blog.id} className="bg-card/60 backdrop-blur-sm border-border/50 hover:shadow-lg transition-all duration-300">
-            <CardContent className="p-6">
-              <div className="flex items-start space-x-4">
-                <Avatar className="w-12 h-12 flex-shrink-0">
+          <Card key={blog.id} className="bg-card border-border hover:bg-accent/5 transition-colors">
+            <CardContent className="p-4">
+              <div className="flex items-start space-x-3">
+                <Avatar className="w-10 h-10 flex-shrink-0">
                   <AvatarImage src={blog.authorProfile?.avatar || ''} />
                   <AvatarFallback className="bg-primary/10 text-primary text-sm">
                     {blog.authorProfile?.firstName && blog.authorProfile?.lastName
@@ -72,28 +75,28 @@ const BlogList: React.FC<BlogListProps> = ({
                 <div className="flex-1 min-w-0">
                   <div className="flex items-start justify-between mb-2">
                     <div>
-                      <h3 className="text-lg font-semibold text-foreground mb-1 line-clamp-1">
+                      <h3 className="font-semibold text-foreground mb-1 line-clamp-1">
                         {blog.title}
                       </h3>
-                      <p className="text-sm text-foreground mb-2">
+                      <p className="text-sm text-foreground">
                         {blog.authorProfile?.firstName && blog.authorProfile?.lastName
                           ? `${blog.authorProfile.firstName} ${blog.authorProfile.lastName}`
                           : blog.author?.email || 'Unknown Author'
                         }
                       </p>
                     </div>
-                    <div className="flex items-center space-x-2 text-xs text-foreground">
+                    <div className="flex items-center space-x-1 text-xs text-foreground">
                       <Calendar className="w-3 h-3" />
                       <span>{formatDate(blog.createdAt)}</span>
                     </div>
                   </div>
                   
-                  <p className="text-foreground/80 text-sm mb-3 line-clamp-2">
+                  <p className="text-foreground text-sm mb-3 line-clamp-2">
                     {truncateText(blog.content, 200)}
                   </p>
                   
                   {blog.tags && blog.tags.length > 0 && (
-                    <div className="flex flex-wrap gap-2 mb-3">
+                    <div className="flex flex-wrap gap-1 mb-3">
                       {blog.tags.slice(0, 3).map((tag, index) => (
                         <Badge key={index} variant="secondary" className="text-xs">
                           {tag}
@@ -101,7 +104,7 @@ const BlogList: React.FC<BlogListProps> = ({
                       ))}
                       {blog.tags.length > 3 && (
                         <Badge variant="outline" className="text-xs">
-                          +{blog.tags.length - 3} more
+                          +{blog.tags.length - 3}
                         </Badge>
                       )}
                     </div>
@@ -109,7 +112,7 @@ const BlogList: React.FC<BlogListProps> = ({
                   
                   <div className="flex items-center justify-between">
                     {showStats && (
-                      <div className="flex items-center space-x-4 text-xs text-foreground">
+                      <div className="flex items-center space-x-3 text-xs text-foreground">
                         <div className="flex items-center space-x-1">
                           <Eye className="w-3 h-3" />
                           <span>{Array.isArray(blog.views) ? blog.views.length : (blog.views || 0)}</span>
@@ -130,10 +133,10 @@ const BlogList: React.FC<BlogListProps> = ({
                         variant="ghost"
                         size="sm"
                         onClick={() => onReadMore(blog.id.toString())}
-                        className="text-primary hover:text-primary/80"
+                        className="text-primary hover:text-primary-foreground hover:bg-primary h-8 px-3"
                       >
-                        <span className="mr-1">Read More</span>
-                        <ArrowRight className="w-3 h-3" />
+                        Read More
+                        <ArrowRight className="w-3 h-3 ml-1" />
                       </Button>
                     )}
                   </div>
@@ -148,75 +151,71 @@ const BlogList: React.FC<BlogListProps> = ({
 
   // Grid layout (default)
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
       {blogs.map((blog) => (
-        <Card key={blog.id} className="bg-card/60 backdrop-blur-sm border-border/50 hover:shadow-lg transition-all duration-300 hover:scale-[1.02] group">
-          <CardHeader>
-            <div className="flex items-start justify-between">
-              <div className="flex items-center space-x-3">
-                <Avatar className="w-10 h-10">
-                  <AvatarImage src={blog.authorProfile?.avatar || ''} />
-                  <AvatarFallback className="bg-primary/10 text-primary text-sm">
-                    {blog.authorProfile?.firstName && blog.authorProfile?.lastName
-                      ? `${blog.authorProfile.firstName.charAt(0)}${blog.authorProfile.lastName.charAt(0)}`
-                      : blog.author?.email?.charAt(0).toUpperCase() || 'U'
-                    }
-                  </AvatarFallback>
-                </Avatar>
-                <div>
-                  <p className="font-medium text-foreground">
-                    {blog.authorProfile?.firstName && blog.authorProfile?.lastName
-                      ? `${blog.authorProfile.firstName} ${blog.authorProfile.lastName}`
-                      : blog.author?.email || 'Unknown Author'
-                    }
-                  </p>
-                  <p className="text-xs text-foreground flex items-center">
-                    <Calendar className="w-3 h-3 mr-1" />
-                    {formatDate(blog.createdAt)}
-                  </p>
-                </div>
+        <Card key={blog.id} className="bg-card border-border hover:bg-accent/5 hover:border-primary/20 transition-all group">
+          <CardHeader className="pb-3">
+            <div className="flex items-center space-x-3">
+              <Avatar className="w-8 h-8">
+                <AvatarImage src={blog.authorProfile?.avatar || ''} />
+                <AvatarFallback className="bg-primary/10 text-primary text-xs">
+                  {blog.authorProfile?.firstName && blog.authorProfile?.lastName
+                    ? `${blog.authorProfile.firstName.charAt(0)}${blog.authorProfile.lastName.charAt(0)}`
+                    : blog.author?.email?.charAt(0).toUpperCase() || 'U'
+                  }
+                </AvatarFallback>
+              </Avatar>
+              <div className="flex-1 min-w-0">
+                <p className="font-medium text-foreground text-sm truncate">
+                  {blog.authorProfile?.firstName && blog.authorProfile?.lastName
+                    ? `${blog.authorProfile.firstName} ${blog.authorProfile.lastName}`
+                    : blog.author?.email || 'Unknown Author'
+                  }
+                </p>
+                <p className="text-xs text-foreground flex items-center">
+                  <Calendar className="w-3 h-3 mr-1" />
+                  {formatDate(blog.createdAt)}
+                </p>
               </div>
             </div>
           </CardHeader>
           
-          <CardContent>
-            <CardTitle className="text-xl mb-3 line-clamp-2 group-hover:text-primary transition-colors">
+          <CardContent className="pt-0">
+            <CardTitle className="text-lg mb-2 line-clamp-2 group-hover:text-primary transition-colors font-heading">
               {blog.title}
             </CardTitle>
-            <CardDescription className="line-clamp-3 text-sm leading-relaxed">
+            <CardDescription className="line-clamp-3 text-sm mb-3">
               {truncateText(blog.content)}
             </CardDescription>
             
             {blog.tags && blog.tags.length > 0 && (
-              <div className="flex flex-wrap gap-2 mt-4">
-                {blog.tags.slice(0, 3).map((tag, index) => (
+              <div className="flex flex-wrap gap-1 mb-4">
+                {blog.tags.slice(0, 2).map((tag, index) => (
                   <Badge key={index} variant="secondary" className="text-xs">
                     {tag}
                   </Badge>
                 ))}
-                {blog.tags.length > 3 && (
+                {blog.tags.length > 2 && (
                   <Badge variant="outline" className="text-xs">
-                    +{blog.tags.length - 3} more
+                    +{blog.tags.length - 2}
                   </Badge>
                 )}
               </div>
             )}
-          </CardContent>
-          
-          <CardContent className="pt-4">
+            
             <div className="flex items-center justify-between">
               {showStats && (
-                <div className="flex items-center space-x-4 text-sm text-foreground">
+                <div className="flex items-center space-x-3 text-xs text-foreground">
                   <div className="flex items-center space-x-1">
-                    <Eye className="w-4 h-4" />
+                    <Eye className="w-3 h-3" />
                     <span>{Array.isArray(blog.views) ? blog.views.length : (blog.views || 0)}</span>
                   </div>
                   <div className="flex items-center space-x-1">
-                    <Heart className="w-4 h-4" />
+                    <Heart className="w-3 h-3" />
                     <span>{Array.isArray(blog.likes) ? blog.likes.length : (blog.likes || 0)}</span>
                   </div>
                   <div className="flex items-center space-x-1">
-                    <MessageCircle className="w-4 h-4" />
+                    <MessageCircle className="w-3 h-3" />
                     <span>{Array.isArray(blog.comments) ? blog.comments.length : (blog.comments || 0)}</span>
                   </div>
                 </div>
@@ -227,10 +226,10 @@ const BlogList: React.FC<BlogListProps> = ({
                   variant="ghost"
                   size="sm"
                   onClick={() => onReadMore(blog.id.toString())}
-                  className="text-primary hover:text-primary/80 group-hover:bg-primary/10"
+                  className="text-primary hover:text-primary-foreground hover:bg-primary h-8 px-3"
                 >
-                  <span className="mr-1">Read More</span>
-                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                  Read More
+                  <ArrowRight className="w-3 h-3 ml-1 group-hover:translate-x-0.5 transition-transform" />
                 </Button>
               )}
             </div>
@@ -241,4 +240,4 @@ const BlogList: React.FC<BlogListProps> = ({
   )
 }
 
-export default BlogList 
+export default BlogList

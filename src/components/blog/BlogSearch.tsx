@@ -55,9 +55,9 @@ const BlogSearch: React.FC<BlogSearchProps> = ({
   ]
 
   const sortOptions = [
-    { value: 'newest', label: 'Newest First', icon: Calendar },
-    { value: 'oldest', label: 'Oldest First', icon: Clock },
-    { value: 'popular', label: 'Most Popular', icon: TrendingUp },
+    { value: 'newest', label: 'Newest', icon: Calendar },
+    { value: 'oldest', label: 'Oldest', icon: Clock },
+    { value: 'popular', label: 'Popular', icon: TrendingUp },
     { value: 'trending', label: 'Trending', icon: Star }
   ]
 
@@ -79,23 +79,23 @@ const BlogSearch: React.FC<BlogSearchProps> = ({
   const hasActiveFilters = searchTerm || selectedCategory !== 'all' || selectedSort !== 'newest' || selectedTags.length > 0
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-3">
       {/* Main Search Bar */}
-      <div className="flex flex-col md:flex-row gap-4">
+      <div className="flex flex-col md:flex-row gap-3">
         <div className="relative flex-1">
           <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-foreground w-4 h-4" />
           <Input
-            placeholder="Search blogs by title, content, or author..."
+            placeholder="Search blogs..."
             value={searchTerm}
             onChange={(e) => onSearchChange(e.target.value)}
-            className="pl-10 bg-card/60 backdrop-blur-sm border-border/50"
+            className="pl-10 bg-background border-border"
           />
           {searchTerm && (
             <Button
               variant="ghost"
               size="sm"
               onClick={() => onSearchChange('')}
-              className="absolute right-2 top-1/2 transform -translate-y-1/2 h-6 w-6 p-0"
+              className="absolute right-1 top-1/2 transform -translate-y-1/2 h-7 w-7 p-0 hover:bg-muted"
             >
               <X className="w-3 h-3" />
             </Button>
@@ -104,7 +104,7 @@ const BlogSearch: React.FC<BlogSearchProps> = ({
         
         <div className="flex gap-2">
           <Select value={selectedCategory} onValueChange={onCategoryChange}>
-            <SelectTrigger className="w-[180px] bg-card/60 backdrop-blur-sm border-border/50">
+            <SelectTrigger className="w-[140px] bg-background border-border">
               <SelectValue placeholder="Category" />
             </SelectTrigger>
             <SelectContent>
@@ -117,8 +117,8 @@ const BlogSearch: React.FC<BlogSearchProps> = ({
           </Select>
           
           <Select value={selectedSort} onValueChange={onSortChange}>
-            <SelectTrigger className="w-[180px] bg-card/60 backdrop-blur-sm border-border/50">
-              <SelectValue placeholder="Sort by" />
+            <SelectTrigger className="w-[120px] bg-background border-border">
+              <SelectValue placeholder="Sort" />
             </SelectTrigger>
             <SelectContent>
               {sortOptions.map((option) => {
@@ -126,7 +126,7 @@ const BlogSearch: React.FC<BlogSearchProps> = ({
                 return (
                   <SelectItem key={option.value} value={option.value}>
                     <div className="flex items-center space-x-2">
-                      <Icon className="w-4 h-4" />
+                      <Icon className="w-3 h-3" />
                       <span>{option.label}</span>
                     </div>
                   </SelectItem>
@@ -138,7 +138,7 @@ const BlogSearch: React.FC<BlogSearchProps> = ({
           <Button
             variant="outline"
             onClick={() => setIsExpanded(!isExpanded)}
-            className="bg-card/60 backdrop-blur-sm border-border/50"
+            className="bg-background border-border hover:bg-accent/10"
           >
             <Filter className="w-4 h-4 mr-2" />
             Filters
@@ -148,102 +148,100 @@ const BlogSearch: React.FC<BlogSearchProps> = ({
 
       {/* Advanced Filters */}
       {isExpanded && (
-        <Card className="bg-card/60 backdrop-blur-sm border-border/50">
-          <CardHeader>
+        <Card className="bg-card border-border">
+          <CardHeader className="pb-3">
             <div className="flex items-center justify-between">
-              <CardTitle className="text-lg">Advanced Filters</CardTitle>
+              <CardTitle className="text-base font-heading">Advanced Filters</CardTitle>
               {hasActiveFilters && (
                 <Button
                   variant="ghost"
                   size="sm"
                   onClick={clearAllFilters}
-                  className="text-foreground hover:text-foreground"
+                  className="text-foreground hover:text-foreground h-8"
                 >
-                  <X className="w-4 h-4 mr-2" />
+                  <X className="w-3 h-3 mr-1" />
                   Clear All
                 </Button>
               )}
             </div>
           </CardHeader>
-          <CardContent>
+          <CardContent className="pt-0 space-y-4">
             {/* Tags Filter */}
-            <div className="space-y-4">
-              <div>
-                <h4 className="font-medium text-foreground mb-3">Tags</h4>
-                <div className="flex flex-wrap gap-2">
-                  {availableTags.map((tag) => (
-                    <Badge
-                      key={tag}
-                      variant={selectedTags.includes(tag) ? "default" : "outline"}
-                      className={`cursor-pointer transition-colors ${
-                        selectedTags.includes(tag)
-                          ? 'bg-primary text-primary-foreground hover:bg-primary/90'
-                          : 'hover:bg-primary/10'
-                      }`}
-                      onClick={() => handleTagToggle(tag)}
-                    >
-                      {tag}
+            <div>
+              <h4 className="font-medium text-foreground mb-2 text-sm">Tags</h4>
+              <div className="flex flex-wrap gap-1">
+                {availableTags.map((tag) => (
+                  <Badge
+                    key={tag}
+                    variant={selectedTags.includes(tag) ? "default" : "outline"}
+                    className={`cursor-pointer transition-colors text-xs ${
+                      selectedTags.includes(tag)
+                        ? 'bg-primary text-primary-foreground hover:bg-primary/90'
+                        : 'hover:bg-primary/10'
+                    }`}
+                    onClick={() => handleTagToggle(tag)}
+                  >
+                    {tag}
+                  </Badge>
+                ))}
+              </div>
+            </div>
+
+            {/* Active Filters Display */}
+            {hasActiveFilters && (
+              <div className="pt-3 border-t border-border">
+                <h4 className="font-medium text-foreground mb-2 text-sm">Active Filters</h4>
+                <div className="flex flex-wrap gap-1">
+                  {searchTerm && (
+                    <Badge variant="secondary" className="flex items-center space-x-1 text-xs">
+                      <span>&quot;{searchTerm.length > 20 ? searchTerm.substring(0, 20) + '...' : searchTerm}&quot;</span>
+                      <button
+                        onClick={() => onSearchChange('')}
+                        className="ml-1 hover:text-foreground"
+                      >
+                        <X className="w-3 h-3" />
+                      </button>
+                    </Badge>
+                  )}
+                  
+                  {selectedCategory !== 'all' && (
+                    <Badge variant="secondary" className="flex items-center space-x-1 text-xs">
+                      <span>{categories.find(c => c.value === selectedCategory)?.label}</span>
+                      <button
+                        onClick={() => onCategoryChange('all')}
+                        className="ml-1 hover:text-foreground"
+                      >
+                        <X className="w-3 h-3" />
+                      </button>
+                    </Badge>
+                  )}
+                  
+                  {selectedSort !== 'newest' && (
+                    <Badge variant="secondary" className="flex items-center space-x-1 text-xs">
+                      <span>{sortOptions.find(s => s.value === selectedSort)?.label}</span>
+                      <button
+                        onClick={() => onSortChange('newest')}
+                        className="ml-1 hover:text-foreground"
+                      >
+                        <X className="w-3 h-3" />
+                      </button>
+                    </Badge>
+                  )}
+                  
+                  {selectedTags.map((tag) => (
+                    <Badge key={tag} variant="secondary" className="flex items-center space-x-1 text-xs">
+                      <span>{tag}</span>
+                      <button
+                        onClick={() => handleTagToggle(tag)}
+                        className="ml-1 hover:text-foreground"
+                      >
+                        <X className="w-3 h-3" />
+                      </button>
                     </Badge>
                   ))}
                 </div>
               </div>
-
-              {/* Active Filters Display */}
-              {hasActiveFilters && (
-                <div className="pt-4 border-t border-border/50">
-                  <h4 className="font-medium text-foreground mb-2">Active Filters</h4>
-                  <div className="flex flex-wrap gap-2">
-                    {searchTerm && (
-                      <Badge variant="secondary" className="flex items-center space-x-1">
-                        <span>Search: &quot;{searchTerm}&quot;</span>
-                        <button
-                          onClick={() => onSearchChange('')}
-                          className="ml-1 hover:text-foreground"
-                        >
-                          <X className="w-3 h-3" />
-                        </button>
-                      </Badge>
-                    )}
-                    
-                    {selectedCategory !== 'all' && (
-                      <Badge variant="secondary" className="flex items-center space-x-1">
-                        <span>Category: {categories.find(c => c.value === selectedCategory)?.label}</span>
-                        <button
-                          onClick={() => onCategoryChange('all')}
-                          className="ml-1 hover:text-foreground"
-                        >
-                          <X className="w-3 h-3" />
-                        </button>
-                      </Badge>
-                    )}
-                    
-                    {selectedSort !== 'newest' && (
-                      <Badge variant="secondary" className="flex items-center space-x-1">
-                        <span>Sort: {sortOptions.find(s => s.value === selectedSort)?.label}</span>
-                        <button
-                          onClick={() => onSortChange('newest')}
-                          className="ml-1 hover:text-foreground"
-                        >
-                          <X className="w-3 h-3" />
-                        </button>
-                      </Badge>
-                    )}
-                    
-                    {selectedTags.map((tag) => (
-                      <Badge key={tag} variant="secondary" className="flex items-center space-x-1">
-                        <span>Tag: {tag}</span>
-                        <button
-                          onClick={() => handleTagToggle(tag)}
-                          className="ml-1 hover:text-foreground"
-                        >
-                          <X className="w-3 h-3" />
-                        </button>
-                      </Badge>
-                    ))}
-                  </div>
-                </div>
-              )}
-            </div>
+            )}
           </CardContent>
         </Card>
       )}
@@ -252,9 +250,9 @@ const BlogSearch: React.FC<BlogSearchProps> = ({
       {!isExpanded && hasActiveFilters && (
         <div className="flex flex-wrap gap-2">
           {searchTerm && (
-            <Badge variant="secondary" className="flex items-center space-x-1">
+            <Badge variant="secondary" className="flex items-center space-x-1 text-xs">
               <Search className="w-3 h-3" />
-              <span>&quot;{searchTerm}&quot;</span>
+              <span>&quot;{searchTerm.length > 15 ? searchTerm.substring(0, 15) + '...' : searchTerm}&quot;</span>
               <button
                 onClick={() => onSearchChange('')}
                 className="ml-1 hover:text-foreground"
@@ -265,7 +263,7 @@ const BlogSearch: React.FC<BlogSearchProps> = ({
           )}
           
           {selectedCategory !== 'all' && (
-            <Badge variant="secondary" className="flex items-center space-x-1">
+            <Badge variant="secondary" className="flex items-center space-x-1 text-xs">
               <span>{categories.find(c => c.value === selectedCategory)?.label}</span>
               <button
                 onClick={() => onCategoryChange('all')}
@@ -276,8 +274,8 @@ const BlogSearch: React.FC<BlogSearchProps> = ({
             </Badge>
           )}
           
-          {selectedTags.map((tag) => (
-            <Badge key={tag} variant="secondary" className="flex items-center space-x-1">
+          {selectedTags.slice(0, 3).map((tag) => (
+            <Badge key={tag} variant="secondary" className="flex items-center space-x-1 text-xs">
               <span>{tag}</span>
               <button
                 onClick={() => handleTagToggle(tag)}
@@ -288,20 +286,24 @@ const BlogSearch: React.FC<BlogSearchProps> = ({
             </Badge>
           ))}
           
-          {hasActiveFilters && (
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={clearAllFilters}
-              className="text-foreground hover:text-foreground"
-            >
-              Clear All
-            </Button>
+          {selectedTags.length > 3 && (
+            <Badge variant="outline" className="text-xs">
+              +{selectedTags.length - 3} tags
+            </Badge>
           )}
+          
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={clearAllFilters}
+            className="text-foreground hover:text-foreground h-7 px-2 text-xs"
+          >
+            Clear All
+          </Button>
         </div>
       )}
     </div>
   )
 }
 
-export default BlogSearch 
+export default BlogSearch

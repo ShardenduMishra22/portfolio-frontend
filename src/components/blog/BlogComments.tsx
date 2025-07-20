@@ -78,20 +78,15 @@ const BlogComments: React.FC<BlogCommentsProps> = ({
     const now = new Date()
     const diffInHours = Math.floor((now.getTime() - date.getTime()) / (1000 * 60 * 60))
     
-    if (diffInHours < 1) {
-      return 'Just now'
-    } else if (diffInHours < 24) {
-      return `${diffInHours}h ago`
-    } else if (diffInHours < 168) {
-      const days = Math.floor(diffInHours / 24)
-      return `${days}d ago`
-    } else {
-      return date.toLocaleDateString('en-US', {
-        year: 'numeric',
-        month: 'short',
-        day: 'numeric'
-      })
-    }
+    if (diffInHours < 1) return 'Just now'
+    if (diffInHours < 24) return `${diffInHours}h ago`
+    if (diffInHours < 168) return `${Math.floor(diffInHours / 24)}d ago`
+    
+    return date.toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric'
+    })
   }
 
   const getInitials = (firstName: string, lastName: string) => {
@@ -142,9 +137,9 @@ const BlogComments: React.FC<BlogCommentsProps> = ({
   }
 
   const renderComment = (comment: Comment, isReply = false) => (
-    <div key={comment.id} className={`space-y-3 ${isReply ? 'ml-8 border-l-2 border-border/50 pl-4' : ''}`}>
-      <div className="flex items-start space-x-3">
-        <Avatar className="w-8 h-8">
+    <div key={comment.id} className={`space-y-2 ${isReply ? 'ml-6 border-l-2 border-border pl-3' : ''}`}>
+      <div className="flex items-start space-x-2">
+        <Avatar className="w-7 h-7 flex-shrink-0">
           <AvatarImage src={comment.userProfile?.avatar || ''} />
           <AvatarFallback className="bg-primary/10 text-primary text-xs">
             {getInitials(comment.userProfile?.firstName || '', comment.userProfile?.lastName || '')}
@@ -154,11 +149,11 @@ const BlogComments: React.FC<BlogCommentsProps> = ({
         <div className="flex-1 space-y-2">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-2">
-              <p className="font-medium text-foreground">
+              <p className="font-medium text-foreground text-sm">
                 {comment.userProfile?.firstName} {comment.userProfile?.lastName}
               </p>
               {comment.isAuthor && (
-                <Badge variant="secondary" className="text-xs">
+                <Badge variant="secondary" className="text-xs bg-primary/10 text-primary">
                   Author
                 </Badge>
               )}
@@ -169,29 +164,28 @@ const BlogComments: React.FC<BlogCommentsProps> = ({
             
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="ghost" size="sm" className="h-6 w-6 p-0">
-                  <MoreHorizontal className="w-4 h-4" />
+                <Button variant="ghost" size="sm" className="h-6 w-6 p-0 hover:bg-muted">
+                  <MoreHorizontal className="w-3 h-3" />
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end">
-                {currentUserId === comment.user.id && (
+                {currentUserId === comment.user.id ? (
                   <>
                     <DropdownMenuItem onClick={() => startEdit(comment)}>
-                      <Edit className="w-4 h-4 mr-2" />
+                      <Edit className="w-3 h-3 mr-2" />
                       Edit
                     </DropdownMenuItem>
                     <DropdownMenuItem 
                       onClick={() => onDeleteComment?.(comment.id)}
                       className="text-destructive"
                     >
-                      <Trash2 className="w-4 h-4 mr-2" />
+                      <Trash2 className="w-3 h-3 mr-2" />
                       Delete
                     </DropdownMenuItem>
                   </>
-                )}
-                {currentUserId !== comment.user.id && (
+                ) : (
                   <DropdownMenuItem onClick={() => onReportComment?.(comment.id)}>
-                    <Flag className="w-4 h-4 mr-2" />
+                    <Flag className="w-3 h-3 mr-2" />
                     Report
                   </DropdownMenuItem>
                 )}
@@ -204,7 +198,7 @@ const BlogComments: React.FC<BlogCommentsProps> = ({
               <Textarea
                 value={editContent}
                 onChange={(e) => setEditContent(e.target.value)}
-                className="min-h-[80px] bg-card/60 backdrop-blur-sm border-border/50"
+                className="min-h-[60px] bg-background border-border resize-none"
                 placeholder="Edit your comment..."
               />
               <div className="flex items-center space-x-2">
@@ -212,7 +206,7 @@ const BlogComments: React.FC<BlogCommentsProps> = ({
                   size="sm"
                   onClick={() => handleEditComment(comment.id)}
                   disabled={!editContent.trim()}
-                  className="bg-primary hover:bg-primary/90"
+                  className="h-7 px-3 text-xs"
                 >
                   Save
                 </Button>
@@ -220,36 +214,37 @@ const BlogComments: React.FC<BlogCommentsProps> = ({
                   variant="ghost"
                   size="sm"
                   onClick={cancelEdit}
+                  className="h-7 px-3 text-xs"
                 >
                   Cancel
                 </Button>
               </div>
             </div>
           ) : (
-            <p className="text-foreground">{comment.content}</p>
+            <p className="text-foreground text-sm leading-relaxed">{comment.content}</p>
           )}
           
-          <div className="flex items-center space-x-4">
+          <div className="flex items-center space-x-3">
             <Button
               variant="ghost"
               size="sm"
               onClick={() => onLikeComment?.(comment.id)}
-              className={`flex items-center space-x-1 ${
+              className={`flex items-center space-x-1 h-7 px-2 ${
                 comment.isLiked ? 'text-destructive' : 'text-foreground'
-              } hover:text-destructive`}
+              } hover:text-destructive hover:bg-destructive/10`}
             >
-              <ThumbsUp className={`w-4 h-4 ${comment.isLiked ? 'fill-current' : ''}`} />
-              <span>{comment.likes || 0}</span>
+              <ThumbsUp className={`w-3 h-3 ${comment.isLiked ? 'fill-current' : ''}`} />
+              <span className="text-xs">{comment.likes || 0}</span>
             </Button>
             
             <Button
               variant="ghost"
               size="sm"
               onClick={() => startReply(comment.id)}
-              className="text-foreground hover:text-foreground"
+              className="text-foreground hover:text-foreground h-7 px-2"
             >
-              <Reply className="w-4 h-4 mr-1" />
-              Reply
+              <Reply className="w-3 h-3 mr-1" />
+              <span className="text-xs">Reply</span>
             </Button>
           </div>
           
@@ -258,7 +253,7 @@ const BlogComments: React.FC<BlogCommentsProps> = ({
               <Textarea
                 value={replyContent}
                 onChange={(e) => setReplyContent(e.target.value)}
-                className="min-h-[80px] bg-card/60 backdrop-blur-sm border-border/50"
+                className="min-h-[60px] bg-background border-border resize-none"
                 placeholder="Write a reply..."
               />
               <div className="flex items-center space-x-2">
@@ -266,15 +261,16 @@ const BlogComments: React.FC<BlogCommentsProps> = ({
                   size="sm"
                   onClick={() => handleSubmitReply(comment.id)}
                   disabled={!replyContent.trim()}
-                  className="bg-primary hover:bg-primary/90"
+                  className="h-7 px-3 text-xs"
                 >
-                  <Send className="w-4 h-4 mr-2" />
+                  <Send className="w-3 h-3 mr-1" />
                   Reply
                 </Button>
                 <Button
                   variant="ghost"
                   size="sm"
                   onClick={cancelReply}
+                  className="h-7 px-3 text-xs"
                 >
                   Cancel
                 </Button>
@@ -286,7 +282,7 @@ const BlogComments: React.FC<BlogCommentsProps> = ({
       
       {/* Render replies */}
       {comment.replies && comment.replies.length > 0 && (
-        <div className="space-y-3">
+        <div className="space-y-2">
           {comment.replies.map((reply) => renderComment(reply, true))}
         </div>
       )}
@@ -294,23 +290,25 @@ const BlogComments: React.FC<BlogCommentsProps> = ({
   )
 
   return (
-    <Card className="bg-card/60 backdrop-blur-sm border-border/50">
-      <CardHeader>
-        <CardTitle className="flex items-center space-x-2">
-          <MessageCircle className="w-5 h-5 text-primary" />
+    <Card className="bg-card border-border">
+      <CardHeader className="pb-3">
+        <CardTitle className="flex items-center space-x-2 text-base font-heading">
+          <div className="w-6 h-6 bg-primary/10 rounded-full flex items-center justify-center">
+            <MessageCircle className="w-3 h-3 text-primary" />
+          </div>
           <span>Comments ({comments.length})</span>
         </CardTitle>
       </CardHeader>
       
-      <CardContent className="space-y-6">
+      <CardContent className="pt-0 space-y-4">
         {/* Add Comment */}
         {currentUserId && (
-          <div className="space-y-4">
-            <div className="flex items-start space-x-3">
-              <Avatar className="w-8 h-8">
+          <div className="space-y-3">
+            <div className="flex items-start space-x-2">
+              <Avatar className="w-7 h-7 flex-shrink-0">
                 <AvatarImage src="" />
-                <AvatarFallback className="bg-primary/10 text-primary text-xs">
-                  <User className="w-4 h-4" />
+                <AvatarFallback className="bg-primary/10 text-primary">
+                  <User className="w-3 h-3" />
                 </AvatarFallback>
               </Avatar>
               <div className="flex-1 space-y-2">
@@ -318,19 +316,19 @@ const BlogComments: React.FC<BlogCommentsProps> = ({
                   placeholder="Write a comment..."
                   value={newComment}
                   onChange={(e) => setNewComment(e.target.value)}
-                  className="min-h-[100px] bg-card/60 backdrop-blur-sm border-border/50"
+                  className="min-h-[70px] bg-background border-border resize-none"
                 />
                 <div className="flex items-center justify-between">
                   <p className="text-xs text-foreground">
-                    Press Enter to submit
+                    Press Ctrl+Enter to submit
                   </p>
                   <Button
                     onClick={handleSubmitComment}
                     disabled={loading || !newComment.trim()}
                     size="sm"
-                    className="bg-primary hover:bg-primary/90"
+                    className="h-8 px-4"
                   >
-                    <Send className="w-4 h-4 mr-2" />
+                    <Send className="w-3 h-3 mr-1" />
                     Comment
                   </Button>
                 </div>
@@ -342,15 +340,17 @@ const BlogComments: React.FC<BlogCommentsProps> = ({
         <Separator />
 
         {/* Comments List */}
-        <div className="space-y-6">
+        <div className="space-y-4">
           {loading ? (
-            <div className="flex items-center justify-center py-8">
-              <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-primary"></div>
+            <div className="flex items-center justify-center py-6">
+              <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-primary"></div>
             </div>
           ) : comments.length === 0 ? (
-            <div className="text-center py-8">
-              <MessageCircle className="w-12 h-12 text-foreground mx-auto mb-4" />
-              <p className="text-foreground">No comments yet. Be the first to comment!</p>
+            <div className="text-center py-6">
+              <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-3">
+                <MessageCircle className="w-6 h-6 text-primary" />
+              </div>
+              <p className="text-foreground text-sm">No comments yet. Be the first to comment!</p>
             </div>
           ) : (
             comments.map((comment) => renderComment(comment))
@@ -361,4 +361,4 @@ const BlogComments: React.FC<BlogCommentsProps> = ({
   )
 }
 
-export default BlogComments 
+export default BlogComments
