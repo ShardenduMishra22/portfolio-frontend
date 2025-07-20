@@ -16,13 +16,7 @@ import {
   MessageCircle, 
   Share2,
   Calendar,
-  User,
   Send,
-  ThumbsUp,
-  Reply,
-  MoreHorizontal,
-  Edit,
-  Trash2,
   BookOpen,
   Clock
 } from 'lucide-react'
@@ -37,6 +31,8 @@ interface Comment {
   user: {
     id: string
     email: string
+    avatar: string
+    name: string
   }
   userProfile: {
     firstName: string
@@ -88,6 +84,7 @@ const BlogPostPage = ({ params }: { params: Promise<{ id: string }> }) => {
   const fetchComments = async () => {
     try {
       const response = await blogsService.getBlogComments(resolvedParams.id)
+      console.log('Comments fetched:', response)
       if (response.success && response.data) {
         setComments(Array.isArray(response.data) ? response.data : [])
       }
@@ -255,16 +252,6 @@ const BlogPostPage = ({ params }: { params: Promise<{ id: string }> }) => {
                 <Share2 className="w-4 h-4 mr-2" />
                 Share
               </Button>
-              {session?.data?.user && blog.authorId === session.data.user.id && (
-                <Button 
-                  variant="outline" 
-                  size="default"
-                  onClick={() => router.push(`/blog/${resolvedParams.id}/edit`)}
-                >
-                  <Edit className="w-4 h-4 mr-2" />
-                  Edit
-                </Button>
-              )}
             </div>
           </div>
         </div>
@@ -417,15 +404,18 @@ const BlogPostPage = ({ params }: { params: Promise<{ id: string }> }) => {
                 {comments.map((comment) => (
                   <div key={comment.id} className="flex items-start space-x-4">
                     <Avatar className="w-10 h-10">
-                      <AvatarImage src={comment.userProfile?.avatar || ''} />
+                      <AvatarImage src={comment.user?.avatar || ''} />
                       <AvatarFallback className="bg-primary/10 text-primary text-sm">
-                        {getInitials(comment.userProfile?.firstName || '', comment.userProfile?.lastName || '')}
+                        {getInitials(
+                          comment.user?.name?.split(' ')[0] || '',
+                          comment.user?.name?.split(' ')[1] || ''
+                        )}
                       </AvatarFallback>
                     </Avatar>
                     <div className="flex-1">
                       <div className="flex items-center space-x-3 mb-2">
                         <p className="font-semibold text-foreground text-base">
-                          {comment.userProfile?.firstName} {comment.userProfile?.lastName}
+                          {comment.user?.name}
                         </p>
                         <p className="text-sm text-foreground">
                           {formatDate(comment.createdAt)}

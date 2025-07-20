@@ -48,6 +48,8 @@ export async function GET(
         user: {
           id: usersTable.id,
           email: usersTable.email,
+          avatar: usersTable.image,
+          name: usersTable.name,
         },
         userProfile: {
           firstName: userProfilesTable.firstName,

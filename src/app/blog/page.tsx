@@ -301,17 +301,6 @@ const BlogPage = () => {
               const isUpdating = updatingBlogs.has(blog.id.toString())
               return (
                 <article key={blog.id} className={`group relative bg-card border border-border rounded-xl overflow-hidden hover:shadow-lg hover:shadow-primary/5 hover:border-primary/30 transition-all duration-300 hover:-translate-y-1 ${isUpdating ? 'opacity-75 pointer-events-none' : ''}`}>
-                {/* Featured Image Placeholder */}
-                <div className="aspect-[16/9] bg-gradient-to-br from-primary/10 via-primary/5 to-muted/30 relative overflow-hidden">
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <div className="w-16 h-16 bg-primary/20 rounded-2xl flex items-center justify-center backdrop-blur-sm">
-                      <BookOpen className="w-8 h-8 text-primary" />
-                    </div>
-                  </div>
-                  {/* Gradient overlay */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                </div>
-
                 {/* Content */}
                 <div className="p-6">
                   {/* Author and Date */}
