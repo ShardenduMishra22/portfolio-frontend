@@ -63,10 +63,10 @@ const BlogList: React.FC<BlogListProps> = ({
             <CardContent className="p-4">
               <div className="flex items-start space-x-3">
                 <Avatar className="w-10 h-10 flex-shrink-0">
-                  <AvatarImage src={blog.authorProfile?.avatar || ''} />
+                  <AvatarImage src={blog.author?.avatar || ''} />
                   <AvatarFallback className="bg-primary/10 text-primary text-sm">
-                    {blog.authorProfile?.firstName && blog.authorProfile?.lastName
-                      ? `${blog.authorProfile.firstName.charAt(0)}${blog.authorProfile.lastName.charAt(0)}`
+                    {blog.author?.name
+                      ? blog.author.name.split(' ').map((n) => n.charAt(0)).join('').toUpperCase()
                       : blog.author?.email?.charAt(0).toUpperCase() || 'U'
                     }
                   </AvatarFallback>
@@ -79,8 +79,8 @@ const BlogList: React.FC<BlogListProps> = ({
                         {blog.title}
                       </h3>
                       <p className="text-sm text-foreground">
-                        {blog.authorProfile?.firstName && blog.authorProfile?.lastName
-                          ? `${blog.authorProfile.firstName} ${blog.authorProfile.lastName}`
+                        {blog.author.name && blog.author?.name
+                          ? `${blog.author.name} ${blog.author.name}`
                           : blog.author?.email || 'Unknown Author'
                         }
                       </p>
@@ -157,18 +157,18 @@ const BlogList: React.FC<BlogListProps> = ({
           <CardHeader className="pb-3">
             <div className="flex items-center space-x-3">
               <Avatar className="w-8 h-8">
-                <AvatarImage src={blog.authorProfile?.avatar || ''} />
+                <AvatarImage src={blog.author?.avatar || ''} />
                 <AvatarFallback className="bg-primary/10 text-primary text-xs">
-                  {blog.authorProfile?.firstName && blog.authorProfile?.lastName
-                    ? `${blog.authorProfile.firstName.charAt(0)}${blog.authorProfile.lastName.charAt(0)}`
+                  {blog.author?.name
+                    ? blog.author.name.split(' ').map((n) => n.charAt(0)).join('').toUpperCase()
                     : blog.author?.email?.charAt(0).toUpperCase() || 'U'
                   }
                 </AvatarFallback>
               </Avatar>
               <div className="flex-1 min-w-0">
                 <p className="font-medium text-foreground text-sm truncate">
-                  {blog.authorProfile?.firstName && blog.authorProfile?.lastName
-                    ? `${blog.authorProfile.firstName} ${blog.authorProfile.lastName}`
+                  {blog.author?.name
+                    ? blog.author.name
                     : blog.author?.email || 'Unknown Author'
                   }
                 </p>

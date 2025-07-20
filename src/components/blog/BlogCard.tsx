@@ -57,18 +57,18 @@ const BlogCard: React.FC<BlogCardProps> = ({
         <div className="flex items-start justify-between">
           <div className="flex items-center space-x-3">
             <Avatar className="w-8 h-8">
-              <AvatarImage src={blog.authorProfile?.avatar || ''} />
+              <AvatarImage src={blog.author.avatar || ''} />
               <AvatarFallback className="bg-primary/10 text-primary text-xs">
-                {blog.authorProfile?.firstName && blog.authorProfile?.lastName
-                  ? getInitials(blog.authorProfile.firstName, blog.authorProfile.lastName)
-                  : blog.author?.email?.charAt(0).toUpperCase() || 'U'
+                {blog.author.name && blog.author.name
+                  ? getInitials(blog.author.name, blog.author.name)
+                  : blog.author.email?.charAt(0).toUpperCase() || 'U'
                 }
               </AvatarFallback>
             </Avatar>
             <div className="flex-1 min-w-0">
               <p className="font-medium text-foreground text-sm truncate">
-                {blog.authorProfile?.firstName && blog.authorProfile?.lastName 
-                  ? `${blog.authorProfile.firstName} ${blog.authorProfile.lastName}`
+                {blog.author?.name
+                  ? blog.author.name
                   : blog.author?.email || 'Unknown Author'
                 }
               </p>
