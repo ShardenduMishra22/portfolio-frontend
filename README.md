@@ -1,4 +1,4 @@
-# Shardendu Mishra - Portfolio Frontend
+# Shardendu Mishra - Personal Website    
 
 A modern, full-stack portfolio website built with Next.js 15, featuring a blog system, admin panel, and dual backend architecture with load balancing.
 
