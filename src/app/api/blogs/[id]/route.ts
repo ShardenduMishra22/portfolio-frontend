@@ -19,6 +19,7 @@ export async function GET(
       );
     }
 
+
     const blog = await db
       .select({
         id: blogTable.id,
@@ -31,6 +32,8 @@ export async function GET(
         author: {
           id: usersTable.id,
           email: usersTable.email,
+          avatar: usersTable.image,
+          name: usersTable.name,
         },
         authorProfile: {
           firstName: userProfilesTable.firstName,

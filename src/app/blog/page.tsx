@@ -317,18 +317,18 @@ const BlogPage = () => {
                   {/* Author and Date */}
                   <div className="flex items-center space-x-3 mb-4">
                     <Avatar className="w-10 h-10 ring-2 ring-primary/10">
-                      <AvatarImage src={blog.authorProfile?.avatar || ''} />
+                      <AvatarImage src={blog?.author?.avatar || ''} />
                       <AvatarFallback className="bg-gradient-to-br from-primary/20 to-primary/10 text-primary font-semibold text-sm">
-                        {blog.authorProfile?.firstName && blog.authorProfile?.lastName
-                          ? `${blog.authorProfile.firstName.charAt(0)}${blog.authorProfile.lastName.charAt(0)}`
+                        {blog.author.name
+                          ? `${blog.author.name.charAt(0)}`
                           : blog.author?.email?.charAt(0).toUpperCase() || 'U'
                         }
                       </AvatarFallback>
                     </Avatar>
                     <div className="flex-1 min-w-0">
                       <p className="font-semibold text-black dark:text-white text-sm truncate">
-                        {blog.authorProfile?.firstName && blog.authorProfile?.lastName
-                          ? `${blog.authorProfile.firstName} ${blog.authorProfile.lastName}`
+                        {blog.author.name
+                          ? blog.author.name
                           : blog.author?.email || 'Unknown Author'
                         }
                       </p>

@@ -53,6 +53,8 @@ export async function GET(request: NextRequest) {
         author: {
           id: usersTable.id,
           email: usersTable.email,
+          avatar: usersTable.image,
+          name: usersTable.name,
         },
         authorProfile: {
           firstName: userProfilesTable.firstName,

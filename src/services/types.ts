@@ -54,14 +54,11 @@ export interface Blog {
   excerpt?: string;
   published?: boolean;
   authorId: string; // Changed from number to string to match API
-  author?: {
+  author: {
     id: string;
     email: string;
-  };
-  authorProfile?: {
-    firstName?: string;
-    lastName?: string;
-    avatar?: string;
+    name: string;
+    avatar: string;
   };
   tags?: string[]; // Added tags field
   categories?: Category[];

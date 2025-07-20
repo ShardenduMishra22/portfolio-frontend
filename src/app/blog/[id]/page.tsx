@@ -4,7 +4,6 @@ import { authClient } from '@/lib/authClient'
 import { useRouter } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
 import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Separator } from '@/components/ui/separator'
@@ -78,6 +77,7 @@ const BlogPostPage = ({ params }: { params: Promise<{ id: string }> }) => {
         setViewsCount(typeof response.data.views === 'number' ? response.data.views : 0)
         setCommentsCount(typeof response.data.comments === 'number' ? response.data.comments : 0)
       }
+      console.log('Blog post fetched:', response)
     } catch (error) {
       console.error('Error fetching blog:', error)
     } finally {
