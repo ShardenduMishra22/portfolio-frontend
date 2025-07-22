@@ -2,7 +2,7 @@
 
 import { authClient } from '@/lib/authClient'
 import { useRouter } from 'next/navigation'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useCallback } from 'react'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
@@ -57,15 +57,7 @@ const BlogPostPage = ({ params }: { params: Promise<{ id: string }> }) => {
   const [commentsCount, setCommentsCount] = useState(0)
   const [shareSuccess, setShareSuccess] = useState(false) // Added for share feedback
 
-  useEffect(() => {
-    if (resolvedParams.id) {
-      fetchBlogPost()
-      fetchComments()
-      addView()
-    }
-  }, [resolvedParams.id])
-
-  const fetchBlogPost = async () => {
+  const fetchBlogPost = useCallback(async () => {
     try {
       setLoading(true)
       const response = await blogsService.getBlogById(resolvedParams.id)
@@ -80,9 +72,9 @@ const BlogPostPage = ({ params }: { params: Promise<{ id: string }> }) => {
     } finally {
       setLoading(false)
     }
-  }
+  }, [resolvedParams.id]);
 
-  const fetchComments = async () => {
+  const fetchComments = useCallback(async () => {
     try {
       const response = await blogsService.getBlogComments(resolvedParams.id)
       if (response.success && response.data) {
@@ -91,9 +83,9 @@ const BlogPostPage = ({ params }: { params: Promise<{ id: string }> }) => {
     } catch (error) {
       console.error('Error fetching comments:', error)
     }
-  }
+  }, [resolvedParams.id]);
 
-  const addView = async () => {
+  const addView = useCallback(async () => {
     try {
       if (session?.data?.user?.id) {
         await blogsService.addBlogView(resolvedParams.id, {
@@ -105,7 +97,15 @@ const BlogPostPage = ({ params }: { params: Promise<{ id: string }> }) => {
     } catch (error) {
       console.error('Error adding view:', error)
     }
-  }
+  }, [resolvedParams.id, session?.data?.user?.id]);
+
+  useEffect(() => {
+    if (resolvedParams.id) {
+      fetchBlogPost()
+      fetchComments()
+      addView()
+    }
+  }, [resolvedParams.id, fetchBlogPost, fetchComments, addView])
 
   const handleLike = async () => {
     if (!session?.data?.user?.id) return

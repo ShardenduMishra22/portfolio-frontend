@@ -2,7 +2,7 @@
 
 import { authClient } from '@/lib/authClient'
 import { useRouter } from 'next/navigation'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useCallback } from 'react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
@@ -38,13 +38,7 @@ const BlogEditPage = ({ params }: { params: Promise<{ id: string }> }) => {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
 
-  useEffect(() => {
-    if (resolvedParams.id) {
-      fetchBlogPost()
-    }
-  }, [resolvedParams.id])
-
-  const fetchBlogPost = async () => {
+  const fetchBlogPost = useCallback(async () => {
     try {
       setLoading(true)
       const response = await blogsService.getBlogById(resolvedParams.id)
@@ -60,7 +54,13 @@ const BlogEditPage = ({ params }: { params: Promise<{ id: string }> }) => {
     } finally {
       setLoading(false)
     }
-  }
+  }, [resolvedParams.id]);
+
+  useEffect(() => {
+    if (resolvedParams.id) {
+      fetchBlogPost()
+    }
+  }, [resolvedParams.id, fetchBlogPost])
 
   const handleAddTag = () => {
     if (newTag.trim() && !tags.includes(newTag.trim())) {
