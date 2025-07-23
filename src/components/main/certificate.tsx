@@ -1,10 +1,10 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../ui/card'
 import { Button } from '../ui/button'
 import { Badge } from '../ui/badge'
-import { Award, Clock, ArrowRight, Star } from 'lucide-react'
+import { Award, Clock, ArrowRight, Star, ChevronLeft, ChevronRight } from 'lucide-react'
 import Link from 'next/link'
 import { Certification } from '@/data/types.data'
-import React, { useState } from 'react'
+import React, { useState, useMemo, useEffect } from 'react'
 import ReactMarkdown from 'react-markdown'
 
 interface CertificationsSectionProps {
@@ -13,11 +13,37 @@ interface CertificationsSectionProps {
 
 export default function CertificationsSection({ certifications }: CertificationsSectionProps) {
   const [currentPage, setCurrentPage] = useState(0)
-  const itemsPerPage = 4
+  const [windowWidth, setWindowWidth] = useState(0)
+
+  useEffect(() => {
+    const handleResize = () => setWindowWidth(window.innerWidth)
+    handleResize()
+    window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
+  }, [])
+
+  // Responsive items per page
+  const getItemsPerPage = () => {
+    if (windowWidth < 640) return 1  // Mobile: 1 certification
+    if (windowWidth < 1024) return 2 // Tablet: 2 certifications
+    return 2 // Desktop: 4 certifications
+  }
+
+  const itemsPerPage = getItemsPerPage()
   const totalPages = Math.ceil(certifications.length / itemsPerPage)
 
-  const getCurrentPageCertifications = () =>
-    certifications.slice(currentPage * itemsPerPage, (currentPage + 1) * itemsPerPage)
+  const { currentPageCertifications, startIndex, endIndex } = useMemo(() => {
+    const startIndex = currentPage * itemsPerPage
+    const endIndex = Math.min(startIndex + itemsPerPage, certifications.length)
+    const currentPageCertifications = certifications.slice(startIndex, endIndex)
+    
+    return { currentPageCertifications, startIndex, endIndex }
+  }, [certifications, currentPage, itemsPerPage])
+
+  // Reset to first page when screen size changes
+  useEffect(() => {
+    setCurrentPage(0)
+  }, [itemsPerPage])
 
   const nextPage = () => {
     if (currentPage < totalPages - 1) setCurrentPage((prev) => prev + 1)
@@ -27,107 +53,242 @@ export default function CertificationsSection({ certifications }: Certifications
     if (currentPage > 0) setCurrentPage((prev) => prev - 1)
   }
 
+  // Smart pagination for mobile
+  const getVisiblePageNumbers = () => {
+    if (windowWidth < 640) {
+      // Mobile: Show current and adjacent pages only
+      const pages = []
+      if (currentPage > 0) pages.push(currentPage - 1)
+      pages.push(currentPage)
+      if (currentPage < totalPages - 1) pages.push(currentPage + 1)
+      return pages
+    }
+    
+    // Desktop: Show all pages if reasonable, otherwise use ellipsis
+    if (totalPages <= 5) {
+      return Array.from({ length: totalPages }, (_, i) => i)
+    }
+    
+    const delta = 1
+    const range = []
+    const rangeWithDots = []
+    
+    for (let i = Math.max(1, currentPage - delta); 
+         i <= Math.min(totalPages - 2, currentPage + delta); 
+         i++) {
+      range.push(i)
+    }
+    
+    if (currentPage - delta > 1) {
+      rangeWithDots.push(0, '...')
+    } else {
+      rangeWithDots.push(0)
+    }
+    
+    rangeWithDots.push(...range)
+    
+    if (currentPage + delta < totalPages - 2) {
+      rangeWithDots.push('...', totalPages - 1)
+    } else {
+      if (totalPages > 1) rangeWithDots.push(totalPages - 1)
+    }
+    
+    return rangeWithDots
+  }
+
+  const isMobile = windowWidth < 640
+
   return (
-    <section className="relative py-12 sm:py-16 bg-background overflow-hidden">
-      {/* Subtle background pattern */}
-      <div className="absolute inset-0 opacity-10">
-        <div className="absolute inset-0 bg-[linear-gradient(30deg,transparent_25%,rgba(255,255,255,0.1)_50%,transparent_75%,transparent_100%)] bg-[length:30px_30px]" />
+    <section className="relative py-8 sm:py-12 lg:py-16 bg-background overflow-hidden">
+      {/* Optimized background pattern */}
+      <div className="absolute inset-0 opacity-5 sm:opacity-10">
+        <div className="absolute inset-0 bg-[linear-gradient(30deg,transparent_25%,rgba(255,255,255,0.05)_50%,transparent_75%)] bg-[length:40px_40px] sm:bg-[length:30px_30px]" />
       </div>
 
-      {/* Floating elements */}
-      <div className="absolute top-32 right-1/4 w-20 h-20 bg-primary/5 rounded-full blur-3xl animate-pulse" />
-      <div className="absolute bottom-40 left-1/4 w-16 h-16 bg-secondary/5 rounded-full blur-3xl animate-pulse delay-1000" />
+      {/* Responsive floating elements */}
+      <div className="absolute top-16 sm:top-32 right-1/4 w-12 h-12 sm:w-20 sm:h-20 bg-primary/5 rounded-full blur-2xl sm:blur-3xl animate-pulse" />
+      <div className="absolute bottom-20 sm:bottom-40 left-1/4 w-10 h-10 sm:w-16 sm:h-16 bg-secondary/5 rounded-full blur-2xl sm:blur-3xl animate-pulse delay-1000" />
 
-      <div className="relative mx-auto max-w-7xl px-6 lg:px-8">
+      <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-2xl text-center">
-          <Badge variant="outline" className="mb-6 px-4 py-2 bg-card/80 backdrop-blur-sm border-primary/30 hover:border-primary/50 transition-colors">
-            <Award className="mr-2 h-4 w-4 text-primary" />
-            <span className="text-card-foreground">Credentials</span>
+          <Badge variant="outline" className="mb-4 sm:mb-6 px-3 py-1.5 sm:px-4 sm:py-2 bg-card/80 backdrop-blur-sm border-primary/30 hover:border-primary/50 transition-colors">
+            <Award className="mr-1.5 sm:mr-2 h-3 w-3 sm:h-4 sm:w-4 text-primary" />
+            <span className="text-xs sm:text-sm text-card-foreground">Credentials</span>
           </Badge>
-
-          <div className="relative">
-            <h2 className="text-4xl font-bold tracking-tight sm:text-6xl mb-2">
+<br />
+          <div className="relative inline-block">
+            <h2 className="text-2xl sm:text-4xl lg:text-6xl font-bold tracking-tight mb-2">
               <span className="text-foreground">Professional </span>
               <span className="text-primary">Certifications</span>
             </h2>
-            <Star className="absolute -top-1 -right-16 h-6 w-6 text-secondary animate-pulse" />
+            <Star className="absolute -top-0.5 -right-8 sm:-right-16 h-4 w-4 sm:h-6 sm:w-6 text-secondary animate-pulse" />
           </div>
 
-          <p className="mt-8 text-lg leading-8 text-foreground max-w-lg mx-auto">
+          <p className="mt-4 sm:mt-8 text-sm sm:text-lg leading-6 sm:leading-8 text-foreground max-w-xs sm:max-w-lg mx-auto px-4 sm:px-0">
             Professional certifications and credentials that validate my expertise
           </p>
+
+          {/* Summary info */}
+          {certifications.length > 0 && (
+            <div className="mt-3 sm:mt-4 text-xs sm:text-sm text-foreground/70">
+              Showing {startIndex + 1}-{Math.min(endIndex, certifications.length)} of {certifications.length} certifications
+            </div>
+          )}
         </div>
 
-        <div className="mx-auto mt-20 grid max-w-2xl grid-cols-1 gap-6 lg:mx-0 lg:max-w-none lg:grid-cols-2">
+        {totalPages > 1 && (
+          <div className="mt-8 sm:mt-12 flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4">
+            {/* Navigation buttons */}
+            <div className="flex items-center gap-2 sm:gap-4 order-2 sm:order-none">
+              <Button
+                onClick={prevPage}
+                variant="outline"
+                size={isMobile ? "sm" : "lg"}
+                className="group bg-card hover:bg-primary/5 border-primary/20 hover:border-primary/30 transition-all duration-300 touch-manipulation"
+                disabled={currentPage === 0}
+              >
+                <ChevronLeft className="mr-1 sm:mr-2 h-3 w-3 sm:h-4 sm:w-4 transition-transform group-hover:-translate-x-1" />
+                <span className="text-xs sm:text-sm">
+                  {isMobile ? 'Prev' : 'Previous'}
+                </span>
+              </Button>
+
+              <Button
+                onClick={nextPage}
+                variant="outline"
+                size={isMobile ? "sm" : "lg"}
+                className="group bg-card hover:bg-primary/5 border-primary/20 hover:border-primary/30 transition-all duration-300 touch-manipulation"
+                disabled={currentPage === totalPages - 1}
+              >
+                <span className="text-xs sm:text-sm">Next</span>
+                <ChevronRight className="ml-1 sm:ml-2 h-3 w-3 sm:h-4 sm:w-4 transition-transform group-hover:translate-x-1" />
+              </Button>
+            </div>
+
+            {/* Page numbers */}
+            <div className="flex items-center gap-1 sm:gap-2 lg:gap-3 order-1 sm:order-none">
+              {getVisiblePageNumbers().map((pageNum, index) => {
+                if (pageNum === '...') {
+                  return (
+                    <span key={`dots-${index}`} className="px-2 py-1 text-xs sm:text-sm text-foreground/50">
+                      ...
+                    </span>
+                  )
+                }
+
+                return (
+                  <button
+                    key={pageNum}
+                    onClick={() => setCurrentPage(pageNum as number)}
+                    className={`w-7 h-7 sm:w-10 sm:h-10 rounded-full font-semibold transition-all duration-300 text-xs sm:text-sm touch-manipulation ${
+                      currentPage === pageNum
+                        ? 'bg-gradient-to-r from-primary to-secondary text-primary-foreground shadow-lg scale-105'
+                        : 'bg-card hover:bg-primary/5 border border-primary/20 hover:border-primary/30 text-foreground/70 hover:text-primary hover:scale-105'
+                    }`}
+                    aria-label={`Go to page ${(pageNum as number) + 1}`}
+                    aria-current={currentPage === pageNum ? 'page' : undefined}
+                  >
+                    {(pageNum as number) + 1}
+                  </button>
+                )
+              })}
+            </div>
+
+            {/* Mobile page indicator */}
+            <div className="text-xs text-foreground/70 sm:hidden order-3">
+              Page {currentPage + 1} of {totalPages}
+            </div>
+          </div>
+        )}
+
+        <div className="mx-auto mt-8 sm:mt-16 lg:mt-20 grid max-w-2xl grid-cols-1 gap-4 sm:gap-6 lg:mx-0 lg:max-w-none lg:grid-cols-2">
           {certifications.length === 0 ? (
             <Card className="col-span-full bg-gradient-to-br from-muted/20 to-muted/10 border-dashed border-2 border-muted/40 hover:border-primary/30 transition-all duration-300">
-              <CardContent className="text-center py-20">
-                <div className="relative w-20 h-20 bg-gradient-to-br from-primary/10 to-secondary/10 rounded-full flex items-center justify-center mx-auto mb-6">
-                  <Award className="h-10 w-10 text-primary" />
+              <CardContent className="text-center py-12 sm:py-20 px-4">
+                <div className="relative w-16 h-16 sm:w-20 sm:h-20 bg-gradient-to-br from-primary/10 to-secondary/10 rounded-full flex items-center justify-center mx-auto mb-4 sm:mb-6">
+                  <Award className="h-8 w-8 sm:h-10 sm:w-10 text-primary" />
                   <div className="absolute inset-0 bg-primary/5 rounded-full animate-ping" />
                 </div>
-                <h3 className="text-xl font-semibold text-foreground mb-3">No certifications yet</h3>
-                <p className="text-foreground mb-6 max-w-md mx-auto">
+                <h3 className="text-lg sm:text-xl font-semibold text-foreground mb-2 sm:mb-3">No certifications yet</h3>
+                <p className="text-sm sm:text-base text-foreground mb-4 sm:mb-6 max-w-sm sm:max-w-md mx-auto">
                   Professional certifications will appear here when earned and added to the portfolio.
                 </p>
-                <Badge variant="secondary" className="px-4 py-2 bg-gradient-to-r from-primary/10 to-secondary/10 text-foreground border-primary/20">
+                <Badge variant="secondary" className="px-3 py-1.5 sm:px-4 sm:py-2 bg-gradient-to-r from-primary/10 to-secondary/10 text-foreground border-primary/20">
                   Coming Soon
                 </Badge>
               </CardContent>
             </Card>
           ) : (
-            getCurrentPageCertifications().map((cert) => (
-              <Card
-                key={cert.inline?.id || cert.inline.id}
-                className="group relative overflow-hidden hover:shadow-2xl hover:shadow-primary/10 transition-all duration-500 border-border/50 hover:border-primary/30 bg-card/80 backdrop-blur-sm"
-              >
+            currentPageCertifications.map((cert, index) => (
+<Card
+  key={cert.inline?.id || cert.inline.id}
+  className="group relative overflow-hidden min-h-[20rem] hover:shadow-xl sm:hover:shadow-2xl hover:shadow-primary/10 transition-all duration-500 border-border/50 hover:border-primary/30 bg-card/80 backdrop-blur-sm"
+>
+
                 {/* Gradient overlay on hover */}
                 <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-secondary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
-                <CardHeader className="pb-3 relative z-10">
+                {/* Certificate number badge */}
+                <div className="absolute top-3 sm:top-4 right-3 sm:right-4 w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center text-primary-foreground text-xs sm:text-sm font-bold shadow-lg border border-primary/20">
+                  {String(startIndex + index + 1).padStart(2, '0')}
+                </div>
+
+                <CardHeader className="pb-3 relative z-10 pr-10 sm:pr-12">
                   <div className="flex items-start justify-between">
                     <div className="flex-1">
-                      <CardTitle className="text-lg group-hover:text-primary transition-colors duration-300 leading-tight">
+                      <CardTitle className="text-base sm:text-lg group-hover:text-primary transition-colors duration-300 leading-tight pr-2">
                         {cert.title}
                       </CardTitle>
-                      <CardDescription className="mt-1 text-foreground font-medium">
+                      <CardDescription className="mt-1 text-sm sm:text-base text-foreground font-medium">
                         {cert.issuer}
                       </CardDescription>
-                      <div className="flex items-center mt-2 text-sm text-foreground bg-muted/30 px-2 py-1 rounded-full w-fit">
-                        <Clock className="mr-2 h-3 w-3" />
-                        {cert.issue_date} 
+                      <div className="flex items-center mt-2 text-xs sm:text-sm text-foreground bg-muted/30 px-2 py-1 rounded-full w-fit">
+                        <Clock className="mr-1.5 sm:mr-2 h-3 w-3" />
+                        {cert.issue_date}
                       </div>
                     </div>
                   </div>
                 </CardHeader>
 
-                <CardContent className="space-y-3 relative z-10">
-                  <ReactMarkdown >
-                    {cert.description.length > 120 ? `${cert.description.substring(0, 120)}...` : cert.description}
-                  </ReactMarkdown>
+                <CardContent className="space-y-3 relative z-10 px-4 sm:px-6">
+                  <div className="text-xs sm:text-sm text-foreground/90 leading-relaxed">
+                    <div className="prose-md">
+                      <ReactMarkdown>
+                        {isMobile && cert.description.length > 100
+                          ? `${cert.description.substring(0, 100)}...`
+                        : cert.description.length > 120 
+                        ? `${cert.description.substring(0, 120)}...` 
+                        : cert.description}
+                      </ReactMarkdown>
+                    </div>
+                  </div>
 
-                  <div className="flex flex-wrap gap-2">
-                    {cert.skills.slice(0, 4).map((skill, idx) => (
+                  <div className="flex flex-wrap gap-1.5 sm:gap-2">
+                    {cert.skills.slice(0, isMobile ? 3 : 4).map((skill, idx) => (
                       <Badge
                         key={idx}
                         variant="outline"
-                        className="text-xs bg-secondary/5 hover:bg-secondary/10 border-secondary/20 text-foreground transition-colors"
+                        className="text-xs px-2 py-0.5 sm:px-3 sm:py-1 bg-secondary/5 hover:bg-secondary/10 border-secondary/20 text-foreground transition-colors"
                       >
                         {skill}
                       </Badge>
                     ))}
-                    {cert.skills.length > 4 && (
-                      <Badge variant="outline" className="text-xs bg-primary/5 border-primary/20 text-foreground">
-                        +{cert.skills.length - 4} more
+                    {cert.skills.length > (isMobile ? 3 : 4) && (
+                      <Badge variant="outline" className="text-xs px-2 py-0.5 sm:px-3 sm:py-1 bg-primary/5 border-primary/20 text-foreground">
+                        +{cert.skills.length - (isMobile ? 3 : 4)} more
                       </Badge>
                     )}
                   </div>
 
-                  <div className="flex items-center justify-between pt-2 border-t border-border/30">
-                    <Link href={`/certifications/${cert.inline?.id || cert.inline.id}`}>
-                      <Button variant="outline" className="group/btn hover:bg-primary/10 hover:border-primary/30 transition-all duration-300">
-                        <span className="text-foreground">View Details</span>
-                        <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover/btn:translate-x-1" />
+                  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 pt-3 border-t border-border/30">
+                    <Link href={`/certifications/${cert.inline?.id || cert.inline.id}`} className="w-full sm:w-auto">
+                      <Button 
+                        variant="outline" 
+                        size={isMobile ? "sm" : "default"}
+                        className="group/btn hover:bg-primary/10 hover:border-primary/30 transition-all duration-300 w-full sm:w-auto touch-manipulation"
+                      >
+                        <span className="text-foreground text-xs sm:text-sm">View Details</span>
+                        <ArrowRight className="ml-1.5 sm:ml-2 h-3 w-3 sm:h-4 sm:w-4 transition-transform group-hover/btn:translate-x-1" />
                       </Button>
                     </Link>
 
@@ -136,13 +297,14 @@ export default function CertificationsSection({ certifications }: Certifications
                         href={cert.certificate_url}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-flex items-center text-sm text-primary hover:text-primary/80 transition-colors px-3 py-2 rounded-lg hover:bg-primary/10"
+                        className="inline-flex items-center justify-center sm:justify-start text-xs sm:text-sm text-primary hover:text-primary/80 transition-colors px-3 py-2 rounded-lg hover:bg-primary/10 touch-manipulation w-full sm:w-auto"
                       >
-                        <Award className="mr-1 h-4 w-4" />
+                        <Award className="mr-1 h-3 w-3 sm:h-4 sm:w-4" />
                         Certificate
                       </a>
                     )}
                   </div>
+
                 </CardContent>
 
                 {/* Hover border effect */}
@@ -151,74 +313,31 @@ export default function CertificationsSection({ certifications }: Certifications
             ))
           )}
         </div>
-
-        {/* Pagination Controls */}
-        {totalPages > 1 && (
-          <div className="mt-12 flex items-center justify-center gap-4">
-            <Button
-              onClick={prevPage}
-              variant="outline"
-              size="lg"
-              className="group bg-card hover:bg-primary/5 border-primary/20 hover:border-primary/30 transition-all duration-300"
-              disabled={currentPage === 0}
-            >
-              Previous
-            </Button>
-
-            <div className="flex items-center gap-3">
-              {Array.from({ length: totalPages }, (_, i) => (
-                <button
-                  key={i}
-                  onClick={() => setCurrentPage(i)}
-                  className={`w-10 h-10 rounded-full font-semibold transition-all duration-300 ${
-                    currentPage === i
-                      ? 'bg-gradient-to-r from-primary to-secondary text-primary-foreground shadow-lg'
-                      : 'bg-card hover:bg-primary/5 border border-primary/20 hover:border-primary/30 text-foreground/70 hover:text-primary'
-                  }`}
+        {certifications.length > itemsPerPage && (
+          <div className="mt-12 sm:mt-20 text-center px-4 sm:px-0">
+            <div className="inline-flex flex-col sm:flex-row items-center gap-4 sm:gap-6 p-4 sm:p-6 bg-gradient-to-r from-card via-card/90 to-card rounded-xl sm:rounded-2xl border border-border/50 backdrop-blur-sm shadow-lg max-w-sm sm:max-w-none mx-auto">
+              <div className="text-center sm:text-left">
+                <h3 className="text-base sm:text-lg font-semibold text-foreground">More Certifications</h3>
+                <p className="text-xs sm:text-sm text-foreground/70 mt-1">
+                  Explore {certifications.length - itemsPerPage} additional certifications
+                </p>
+              </div>
+              <Link href="/certifications">
+                <Button
+                  variant="outline"
+                  size={isMobile ? "sm" : "lg"}
+                  className="group bg-gradient-to-r from-primary/10 to-secondary/10 hover:from-primary/20 hover:to-secondary/20 border-primary/30 hover:border-primary/50 transition-all duration-300 touch-manipulation"
                 >
-                  {i + 1}
-                </button>
-              ))}
+                  <span className="text-xs sm:text-sm">View All</span>
+                  <ArrowRight className="ml-1.5 sm:ml-2 h-3 w-3 sm:h-4 sm:w-4 transition-transform group-hover:translate-x-1" />
+                </Button>
+              </Link>
             </div>
-
-            <Button
-              onClick={nextPage}
-              variant="outline"
-              size="lg"
-              className="group bg-card hover:bg-primary/5 border-primary/20 hover:border-primary/30 transition-all duration-300"
-              disabled={currentPage === totalPages - 1}
-            >
-              Next
-            </Button>
           </div>
         )}
-
-          {certifications.length > 4 && (
-            <div className="mt-20 text-center">
-              <div className="inline-flex items-center gap-6 p-6 bg-gradient-to-r from-card via-card/90 to-card rounded-2xl border border-border/50 backdrop-blur-sm shadow-lg">
-                <div className="text-left">
-                  <h3 className="text-lg font-semibold text-foreground">More certifications</h3>
-                  <p className="text-sm text-foreground/70 mt-1">
-                    Explore {certifications.length - 4} additional certifications
-                  </p>
-                </div>
-                <Link href="/certifications">
-                  <Button
-                    variant="outline"
-                    size="lg"
-                    className="group bg-gradient-to-r from-primary/10 to-secondary/10 hover:from-primary/20 hover:to-secondary/20 border-primary/30 hover:border-primary/50 transition-all duration-300"
-                  >
-                    View All
-                    <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
-                  </Button>
-                </Link>
-              </div>
-            </div>
-          )}
-
         {/* Professional accent line */}
-        <div className="mt-20 flex justify-center">
-          <div className="w-32 h-0.5 bg-gradient-to-r from-primary via-secondary to-accent rounded-full opacity-60" />
+        <div className="mt-12 sm:mt-20 flex justify-center">
+          <div className="w-20 sm:w-32 h-0.5 bg-gradient-to-r from-primary via-secondary to-accent rounded-full opacity-60" />
         </div>
       </div>
     </section>
