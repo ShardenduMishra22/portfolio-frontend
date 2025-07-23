@@ -41,25 +41,27 @@ const getRandomStartPoint = () => {
       return { x: 0, y: 0, angle: 45 };
   }
 };
+
 export const ShootingStars: React.FC<ShootingStarsProps> = ({
   minSpeed = 10,
   maxSpeed = 30,
-  minDelay = 1200,
-  maxDelay = 2200,
+  minDelay = 500,
+  maxDelay = 800,
   starColor = "#9E00FF",
   trailColor = "#2EB9DF",
   starWidth = 10,
   starHeight = 1,
   className,
 }) => {
-  const [star, setStar] = useState<ShootingStar | null>(null);
+  // Changed from single star to array of stars
+  const [stars, setStars] = useState<ShootingStar[]>([]);
   const svgRef = useRef<SVGSVGElement>(null);
 
   useEffect(() => {
     const createStar = () => {
       const { x, y, angle } = getRandomStartPoint();
       const newStar: ShootingStar = {
-        id: Date.now(),
+        id: Date.now() + Math.random(), // More unique ID
         x,
         y,
         angle,
@@ -67,7 +69,9 @@ export const ShootingStars: React.FC<ShootingStarsProps> = ({
         speed: Math.random() * (maxSpeed - minSpeed) + minSpeed,
         distance: 0,
       };
-      setStar(newStar);
+      
+      // Add new star to the array instead of replacing
+      setStars(prevStars => [...prevStars, newStar]);
 
       const randomDelay = Math.random() * (maxDelay - minDelay) + minDelay;
       setTimeout(createStar, randomDelay);
@@ -79,47 +83,44 @@ export const ShootingStars: React.FC<ShootingStarsProps> = ({
   }, [minSpeed, maxSpeed, minDelay, maxDelay]);
 
   useEffect(() => {
-    const moveStar = () => {
-      if (star) {
-        setStar((prevStar) => {
-          if (!prevStar) return null;
-          const newX =
-            prevStar.x +
-            prevStar.speed * Math.cos((prevStar.angle * Math.PI) / 180);
-          const newY =
-            prevStar.y +
-            prevStar.speed * Math.sin((prevStar.angle * Math.PI) / 180);
-          const newDistance = prevStar.distance + prevStar.speed;
-          const newScale = 1 + newDistance / 100;
-          if (
-            newX < -20 ||
-            newX > window.innerWidth + 20 ||
-            newY < -20 ||
-            newY > window.innerHeight + 20
-          ) {
-            return null;
-          }
-          return {
-            ...prevStar,
-            x: newX,
-            y: newY,
-            distance: newDistance,
-            scale: newScale,
-          };
-        });
-      }
+    const moveStars = () => {
+      setStars(prevStars => 
+        prevStars
+          .map(star => {
+            const newX = star.x + star.speed * Math.cos((star.angle * Math.PI) / 180);
+            const newY = star.y + star.speed * Math.sin((star.angle * Math.PI) / 180);
+            const newDistance = star.distance + star.speed;
+            const newScale = 1 + newDistance / 100;
+
+            return {
+              ...star,
+              x: newX,
+              y: newY,
+              distance: newDistance,
+              scale: newScale,
+            };
+          })
+          // Filter out stars that are off-screen
+          .filter(star => 
+            star.x >= -20 && 
+            star.x <= window.innerWidth + 20 && 
+            star.y >= -20 && 
+            star.y <= window.innerHeight + 20
+          )
+      );
     };
 
-    const animationFrame = requestAnimationFrame(moveStar);
+    const animationFrame = requestAnimationFrame(moveStars);
     return () => cancelAnimationFrame(animationFrame);
-  }, [star]);
+  }, [stars]);
 
   return (
     <svg
       ref={svgRef}
       className={cn("w-full h-full absolute inset-0", className)}
     >
-      {star && (
+      {/* Render all stars from the array */}
+      {stars.map(star => (
         <rect
           key={star.id}
           x={star.x}
@@ -131,7 +132,7 @@ export const ShootingStars: React.FC<ShootingStarsProps> = ({
             star.x + (starWidth * star.scale) / 2
           }, ${star.y + starHeight / 2})`}
         />
-      )}
+      ))}
       <defs>
         <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
           <stop offset="0%" style={{ stopColor: trailColor, stopOpacity: 0 }} />
