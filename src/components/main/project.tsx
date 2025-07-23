@@ -7,8 +7,7 @@ import { Project } from '@/data/types.data';
 import { useState, useMemo, useEffect } from 'react';
 import { Card, CardDescription, CardTitle } from '../ui/card';
 import { ExternalLink, Github, Star, ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react';
-import { Vortex } from '../ui/vortex';
-import { BackgroundBeams } from '../ui/background-beams';
+import { HeroParallax } from '../ui/parallax';
 
 interface ProjectsSectionProps {
   projects: Project[];
@@ -18,7 +17,6 @@ export default function ProjectsSection({ projects }: ProjectsSectionProps) {
   const [currentPage, setCurrentPage] = useState(0);
   const [windowWidth, setWindowWidth] = useState(0);
 
-  // Handle window resize for responsive behavior
   useEffect(() => {
     const handleResize = () => setWindowWidth(window.innerWidth);
     handleResize();
@@ -27,7 +25,17 @@ export default function ProjectsSection({ projects }: ProjectsSectionProps) {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  // Responsive projects per page
+  const heroParallaxProjects = useMemo(() => {
+    return projects.slice(0, 15).map((project) => ({
+      inline: project.inline,
+      project_name: project.project_name,
+      small_description: project.small_description,
+      skills: project.skills,
+      project_live_link: project.project_live_link,
+      project_repository: project.project_repository,
+    }));
+  }, [projects]);
+
   const getProjectsPerPage = () => {
     if (windowWidth < 640) return 1;  // Mobile: 1 project
     if (windowWidth < 1024) return 2; // Tablet: 2 projects
@@ -106,28 +114,34 @@ export default function ProjectsSection({ projects }: ProjectsSectionProps) {
   };
 
   return (
-    <section className="py-8 sm:py-12 lg:py-16 relative overflow-hidden">
+    <>
+      {/* Hero Parallax Section with Full Project Cards */}
+      <section className="relative">
+        <HeroParallax projects={heroParallaxProjects} />
+      </section>
 
+      {/* Detailed Projects Section */}
+      <section className="py-8 sm:py-12 lg:py-16 relative overflow-hidden">
         <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="mx-auto max-w-3xl text-center">
             <div className="flex justify-center mb-4 sm:mb-6">
               <Badge variant="outline" className="px-3 py-1.5 sm:px-4 sm:py-2 text-xs sm:text-sm font-medium border-primary/30 bg-primary/5 hover:bg-primary/10 transition-colors shadow-lg backdrop-blur-sm">
                 <Star className="mr-1.5 sm:mr-2 h-3 w-3 sm:h-4 sm:w-4 text-primary" />
-                Featured Work
+                All Projects
               </Badge>
             </div>
 
             <h2 className="text-2xl sm:text-3xl lg:text-5xl xl:text-6xl font-bold tracking-tight">
               <span className="bg-gradient-to-r from-foreground via-primary to-secondary bg-clip-text text-transparent">
-                Best
+                Complete
               </span>{' '}
-              <span className="text-foreground">Projects</span>
+              <span className="text-foreground">Portfolio</span>
             </h2>
 
             <div className="mt-3 sm:mt-4 mx-auto w-16 sm:w-24 h-0.5 sm:h-1 bg-gradient-to-r from-primary via-secondary to-accent rounded-full shadow-lg"></div>
 
             <p className="mt-4 sm:mt-8 text-sm sm:text-lg leading-6 sm:leading-8 text-foreground max-w-xl sm:max-w-2xl mx-auto font-medium px-4 sm:px-0">
-              Showcasing top projects demonstrating technical expertise and creative problem-solving
+              Browse through all projects with detailed information and interactive features
             </p>
           </div>
 
@@ -237,7 +251,7 @@ export default function ProjectsSection({ projects }: ProjectsSectionProps) {
               ))}
             </div>
 
-            {/* Enhanced mobile-friendly pagination */}
+            {/* Rest of your pagination code remains the same */}
             {totalPages > 1 && (
               <div className="mt-8 sm:mt-16 flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-6">
                 {/* Navigation buttons */}
@@ -335,7 +349,7 @@ export default function ProjectsSection({ projects }: ProjectsSectionProps) {
             )}
           </div>
         </div>
-        <BackgroundBeams />
-    </section>
+      </section>
+    </>
   );
 }

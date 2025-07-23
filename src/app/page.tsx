@@ -175,7 +175,7 @@ function MobileNavigation({ activeSection }: { activeSection: string }) {
             
             <div className="flex-1">
               <div className="text-lg font-bold text-sidebar-foreground mb-1">
-                Portfolio
+                Shardendu Mishra
               </div>
               <div className="text-sm font-semibold bg-gradient-to-r from-pink-500 via-yellow-400 to-green-500 bg-[length:200%_100%] bg-clip-text text-transparent animate-blast">
                 I Love Golang and Fedora

@@ -100,7 +100,7 @@ export default function HeroSection() {
                     href="mailto:mishrashardendu22@gmail.com"
                     className="text-foreground hover:text-primary transition-colors duration-300 font-medium text-xs sm:text-sm lg:text-base truncate"
                   >
-                    {isMobile ? 'Contact Me' : 'mishrashardendu22@gmail.com'}
+                    {'mishrashardendu22@gmail.com'}
                   </a>
                 </div>
               </div>
