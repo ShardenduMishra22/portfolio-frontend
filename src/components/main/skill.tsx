@@ -73,7 +73,6 @@ export default function SkillsSection({ skills }: SkillsSectionProps) {
   
   return (
     <section className="relative py-8 sm:py-12 lg:py-16 overflow-hidden">
-      {/* Optimized background pattern - less intensive */}
       <div className="absolute inset-0 opacity-10 pointer-events-none">
         <div className="absolute inset-0 bg-[linear-gradient(45deg,transparent_25%,rgba(255,255,255,0.05)_50%,transparent_75%)] bg-[length:30px_30px] sm:bg-[length:20px_20px]" />
       </div>
