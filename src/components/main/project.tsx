@@ -7,7 +7,7 @@ import { Project } from '@/data/types.data';
 import { useState, useMemo, useEffect } from 'react';
 import { Card, CardDescription, CardTitle } from '../ui/card';
 import { ExternalLink, Github, Star, ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react';
-import { HeroParallax } from '../ui/parallax';
+import { HeroParallax } from '../ui/hero-parallax';
 
 interface ProjectsSectionProps {
   projects: Project[];
