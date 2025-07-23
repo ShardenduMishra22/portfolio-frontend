@@ -1,15 +1,13 @@
 package main
 
 import (
-	"encoding/json"
+	"os"
 	"fmt"
 	"log"
-	"net/http"
-	"os"
-	"os/exec"
-	"path/filepath"
 	"regexp"
 	"strings"
+	"os/exec"
+	"path/filepath"
 )
 
 type Repo struct {
@@ -17,52 +15,6 @@ type Repo struct {
 }
 
 func main() {
-	Cleaner()
-	// username := "MishraShardendu22"
-	// url := "https://api.github.com/users/" + username + "/repos?per_page=100"
-
-	// repos := getRepos(url)
-	// for _, repo := range repos {
-	// 	Clone(repo)
-	// }
-}
-
-func getRepos(url string) []string {
-	resp, err := http.Get(url)
-	if err != nil {
-		log.Fatal(err)
-	}
-	defer resp.Body.Close()
-
-	var repos []Repo
-	if err := json.NewDecoder(resp.Body).Decode(&repos); err != nil {
-		log.Fatal(err)
-	}
-
-	var names []string
-	for _, r := range repos {
-		names = append(names, r.Name)
-	}
-	return names
-}
-
-func Clone(repo string) {
-	repoURL := "git@github.com:MishraShardendu22/" + repo + ".git"
-	cmd := exec.Command("git", "clone", repoURL)
-	cmd.Stdout = os.Stdout
-	cmd.Stderr = os.Stderr
-	cmd.Run()
-
-	if err := os.Chdir(repo); err != nil {
-		fmt.Println("Chdir failed:", err)
-		os.RemoveAll(repo)
-		return
-	}
-	defer func() {
-		os.Chdir("..")
-		os.RemoveAll(repo)
-	}()
-
 	Cleaner()
 }
 
