@@ -1,3 +1,49 @@
+export interface CommitData {
+  date: string
+  count: number
+}
+
+export interface GitHubData {
+  name?: string
+  location?: string
+  bio?: string
+  followers: number
+  public_repos: number
+}
+
+export interface LeetCodeData {
+  profile: {
+    realName?: string
+    ranking: number
+  }
+  submitStats: {
+    acSubmissionNum: Array<{ count: number }>
+  }
+}
+
+export interface Repository {
+  name: string
+  url: string
+  stars: number
+}
+
+export interface DashboardData {
+  github?: GitHubData
+  leetcode?: LeetCodeData
+  commits?: CommitData[]
+  languages?: Record<string, number>
+  stars?: number
+  topRepos?: Repository[]
+}
+
+export interface ChartTheme {
+  text: string
+  grid: string
+  background: string
+  primary: string
+}
+
+
 // API Response Types
 export interface ApiResponse<T> {
   message: string
