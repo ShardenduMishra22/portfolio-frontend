@@ -26,6 +26,7 @@ import {
 } from '@/components/main/loading'
 import { StarsBackground } from '@/components/ui/stars-background'
 import { ShootingStars } from '@/components/ui/shooting-stars'
+import { Vortex } from '@/components/ui/vortex'
 
 const navItems = [
   { href: '#hero', label: 'Home', icon: Home },
@@ -425,19 +426,16 @@ export default function HomePage() {
           {loading.education ? <EducationSkeleton /> : <Education />}
           <ShootingStars />
         </section>
-        
-        <section id="skills" className="scroll-mt-20 relative">
-          <BackgroundBeams />
-          <div className="absolute inset-0 bg-gradient-to-l from-transparent via-accent/5 to-transparent opacity-50 pointer-events-none" />
-          {loading.skills ? <SkillsSkeleton /> : <SkillsSection skills={skills} />}
-        </section>
-        
-        <section id="projects" className="scroll-mt-20 relative">
-          <BackgroundBeams />
-          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-primary/5 to-transparent opacity-50 pointer-events-none" />
-          {loading.projects ? <ProjectsSkeleton /> : <ProjectsSection projects={projects} />}
-        </section>
-        
+
+
+          <section id="skills" className="scroll-mt-20 relative">
+            {loading.skills ? <SkillsSkeleton /> : <SkillsSection skills={skills} />}
+          </section>
+          
+          <section id="projects" className="scroll-mt-20 relative">
+            {loading.projects ? <ProjectsSkeleton /> : <ProjectsSection projects={projects} />}
+          </section>
+
         <section id="experience" className="scroll-mt-20 relative bg-white dark:bg-black">
           {loading.experiences ? <ExperienceSkeleton /> : <ExperienceSection experiences={experiences} />}
         </section>

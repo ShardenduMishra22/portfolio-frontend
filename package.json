@@ -126,6 +126,7 @@
     "react-resizable-panels": "^3.0.3",
     "react-swipeable": "^7.0.2",
     "recharts": "^3.1.0",
+    "simplex-noise": "^4.0.3",
     "sonner": "^2.0.6",
     "tailwind-merge": "^3.3.1",
     "tiptap-markdown": "^0.8.10",

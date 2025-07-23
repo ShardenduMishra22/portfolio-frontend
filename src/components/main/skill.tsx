@@ -1,6 +1,7 @@
 import { Badge } from '../ui/badge'
 import { Code, Zap, ChevronLeft, ChevronRight } from 'lucide-react'
 import { useState, useMemo } from 'react'
+import { Vortex } from '../ui/vortex'
 
 interface SkillsSectionProps {
   skills: string[]
@@ -73,12 +74,20 @@ export default function SkillsSection({ skills }: SkillsSectionProps) {
   
   return (
     <section className="relative py-8 sm:py-12 lg:py-16 overflow-hidden">
+              <Vortex
+                backgroundColor="black"
+                rangeY={800}
+                particleCount={500}
+                baseHue={120}
+                className="flex items-center flex-col justify-center px-2 md:px-10  py-4 w-full h-full"
+              >
       <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-2xl text-center">
           <Badge variant="outline" className="mb-4 sm:mb-6 px-3 py-1.5 sm:px-4 sm:py-2 bg-card/80 backdrop-blur-sm border-primary/30 hover:border-primary/50 transition-colors">
             <Code className="mr-2 h-3 w-3 sm:h-4 sm:w-4 text-primary" />
             <span className="text-xs sm:text-sm text-card-foreground">Technical Expertise</span>
           </Badge>
+          <br />
           
           <div className="relative inline-block">
             <h2 className="text-2xl sm:text-4xl lg:text-6xl font-bold tracking-tight mb-2">
@@ -188,6 +197,7 @@ export default function SkillsSection({ skills }: SkillsSectionProps) {
           <div className="w-16 sm:w-24 h-0.5 bg-gradient-to-r from-primary to-secondary rounded-full opacity-60" />
         </div>
       </div>
+      </Vortex>
     </section>
   )
 }
