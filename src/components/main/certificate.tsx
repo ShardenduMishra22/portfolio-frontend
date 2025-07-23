@@ -6,6 +6,7 @@ import Link from 'next/link'
 import { Certification } from '@/data/types.data'
 import React, { useState, useMemo, useEffect } from 'react'
 import ReactMarkdown from 'react-markdown'
+import { cn } from '@/lib/utils'
 
 interface CertificationsSectionProps {
   certifications: Certification[]
@@ -100,10 +101,15 @@ export default function CertificationsSection({ certifications }: Certifications
 
   return (
     <section className="relative py-8 sm:py-12 lg:py-16 bg-background overflow-hidden">
-      {/* Optimized background pattern */}
-      <div className="absolute inset-0 opacity-5 sm:opacity-10">
-        <div className="absolute inset-0 bg-[linear-gradient(30deg,transparent_25%,rgba(255,255,255,0.05)_50%,transparent_75%)] bg-[length:40px_40px] sm:bg-[length:30px_30px]" />
-      </div>
+<div
+        className={cn(
+          "absolute inset-0",
+          "[background-size:20px_20px]",
+          "[background-image:radial-gradient(#d4d4d4_1px,transparent_1px)]",
+          "dark:[background-image:radial-gradient(#404040_1px,transparent_1px)]",
+        )}
+      />
+      <div className="pointer-events-none absolute inset-0 flex items-center justify-center bg-white [mask-image:radial-gradient(ellipse_at_center,transparent_20%,black)] dark:bg-black" />
 
       {/* Responsive floating elements */}
       <div className="absolute top-16 sm:top-32 right-1/4 w-12 h-12 sm:w-20 sm:h-20 bg-primary/5 rounded-full blur-2xl sm:blur-3xl animate-pulse" />

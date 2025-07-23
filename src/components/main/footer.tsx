@@ -30,6 +30,7 @@ import {
   LinkedInProfile,
   CodeforcesProfile
 } from '@/data/static_link'
+import { StarsBackground } from '../ui/stars-background'
 
 export default function FooterSection() {
   const [windowWidth, setWindowWidth] = useState(0)
@@ -51,6 +52,7 @@ export default function FooterSection() {
 
   return (
     <footer className="relative overflow-hidden bg-gradient-to-br from-background via-background/95 to-background/90 border-t border-border/50">
+      <StarsBackground />
       {/* Background Elements */}
       <div className="absolute inset-0 bg-grid-pattern opacity-20" />
       <div className="absolute top-0 left-0 w-96 h-96 bg-primary/3 rounded-full blur-3xl" />

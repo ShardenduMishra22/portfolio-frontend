@@ -6,6 +6,7 @@ import Link from 'next/link'
 import { Experience } from '@/data/types.data'
 import React, { useState, useMemo, useEffect } from 'react'
 import ReactMarkdown from 'react-markdown'
+import { cn } from '@/lib/utils'
 
 interface ExperienceSectionProps {
   experiences: Experience[]
@@ -99,11 +100,16 @@ export default function ExperienceSection({ experiences }: ExperienceSectionProp
   const isMobile = windowWidth < 640
 
   return (
-    <section className="py-8 sm:py-12 lg:py-16  relative overflow-hidden">
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,theme(colors.primary/3),transparent_70%)] sm:bg-[radial-gradient(circle_at_30%_20%,theme(colors.primary/4),transparent_70%)]"></div>
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_80%,theme(colors.secondary/3),transparent_70%)] sm:bg-[radial-gradient(circle_at_70%_80%,theme(colors.secondary/4),transparent_70%)]"></div>
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,theme(colors.accent/1.5),transparent_80%)] sm:bg-[radial-gradient(circle_at_50%_50%,theme(colors.accent/2),transparent_80%)]"></div>
-      <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.01)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.01)_1px,transparent_1px)] bg-[size:40px_40px] sm:bg-[size:50px_50px] opacity-50 sm:opacity-100"></div>
+    <section className="relative overflow-hidden">
+<div
+        className={cn(
+          "absolute inset-0",
+          "[background-size:20px_20px]",
+          "[background-image:radial-gradient(#d4d4d4_1px,transparent_1px)]",
+          "dark:[background-image:radial-gradient(#404040_1px,transparent_1px)]",
+        )}
+      />
+      <div className="pointer-events-none absolute inset-0 flex items-center justify-center bg-white [mask-image:radial-gradient(ellipse_at_center,transparent_20%,black)] dark:bg-black" />
 
       <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-4xl text-center">

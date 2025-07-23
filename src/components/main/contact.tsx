@@ -225,7 +225,6 @@ export default function Contact() {
   return (
     <div className="min-h-screen bg-background p-3 sm:p-4 pb-14">
       <div className="max-w-7xl mx-auto">
-        {/* Header - Mobile responsive */}
         <div className="mb-6 sm:mb-8 text-center sm:text-left">
           <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-foreground mb-2" style={{ fontFamily: 'var(--font-heading)' }}>
             Developer Dashboard
@@ -234,10 +233,7 @@ export default function Contact() {
             Comprehensive overview of coding activities and achievements
           </p>
         </div>
-
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
-          
-          {/* GitHub Profile Card */}
           {data.github && (
             <Card className="shadow-lg border-border bg-card hover:shadow-xl transition-all duration-300 group">
               <CardHeader className="pb-3 px-4 sm:px-6">
@@ -255,21 +251,21 @@ export default function Contact() {
                   <User className="w-3 h-3 sm:w-4 sm:h-4 text-primary flex-shrink-0" />
                   <span className="font-medium text-card-foreground text-sm sm:text-base truncate">{data.github.name}</span>
                 </div>
-                
+
                 {data.github.location && (
                   <div className="flex items-center gap-3 p-2 sm:p-3 bg-secondary/20 rounded-lg">
                     <MapPin className="w-3 h-3 sm:w-4 sm:h-4 text-secondary flex-shrink-0" />
                     <span className="text-card-foreground text-sm sm:text-base truncate">{data.github.location}</span>
                   </div>
                 )}
-                
+
                 {data.github.bio && (
                   <div className="flex items-start gap-3 p-2 sm:p-3 bg-accent/20 rounded-lg">
                     <BookOpen className="w-3 h-3 sm:w-4 sm:h-4 text-accent mt-0.5 flex-shrink-0" />
                     <span className="text-card-foreground text-xs sm:text-sm leading-relaxed line-clamp-3">{data.github.bio}</span>
                   </div>
                 )}
-                
+
                 {/* Stats Grid - Mobile responsive */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 pt-2 sm:pt-4">
                   <div className="flex items-center gap-2 p-2 sm:p-3 bg-chart-2/20 rounded-lg">
@@ -279,7 +275,7 @@ export default function Contact() {
                       <p className="font-semibold text-card-foreground text-sm sm:text-base">{data.github.followers}</p>
                     </div>
                   </div>
-                  
+
                   <div className="flex items-center gap-2 p-2 sm:p-3 bg-chart-3/20 rounded-lg">
                     <Code className="w-3 h-3 sm:w-4 sm:h-4 text-chart-3 flex-shrink-0" />
                     <div className="min-w-0">
@@ -300,7 +296,6 @@ export default function Contact() {
             </Card>
           )}
 
-          {/* LeetCode Card */}
           {data.leetcode?.profile && data.leetcode?.submitStats && (
             <Card className="shadow-lg border-border bg-card hover:shadow-xl transition-all duration-300 group">
               <CardHeader className="pb-3 px-4 sm:px-6">
@@ -318,7 +313,7 @@ export default function Contact() {
                   <User className="w-3 h-3 sm:w-4 sm:h-4 text-primary flex-shrink-0" />
                   <span className="font-medium text-card-foreground text-sm sm:text-base truncate">{data.leetcode.profile.realName}</span>
                 </div>
-                
+
                 <div className="flex items-center gap-3 p-2 sm:p-3 bg-accent/20 rounded-lg">
                   <Award className="w-3 h-3 sm:w-4 sm:h-4 text-accent flex-shrink-0" />
                   <div className="min-w-0">
@@ -326,8 +321,7 @@ export default function Contact() {
                     <p className="font-semibold text-card-foreground text-sm sm:text-base">#{data.leetcode.profile.ranking}</p>
                   </div>
                 </div>
-                
-                {/* LeetCode Problem Stats */}
+
                 <div className="grid grid-cols-1 gap-2 sm:gap-3 pt-2 sm:pt-4">
                   <div className="flex items-center justify-between p-2 sm:p-3 bg-chart-1/20 rounded-lg border border-chart-1/30">
                     <div className="flex items-center gap-2">
@@ -363,7 +357,6 @@ export default function Contact() {
             </Card>
           )}
 
-          {/* Commits Chart */}
           {sortedCommits.length > 0 && (
             <Card className="col-span-1 lg:col-span-2 shadow-lg border-border bg-card hover:shadow-xl transition-all duration-300 group">
               <CardHeader className="pb-3 px-4 sm:px-6">
@@ -384,7 +377,6 @@ export default function Contact() {
             </Card>
           )}
 
-          {/* Technology Stack Chart */}
           {data.languages && Object.keys(data.languages).length > 0 && (
             <Card className="col-span-1 lg:col-span-2 shadow-lg border-border bg-card hover:shadow-xl transition-all duration-300 group">
               <CardHeader className="pb-3 px-4 sm:px-6">
@@ -399,12 +391,10 @@ export default function Contact() {
               </CardHeader>
               <CardContent className="px-4 sm:px-6">
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6 items-center">
-                  {/* Chart - Responsive height */}
                   <div className="lg:col-span-2 h-56 sm:h-64 lg:h-72">
                     <Pie data={languagePie} options={pieOptions} />
                   </div>
                   
-                  {/* Language Details */}
                   <div className="space-y-2 sm:space-y-3 text-xs sm:text-sm text-card-foreground">
                     {languagePie.labels.slice(0, 5).map((lang, i) => {
                       const usageMap: Record<string, string> = {

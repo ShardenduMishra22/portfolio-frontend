@@ -12,6 +12,7 @@ import ExperienceSection from '@/components/main/exp'
 import ContactSection from '@/components/main/contact'
 import ProjectsSection from '@/components/main/project'
 import CertificationsSection from '@/components/main/certificate'
+import { BackgroundBeams } from '@/components/ui/background-beams'
 import { Project, Experience, Certification } from '../data/types.data'
 import { projectsAPI, experiencesAPI, skillsAPI, certificationsAPI } from '../util/apiResponse.util'
 import { Home, GraduationCap, Code, Briefcase, Award, Mail, User, Sparkles, Glasses, Menu, X } from 'lucide-react'
@@ -23,6 +24,8 @@ import {
   CertificationsSkeleton, 
   EducationSkeleton 
 } from '@/components/main/loading'
+import { StarsBackground } from '@/components/ui/stars-background'
+import { ShootingStars } from '@/components/ui/shooting-stars'
 
 const navItems = [
   { href: '#hero', label: 'Home', icon: Home },
@@ -414,25 +417,28 @@ export default function HomePage() {
       <div className="md:pl-20 transition-all duration-500 ease-out">
         <section id="hero" className="relative">
           <HeroSection />
+          <ShootingStars />
         </section>
         
         <section id="education" className="scroll-mt-20 relative">
           <div className="absolute inset-0 bg-gradient-to-r from-transparent via-secondary/5 to-transparent opacity-50 pointer-events-none" />
           {loading.education ? <EducationSkeleton /> : <Education />}
+          <ShootingStars />
         </section>
         
         <section id="skills" className="scroll-mt-20 relative">
+          <BackgroundBeams />
           <div className="absolute inset-0 bg-gradient-to-l from-transparent via-accent/5 to-transparent opacity-50 pointer-events-none" />
           {loading.skills ? <SkillsSkeleton /> : <SkillsSection skills={skills} />}
         </section>
         
         <section id="projects" className="scroll-mt-20 relative">
+          <BackgroundBeams />
           <div className="absolute inset-0 bg-gradient-to-r from-transparent via-primary/5 to-transparent opacity-50 pointer-events-none" />
           {loading.projects ? <ProjectsSkeleton /> : <ProjectsSection projects={projects} />}
         </section>
         
-        <section id="experience" className="scroll-mt-20 relative">
-          <div className="absolute inset-0 bg-gradient-to-l from-transparent via-muted/5 to-transparent opacity-50 pointer-events-none" />
+        <section id="experience" className="scroll-mt-20 relative bg-white dark:bg-black">
           {loading.experiences ? <ExperienceSkeleton /> : <ExperienceSection experiences={experiences} />}
         </section>
         
@@ -443,9 +449,12 @@ export default function HomePage() {
         
         <section id="contact" className="scroll-mt-20 relative">
           <ContactSection />
+          <StarsBackground />
         </section>
         
-        <FooterSection />
+        <section>
+          <FooterSection />
+        </section>
       </div>
     </div>
   )

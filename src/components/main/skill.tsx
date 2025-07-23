@@ -73,14 +73,6 @@ export default function SkillsSection({ skills }: SkillsSectionProps) {
   
   return (
     <section className="relative py-8 sm:py-12 lg:py-16 overflow-hidden">
-      <div className="absolute inset-0 opacity-10 pointer-events-none">
-        <div className="absolute inset-0 bg-[linear-gradient(45deg,transparent_25%,rgba(255,255,255,0.05)_50%,transparent_75%)] bg-[length:30px_30px] sm:bg-[length:20px_20px]" />
-      </div>
-      
-      {/* Responsive floating elements */}
-      <div className="absolute top-10 sm:top-20 left-1/4 w-16 h-16 sm:w-32 sm:h-32 bg-primary/5 rounded-full blur-2xl sm:blur-3xl animate-pulse" />
-      <div className="absolute bottom-10 sm:bottom-20 right-1/4 w-12 h-12 sm:w-24 sm:h-24 bg-secondary/5 rounded-full blur-2xl sm:blur-3xl animate-pulse delay-1000" />
-      
       <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-2xl text-center">
           <Badge variant="outline" className="mb-4 sm:mb-6 px-3 py-1.5 sm:px-4 sm:py-2 bg-card/80 backdrop-blur-sm border-primary/30 hover:border-primary/50 transition-colors">
