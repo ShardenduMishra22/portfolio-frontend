@@ -77,7 +77,7 @@ const DropdownMenu: React.FC<DropdownMenuProps> = ({ trigger, children, isOpen, 
 }
 
 type DropdownItemProps = {
-  icon: React.ElementType
+  icon: React.ComponentType<{ className?: string }>
   label: string
   onClick: () => void
   isActive: boolean
