@@ -2,76 +2,65 @@
 
 import Link from 'next/link';
 import toast from 'react-hot-toast';
-import { ArrowLeft, Building2 } from 'lucide-react';
+import { ArrowLeft, Sparkles } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { Experience } from '@/data/types.data';
-import { experiencesAPI } from '@/util/apiResponse.util';
-import { EmptyState, ErrorState, LoadingState } from '@/components/Experience/load-error';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import ExperiencePagination from '@/components/Experience/pagination';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import ExperienceGrid from '@/components/Experience/grid';
+import { Project } from '@/data/types.data';
+import { projectsAPI } from '@/util/apiResponse.util';
+import { EmptyState, ErrorState, LoadingState } from './Load-Error';
+import { Button } from '../ui/button';
+import { Input } from '../ui/input';
+import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from '../ui/select';
+import ProjectGrid from './project-grid';
+import ProjectPagination from './project-pagination';
 
-export default function ExperiencePageContent() {
-  const [experiences, setExperiences] = useState<Experience[]>([]);
+export default function ProjectPageContent() {
+  const [projects, setProjects] = useState<Project[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
-  const experiencesPerPage = 6;
-  const [selectedTech, setSelectedTech] = useState<string>("__all__");
-  const [selectedCompany, setSelectedCompany] = useState<string>("__all__");
-  const [selectedYear, setSelectedYear] = useState<string>("__all__");
+  const projectsPerPage = 6;
+  const [selectedSkill, setSelectedSkill] = useState<string>("__all__");
   const router = useRouter();
   const searchParams = useSearchParams();
-  const initialSearch = searchParams.get('search')?.toLowerCase() || '';
+  const initialSearch = searchParams.get('name_has')?.toLowerCase() || '';
   const [searchTerm, setSearchTerm] = useState(initialSearch);
 
-  const allTechs = Array.from(new Set(experiences.flatMap(e => e.technologies)));
-  const allCompanies = Array.from(new Set(experiences.map(e => e.company_name)));
-  const allYears = Array.from(new Set(experiences.map(e => e.start_date ? new Date(e.start_date).getFullYear().toString() : ''))).filter(Boolean);
+  const allSkills = Array.from(new Set(projects.flatMap(p => p.skills)));
 
-  const filteredExperiences = experiences.filter(experience => {
-    const matchesTech = selectedTech !== "__all__" ? experience.technologies.includes(selectedTech) : true;
-    const matchesCompany = selectedCompany !== "__all__" ? experience.company_name === selectedCompany : true;
-    const matchesYear = selectedYear !== "__all__" ? (experience.start_date && new Date(experience.start_date).getFullYear().toString() === selectedYear) : true;
-    const matchesSearch = searchTerm === '' || 
-      experience.position.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      experience.company_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      experience.description.toLowerCase().includes(searchTerm.toLowerCase());
-    
-    return matchesTech && matchesCompany && matchesYear && matchesSearch;
+  const filteredProjects = projects.filter(project => {
+    const matchesSkill = selectedSkill !== "__all__" ? project.skills.includes(selectedSkill) : true;
+    const matchesName = project.project_name.toLowerCase().includes(searchTerm);
+    return matchesSkill && matchesName;
   });
 
-  const totalPages = Math.ceil(filteredExperiences.length / experiencesPerPage);
-  const startIndex = (currentPage - 1) * experiencesPerPage;
-  const endIndex = startIndex + experiencesPerPage;
-  const currentExperiences = filteredExperiences.slice(startIndex, endIndex);
+  const totalPages = Math.ceil(filteredProjects.length / projectsPerPage);
+  const startIndex = (currentPage - 1) * projectsPerPage;
+  const endIndex = startIndex + projectsPerPage;
+  const currentProjects = filteredProjects.slice(startIndex, endIndex);
 
-  const transformedExperiences = currentExperiences.map(experience => ({
-    title: experience.position,
-    company: experience.company_name,
-    description: experience.description,
-    link: `/experiences/${experience.inline?.id || experience.inline.id}`,
-    technologies: experience.technologies,
-    certificateUrl: experience.certificate_url,
-    startDate: experience.start_date,
-    endDate: experience.end_date,
+  const transformedProjects = currentProjects.map(project => ({
+    title: project.project_name,
+    description: project.small_description,
+    link: `/projects/${project.inline?.id || project.inline.id}`,
+    skills: project.skills,
+    repository: project.project_repository,
+    liveLink: project.project_live_link,
+    video: project.project_video,
   }));
 
   useEffect(() => {
-    const fetchExperiences = async () => {
+    const fetchProjects = async () => {
       try {
-        const response = await experiencesAPI.getAllExperiences();
-        setExperiences(Array.isArray(response.data) ? response.data : []);
+        const response = await projectsAPI.getAllProjects();
+        setProjects(Array.isArray(response.data) ? response.data : []);
       } catch (err) {
-        setError('Failed to load experiences');
+        setError('Failed to load projects');
       } finally {
         setLoading(false);
       }
     };
-    fetchExperiences();
+    fetchProjects();
   }, []);
 
   const handlePageChange = (page: number) => {
@@ -83,9 +72,9 @@ export default function ExperiencePageContent() {
     setSearchTerm(value);
     const params = new URLSearchParams(window.location.search);
     if (value) {
-      params.set('search', value);
+      params.set('name_has', value);
     } else {
-      params.delete('search');
+      params.delete('name_has');
     }
     router.push(`?${params.toString()}`);
   };
@@ -122,16 +111,16 @@ export default function ExperiencePageContent() {
               
               <div className="flex items-center gap-4">
                 <div className="flex items-center gap-2">
-                  <Building2 className="w-5 h-5 text-primary" />
+                  <Sparkles className="w-5 h-5 text-primary" />
                   <h1 className="text-2xl font-heading font-bold bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent whitespace-nowrap">
-                    Experience
+                    Projects
                   </h1>
                 </div>
                 
                 {/* Compact Stats */}
                 <div className="hidden lg:flex items-center gap-3 text-sm">
                   <div className="flex items-center gap-1">
-                    <span className="font-semibold text-primary">{experiences.length}</span>
+                    <span className="font-semibold text-primary">{projects.length}</span>
                     <span className="text-muted-foreground">Total</span>
                   </div>
                   <div className="w-px h-4 bg-border" />
@@ -148,7 +137,7 @@ export default function ExperiencePageContent() {
             <div className="flex-1 max-w-md mx-8">
               <Input
                 type="text"
-                placeholder="Search experiences..."
+                placeholder="Search projects..."
                 value={searchTerm}
                 onChange={(e) => handleSearchChange(e.target.value)}
                 className="h-10 w-full border-2 border-border/50 hover:border-primary/50 focus:border-primary transition-colors bg-background/50"
@@ -158,13 +147,13 @@ export default function ExperiencePageContent() {
             {/* Right Side: Pagination */}
             <div className="flex-shrink-0">
               {totalPages > 1 && (
-                <ExperiencePagination
+                <ProjectPagination
                   currentPage={currentPage}
                   totalPages={totalPages}
                   onPageChange={handlePageChange}
                   startIndex={startIndex}
                   endIndex={endIndex}
-                  totalItems={filteredExperiences.length}
+                  totalItems={filteredProjects.length}
                 />
               )}
             </div>
@@ -176,52 +165,23 @@ export default function ExperiencePageContent() {
       <div className="border-b border-border/30 bg-background/80 backdrop-blur-sm">
         <div className="container mx-auto px-6 py-3 max-w-full">
           <div className="flex items-center justify-center gap-4">
-            <Select value={selectedTech} onValueChange={setSelectedTech}>
-              <SelectTrigger className="w-[160px] h-9">
-                <SelectValue placeholder="Technology" />
+            <Select value={selectedSkill} onValueChange={setSelectedSkill}>
+              <SelectTrigger className="w-[200px] h-9">
+                <SelectValue placeholder="Filter by Skill" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="__all__">All Technologies</SelectItem>
-                {allTechs.map(tech => (
-                  <SelectItem key={tech} value={tech}>{tech}</SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-
-            <Select value={selectedCompany} onValueChange={setSelectedCompany}>
-              <SelectTrigger className="w-[160px] h-9">
-                <SelectValue placeholder="Company" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="__all__">All Companies</SelectItem>
-                {allCompanies.map(company => (
-                  <SelectItem key={company} value={company}>{company}</SelectItem>
-                ))}
-                
-              </SelectContent>
-            </Select>
-
-            <Select value={selectedYear} onValueChange={setSelectedYear}>
-              <SelectTrigger className="w-[120px] h-9">
-                <SelectValue placeholder="Year" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="__all__">All Years</SelectItem>
-                {allYears.map(year => (
-                  <SelectItem key={year} value={year}>{year}</SelectItem>
+                <SelectItem value="__all__">All Skills</SelectItem>
+                {allSkills.map(skill => (
+                  <SelectItem key={skill} value={skill}>{skill}</SelectItem>
                 ))}
               </SelectContent>
             </Select>
             
-            {(selectedTech !== "__all__" || selectedCompany !== "__all__" || selectedYear !== "__all__") && (
+            {selectedSkill !== "__all__" && (
               <Button
                 variant="secondary"
                 size="sm"
-                onClick={() => { 
-                  setSelectedTech("__all__"); 
-                  setSelectedCompany("__all__"); 
-                  setSelectedYear("__all__"); 
-                }}
+                onClick={() => setSelectedSkill("__all__")}
                 className="h-9"
               >
                 Clear Filters
@@ -231,7 +191,7 @@ export default function ExperiencePageContent() {
             {/* Mobile Stats */}
             <div className="lg:hidden flex items-center gap-3 text-sm ml-4">
               <div className="flex items-center gap-1">
-                <span className="font-semibold text-primary">{experiences.length}</span>
+                <span className="font-semibold text-primary">{projects.length}</span>
                 <span className="text-muted-foreground">Total</span>
               </div>
               <div className="w-px h-4 bg-border" />
@@ -248,28 +208,26 @@ export default function ExperiencePageContent() {
       {/* Main Content */}
       <div className="flex-1">
         <div className="container mx-auto px-6 py-8 max-w-full">
-          {experiences.length === 0 ? (
+          {projects.length === 0 ? (
             <div className="flex items-center justify-center py-20">
               <EmptyState />
             </div>
           ) : (
             <div className="mb-8">
-              <div className="prose-md">
-                <ExperienceGrid 
-                  items={transformedExperiences} 
-                  className="grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
-                />
-              </div>
+              <ProjectGrid 
+                items={transformedProjects} 
+                className="grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+              />
             </div>
           )}
 
           {/* Bottom Info Bar */}
           <div className="flex items-center justify-between pt-6 border-t border-border/30 text-sm text-muted-foreground">
             <p>
-              Showing {filteredExperiences.length === 0 ? 0 : startIndex + 1}-{Math.min(endIndex, filteredExperiences.length)} of {filteredExperiences.length} experiences
+              Showing {filteredProjects.length === 0 ? 0 : startIndex + 1}-{Math.min(endIndex, filteredProjects.length)} of {filteredProjects.length} projects
             </p>
             <p className="text-xs">
-              Professional journey and work experience
+              A curated collection of my latest work and contributions
             </p>
           </div>
         </div>
