@@ -105,6 +105,8 @@ export interface ProfileData {
 
 // Project Types
 export interface Project {
+  title: string | undefined
+  stats: any
   id: any
   images: never[]
   inline: any
