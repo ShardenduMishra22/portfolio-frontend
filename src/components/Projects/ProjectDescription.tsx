@@ -3,6 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 import ReactMarkdown from 'react-markdown';
 import Image from 'next/image';
 import { cn } from '@/lib/utils';
+import { BackgroundBeams } from '../ui/background-beams';
 
 interface ProjectDescriptionProps {
   description: string;
@@ -171,6 +172,7 @@ export function ProjectDescription({
     return (
       <div className="w-full min-h-[50vh]">
         {content}
+        <BackgroundBeams />
       </div>
     );
   }
@@ -178,6 +180,7 @@ export function ProjectDescription({
   return (
     <CardContent className="min-h-[50vh]">
       {content}
+      <BackgroundBeams />
     </CardContent>
   );
 }
