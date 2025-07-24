@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Share2, ExternalLink, Copy, Check } from 'lucide-react';
+import { Share2, ExternalLink, Copy, Check, ScrollText, ArrowDown } from 'lucide-react';
 import { Badge } from '../../../components/ui/badge';
 import { Button } from '../../../components/ui/button';
 import { Separator } from '../../../components/ui/separator';
@@ -27,6 +27,9 @@ export default function ProjectDetailPage({ params }: ProjectDetailPageProps) {
   const { handleShare, shareClicked } = useProjectShare(project);
   const skills = project?.skills || [];
   const [copyClicked, setCopyClicked] = useState(false);
+
+  // Check if description is short (less than 500 characters as example)
+  const isShortDescription = (project?.description?.length || 0) < 500;
 
   // Handle copying project info as markdown
   const handleCopyMarkdown = async () => {
@@ -96,18 +99,62 @@ ${project.project_video ? `- **Video Demo:** ${project.project_video}` : ''}
             {/* Main Content - Left Side (2/3 width) */}
             <div className="lg:col-span-2 space-y-8">
               {/* About Project */}
-              <Card className="border border-border/50 bg-card/50 min-h-[600px]">
+              <Card className="border border-border/50 bg-card/50">
                 <CardHeader className="pb-4">
                   <CardTitle className="text-xl flex items-center gap-3">
                     <div className="w-1 h-5 bg-primary rounded-full" />
                     Project Overview
                   </CardTitle>
                 </CardHeader>
-                <CardContent className="h-full">
-                  <ProjectDescription 
-                    description={project.description}  
-                    showCard={false}
-                  />
+                <CardContent className={`${isShortDescription ? 'min-h-[400px]' : 'min-h-[600px]'} flex flex-col`}>
+                  {/* Main Description Content */}
+                  <div className="flex-grow">
+                    <ProjectDescription 
+                      description={project.description}  
+                      showCard={false}
+                    />
+                  </div>
+                  
+                  {/* Filler Content for Short Descriptions */}
+                  {isShortDescription && (
+                    <div className="mt-auto pt-8 space-y-6">
+                      {/* Decorative Separator */}
+                      <div className="flex items-center justify-center">
+                        <div className="flex items-center gap-4 text-muted-foreground">
+                          <div className="h-px bg-border flex-1 max-w-20" />
+                          <ScrollText className="w-4 h-4" />
+                          <div className="h-px bg-border flex-1 max-w-20" />
+                        </div>
+                      </div>
+                      
+                      {/* Project Quick Facts */}
+                      <div className="bg-muted/30 rounded-lg p-6 space-y-4">
+                        <h3 className="text-lg font-semibold text-foreground mb-4 text-center">
+                          Project Quick Facts
+                        </h3>
+                        <div className="grid grid-cols-2 gap-4 text-sm">
+                          <div className="text-center p-3 bg-background/50 rounded-md">
+                            <div className="font-semibold text-primary">{skills.length}</div>
+                            <div className="text-muted-foreground">Technologies</div>
+                          </div>
+                          <div className="text-center p-3 bg-background/50 rounded-md">
+                            <div className="font-semibold text-primary">
+                              {[project.project_live_link, project.project_repository, project.project_video].filter(Boolean).length}
+                            </div>
+                            <div className="text-muted-foreground">Resources</div>
+                          </div>
+                        </div>
+                      </div>
+                      
+                      {/* Scroll Hint */}
+                      <div className="flex items-center justify-center text-muted-foreground">
+                        <div className="flex items-center gap-2 text-sm">
+                          <span>More details below</span>
+                          <ArrowDown className="w-4 h-4 animate-bounce" />
+                        </div>
+                      </div>
+                    </div>
+                  )}
                 </CardContent>
               </Card>
 
