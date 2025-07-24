@@ -1,18 +1,11 @@
-import { useState } from "react";
-import { motion } from "motion/react";
-import { Sparkles } from "lucide-react";
-import { AnimatePresence } from "motion/react";
-import { CanvasRevealEffect } from "../ui/canvas-reveal-effect";
+'use client';
 
-export const CanvasCard = ({
-  title,
-  icon,
-  children,
-  animationSpeed = 3,
-  containerClassName = "bg-blue-900",
-  colors = [[59, 130, 246], [147, 197, 253]],
-  dotSize = 1.5,
-}: {
+import React, { useState } from 'react';
+import { AnimatePresence, motion } from 'motion/react';
+import { Sparkles } from 'lucide-react';
+import CanvasRevealEffect from './CanvasRevealEffect';
+
+interface CanvasCardProps {
   title: string;
   icon: React.ReactNode;
   children: React.ReactNode;
@@ -20,6 +13,16 @@ export const CanvasCard = ({
   containerClassName?: string;
   colors?: number[][];
   dotSize?: number;
+}
+
+export const CanvasCard: React.FC<CanvasCardProps> = ({
+  title,
+  icon,
+  children,
+  animationSpeed = 3,
+  containerClassName = "bg-blue-900",
+  colors = [[59, 130, 246], [147, 197, 253]],
+  dotSize = 1.5,
 }) => {
   const [hovered, setHovered] = useState(false);
   
