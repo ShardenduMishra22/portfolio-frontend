@@ -15,6 +15,7 @@ import { ProjectDescription } from '@/components/Projects/ProjectDescription';
 import { useProjectShare } from '@/components/Projects/hooks/useProjectShare.ts';
 import { ProjectNavigation } from '../../../components/Projects/ProjectNavigation';
 import { Card, CardContent, CardHeader, CardTitle } from '../../../components/ui/card';
+import { SkillsLens } from '@/components/ui/skill-lens';
 
 interface ProjectDetailPageProps {
   params: {
@@ -167,16 +168,7 @@ ${project.project_video ? `- **Video Demo:** ${project.project_video}` : ''}
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <div className="flex flex-wrap gap-3">
-                    {skills.map((skill, index) => (
-                      <Badge 
-                        key={index} 
-                        variant="secondary" 
-                      >
-                        {skill}
-                      </Badge>
-                    ))}
-                  </div>
+                  <SkillsLens skills={skills} />
                 </CardContent>
               </Card>
             </div>
