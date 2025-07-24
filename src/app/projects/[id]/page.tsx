@@ -17,13 +17,7 @@ import { ProjectNavigation } from '../../../components/Projects/ProjectNavigatio
 import { Card, CardContent, CardHeader, CardTitle } from '../../../components/ui/card';
 import { SkillsLens } from '@/components/ui/skill-lens';
 
-interface ProjectDetailPageProps {
-  params: {
-    slug: string;
-  };
-}
-
-export default function ProjectDetailPage({ params }: ProjectDetailPageProps) {
+export default function ProjectDetailPage({ params }: any) {
   const { project, loading, error } = useProject(params);
   const { handleShare, shareClicked } = useProjectShare(project);
   const skills = project?.skills || [];
