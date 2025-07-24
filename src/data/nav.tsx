@@ -4,7 +4,7 @@ import Link from "next/link"
 function NavLink({ href, label, icon: Icon, isActive, isExpanded, isMobile = false, onClick }: {
   href: string
   label: string
-  icon: React.ElementType
+  icon: React.ComponentType<{ className?: string }>
   isActive?: boolean
   isExpanded?: boolean
   isMobile?: boolean
