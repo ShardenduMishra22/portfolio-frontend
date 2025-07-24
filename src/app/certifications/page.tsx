@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import toast from 'react-hot-toast';
 import { ArrowLeft, Award } from 'lucide-react';
-import { useEffect, useState } from 'react';
+import { Suspense, useEffect, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { Certification } from '@/data/types.data';
 import { certificationsAPI } from '@/util/apiResponse.util';
@@ -104,173 +104,175 @@ export default function CertificationPageContent() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-background to-muted/20">
-      
-      {/* Top Header Bar - Left: Title, Middle: Search, Right: Navigation */}
-      <div className="sticky top-0 z-40 border-b border-border/50 bg-background/95 backdrop-blur-md">
-        <div className="container mx-auto px-6 py-4 max-w-full">
-          <div className="flex items-center justify-between gap-8">
-            
-            {/* Left Side: Back Button + Title + Stats */}
-            <div className="flex items-center gap-6 flex-shrink-0">
-              <Link href="/">
-                <Button variant="ghost" size="sm" className="flex items-center gap-2 hover:bg-muted">
-                  <ArrowLeft className="w-4 h-4" />
-                  Back to Home
-                </Button>
-              </Link>
+    <Suspense fallback={<LoadingState />}>
+      <div className="min-h-screen bg-gradient-to-br from-background via-background to-muted/20">
+        
+        {/* Top Header Bar - Left: Title, Middle: Search, Right: Navigation */}
+        <div className="sticky top-0 z-40 border-b border-border/50 bg-background/95 backdrop-blur-md">
+          <div className="container mx-auto px-6 py-4 max-w-full">
+            <div className="flex items-center justify-between gap-8">
               
-              <div className="flex items-center gap-4">
-                <div className="flex items-center gap-2">
-                  <Award className="w-5 h-5 text-primary" />
-                  <h1 className="text-2xl font-heading font-bold bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent whitespace-nowrap">
-                    Certifications
-                  </h1>
-                </div>
+              {/* Left Side: Back Button + Title + Stats */}
+              <div className="flex items-center gap-6 flex-shrink-0">
+                <Link href="/">
+                  <Button variant="ghost" size="sm" className="flex items-center gap-2 hover:bg-muted">
+                    <ArrowLeft className="w-4 h-4" />
+                    Back to Home
+                  </Button>
+                </Link>
                 
-                {/* Compact Stats */}
-                <div className="hidden lg:flex items-center gap-3 text-sm">
-                  <div className="flex items-center gap-1">
-                    <span className="font-semibold text-primary">{certifications.length}</span>
-                    <span className="text-muted-foreground">Total</span>
+                <div className="flex items-center gap-4">
+                  <div className="flex items-center gap-2">
+                    <Award className="w-5 h-5 text-primary" />
+                    <h1 className="text-2xl font-heading font-bold bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent whitespace-nowrap">
+                      Certifications
+                    </h1>
                   </div>
-                  <div className="w-px h-4 bg-border" />
-                  <div className="flex items-center gap-1">
-                    <span className="font-semibold text-secondary">{currentPage}</span>
-                    <span className="text-muted-foreground">of</span>
-                    <span className="font-semibold text-secondary">{totalPages}</span>
+                  
+                  {/* Compact Stats */}
+                  <div className="hidden lg:flex items-center gap-3 text-sm">
+                    <div className="flex items-center gap-1">
+                      <span className="font-semibold text-primary">{certifications.length}</span>
+                      <span className="text-muted-foreground">Total</span>
+                    </div>
+                    <div className="w-px h-4 bg-border" />
+                    <div className="flex items-center gap-1">
+                      <span className="font-semibold text-secondary">{currentPage}</span>
+                      <span className="text-muted-foreground">of</span>
+                      <span className="font-semibold text-secondary">{totalPages}</span>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
 
-            {/* Center: Search Bar */}
-            <div className="flex-1 max-w-md mx-8">
-              <Input
-                type="text"
-                placeholder="Search certifications..."
-                value={searchTerm}
-                onChange={(e) => handleSearchChange(e.target.value)}
-                className="h-10 w-full border-2 border-border/50 hover:border-primary/50 focus:border-primary transition-colors bg-background/50"
-              />
-            </div>
-
-            {/* Right Side: Pagination */}
-            <div className="flex-shrink-0">
-              {totalPages > 1 && (
-                <CertificationPagination
-                  currentPage={currentPage}
-                  totalPages={totalPages}
-                  onPageChange={handlePageChange}
-                  startIndex={startIndex}
-                  endIndex={endIndex}
-                  totalItems={filteredCertifications.length}
+              {/* Center: Search Bar */}
+              <div className="flex-1 max-w-md mx-8">
+                <Input
+                  type="text"
+                  placeholder="Search certifications..."
+                  value={searchTerm}
+                  onChange={(e) => handleSearchChange(e.target.value)}
+                  className="h-10 w-full border-2 border-border/50 hover:border-primary/50 focus:border-primary transition-colors bg-background/50"
                 />
+              </div>
+
+              {/* Right Side: Pagination */}
+              <div className="flex-shrink-0">
+                {totalPages > 1 && (
+                  <CertificationPagination
+                    currentPage={currentPage}
+                    totalPages={totalPages}
+                    onPageChange={handlePageChange}
+                    startIndex={startIndex}
+                    endIndex={endIndex}
+                    totalItems={filteredCertifications.length}
+                  />
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Secondary Filter Bar */}
+        <div className="border-b border-border/30 bg-background/80 backdrop-blur-sm">
+          <div className="container mx-auto px-6 py-3 max-w-full">
+            <div className="flex items-center justify-center gap-4">
+              <Select value={selectedSkill} onValueChange={setSelectedSkill}>
+                <SelectTrigger className="w-[160px] h-9">
+                  <SelectValue placeholder="Skill" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="__all__">All Skills</SelectItem>
+                  {allSkills.map(skill => (
+                    <SelectItem key={skill} value={skill}>{skill}</SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+
+              <Select value={selectedIssuer} onValueChange={setSelectedIssuer}>
+                <SelectTrigger className="w-[160px] h-9">
+                  <SelectValue placeholder="Issuer" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="__all__">All Issuers</SelectItem>
+                  {allIssuers.map(issuer => (
+                    <SelectItem key={issuer} value={issuer}>{issuer}</SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+
+              <Select value={selectedYear} onValueChange={setSelectedYear}>
+                <SelectTrigger className="w-[120px] h-9">
+                  <SelectValue placeholder="Year" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="__all__">All Years</SelectItem>
+                  {allYears.map(year => (
+                    <SelectItem key={year} value={year}>{year}</SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+              
+              {(selectedSkill !== "__all__" || selectedIssuer !== "__all__" || selectedYear !== "__all__") && (
+                <Button
+                  variant="secondary"
+                  size="sm"
+                  onClick={() => { 
+                    setSelectedSkill("__all__"); 
+                    setSelectedIssuer("__all__"); 
+                    setSelectedYear("__all__"); 
+                  }}
+                  className="h-9"
+                >
+                  Clear Filters
+                </Button>
               )}
+              
+              {/* Mobile Stats */}
+              <div className="lg:hidden flex items-center gap-3 text-sm ml-4">
+                <div className="flex items-center gap-1">
+                  <span className="font-semibold text-primary">{certifications.length}</span>
+                  <span className="text-muted-foreground">Total</span>
+                </div>
+                <div className="w-px h-4 bg-border" />
+                <div className="flex items-center gap-1">
+                  <span className="font-semibold text-secondary">{currentPage}</span>
+                  <span className="text-muted-foreground">of</span>
+                  <span className="font-semibold text-secondary">{totalPages}</span>
+                </div>
+              </div>
             </div>
           </div>
         </div>
-      </div>
 
-      {/* Secondary Filter Bar */}
-      <div className="border-b border-border/30 bg-background/80 backdrop-blur-sm">
-        <div className="container mx-auto px-6 py-3 max-w-full">
-          <div className="flex items-center justify-center gap-4">
-            <Select value={selectedSkill} onValueChange={setSelectedSkill}>
-              <SelectTrigger className="w-[160px] h-9">
-                <SelectValue placeholder="Skill" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="__all__">All Skills</SelectItem>
-                {allSkills.map(skill => (
-                  <SelectItem key={skill} value={skill}>{skill}</SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-
-            <Select value={selectedIssuer} onValueChange={setSelectedIssuer}>
-              <SelectTrigger className="w-[160px] h-9">
-                <SelectValue placeholder="Issuer" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="__all__">All Issuers</SelectItem>
-                {allIssuers.map(issuer => (
-                  <SelectItem key={issuer} value={issuer}>{issuer}</SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-
-            <Select value={selectedYear} onValueChange={setSelectedYear}>
-              <SelectTrigger className="w-[120px] h-9">
-                <SelectValue placeholder="Year" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="__all__">All Years</SelectItem>
-                {allYears.map(year => (
-                  <SelectItem key={year} value={year}>{year}</SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-            
-            {(selectedSkill !== "__all__" || selectedIssuer !== "__all__" || selectedYear !== "__all__") && (
-              <Button
-                variant="secondary"
-                size="sm"
-                onClick={() => { 
-                  setSelectedSkill("__all__"); 
-                  setSelectedIssuer("__all__"); 
-                  setSelectedYear("__all__"); 
-                }}
-                className="h-9"
-              >
-                Clear Filters
-              </Button>
+        {/* Main Content */}
+        <div className="flex-1">
+          <div className="container mx-auto px-6 py-8 max-w-full">
+            {certifications.length === 0 ? (
+              <div className="flex items-center justify-center py-20">
+                <EmptyState />
+              </div>
+            ) : (
+              <div className="mb-8">
+                <CertificationGrid 
+                  items={transformedCertifications} 
+                  className="grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+                />
+              </div>
             )}
-            
-            {/* Mobile Stats */}
-            <div className="lg:hidden flex items-center gap-3 text-sm ml-4">
-              <div className="flex items-center gap-1">
-                <span className="font-semibold text-primary">{certifications.length}</span>
-                <span className="text-muted-foreground">Total</span>
-              </div>
-              <div className="w-px h-4 bg-border" />
-              <div className="flex items-center gap-1">
-                <span className="font-semibold text-secondary">{currentPage}</span>
-                <span className="text-muted-foreground">of</span>
-                <span className="font-semibold text-secondary">{totalPages}</span>
-              </div>
+
+            {/* Bottom Info Bar */}
+            <div className="flex items-center justify-between pt-6 border-t border-border/30 text-sm text-muted-foreground">
+              <p>
+                Showing {filteredCertifications.length === 0 ? 0 : startIndex + 1}-{Math.min(endIndex, filteredCertifications.length)} of {filteredCertifications.length} certifications
+              </p>
+              <p className="text-xs">
+                Verified credentials and professional achievements
+              </p>
             </div>
           </div>
         </div>
       </div>
-
-      {/* Main Content */}
-      <div className="flex-1">
-        <div className="container mx-auto px-6 py-8 max-w-full">
-          {certifications.length === 0 ? (
-            <div className="flex items-center justify-center py-20">
-              <EmptyState />
-            </div>
-          ) : (
-            <div className="mb-8">
-              <CertificationGrid 
-                items={transformedCertifications} 
-                className="grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
-              />
-            </div>
-          )}
-
-          {/* Bottom Info Bar */}
-          <div className="flex items-center justify-between pt-6 border-t border-border/30 text-sm text-muted-foreground">
-            <p>
-              Showing {filteredCertifications.length === 0 ? 0 : startIndex + 1}-{Math.min(endIndex, filteredCertifications.length)} of {filteredCertifications.length} certifications
-            </p>
-            <p className="text-xs">
-              Verified credentials and professional achievements
-            </p>
-          </div>
-        </div>
-      </div>
-    </div>
+    </Suspense>
   );
 }

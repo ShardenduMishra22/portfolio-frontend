@@ -2,17 +2,17 @@
 
 import Link from 'next/link';
 import toast from 'react-hot-toast';
-import { ArrowLeft, Building2 } from 'lucide-react';
 import { useEffect, useState } from 'react';
-import { useRouter, useSearchParams } from 'next/navigation';
-import { Experience } from '@/data/types.data';
-import { experiencesAPI } from '@/util/apiResponse.util';
-import { EmptyState, ErrorState, LoadingState } from '@/components/Experience/load-error';
-import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import ExperiencePagination from '@/components/Experience/pagination';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Experience } from '@/data/types.data';
+import { Button } from '@/components/ui/button';
+import { ArrowLeft, Building2 } from 'lucide-react';
+import { experiencesAPI } from '@/util/apiResponse.util';
 import ExperienceGrid from '@/components/Experience/grid';
+import { useRouter, useSearchParams } from 'next/navigation';
+import ExperiencePagination from '@/components/Experience/pagination';
+import { EmptyState, ErrorState, LoadingState } from '@/components/Experience/load-error';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 
 export default function ExperiencePageContent() {
   const [experiences, setExperiences] = useState<Experience[]>([]);
@@ -105,7 +105,6 @@ export default function ExperiencePageContent() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-background to-muted/20">
-      
       {/* Top Header Bar - Left: Title, Middle: Search, Right: Navigation */}
       <div className="sticky top-0 z-40 border-b border-border/50 bg-background/95 backdrop-blur-md">
         <div className="container mx-auto px-6 py-4 max-w-full">

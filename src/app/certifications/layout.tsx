@@ -1,3 +1,6 @@
+import { LoadingState } from "@/components/Certificate/load-error";
+import { Suspense } from "react";
+
 export const metadata = {
   title: "Certifications | Mishra Shardendu Portfolio",
   description: "Browse all professional certifications earned by Mishra Shardendu, including details and achievements.",
@@ -16,5 +19,11 @@ export const metadata = {
 };
 
 export default function CertificationsLayout({ children }: { children: React.ReactNode }) {
-  return <>{children}</>;
+  return (
+    <>
+      <Suspense fallback={<LoadingState />}>
+        {children}
+      </Suspense>
+    </>
+  );
 } 

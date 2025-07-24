@@ -1,3 +1,6 @@
+import { LoadingState } from "@/components/Experience/load-error";
+import { Suspense } from "react";
+
 export const metadata = {
   title: "Experiences | Mishra Shardendu Portfolio",
   description: "Explore the professional experiences and roles held by Mishra Shardendu, including responsibilities and accomplishments.",
@@ -16,5 +19,11 @@ export const metadata = {
 };
 
 export default function ExperiencesLayout({ children }: { children: React.ReactNode }) {
-  return <>{children}</>;
-} 
+  return (
+    <>
+     <Suspense fallback={<LoadingState />}>
+      {children}
+     </Suspense>
+    </>
+  );
+}
