@@ -39,17 +39,16 @@ const nextConfig: NextConfig = {
       '@nivo/line',
       '@nivo/pie'
     ],
-    // Enable Server Actions for better performance
-    serverActions: true,
     // Optimize CSS imports
     optimizeCss: true,
-    // Enable turbo for faster development
-    turbo: {
-      rules: {
-        '*.svg': {
-          loaders: ['@svgr/webpack'],
-          as: '*.js',
-        },
+  },
+
+  // Updated Turbopack configuration
+  turbopack: {
+    rules: {
+      '*.svg': {
+        loaders: ['@svgr/webpack'],
+        as: '*.js',
       },
     }
   },
@@ -73,12 +72,10 @@ const nextConfig: NextConfig = {
     minimumCacheTTL: 31536000, // 1 year
     // Enable responsive images by default
     unoptimized: false,
-    // Quality optimization
-    quality: 85,
     // Enable placeholder blur for better UX
-    placeholder: 'blur',
-    // Enable faster image loading
-    priority: false,
+    dangerouslyAllowSVG: true,
+    contentDispositionType: 'attachment',
+    contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
   },
 
   // Compiler optimizations
@@ -258,10 +255,7 @@ const nextConfig: NextConfig = {
   ...(process.env.NODE_ENV === 'production' && {
     // Disable source maps in production for smaller bundles
     productionBrowserSourceMaps: false,
-    // Enable build optimizations
-    swcMinify: true,
   }),
 }
-
 
 export default nextConfig

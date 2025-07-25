@@ -8,17 +8,26 @@ import { Sparkles, Menu, X } from 'lucide-react'
 import dynamic from 'next/dynamic'
 import { useRouter } from 'next/navigation'
 
+// Import loading components for dynamic loading
+import { 
+  SkillsSkeleton, 
+  ProjectsSkeleton, 
+  ExperienceSkeleton, 
+  CertificationsSkeleton, 
+  EducationSkeleton 
+} from '@/components/main/loading'
+
 // Lazy load components for better performance
 const HeroSection = dynamic(() => import('@/components/main/hero'), {
   loading: () => <div className="min-h-screen animate-pulse bg-gradient-to-br from-background via-background to-primary/5" />
 })
 
 const SkillsSection = dynamic(() => import('@/components/main/skill'), {
-  loading: () => import('@/components/main/loading').then(mod => ({ default: mod.SkillsSkeleton }))
+  loading: () => <SkillsSkeleton />
 })
 
 const Education = dynamic(() => import('@/components/main/education'), {
-  loading: () => import('@/components/main/loading').then(mod => ({ default: mod.EducationSkeleton }))
+  loading: () => <EducationSkeleton />
 })
 
 const FooterSection = dynamic(() => import('@/components/main/footer'), {
@@ -26,7 +35,7 @@ const FooterSection = dynamic(() => import('@/components/main/footer'), {
 })
 
 const ExperienceSection = dynamic(() => import('@/components/main/exp'), {
-  loading: () => import('@/components/main/loading').then(mod => ({ default: mod.ExperienceSkeleton }))
+  loading: () => <ExperienceSkeleton />
 })
 
 const ContactSection = dynamic(() => import('@/components/main/contact'), {
@@ -34,11 +43,11 @@ const ContactSection = dynamic(() => import('@/components/main/contact'), {
 })
 
 const ProjectsSection = dynamic(() => import('@/components/main/project'), {
-  loading: () => import('@/components/main/loading').then(mod => ({ default: mod.ProjectsSkeleton }))
+  loading: () => <ProjectsSkeleton />
 })
 
 const CertificationsSection = dynamic(() => import('@/components/main/certificate'), {
-  loading: () => import('@/components/main/loading').then(mod => ({ default: mod.CertificationsSkeleton }))
+  loading: () => <CertificationsSkeleton />
 })
 
 // Lazy load background effects for better performance
@@ -55,13 +64,6 @@ const StarsBackground = dynamic(() => import('@/components/ui/stars-background')
 import { Project, Experience, Certification } from '../data/types.data'
 import { projectsAPI, experiencesAPI, skillsAPI, certificationsAPI } from '../util/apiResponse.util'
 
-import { 
-  SkillsSkeleton, 
-  ProjectsSkeleton, 
-  ExperienceSkeleton, 
-  CertificationsSkeleton, 
-  EducationSkeleton 
-} from '@/components/main/loading'
 import { NavLink } from '@/data/nav'
 import { navItems } from '@/data/static_link'
 import { DesktopSidebar } from '@/data/sidebar'

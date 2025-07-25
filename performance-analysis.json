@@ -1,0 +1,433 @@
+{
+  "timestamp": "2025-07-25T13:00:30.470Z",
+  "bundles": {
+    "static/chunks/3420.54547680dcedd9ae.js": {
+      "size": 11634,
+      "type": "javascript"
+    },
+    "static/chunks/4361.5f3027cdcfe6783b.js": {
+      "size": 8477,
+      "type": "javascript"
+    },
+    "static/chunks/4882.be4fe12b6573af06.js": {
+      "size": 11694,
+      "type": "javascript"
+    },
+    "static/chunks/5403.03f30e1e517c18d7.js": {
+      "size": 15741,
+      "type": "javascript"
+    },
+    "static/chunks/5647.b9dbade585cd69f0.js": {
+      "size": 26200,
+      "type": "javascript"
+    },
+    "static/chunks/565.fdee4ae1191af670.js": {
+      "size": 8154,
+      "type": "javascript"
+    },
+    "static/chunks/5990.585efb91312db7b0.js": {
+      "size": 1763,
+      "type": "javascript"
+    },
+    "static/chunks/6544.1384557bbf33d2ab.js": {
+      "size": 12173,
+      "type": "javascript"
+    },
+    "static/chunks/9704.82d835fda6a8886b.js": {
+      "size": 12139,
+      "type": "javascript"
+    },
+    "static/chunks/animations-d388b6245f51989f.js": {
+      "size": 90749,
+      "type": "javascript"
+    },
+    "static/chunks/app/_not-found/page-81ee92ce05080dc6.js": {
+      "size": 139,
+      "type": "javascript"
+    },
+    "static/chunks/app/admin/certifications/layout-b5c337caffeb9196.js": {
+      "size": 139,
+      "type": "javascript"
+    },
+    "static/chunks/app/admin/certifications/page-b8b92dc3b87fa70b.js": {
+      "size": 11997,
+      "type": "javascript"
+    },
+    "static/chunks/app/admin/dashboard/layout-6bd241de70333fcf.js": {
+      "size": 139,
+      "type": "javascript"
+    },
+    "static/chunks/app/admin/dashboard/page-d6f60c5e9dd41929.js": {
+      "size": 9865,
+      "type": "javascript"
+    },
+    "static/chunks/app/admin/experiences/layout-65cad6ce8a6c7bd1.js": {
+      "size": 139,
+      "type": "javascript"
+    },
+    "static/chunks/app/admin/experiences/page-01f7122711e73385.js": {
+      "size": 11002,
+      "type": "javascript"
+    },
+    "static/chunks/app/admin/layout-367d7fe499646b54.js": {
+      "size": 3499,
+      "type": "javascript"
+    },
+    "static/chunks/app/admin/login/layout-b58fe61d53a48c9a.js": {
+      "size": 139,
+      "type": "javascript"
+    },
+    "static/chunks/app/admin/login/page-8e4e9b4d53855d47.js": {
+      "size": 4180,
+      "type": "javascript"
+    },
+    "static/chunks/app/admin/profile/layout-a8c6b09de5fc9d74.js": {
+      "size": 139,
+      "type": "javascript"
+    },
+    "static/chunks/app/admin/profile/page-9af82b5ee1eaecba.js": {
+      "size": 5567,
+      "type": "javascript"
+    },
+    "static/chunks/app/admin/projects/layout-e40c77f82baf62c5.js": {
+      "size": 138,
+      "type": "javascript"
+    },
+    "static/chunks/app/admin/projects/page-7d096f040681dfa1.js": {
+      "size": 12831,
+      "type": "javascript"
+    },
+    "static/chunks/app/admin/skills/page-21965e5c23390d7f.js": {
+      "size": 6631,
+      "type": "javascript"
+    },
+    "static/chunks/app/api/auth/[...all]/route-a0bc876cfb695664.js": {
+      "size": 139,
+      "type": "javascript"
+    },
+    "static/chunks/app/api/blogs/[id]/bookmark/route-ebf3f74e45ad3c6a.js": {
+      "size": 139,
+      "type": "javascript"
+    },
+    "static/chunks/app/api/blogs/[id]/categories/[categoryId]/route-719bc45e36c49835.js": {
+      "size": 139,
+      "type": "javascript"
+    },
+    "static/chunks/app/api/blogs/[id]/categories/route-f63d410c5c196e6d.js": {
+      "size": 139,
+      "type": "javascript"
+    },
+    "static/chunks/app/api/blogs/[id]/comments/route-4840ba20eeea25de.js": {
+      "size": 138,
+      "type": "javascript"
+    },
+    "static/chunks/app/api/blogs/[id]/history/route-5a13b83227a6d9af.js": {
+      "size": 138,
+      "type": "javascript"
+    },
+    "static/chunks/app/api/blogs/[id]/like/route-f03ec75a73200de5.js": {
+      "size": 139,
+      "type": "javascript"
+    },
+    "static/chunks/app/api/blogs/[id]/likes/route-f6ba3e9d1a0fb095.js": {
+      "size": 139,
+      "type": "javascript"
+    },
+    "static/chunks/app/api/blogs/[id]/revisions/[version]/route-d1bd0fc99ccd2395.js": {
+      "size": 139,
+      "type": "javascript"
+    },
+    "static/chunks/app/api/blogs/[id]/revisions/route-b7b395e6721c5839.js": {
+      "size": 139,
+      "type": "javascript"
+    },
+    "static/chunks/app/api/blogs/[id]/route-f441affeeaafcbd4.js": {
+      "size": 139,
+      "type": "javascript"
+    },
+    "static/chunks/app/api/blogs/[id]/unbookmark/route-58c5bfc5e4cab879.js": {
+      "size": 139,
+      "type": "javascript"
+    },
+    "static/chunks/app/api/blogs/[id]/unlike/route-a8c30b5b09450286.js": {
+      "size": 139,
+      "type": "javascript"
+    },
+    "static/chunks/app/api/blogs/[id]/views/route-074ede5e39aa1ee6.js": {
+      "size": 139,
+      "type": "javascript"
+    },
+    "static/chunks/app/api/blogs/route-7055c27cc649e247.js": {
+      "size": 137,
+      "type": "javascript"
+    },
+    "static/chunks/app/api/blogs/stats/route-c1e5ce57baf0e2f1.js": {
+      "size": 139,
+      "type": "javascript"
+    },
+    "static/chunks/app/api/categories/[param]/route-744485f781f9d973.js": {
+      "size": 139,
+      "type": "javascript"
+    },
+    "static/chunks/app/api/categories/route-a58d56a74e42e347.js": {
+      "size": 139,
+      "type": "javascript"
+    },
+    "static/chunks/app/api/comments/[id]/route-a6d4ef4db2a63e1f.js": {
+      "size": 139,
+      "type": "javascript"
+    },
+    "static/chunks/app/api/history/route-da75167b04975edb.js": {
+      "size": 139,
+      "type": "javascript"
+    },
+    "static/chunks/app/api/like/route-872cd985406cfccc.js": {
+      "size": 139,
+      "type": "javascript"
+    },
+    "static/chunks/app/api/notifications/[id]/read/route-25afa73d5b96fcfa.js": {
+      "size": 139,
+      "type": "javascript"
+    },
+    "static/chunks/app/api/notifications/[id]/route-faaf237dc374a7d0.js": {
+      "size": 139,
+      "type": "javascript"
+    },
+    "static/chunks/app/api/proxy/certifications/[id]/route-b5fd1c820cdd33fe.js": {
+      "size": 139,
+      "type": "javascript"
+    },
+    "static/chunks/app/api/proxy/certifications/route-b73a1327a54cc9d3.js": {
+      "size": 138,
+      "type": "javascript"
+    },
+    "static/chunks/app/api/proxy/experiences/[id]/route-a369728f4db23417.js": {
+      "size": 139,
+      "type": "javascript"
+    },
+    "static/chunks/app/api/proxy/experiences/route-1a91c16758d9bc1f.js": {
+      "size": 138,
+      "type": "javascript"
+    },
+    "static/chunks/app/api/proxy/projects/[id]/route-b8ce5e5f491941bf.js": {
+      "size": 139,
+      "type": "javascript"
+    },
+    "static/chunks/app/api/proxy/projects/route-1cdde06f7fc22bf0.js": {
+      "size": 139,
+      "type": "javascript"
+    },
+    "static/chunks/app/api/proxy/skills/route-eb43c77923ee587f.js": {
+      "size": 139,
+      "type": "javascript"
+    },
+    "static/chunks/app/api/reports/[id]/route-dacff77339b93c6e.js": {
+      "size": 139,
+      "type": "javascript"
+    },
+    "static/chunks/app/api/reports/[id]/status/route-2c3b40ad6c601ec2.js": {
+      "size": 139,
+      "type": "javascript"
+    },
+    "static/chunks/app/api/reports/route-5a952cb2b9b103a5.js": {
+      "size": 138,
+      "type": "javascript"
+    },
+    "static/chunks/app/api/users/[id]/blogs/route-73e0d4f8e8f0f441.js": {
+      "size": 139,
+      "type": "javascript"
+    },
+    "static/chunks/app/api/users/[id]/bookmarks/route-8387d7f1b87508aa.js": {
+      "size": 139,
+      "type": "javascript"
+    },
+    "static/chunks/app/api/users/[id]/follow/route-89fad65b08708765.js": {
+      "size": 139,
+      "type": "javascript"
+    },
+    "static/chunks/app/api/users/[id]/followers/route-87824532a7bf6ad0.js": {
+      "size": 139,
+      "type": "javascript"
+    },
+    "static/chunks/app/api/users/[id]/following/route-9e6445e454491821.js": {
+      "size": 138,
+      "type": "javascript"
+    },
+    "static/chunks/app/api/users/[id]/history/route-4e26895f709d6db4.js": {
+      "size": 139,
+      "type": "javascript"
+    },
+    "static/chunks/app/api/users/[id]/notifications/route-c3d7d2e358e5e45c.js": {
+      "size": 139,
+      "type": "javascript"
+    },
+    "static/chunks/app/api/users/[id]/route-007ef062665a25cf.js": {
+      "size": 139,
+      "type": "javascript"
+    },
+    "static/chunks/app/api/users/[id]/unfollow/route-2b01f0e00a0c2001.js": {
+      "size": 139,
+      "type": "javascript"
+    },
+    "static/chunks/app/api/users/route-75bf588b30a2fd3a.js": {
+      "size": 138,
+      "type": "javascript"
+    },
+    "static/chunks/app/blog/[id]/edit/page-2b6c951df52a50b1.js": {
+      "size": 12119,
+      "type": "javascript"
+    },
+    "static/chunks/app/blog/[id]/page-d96135153ba0c07c.js": {
+      "size": 11918,
+      "type": "javascript"
+    },
+    "static/chunks/app/blog/create/page-6ff7dfea168ddb54.js": {
+      "size": 11400,
+      "type": "javascript"
+    },
+    "static/chunks/app/blog/dashboard/page-8955bd1e13dba44d.js": {
+      "size": 19721,
+      "type": "javascript"
+    },
+    "static/chunks/app/blog/layout-7b3a6a6012f3e498.js": {
+      "size": 5353,
+      "type": "javascript"
+    },
+    "static/chunks/app/blog/page-4299feea30089726.js": {
+      "size": 13362,
+      "type": "javascript"
+    },
+    "static/chunks/app/blog/stats/page-3d4348b818166eec.js": {
+      "size": 25610,
+      "type": "javascript"
+    },
+    "static/chunks/app/certifications/[id]/layout-8982cff6bc272ecd.js": {
+      "size": 139,
+      "type": "javascript"
+    },
+    "static/chunks/app/certifications/[id]/page-52531517a662e423.js": {
+      "size": 22800,
+      "type": "javascript"
+    },
+    "static/chunks/app/certifications/layout-0bd7d1742c11f5f6.js": {
+      "size": 139,
+      "type": "javascript"
+    },
+    "static/chunks/app/certifications/page-f93ac6e6c7762665.js": {
+      "size": 12843,
+      "type": "javascript"
+    },
+    "static/chunks/app/experiences/[id]/layout-03c67d08492cd60a.js": {
+      "size": 139,
+      "type": "javascript"
+    },
+    "static/chunks/app/experiences/[id]/page-18ae94dd2eb045d6.js": {
+      "size": 22301,
+      "type": "javascript"
+    },
+    "static/chunks/app/experiences/layout-d5b4dbf6fb01a32a.js": {
+      "size": 139,
+      "type": "javascript"
+    },
+    "static/chunks/app/experiences/page-fc3c618e7acb990e.js": {
+      "size": 15135,
+      "type": "javascript"
+    },
+    "static/chunks/app/layout-f04c68b5465fa676.js": {
+      "size": 1214,
+      "type": "javascript"
+    },
+    "static/chunks/app/not-found-fc2f8fffb262af17.js": {
+      "size": 6216,
+      "type": "javascript"
+    },
+    "static/chunks/app/page-8b3e69fd51605308.js": {
+      "size": 29265,
+      "type": "javascript"
+    },
+    "static/chunks/app/projects/[id]/layout-cbd299131ba2c898.js": {
+      "size": 139,
+      "type": "javascript"
+    },
+    "static/chunks/app/projects/[id]/page-f3dd0858b1ee7cb3.js": {
+      "size": 32249,
+      "type": "javascript"
+    },
+    "static/chunks/app/projects/layout-72b35370a97da659.js": {
+      "size": 139,
+      "type": "javascript"
+    },
+    "static/chunks/app/projects/page-2533966cd1e04599.js": {
+      "size": 12117,
+      "type": "javascript"
+    },
+    "static/chunks/charts.9efd3e26c0deaf00.js": {
+      "size": 127275,
+      "type": "javascript"
+    },
+    "static/chunks/common-3560369951e53a09.js": {
+      "size": 51382,
+      "type": "javascript"
+    },
+    "static/chunks/main-85623b2259bf7dc7.js": {
+      "size": 146,
+      "type": "javascript"
+    },
+    "static/chunks/main-app-baad7f65ba09467d.js": {
+      "size": 521,
+      "type": "javascript"
+    },
+    "static/chunks/pages/_app-28cc52b087b9da61.js": {
+      "size": 247,
+      "type": "javascript"
+    },
+    "static/chunks/pages/_error-2db4202029f1094e.js": {
+      "size": 243,
+      "type": "javascript"
+    },
+    "static/chunks/polyfills-42372ed130431b0a.js": {
+      "size": 112594,
+      "type": "javascript"
+    },
+    "static/chunks/ui-components-01fe43fc4d1676f2.js": {
+      "size": 98655,
+      "type": "javascript"
+    },
+    "static/chunks/vendors-2f69931b24455255.js": {
+      "size": 5332838,
+      "type": "javascript"
+    },
+    "static/chunks/webpack-88620d81ad9642c0.js": {
+      "size": 5233,
+      "type": "javascript"
+    },
+    "static/css/3d68edd0f1d80a29.css": {
+      "size": 2209,
+      "type": "css"
+    },
+    "static/css/5f91aba3fda392ea.css": {
+      "size": 4461,
+      "type": "css"
+    },
+    "static/css/f055e431c58b907b.css": {
+      "size": 1313,
+      "type": "css"
+    },
+    "static/css/f8042ed0c8f97abd.css": {
+      "size": 184182,
+      "type": "css"
+    }
+  },
+  "totalSize": 6446992,
+  "recommendations": [
+    "First Load JS is large (>250KB). Consider code splitting and lazy loading.",
+    "Total bundle size is large (>1MB). Consider tree shaking and removing unused dependencies.",
+    "Large number of chunks detected. Consider optimizing chunk splitting strategy.",
+    "Large bundles found: static/chunks/vendors-2f69931b24455255.js, static/css/f8042ed0c8f97abd.css, static/chunks/charts.9efd3e26c0deaf00.js"
+  ],
+  "performance": {
+    "firstLoadJS": 5389846,
+    "shared": 539,
+    "chunks": 100
+  }
+}

@@ -21,7 +21,7 @@ export default function AdminProfilePage() {
     const fetchProfile = async () => {
       try {
         const response = await api.get('/admin/auth')
-        setProfile(response.data.data)
+        setProfile((response.data as any).data)
       } catch {
         setError('Failed to load profile')
       } finally {

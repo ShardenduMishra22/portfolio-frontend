@@ -75,6 +75,7 @@ export default function AdminExperiencesPage() {
     skillsAPI.getSkills().then(res => {
       setAllSkills(Array.isArray(res.data) ? res.data : [])
     })
+    return () => {} // Return empty cleanup function
   }, [])
 
   useEffect(() => {
@@ -83,6 +84,7 @@ export default function AdminExperiencesPage() {
       const timer = setTimeout(() => setSuccess(''), 3000)
       return () => clearTimeout(timer)
     }
+    return () => {} // Return empty cleanup function when success is falsy
   }, [success])
 
   useEffect(() => {
@@ -91,6 +93,7 @@ export default function AdminExperiencesPage() {
       const timer = setTimeout(() => setError(''), 3000)
       return () => clearTimeout(timer)
     }
+    return () => {} // Return empty cleanup function when error is falsy
   }, [error])
 
   if (loading) return (

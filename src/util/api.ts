@@ -1,4 +1,19 @@
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios'
+import http from 'http'
+import https from 'https'
+
+// Extend the AxiosRequestConfig interface to include metadata
+declare module 'axios' {
+  interface AxiosRequestConfig {
+    metadata?: {
+      requestId: string
+      startTime: number
+    }
+    cacheTTL?: number
+    _retry?: boolean
+    _retryCount?: number
+  }
+}
 
 const isServer = typeof window === 'undefined'
 const baseURL = isServer
@@ -88,8 +103,8 @@ const api: AxiosInstance = axios.create({
   decompress: true,
   // Enable keep-alive for better performance
   ...(isServer && {
-    httpAgent: new (require('http').Agent)({ keepAlive: true }),
-    httpsAgent: new (require('https').Agent)({ keepAlive: true }),
+    httpAgent: new http.Agent({ keepAlive: true }),
+    httpsAgent: new https.Agent({ keepAlive: true }),
   }),
 })
 

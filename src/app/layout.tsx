@@ -41,6 +41,7 @@ const inter = Inter({
 
 // Enhanced metadata with performance considerations
 export const metadata: Metadata = {
+  metadataBase: new URL('https://mishrashardendu22.is-a.dev'),
   title: {
     template: '%s | Shardendu Mishra',
     default: 'Shardendu Mishra | Software Developer and Engineer',

@@ -50,6 +50,7 @@ const EducationSection = () => {
       window.addEventListener('resize', handleResize);
       return () => window.removeEventListener('resize', handleResize);
     }
+    return () => {}; // Return empty cleanup function for server-side
   }, []);
 
   const isMobile = windowWidth < 768;
