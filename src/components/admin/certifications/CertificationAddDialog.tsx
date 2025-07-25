@@ -16,7 +16,7 @@ import React from 'react'
 import dynamic from 'next/dynamic'
 
 const TiptapModalEditor = dynamic(
-  () => import('../../TipTap').then((mod) => ({ default: mod.TiptapModalEditor })),
+  () => import('../../Extra/TipTap').then((mod) => ({ default: mod.TiptapModalEditor })),
   { ssr: false }
 )
 

@@ -5,7 +5,7 @@ import { ThemeProvider } from 'next-themes'
 import { Analytics } from '@vercel/analytics/next'
 import { Fredoka, Poppins, Inter } from 'next/font/google'
 import { SpeedInsights } from '@vercel/speed-insights/next'
-import ThemeToggleClient from '@/components/ThemeToggleClient'
+import ThemeToggleClient from '@/components/Extra/ThemeToggleClient'
 
 const fredoka = Fredoka({
   variable: '--font-heading',
