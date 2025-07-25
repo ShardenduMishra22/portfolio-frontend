@@ -126,19 +126,14 @@ ${certification.certificate_url ? `## Certificate
       <CertificationHeader certification={certification} />
       
       <main className="w-full px-4 sm:px-6 lg:px-8 xl:px-12 py-8">
-        {/* Balanced Content Grid */}
         <div className="grid lg:grid-cols-3 gap-8 mb-12 w-full">
-          {/* Sidebar - Left Side (1/3 width) */}
           <div className="lg:col-span-1 space-y-6">
             <div className="sticky top-24 space-y-6">
-              {/* Certification Info Card */}
               <CanvasCard
                 title="Certification Info"
                 icon={<Award className="h-6 w-6 text-blue-400" />}
-                animationSpeed={4}
                 containerClassName="bg-blue-900"
                 colors={[[59, 130, 246], [147, 197, 253]]}
-                dotSize={2}
               >
                 <div className="space-y-4">
                   <div className="text-center">
@@ -175,10 +170,8 @@ ${certification.certificate_url ? `## Certificate
               <CanvasCard
                 title="Skills Overview"
                 icon={<Code2 className="h-6 w-6 text-purple-400" />}
-                animationSpeed={4}
                 containerClassName="bg-purple-900"
                 colors={[[147, 51, 234], [196, 181, 253]]}
-                dotSize={2}
               >
                 <div className="space-y-4">
                   <p className="text-white/90 text-sm">
@@ -206,10 +199,8 @@ ${certification.certificate_url ? `## Certificate
               <CanvasCard
                 title="Quick Actions"
                 icon={<Target className="h-6 w-6 text-emerald-400" />}
-                animationSpeed={2.5}
                 containerClassName="bg-emerald-900"
                 colors={[[34, 197, 94], [16, 185, 129]]}
-                dotSize={2}
               >
                 <div className="space-y-4">
                   <p className="text-white/90 text-sm">
@@ -254,10 +245,8 @@ ${certification.certificate_url ? `## Certificate
               <CanvasCard
                 title="Achievement Highlights"
                 icon={<Star className="h-6 w-6 text-amber-400" />}
-                animationSpeed={3.5}
                 containerClassName="bg-amber-900"
                 colors={[[245, 158, 11], [217, 119, 6]]}
-                dotSize={1.8}
               >
                 <div className="space-y-4">
                   <div className="grid grid-cols-2 gap-4">
