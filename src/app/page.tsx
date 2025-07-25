@@ -3,16 +3,55 @@
 import { cn } from '@/lib/utils'
 import toast from 'react-hot-toast'
 import Error from '@/components/Error'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useCallback, useMemo, memo, useRef } from 'react'
 import { Sparkles, Menu, X } from 'lucide-react'
-import HeroSection from '@/components/main/hero'
-import SkillsSection from '@/components/main/skill'
-import Education from '@/components/main/education'
-import FooterSection from '@/components/main/footer'
-import ExperienceSection from '@/components/main/exp'
-import ContactSection from '@/components/main/contact'
-import ProjectsSection from '@/components/main/project'
-import CertificationsSection from '@/components/main/certificate'
+import dynamic from 'next/dynamic'
+import { useRouter } from 'next/navigation'
+
+// Lazy load components for better performance
+const HeroSection = dynamic(() => import('@/components/main/hero'), {
+  loading: () => <div className="min-h-screen animate-pulse bg-gradient-to-br from-background via-background to-primary/5" />
+})
+
+const SkillsSection = dynamic(() => import('@/components/main/skill'), {
+  loading: () => import('@/components/main/loading').then(mod => ({ default: mod.SkillsSkeleton }))
+})
+
+const Education = dynamic(() => import('@/components/main/education'), {
+  loading: () => import('@/components/main/loading').then(mod => ({ default: mod.EducationSkeleton }))
+})
+
+const FooterSection = dynamic(() => import('@/components/main/footer'), {
+  loading: () => <div className="min-h-[200px] animate-pulse bg-gradient-to-br from-card via-card/95 to-secondary/10" />
+})
+
+const ExperienceSection = dynamic(() => import('@/components/main/exp'), {
+  loading: () => import('@/components/main/loading').then(mod => ({ default: mod.ExperienceSkeleton }))
+})
+
+const ContactSection = dynamic(() => import('@/components/main/contact'), {
+  loading: () => <div className="min-h-[400px] animate-pulse bg-background" />
+})
+
+const ProjectsSection = dynamic(() => import('@/components/main/project'), {
+  loading: () => import('@/components/main/loading').then(mod => ({ default: mod.ProjectsSkeleton }))
+})
+
+const CertificationsSection = dynamic(() => import('@/components/main/certificate'), {
+  loading: () => import('@/components/main/loading').then(mod => ({ default: mod.CertificationsSkeleton }))
+})
+
+// Lazy load background effects for better performance
+const ShootingStars = dynamic(() => import('@/components/ui/shooting-stars').then(mod => ({ default: mod.ShootingStars })), {
+  ssr: false,
+  loading: () => null
+})
+
+const StarsBackground = dynamic(() => import('@/components/ui/stars-background').then(mod => ({ default: mod.StarsBackground })), {
+  ssr: false,
+  loading: () => null
+})
+
 import { Project, Experience, Certification } from '../data/types.data'
 import { projectsAPI, experiencesAPI, skillsAPI, certificationsAPI } from '../util/apiResponse.util'
 
@@ -26,38 +65,60 @@ import {
 import { NavLink } from '@/data/nav'
 import { navItems } from '@/data/static_link'
 import { DesktopSidebar } from '@/data/sidebar'
-import { ShootingStars } from '@/components/ui/shooting-stars'
-import { StarsBackground } from '@/components/ui/stars-background'
 
-
-function MobileNavigation({ activeSection }: { activeSection: string }) {
+// Memoized mobile navigation component
+const MobileNavigation = memo(function MobileNavigation({ activeSection }: { activeSection: string }) {
   const [isOpen, setIsOpen] = useState(false)
 
-  const closeMobileMenu = () => {
+  const closeMobileMenu = useCallback(() => {
     setIsOpen(false)
-  }
+  }, [])
 
-  // Close mobile menu when clicking outside
+  // Optimized click outside handler with cleanup
   useEffect(() => {
+    if (!isOpen) return
+
     const handleClickOutside = (event: MouseEvent) => {
       const target = event.target as HTMLElement
-      if (!target.closest('.mobile-nav') && isOpen) {
+      if (!target.closest('.mobile-nav')) {
         setIsOpen(false)
       }
     }
 
-    if (isOpen) {
-      document.addEventListener('click', handleClickOutside)
-      document.body.style.overflow = 'hidden'
-    } else {
-      document.body.style.overflow = 'unset'
-    }
+    // Use passive listeners for better performance
+    const abortController = new AbortController()
+    document.addEventListener('click', handleClickOutside, { 
+      passive: true,
+      signal: abortController.signal 
+    })
+    document.body.style.overflow = 'hidden'
 
     return () => {
-      document.removeEventListener('click', handleClickOutside)
+      abortController.abort()
       document.body.style.overflow = 'unset'
     }
   }, [isOpen])
+
+  // Memoize navigation items to prevent re-renders
+  const navigationItems = useMemo(() => 
+    navItems.map((item, index) => (
+      <div
+        key={item.href}
+        className="animate-in slide-in-from-right duration-300"
+        style={{ animationDelay: `${index * 50}ms` }}
+      >
+        <NavLink
+          href={item.href}
+          label={item.label}
+          icon={item.icon}
+          isActive={activeSection === item.href.substring(1)}
+          isExpanded={true}
+          isMobile={true}
+          onClick={closeMobileMenu}
+        />
+      </div>
+    )), [activeSection, closeMobileMenu]
+  )
 
   return (
     <div className="md:hidden mobile-nav">
@@ -119,23 +180,7 @@ function MobileNavigation({ activeSection }: { activeSection: string }) {
 
         {/* Navigation */}
         <nav className="p-4 space-y-2 flex-1 overflow-y-auto">
-          {navItems.map((item, index) => (
-            <div
-              key={item.href}
-              className="animate-in slide-in-from-right duration-300"
-              style={{ animationDelay: `${index * 50}ms` }}
-            >
-              <NavLink
-                href={item.href}
-                label={item.label}
-                icon={item.icon}
-                isActive={activeSection === item.href.substring(1)}
-                isExpanded={true}
-                isMobile={true}
-                onClick={closeMobileMenu}
-              />
-            </div>
-          ))}
+          {navigationItems}
         </nav>
 
         {/* Bottom decoration */}
@@ -149,15 +194,59 @@ function MobileNavigation({ activeSection }: { activeSection: string }) {
       </div>
     </div>
   )
+})
+
+// Throttle function for scroll optimization
+function useThrottledScrollHandler(callback: () => void, delay: number = 100) {
+  const lastRun = useRef(Date.now())
+  
+  return useCallback(() => {
+    if (Date.now() - lastRun.current >= delay) {
+      callback()
+      lastRun.current = Date.now()
+    }
+  }, [callback, delay])
 }
 
+// Custom hook for section intersection
+function useActiveSection() {
+  const [activeSection, setActiveSection] = useState('hero')
+  
+  const updateActiveSection = useCallback(() => {
+    const sections = navItems.map(item => item.href.substring(1))
+    const currentSection = sections.find(section => {
+      const element = document.getElementById(section)
+      if (element) {
+        const rect = element.getBoundingClientRect()
+        return rect.top <= 100 && rect.bottom >= 100
+      }
+      return false
+    })
+    
+    if (currentSection) {
+      setActiveSection(currentSection)
+    }
+  }, [])
 
+  const throttledUpdateActiveSection = useThrottledScrollHandler(updateActiveSection, 150)
 
-export default function HomePage() {
-  const [projects, setProjects] = useState<Project[]>([])
-  const [experiences, setExperiences] = useState<Experience[]>([])
-  const [skills, setSkills] = useState<string[]>([])
-  const [certifications, setCertifications] = useState<Certification[]>([])
+  useEffect(() => {
+    window.addEventListener('scroll', throttledUpdateActiveSection, { passive: true })
+    return () => window.removeEventListener('scroll', throttledUpdateActiveSection)
+  }, [throttledUpdateActiveSection])
+
+  return activeSection
+}
+
+// Optimized data fetching hook
+function useHomePageData() {
+  const [data, setData] = useState({
+    projects: [] as Project[],
+    experiences: [] as Experience[],
+    skills: [] as string[],
+    certifications: [] as Certification[],
+  })
+  
   const [loading, setLoading] = useState({
     projects: true,
     experiences: true,
@@ -165,82 +254,130 @@ export default function HomePage() {
     certifications: true,
     education: true
   })
+  
   const [error, setError] = useState('')
-  const [activeSection, setActiveSection] = useState('hero')
 
-  useEffect(() => {
-    const handleScroll = () => {
-      // Update active section based on scroll position
-      const sections = navItems.map(item => item.href.substring(1))
-      const currentSection = sections.find(section => {
-        const element = document.getElementById(section)
-        if (element) {
-          const rect = element.getBoundingClientRect()
-          return rect.top <= 100 && rect.bottom >= 100
-        }
-        return false
-      })
-      
-      if (currentSection) {
-        setActiveSection(currentSection)
-      }
-    }
+  const fetchData = useCallback(async () => {
+    try {
+      // Use Promise.allSettled for better error handling
+      const results = await Promise.allSettled([
+        projectsAPI.getAllProjects(),
+        experiencesAPI.getAllExperiences(),
+        skillsAPI.getSkills(),
+        certificationsAPI.getAllCertifications(),
+      ])
 
-    window.addEventListener('scroll', handleScroll)
-    return () => window.removeEventListener('scroll', handleScroll)
-  }, [])
+      // Process results with individual error handling
+      const [projectsRes, experiencesRes, skillsRes, certificationsRes] = results
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        // Fetch all data concurrently
-        const [projectsRes, experiencesRes, skillsRes, certificationsRes] = await Promise.all([
-          projectsAPI.getAllProjects(),
-          experiencesAPI.getAllExperiences(),
-          skillsAPI.getSkills(),
-          certificationsAPI.getAllCertifications(),
-        ])
-
-        // Set data and update loading states individually
-        setProjects(Array.isArray(projectsRes.data) ? projectsRes.data : [])
+      if (projectsRes.status === 'fulfilled') {
+        setData(prev => ({ ...prev, projects: Array.isArray(projectsRes.value.data) ? projectsRes.value.data : [] }))
         setLoading(prev => ({ ...prev, projects: false }))
-
-        setExperiences(Array.isArray(experiencesRes.data) ? experiencesRes.data : [])
-        setLoading(prev => ({ ...prev, experiences: false }))
-
-        setSkills(Array.isArray(skillsRes.data) ? skillsRes.data : [])
-        setLoading(prev => ({ ...prev, skills: false }))
-
-        setCertifications(Array.isArray(certificationsRes.data) ? certificationsRes.data : [])
-        setLoading(prev => ({ ...prev, certifications: false }))
-
-        // Simulate education loading (assuming it's static or has its own API)
-        setTimeout(() => {
-          setLoading(prev => ({ ...prev, education: false }))
-        }, 1000)
-
-        toast.success('Homepage data loaded!')
-      } catch (err) {
-        setError('Failed to load homepage data')
-        toast.error('Failed to load homepage data')
-        // Set all loading states to false on error
-        setLoading({
-          projects: false,
-          experiences: false,
-          skills: false,
-          certifications: false,
-          education: false
-        })
       }
+
+      if (experiencesRes.status === 'fulfilled') {
+        setData(prev => ({ ...prev, experiences: Array.isArray(experiencesRes.value.data) ? experiencesRes.value.data : [] }))
+        setLoading(prev => ({ ...prev, experiences: false }))
+      }
+
+      if (skillsRes.status === 'fulfilled') {
+        setData(prev => ({ ...prev, skills: Array.isArray(skillsRes.value.data) ? skillsRes.value.data : [] }))
+        setLoading(prev => ({ ...prev, skills: false }))
+      }
+
+      if (certificationsRes.status === 'fulfilled') {
+        setData(prev => ({ ...prev, certifications: Array.isArray(certificationsRes.value.data) ? certificationsRes.value.data : [] }))
+        setLoading(prev => ({ ...prev, certifications: false }))
+      }
+
+      // Simulate education loading (assuming it's static)
+      setTimeout(() => {
+        setLoading(prev => ({ ...prev, education: false }))
+      }, 1000)
+
+      toast.success('Homepage data loaded!')
+    } catch (err) {
+      setError('Failed to load homepage data')
+      toast.error('Failed to load homepage data')
+      // Set all loading states to false on error
+      setLoading({
+        projects: false,
+        experiences: false,
+        skills: false,
+        certifications: false,
+        education: false
+      })
     }
-    fetchData()
   }, [])
+
+  useEffect(() => {
+    fetchData()
+  }, [fetchData])
+
+  return { data, loading, error, refetch: fetchData }
+}
+
+export default function HomePage() {
+  const activeSection = useActiveSection()
+  const { data, loading, error, refetch } = useHomePageData()
+  const router = useRouter()
+
+  // Preload critical routes for better navigation performance
+  useEffect(() => {
+    router.prefetch('/projects')
+    router.prefetch('/experiences')
+    router.prefetch('/certifications')
+  }, [router])
+
+  // Memoize sections to prevent unnecessary re-renders
+  const sections = useMemo(() => [
+    {
+      id: 'hero',
+      component: <HeroSection />,
+      className: 'relative',
+      showStars: true
+    },
+    {
+      id: 'education',
+      component: loading.education ? <EducationSkeleton /> : <Education />,
+      className: 'scroll-mt-20 relative',
+      showGradient: true,
+      showStars: true
+    },
+    {
+      id: 'skills',
+      component: loading.skills ? <SkillsSkeleton /> : <SkillsSection skills={data.skills} />,
+      className: 'scroll-mt-20 relative',
+    },
+    {
+      id: 'projects',
+      component: loading.projects ? <ProjectsSkeleton /> : <ProjectsSection projects={data.projects} />,
+      className: 'scroll-mt-20 relative',
+    },
+    {
+      id: 'experience',
+      component: loading.experiences ? <ExperienceSkeleton /> : <ExperienceSection experiences={data.experiences} />,
+      className: 'scroll-mt-20 relative bg-white dark:bg-black',
+    },
+    {
+      id: 'certifications',
+      component: loading.certifications ? <CertificationsSkeleton /> : <CertificationsSection certifications={data.certifications} />,
+      className: 'scroll-mt-20 relative',
+      showGradient: true
+    },
+    {
+      id: 'contact',
+      component: <ContactSection />,
+      className: 'scroll-mt-20 relative',
+      showStarsBackground: true
+    }
+  ], [loading, data])
 
   if (error) {
     return (
       <Error
         error={error}
-        onRetry={() => location.reload()}
+        onRetry={refetch}
         showActions={true}
         title="Failed to load homepage"
       />
@@ -249,9 +386,6 @@ export default function HomePage() {
 
   return (
     <div className="min-h-screen bg-background scroll-smooth">
-
-
-      
       {/* Desktop Sidebar */}
       <DesktopSidebar activeSection={activeSection} />
       
@@ -259,39 +393,16 @@ export default function HomePage() {
       <MobileNavigation activeSection={activeSection} />
       
       <div className="md:pl-20 transition-all duration-500 ease-out">
-        <section id="hero" className="relative">
-          <HeroSection />
-          <ShootingStars />
-        </section>
-        
-        <section id="education" className="scroll-mt-20 relative">
-          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-secondary/5 to-transparent opacity-50 pointer-events-none" />
-          {loading.education ? <EducationSkeleton /> : <Education />}
-          <ShootingStars />
-        </section>
-
-
-          <section id="skills" className="scroll-mt-20 relative">
-            {loading.skills ? <SkillsSkeleton /> : <SkillsSection skills={skills} />}
+        {sections.map(({ id, component, className, showStars, showGradient, showStarsBackground }) => (
+          <section key={id} id={id} className={className}>
+            {showGradient && (
+              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-secondary/5 to-transparent opacity-50 pointer-events-none" />
+            )}
+            {component}
+            {showStars && <ShootingStars />}
+            {showStarsBackground && <StarsBackground />}
           </section>
-          
-          <section id="projects" className="scroll-mt-20 relative">
-            {loading.projects ? <ProjectsSkeleton /> : <ProjectsSection projects={projects} />}
-          </section>
-
-        <section id="experience" className="scroll-mt-20 relative bg-white dark:bg-black">
-          {loading.experiences ? <ExperienceSkeleton /> : <ExperienceSection experiences={experiences} />}
-        </section>
-        
-        <section id="certifications" className="scroll-mt-20 relative">
-          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-secondary/5 to-transparent opacity-50 pointer-events-none" />
-          {loading.certifications ? <CertificationsSkeleton /> : <CertificationsSection certifications={certifications} />}
-        </section>
-        
-        <section id="contact" className="scroll-mt-20 relative">
-          <ContactSection />
-          <StarsBackground />
-        </section>
+        ))}
         
         <section>
           <FooterSection />

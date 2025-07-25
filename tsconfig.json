@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
-    "target": "ES2017",
-    "lib": ["dom", "dom.iterable", "esnext"],
+    "target": "ES2022",
+    "lib": ["dom", "dom.iterable", "esnext", "ES2022"],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
@@ -13,6 +13,7 @@
     "isolatedModules": true,
     "jsx": "preserve",
     "incremental": true,
+    "tsBuildInfoFile": ".next/cache/tsbuildinfo",
     "plugins": [
       {
         "name": "next"
@@ -20,8 +21,22 @@
     ],
     "paths": {
       "@/*": ["./src/*"]
-    }
+    },
+    // Performance optimizations
+    "assumeChangesOnlyAffectDirectDependencies": true,
+    "forceConsistentCasingInFileNames": true,
+    "noUncheckedIndexedAccess": false,
+    "exactOptionalPropertyTypes": false,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitOverride": true,
+    "verbatimModuleSyntax": false,
+    // Enable faster type checking
+    "skipDefaultLibCheck": true
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
-  "exclude": ["node_modules"]
+  "exclude": ["node_modules", ".next", "out", "dist", "build"],
+  "ts-node": {
+    "esm": true
+  }
 }

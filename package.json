@@ -50,7 +50,17 @@
     "start": "next start",
     "lint": "next lint",
     "format": "prettier --write .",
-    "format:check": "prettier --check ."
+    "format:check": "prettier --check .",
+    "build:analyze": "cross-env ANALYZE=true next build",
+    "build:profile": "next build --profile",
+    "perf:build": "next build --debug && npm run perf:analyze",
+    "perf:analyze": "node scripts/analyze-bundle.js",
+    "perf:lighthouse": "lighthouse http://localhost:3000 --output html --output-path ./lighthouse-report.html",
+    "cache:clear": "rm -rf .next && rm -rf node_modules/.cache",
+    "cache:warm": "next build --no-lint",
+    "type-check": "tsc --noEmit",
+    "prestart": "npm run type-check",
+    "prebuild": "npm run type-check"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.1.1",
@@ -147,6 +157,7 @@
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3.3.1",
+    "@next/bundle-analyzer": "^15.3.5",
     "@tailwindcss/postcss": "^4.1.11",
     "@types/estree": "^1.0.8",
     "@types/estree-jsx": "^1.0.5",
@@ -162,9 +173,11 @@
     "@types/three": "^0.178.1",
     "@types/unist": "^3.0.3",
     "@types/webxr": "^0.5.22",
+    "cross-env": "^7.0.3",
     "drizzle-kit": "^0.31.4",
     "eslint": "^9.30.1",
     "eslint-config-next": "15.3.5",
+    "lighthouse": "^12.2.0",
     "prettier": "^3.2.5",
     "tailwindcss": "^4.1.11",
     "tsx": "^4.20.3",
@@ -173,5 +186,15 @@
   },
   "overrides": {
     "esbuild": "^0.25.6"
-  }
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=8.0.0"
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not dead",
+    "not ie 11"
+  ]
 }
