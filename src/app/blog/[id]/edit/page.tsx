@@ -8,17 +8,17 @@ import { Input } from '@/components/ui/input'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Separator } from '@/components/ui/separator'
-import { 
-  ArrowLeft, 
-  Save, 
-  Eye, 
-  EyeOff, 
-  Tag, 
+import {
+  ArrowLeft,
+  Save,
+  Eye,
+  EyeOff,
+  Tag,
   Plus,
   X,
   BookOpen,
   Sparkles,
-  AlertCircle
+  AlertCircle,
 } from 'lucide-react'
 import { blogsService } from '@/services/blogs'
 import { Blog } from '@/services/types'
@@ -54,7 +54,7 @@ const BlogEditPage = ({ params }: { params: Promise<{ id: string }> }) => {
     } finally {
       setLoading(false)
     }
-  }, [resolvedParams.id]);
+  }, [resolvedParams.id])
 
   useEffect(() => {
     if (resolvedParams.id) {
@@ -70,7 +70,7 @@ const BlogEditPage = ({ params }: { params: Promise<{ id: string }> }) => {
   }
 
   const handleRemoveTag = (tagToRemove: string) => {
-    setTags(tags.filter(tag => tag !== tagToRemove))
+    setTags(tags.filter((tag) => tag !== tagToRemove))
   }
 
   const handleSubmit = async () => {
@@ -82,7 +82,7 @@ const BlogEditPage = ({ params }: { params: Promise<{ id: string }> }) => {
     try {
       setIsSubmitting(true)
       setError('')
-      
+
       const response = await blogsService.updateBlog(resolvedParams.id, {
         title: title.trim(),
         content: content.trim(),
@@ -150,7 +150,9 @@ const BlogEditPage = ({ params }: { params: Promise<{ id: string }> }) => {
       <div className="min-h-screen flex items-center justify-center bg-background">
         <div className="text-center">
           <h2 className="text-xl font-bold font-heading text-foreground mb-2">Blog not found</h2>
-          <p className="text-foreground mb-4">The blog post you&apos;re trying to edit doesn&apos;t exist.</p>
+          <p className="text-foreground mb-4">
+            The blog post you&apos;re trying to edit doesn&apos;t exist.
+          </p>
           <Button onClick={() => router.push('/blog/dashboard')}>
             <ArrowLeft className="w-4 h-4 mr-2" />
             Back to Blog
@@ -167,11 +169,7 @@ const BlogEditPage = ({ params }: { params: Promise<{ id: string }> }) => {
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-4">
-              <Button
-                variant="ghost"
-                onClick={() => router.back()}
-                className="h-9 px-3"
-              >
+              <Button variant="ghost" onClick={() => router.back()} className="h-9 px-3">
                 <ArrowLeft className="w-4 h-4 mr-2" />
                 Back
               </Button>
@@ -185,7 +183,7 @@ const BlogEditPage = ({ params }: { params: Promise<{ id: string }> }) => {
                 </div>
               </div>
             </div>
-            
+
             <div className="flex items-center space-x-2">
               <Button
                 variant="outline"
@@ -195,7 +193,7 @@ const BlogEditPage = ({ params }: { params: Promise<{ id: string }> }) => {
                 {isPreview ? <EyeOff className="w-4 h-4 mr-2" /> : <Eye className="w-4 h-4 mr-2" />}
                 {isPreview ? 'Edit' : 'Preview'}
               </Button>
-              
+
               <Button
                 onClick={handleSubmit}
                 disabled={isSubmitting || !title.trim() || !content.trim()}
@@ -235,9 +233,7 @@ const BlogEditPage = ({ params }: { params: Promise<{ id: string }> }) => {
                   </div>
                   Post Title
                 </CardTitle>
-                <CardDescription className="text-sm">
-                  Update your post title
-                </CardDescription>
+                <CardDescription className="text-sm">Update your post title</CardDescription>
               </CardHeader>
               <CardContent className="pt-0">
                 <Input
@@ -258,16 +254,11 @@ const BlogEditPage = ({ params }: { params: Promise<{ id: string }> }) => {
                   </div>
                   Content
                 </CardTitle>
-                <CardDescription className="text-sm">
-                  Update your blog post content
-                </CardDescription>
+                <CardDescription className="text-sm">Update your blog post content</CardDescription>
               </CardHeader>
               <CardContent className="pt-0">
                 <div className="min-h-[350px] bg-background rounded-lg p-4 border border-border">
-                  <TipTap
-                    value={content}
-                    onChange={setContent}
-                  />
+                  <TipTap value={content} onChange={setContent} />
                 </div>
               </CardContent>
             </Card>
@@ -306,7 +297,7 @@ const BlogEditPage = ({ params }: { params: Promise<{ id: string }> }) => {
                     <Plus className="w-4 h-4" />
                   </Button>
                 </div>
-                
+
                 {tags.length > 0 && (
                   <div className="flex flex-wrap gap-2">
                     {tags.map((tag, index) => (
@@ -349,7 +340,7 @@ const BlogEditPage = ({ params }: { params: Promise<{ id: string }> }) => {
                       {title || 'Your post title will appear here'}
                     </h1>
                     <Separator />
-                    <div 
+                    <div
                       className="prose prose-sm max-w-none text-foreground"
                       dangerouslySetInnerHTML={{ __html: content }}
                     />
@@ -425,21 +416,15 @@ const BlogEditPage = ({ params }: { params: Promise<{ id: string }> }) => {
                 </div>
                 <div className="flex items-start space-x-3">
                   <div className="w-2 h-2 bg-secondary rounded-full mt-2 flex-shrink-0"></div>
-                  <p className="text-sm text-foreground">
-                    Revise tags for better discoverability
-                  </p>
+                  <p className="text-sm text-foreground">Revise tags for better discoverability</p>
                 </div>
                 <div className="flex items-start space-x-3">
                   <div className="w-2 h-2 bg-accent rounded-full mt-2 flex-shrink-0"></div>
-                  <p className="text-sm text-foreground">
-                    Preview changes before saving
-                  </p>
+                  <p className="text-sm text-foreground">Preview changes before saving</p>
                 </div>
                 <div className="flex items-start space-x-3">
                   <div className="w-2 h-2 bg-destructive rounded-full mt-2 flex-shrink-0"></div>
-                  <p className="text-sm text-foreground">
-                    Consider impact on existing readers
-                  </p>
+                  <p className="text-sm text-foreground">Consider impact on existing readers</p>
                 </div>
               </CardContent>
             </Card>

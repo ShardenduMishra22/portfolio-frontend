@@ -1,14 +1,14 @@
-import Image from 'next/image';
-import { Calendar } from 'lucide-react';
-import { Experience } from '@/data/types.data';
+import Image from 'next/image'
+import { Calendar } from 'lucide-react'
+import { Experience } from '@/data/types.data'
 
 interface ExperienceHeroProps {
-  experience: Experience;
+  experience: Experience
 }
 
 export function ExperienceHero({ experience }: ExperienceHeroProps) {
   const formatDate = (date: string) =>
-    new Date(date).toLocaleDateString('en-US', { year: 'numeric', month: 'short' });
+    new Date(date).toLocaleDateString('en-US', { year: 'numeric', month: 'short' })
 
   return (
     <section className="mb-8 w-full">
@@ -33,12 +33,14 @@ export function ExperienceHero({ experience }: ExperienceHeroProps) {
               <p className="text-xl text-foreground font-medium">{experience.company_name}</p>
               <div className="flex items-center gap-2 text-muted-foreground text-sm">
                 <Calendar className="w-4 h-4" />
-                <span>{formatDate(experience.start_date)} - {formatDate(experience.end_date)}</span>
+                <span>
+                  {formatDate(experience.start_date)} - {formatDate(experience.end_date)}
+                </span>
               </div>
             </div>
           </div>
         </div>
       </div>
     </section>
-  );
+  )
 }

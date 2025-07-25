@@ -2,9 +2,9 @@ import './globals.css'
 import type { Metadata } from 'next'
 import { Toaster } from 'react-hot-toast'
 import { ThemeProvider } from 'next-themes'
-import { Analytics } from "@vercel/analytics/next"
+import { Analytics } from '@vercel/analytics/next'
 import { Fredoka, Poppins, Inter } from 'next/font/google'
-import { SpeedInsights } from "@vercel/speed-insights/next"
+import { SpeedInsights } from '@vercel/speed-insights/next'
 import ThemeToggleClient from '@/components/ThemeToggleClient'
 
 const fredoka = Fredoka({
@@ -33,8 +33,16 @@ export const metadata: Metadata = {
     template: '%s | Shardendu Mishra',
     default: 'Shardendu Mishra | Software Developer and Engineer',
   },
-  description: 'Software Developer and Engineer passionate about building impactful applications with modern technologies. Specializing in Go, React, and cloud-native solutions.',
-  keywords: ['Shardendu Mishra', 'Software Developer and Engineer', 'Go', 'React', 'Portfolio', 'Software Engineer'],
+  description:
+    'Software Developer and Engineer passionate about building impactful applications with modern technologies. Specializing in Go, React, and cloud-native solutions.',
+  keywords: [
+    'Shardendu Mishra',
+    'Software Developer and Engineer',
+    'Go',
+    'React',
+    'Portfolio',
+    'Software Engineer',
+  ],
   authors: [{ name: 'Shardendu Mishra' }],
   creator: 'Shardendu Mishra',
   openGraph: {
@@ -42,13 +50,15 @@ export const metadata: Metadata = {
     locale: 'en_US',
     url: 'https://mishrashardendu22.is-a.dev',
     title: 'Shardendu Mishra - Software Developer and Engineer',
-    description: 'Software Developer and Engineer passionate about building impactful applications with modern technologies.',
+    description:
+      'Software Developer and Engineer passionate about building impactful applications with modern technologies.',
     siteName: 'Shardendu Mishra Portfolio',
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Shardendu Mishra - Software Developer and Engineer',
-    description: 'Software Developer and Engineer passionate about building impactful applications with modern technologies.',
+    description:
+      'Software Developer and Engineer passionate about building impactful applications with modern technologies.',
   },
   robots: {
     index: true,
@@ -63,11 +73,7 @@ export const metadata: Metadata = {
   },
 }
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode
-}) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={`${fredoka.variable} ${poppins.variable} ${inter.variable} antialiased `}>

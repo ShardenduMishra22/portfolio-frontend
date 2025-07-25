@@ -1,28 +1,31 @@
-'use client';
+'use client'
 
-import React, { useState } from 'react';
-import { AnimatePresence, motion } from 'motion/react';
-import { Sparkles } from 'lucide-react';
-import CanvasRevealEffect from './CanvasRevealEffect';
+import React, { useState } from 'react'
+import { AnimatePresence, motion } from 'motion/react'
+import { Sparkles } from 'lucide-react'
+import CanvasRevealEffect from './CanvasRevealEffect'
 
 interface CanvasCardProps {
-  title: string;
-  icon: React.ReactNode;
-  children: React.ReactNode;
-  animationSpeed?: number;
-  containerClassName?: string;
-  colors?: number[][];
-  dotSize?: number;
+  title: string
+  icon: React.ReactNode
+  children: React.ReactNode
+  animationSpeed?: number
+  containerClassName?: string
+  colors?: number[][]
+  dotSize?: number
 }
 
 export const CanvasCard: React.FC<CanvasCardProps> = ({
   title,
   icon,
   children,
-  containerClassName = "bg-blue-900",
-  colors = [[59, 130, 246], [147, 197, 253]],
+  containerClassName = 'bg-blue-900',
+  colors = [
+    [59, 130, 246],
+    [147, 197, 253],
+  ],
 }) => {
-  const [hovered, setHovered] = useState(false);
+  const [hovered, setHovered] = useState(false)
 
   return (
     <div
@@ -43,10 +46,10 @@ export const CanvasCard: React.FC<CanvasCardProps> = ({
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ 
-              duration: 0.4, 
-              ease: "easeOut",
-              delay: 0.2 
+            transition={{
+              duration: 0.4,
+              ease: 'easeOut',
+              delay: 0.2,
             }}
             className="h-full w-full absolute inset-0"
           >
@@ -64,7 +67,7 @@ export const CanvasCard: React.FC<CanvasCardProps> = ({
       <div className="relative z-20 p-6 flex flex-col justify-between h-full">
         <div className="mb-4">
           <div className="flex items-center gap-3 mb-3">
-            <motion.div 
+            <motion.div
               className="text-primary group-hover/canvas-card:text-white transition-colors duration-500"
               whileHover={{ scale: 1.1 }}
               transition={{ duration: 0.2 }}
@@ -81,5 +84,5 @@ export const CanvasCard: React.FC<CanvasCardProps> = ({
         </div>
       </div>
     </div>
-  );
-};
+  )
+}

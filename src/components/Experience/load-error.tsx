@@ -1,5 +1,5 @@
-import { Building2, Zap } from 'lucide-react';
-import { Card, CardContent } from '@/components/ui/card';
+import { Building2, Zap } from 'lucide-react'
+import { Card, CardContent } from '@/components/ui/card'
 
 export function LoadingState() {
   return (
@@ -15,7 +15,7 @@ export function LoadingState() {
         </div>
       </div>
     </div>
-  );
+  )
 }
 
 export function ErrorState({ error }: { error: string }) {
@@ -31,7 +31,7 @@ export function ErrorState({ error }: { error: string }) {
         </div>
       </div>
     </div>
-  );
+  )
 }
 
 export function EmptyState() {
@@ -42,15 +42,13 @@ export function EmptyState() {
           <div className="w-16 h-16 mx-auto rounded-full bg-muted flex items-center justify-center">
             <Building2 className="w-8 h-8 text-foreground" />
           </div>
-          
+
           <div className="space-y-2">
             <h3 className="text-lg font-heading text-foreground">No experiences found</h3>
-            <p className="text-foreground text-sm">
-              Try adjusting your search or filter criteria
-            </p>
+            <p className="text-foreground text-sm">Try adjusting your search or filter criteria</p>
           </div>
         </CardContent>
       </Card>
     </div>
-  );
+  )
 }

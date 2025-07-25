@@ -1,11 +1,11 @@
-import { Card, CardContent } from '../../ui/card';
-import { Button } from '../../ui/button';
-import { Settings, Plus } from 'lucide-react';
-import React from 'react';
+import { Card, CardContent } from '../../ui/card'
+import { Button } from '../../ui/button'
+import { Settings, Plus } from 'lucide-react'
+import React from 'react'
 
 type SkillsEmptyStateProps = {
-  onAdd: () => void;
-};
+  onAdd: () => void
+}
 
 export function SkillsEmptyState({ onAdd }: SkillsEmptyStateProps) {
   return (
@@ -22,5 +22,5 @@ export function SkillsEmptyState({ onAdd }: SkillsEmptyStateProps) {
         </Button>
       </CardContent>
     </Card>
-  );
+  )
 }

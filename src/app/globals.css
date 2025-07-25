@@ -1,5 +1,5 @@
 @import 'tailwindcss';
-@import "tw-animate-css";
+@import 'tw-animate-css';
 
 @custom-variant dark (&:is(.dark *));
 
@@ -166,25 +166,29 @@ html {
 }
 
 /* Enhanced typography system */
-h1, h2 {
+h1,
+h2 {
   font-family: var(--font-heading);
   font-weight: 700;
   letter-spacing: -0.025em;
 }
 
-h3, h4 {
+h3,
+h4 {
   font-family: var(--font-subheading);
   font-weight: 600;
   letter-spacing: -0.01em;
 }
 
-h5, h6 {
+h5,
+h6 {
   font-family: var(--font-body);
   font-weight: 600;
 }
 
 /* Mobile-responsive typography scale */
-h1,h2 {
+h1,
+h2 {
   font-size: clamp(1.5rem, 3.5vw, 2.25rem);
 }
 
@@ -265,12 +269,12 @@ h6 {
     @apply border-border outline-ring/50;
     box-sizing: border-box;
   }
-  
+
   *:before,
   *:after {
     box-sizing: border-box;
   }
-  
+
   body {
     @apply bg-background text-foreground;
     font-family: var(--font-body);
@@ -278,7 +282,7 @@ h6 {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
-    font-feature-settings: "kern" 1;
+    font-feature-settings: 'kern' 1;
     font-variant-ligatures: common-ligatures;
     padding-top: var(--safe-area-inset-top);
     padding-bottom: var(--safe-area-inset-bottom);
@@ -289,17 +293,20 @@ h6 {
   }
 
   /* Mobile-optimized form elements */
-  input, textarea, select, button {
+  input,
+  textarea,
+  select,
+  button {
     font-size: 16px; /* Prevents zoom on iOS */
     font-family: inherit;
   }
 
   /* Enhanced button touch targets */
-  button, 
-  [role="button"],
-  input[type="button"],
-  input[type="submit"],
-  input[type="reset"] {
+  button,
+  [role='button'],
+  input[type='button'],
+  input[type='submit'],
+  input[type='reset'] {
     min-height: var(--touch-target);
     min-width: var(--touch-target);
     touch-action: manipulation;
@@ -352,7 +359,9 @@ h6 {
 
   /* Remove motion for users who prefer reduced motion */
   @media (prefers-reduced-motion: reduce) {
-    *, *::before, *::after {
+    *,
+    *::before,
+    *::after {
       animation-duration: 0.01ms !important;
       animation-iteration-count: 1 !important;
       transition-duration: 0.01ms !important;
@@ -387,7 +396,8 @@ h6 {
 }
 
 @keyframes pulse-soft {
-  0%, 100% {
+  0%,
+  100% {
     opacity: 1;
   }
   50% {
@@ -423,12 +433,7 @@ h6 {
 
 .animate-shimmer {
   animation: shimmer 2s linear infinite;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    var(--muted),
-    transparent
-  );
+  background: linear-gradient(90deg, transparent, var(--muted), transparent);
   background-size: 200% 100%;
 }
 
@@ -500,8 +505,10 @@ h6 {
     -webkit-user-select: none;
     user-select: none;
   }
-  
-  input, textarea, [contenteditable] {
+
+  input,
+  textarea,
+  [contenteditable] {
     -webkit-user-select: text;
     user-select: text;
   }
@@ -513,14 +520,15 @@ h6 {
     --border: #000000;
     --border-strong: #000000;
   }
-  
+
   .dark {
     --border: #ffffff;
     --border-strong: #ffffff;
   }
 }
 
-.all-unset, .all-unset * {
+.all-unset,
+.all-unset * {
   all: unset;
   display: revert;
   box-sizing: border-box;

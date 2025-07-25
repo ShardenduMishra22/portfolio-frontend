@@ -1,4 +1,4 @@
-# Shardendu Mishra - Personal Website    
+# Shardendu Mishra - Personal Website
 
 A modern, full-stack portfolio website built with Next.js 15, featuring a blog system, admin panel, and dual backend architecture with load balancing.
 
@@ -96,7 +96,7 @@ user_profiles, blog_revisions
 
 ### Prerequisites
 
-- Node.js 18+ 
+- Node.js 18+
 - PostgreSQL 13+
 - Go 1.21+ (for backend)
 - pnpm (recommended) or npm
@@ -127,19 +127,21 @@ NEXT_PUBLIC_GA_ID="your-ga-id"
 
 ### Installation
 
-
 1. **Clone the repository**
+
 ```bash
 git clone https://github.com/ShardenduMishra22/portfolio-frontend.git
 cd portfolio-frontend
 ```
 
 2. **Install dependencies**
+
 ```bash
 pnpm install
 ```
 
 3. **Set up the database**
+
 ```bash
 # Run database migrations
 pnpm drizzle-kit push
@@ -149,11 +151,13 @@ pnpm drizzle-kit generate
 ```
 
 4. **Start the development server**
+
 ```bash
 pnpm dev
 ```
 
 5. **Access the application**
+
 - Frontend: http://localhost:3000
 - Admin Panel: http://localhost:3000/admin
 - API Documentation: http://localhost:3000/api
@@ -178,7 +182,6 @@ pnpm type-check   # Run TypeScript type checking
 ```
 
 ### Code Structure
-
 
 #### API Routes
 
@@ -266,7 +269,6 @@ pnpm drizzle-kit studio
 
 ### Vercel (Recommended)
 
-
 ```bash
 # Install Vercel CLI
 npm i -g vercel
@@ -276,7 +278,6 @@ vercel --prod
 ```
 
 ### Environment Setup
-
 
 1. Set up PostgreSQL database
 2. Configure environment variables
@@ -316,6 +317,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## 👨‍💻 Author
 
 **Shardendu Mishra**
+
 - Email: mishrashardendu22@gmail.com
 - GitHub: [@ShardenduMishra22](https://github.com/MishraShardendu22)
 - LinkedIn: [Shardendu Mishra](https://linkedin.com/in/shardendumishra22/)
@@ -333,10 +335,11 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## 📞 Support
 
 If you have any questions or need help:
+
 - Create an issue on GitHub
 - Contact via email: mishrashardendu22@gmail.com
 - Connect on LinkedIn: [Shardendu Mishra](https://linkedin.com/in/shardendumishra22/)
 
 ---
 
-⭐ **Star this repository if you found it helpful!** 
+⭐ **Star this repository if you found it helpful!**

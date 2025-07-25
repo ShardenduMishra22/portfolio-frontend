@@ -1,9 +1,7 @@
 import axios from 'axios'
 
-const isServer = typeof window === 'undefined';
-const baseURL = isServer
-  ? process.env.NEXT_PUBLIC_BASE_URL + '/api/proxy'
-  : '/api/proxy';
+const isServer = typeof window === 'undefined'
+const baseURL = isServer ? process.env.NEXT_PUBLIC_BASE_URL + '/api/proxy' : '/api/proxy'
 
 const api = axios.create({
   baseURL,
@@ -11,8 +9,7 @@ const api = axios.create({
   headers: {
     'Content-Type': 'application/json',
   },
-});
-
+})
 
 // Request interceptor to add JWT token
 api.interceptors.request.use(
@@ -39,8 +36,9 @@ api.interceptors.response.use(
       if (typeof window !== 'undefined') {
         localStorage.removeItem('jwt_token')
         // Check if we're on an admin page (except login)
-        const isAdminPage = window.location.pathname.startsWith('/admin') && 
-                           window.location.pathname !== '/admin/login'
+        const isAdminPage =
+          window.location.pathname.startsWith('/admin') &&
+          window.location.pathname !== '/admin/login'
         if (isAdminPage) {
           window.location.href = '/'
         }

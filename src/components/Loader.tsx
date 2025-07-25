@@ -15,7 +15,7 @@ const Loader = () => {
     'Loading awesome content...',
     'Initializing creativity engine...',
     'Preparing something special...',
-    'Assembling digital masterpiece...'
+    'Assembling digital masterpiece...',
   ]
 
   const icons = [Code, Coffee, Zap, Star, Sparkles, Rocket, Heart]
@@ -36,7 +36,7 @@ const Loader = () => {
       clearInterval(messageInterval)
       clearInterval(dotsInterval)
     }
-  }, [messages.length]);
+  }, [messages.length])
 
   useEffect(() => {
     const temp: JSX.Element[] = []
@@ -49,7 +49,7 @@ const Loader = () => {
             left: `${Math.random() * 100}%`,
             top: `${Math.random() * 100}%`,
             animationDelay: `${i * 0.5}s`,
-            animationDuration: `${2 + Math.random() * 2}s`
+            animationDuration: `${2 + Math.random() * 2}s`,
           }}
         />
       )
@@ -62,17 +62,22 @@ const Loader = () => {
   return (
     <div className="min-h-screen bg-background flex items-center justify-center relative overflow-hidden">
       {/* Animated Background Elements */}
-      {particles.length > 0 && (
-        <div className="absolute inset-0 overflow-hidden">
-          {particles}
-        </div>
-      )}
+      {particles.length > 0 && <div className="absolute inset-0 overflow-hidden">{particles}</div>}
 
       {/* Floating Geometric Shapes */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-1/4 left-1/4 w-4 h-4 bg-secondary/30 rounded-full animate-bounce" style={{ animationDelay: '0s' }} />
-        <div className="absolute top-1/3 right-1/4 w-6 h-6 bg-primary/20 rotate-45 animate-bounce" style={{ animationDelay: '1s' }} />
-        <div className="absolute bottom-1/3 left-1/3 w-3 h-3 bg-accent/40 rounded-full animate-bounce" style={{ animationDelay: '2s' }} />
+        <div
+          className="absolute top-1/4 left-1/4 w-4 h-4 bg-secondary/30 rounded-full animate-bounce"
+          style={{ animationDelay: '0s' }}
+        />
+        <div
+          className="absolute top-1/3 right-1/4 w-6 h-6 bg-primary/20 rotate-45 animate-bounce"
+          style={{ animationDelay: '1s' }}
+        />
+        <div
+          className="absolute bottom-1/3 left-1/3 w-3 h-3 bg-accent/40 rounded-full animate-bounce"
+          style={{ animationDelay: '2s' }}
+        />
       </div>
 
       <div className="text-center space-y-8 relative z-10">
@@ -80,8 +85,14 @@ const Loader = () => {
         <div className="relative">
           {/* Outer Ring */}
           <div className="w-24 h-24 rounded-full border-4 border-primary/20 animate-spin mx-auto relative">
-            <div className="absolute inset-0 rounded-full border-t-4 border-primary animate-spin" style={{ animationDuration: '1s' }} />
-            <div className="absolute inset-2 rounded-full border-2 border-secondary/30 animate-spin" style={{ animationDuration: '2s', animationDirection: 'reverse' }} />
+            <div
+              className="absolute inset-0 rounded-full border-t-4 border-primary animate-spin"
+              style={{ animationDuration: '1s' }}
+            />
+            <div
+              className="absolute inset-2 rounded-full border-2 border-secondary/30 animate-spin"
+              style={{ animationDuration: '2s', animationDirection: 'reverse' }}
+            />
 
             {/* Center Icon */}
             <div className="absolute inset-0 flex items-center justify-center">
@@ -108,7 +119,7 @@ const Loader = () => {
               width: '100%',
               background: 'linear-gradient(90deg, var(--primary), var(--secondary), var(--accent))',
               backgroundSize: '200% 100%',
-              animation: 'shimmer 2s infinite'
+              animation: 'shimmer 2s infinite',
             }}
           />
         </div>
@@ -116,11 +127,10 @@ const Loader = () => {
         {/* Dynamic Message */}
         <div className="space-y-2">
           <p className="text-lg font-medium text-foreground animate-pulse">
-            {messages[currentMessage]}{dots}
+            {messages[currentMessage]}
+            {dots}
           </p>
-          <p className="text-sm text-foreground">
-            Hold tight, greatness is loading! ✨
-          </p>
+          <p className="text-sm text-foreground">Hold tight, greatness is loading! ✨</p>
         </div>
 
         {/* Fun Stats */}
@@ -143,8 +153,12 @@ const Loader = () => {
       {/* CSS for shimmer effect */}
       <style jsx>{`
         @keyframes shimmer {
-          0% { background-position: -200% 0; }
-          100% { background-position: 200% 0; }
+          0% {
+            background-position: -200% 0;
+          }
+          100% {
+            background-position: 200% 0;
+          }
         }
       `}</style>
     </div>

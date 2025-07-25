@@ -1,26 +1,26 @@
-import { useState } from "react";
-import { cn } from "@/lib/utils";
-import { AnimatePresence, motion } from "motion/react";
-import CertificationCards from "./card";
+import { useState } from 'react'
+import { cn } from '@/lib/utils'
+import { AnimatePresence, motion } from 'motion/react'
+import CertificationCards from './card'
 
 interface CertificationGridProps {
   items: {
-    title: string;
-    issuer: string;
-    description: string;
-    link: string;
-    skills?: string[];
-    certificateUrl?: string;
-    issueDate: string;
-  }[];
-  className?: string;
+    title: string
+    issuer: string
+    description: string
+    link: string
+    skills?: string[]
+    certificateUrl?: string
+    issueDate: string
+  }[]
+  className?: string
 }
 
 export default function CertificationGrid({ items, className }: CertificationGridProps) {
-  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null)
 
   return (
-    <div className={cn("grid auto-rows-fr py-6", className)}>
+    <div className={cn('grid auto-rows-fr py-6', className)}>
       {items.map((item, idx) => (
         <div
           key={`${item?.link}-${idx}`}
@@ -52,10 +52,10 @@ export default function CertificationGrid({ items, className }: CertificationGri
             link={item.link}
             skills={item.skills}
             certificateUrl={item.certificateUrl}
-            issueDate={item.issueDate}          
-           />
+            issueDate={item.issueDate}
+          />
         </div>
       ))}
     </div>
-  );
+  )
 }

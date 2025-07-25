@@ -89,7 +89,10 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
           >
             <Menu className="w-6 h-6 text-primary" />
           </button>
-          <Link href="/admin/dashboard" className="font-heading font-bold text-xl text-primary select-none">
+          <Link
+            href="/admin/dashboard"
+            className="font-heading font-bold text-xl text-primary select-none"
+          >
             Admin Panel
           </Link>
         </div>
@@ -105,14 +108,15 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
                   : 'text-foreground hover:bg-primary/10 hover:text-primary'
               }`}
             >
-              <Icon className={`w-5 h-5 ${isActive(href) ? 'text-primary-foreground' : 'text-foreground'}`} />
+              <Icon
+                className={`w-5 h-5 ${isActive(href) ? 'text-primary-foreground' : 'text-foreground'}`}
+              />
               <span>{name}</span>
             </Link>
           ))}
         </nav>
 
         <div className="flex items-center gap-4">
-          
           <Button
             variant="outline"
             className="text-primary hover:bg-primary/20"
@@ -139,7 +143,9 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
               }`}
               onClick={() => setMobileMenuOpen(false)}
             >
-              <Icon className={`w-5 h-5 ${isActive(href) ? 'text-primary-foreground' : 'text-foreground'}`} />
+              <Icon
+                className={`w-5 h-5 ${isActive(href) ? 'text-primary-foreground' : 'text-foreground'}`}
+              />
               <span>{name}</span>
             </Link>
           ))}

@@ -19,7 +19,10 @@ export const commentsService = {
   },
 
   // Add comment to a blog
-  addBlogComment: async (blogId: string, commentData: { content: string; userId: string }): Promise<ApiResponse<Comment>> => {
+  addBlogComment: async (
+    blogId: string,
+    commentData: { content: string; userId: string }
+  ): Promise<ApiResponse<Comment>> => {
     const response = await localAPI.post(`/blogs/${blogId}/comments`, commentData)
     return response.data
   },
@@ -31,7 +34,10 @@ export const commentsService = {
   },
 
   // Update comment
-  updateComment: async (id: string, commentData: UpdateCommentRequest): Promise<ApiResponse<Comment>> => {
+  updateComment: async (
+    id: string,
+    commentData: UpdateCommentRequest
+  ): Promise<ApiResponse<Comment>> => {
     const response = await localAPI.patch(`/comments/${id}`, commentData)
     return response.data
   },
@@ -40,5 +46,5 @@ export const commentsService = {
   deleteComment: async (id: string): Promise<ApiResponse<{ message: string }>> => {
     const response = await localAPI.delete(`/comments/${id}`)
     return response.data
-  }
-} 
+  },
+}

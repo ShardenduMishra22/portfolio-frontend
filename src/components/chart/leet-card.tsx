@@ -1,7 +1,7 @@
-import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card"
-import { LeetCodeData } from "@/data/types.data"
-import { Trophy, User, Award } from "lucide-react"
-import { DifficultyCard } from "./helper"
+import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'
+import { LeetCodeData } from '@/data/types.data'
+import { Trophy, User, Award } from 'lucide-react'
+import { DifficultyCard } from './helper'
 
 interface LeetCodeStatsCardProps {
   leetcode: LeetCodeData
@@ -11,7 +11,7 @@ export const LeetCodeStatsCard = ({ leetcode }: LeetCodeStatsCardProps) => {
   return (
     <Card className="relative overflow-hidden group hover:shadow-2xl transition-all duration-500 border-0">
       <div className="absolute inset-0 bg-gradient-to-br from-secondary/5 to-accent/5"></div>
-      
+
       <CardHeader className="relative pb-4">
         <div className="flex items-center gap-4">
           <div className="relative">
@@ -48,18 +48,18 @@ export const LeetCodeStatsCard = ({ leetcode }: LeetCodeStatsCardProps) => {
         </div>
 
         <div className="space-y-3">
-          <DifficultyCard 
-            difficulty="Easy" 
+          <DifficultyCard
+            difficulty="Easy"
             count={leetcode.submitStats.acSubmissionNum[1]?.count || 0}
             color="bg-green-500"
           />
-          <DifficultyCard 
-            difficulty="Medium" 
+          <DifficultyCard
+            difficulty="Medium"
             count={leetcode.submitStats.acSubmissionNum[2]?.count || 0}
             color="bg-yellow-500"
           />
-          <DifficultyCard 
-            difficulty="Hard" 
+          <DifficultyCard
+            difficulty="Hard"
             count={leetcode.submitStats.acSubmissionNum[3]?.count || 0}
             color="bg-red-500"
           />

@@ -1,11 +1,11 @@
-import { Project } from "@/data/types.data";
-import { cn } from "@/lib/utils";
-import { Card, CardDescription, CardTitle } from "../ui/card";
-import { Badge } from "../ui/badge";
-import { Button } from "../ui/button";
-import { ArrowRight, ExternalLink, Github } from "lucide-react";
-import Link from "next/link";
-import { useState } from "react";
+import { Project } from '@/data/types.data'
+import { cn } from '@/lib/utils'
+import { Card, CardDescription, CardTitle } from '../ui/card'
+import { Badge } from '../ui/badge'
+import { Button } from '../ui/button'
+import { ArrowRight, ExternalLink, Github } from 'lucide-react'
+import Link from 'next/link'
+import { useState } from 'react'
 
 export const ProjectFocusCard = ({
   project,
@@ -15,19 +15,19 @@ export const ProjectFocusCard = ({
   startIndex,
   windowWidth,
 }: {
-  project: Project;
-  index: number;
-  hovered: number | null;
-  setHovered: React.Dispatch<React.SetStateAction<number | null>>;
-  startIndex: number;
-  windowWidth: number;
+  project: Project
+  index: number
+  hovered: number | null
+  setHovered: React.Dispatch<React.SetStateAction<number | null>>
+  startIndex: number
+  windowWidth: number
 }) => (
   <div
     onMouseEnter={() => setHovered(index)}
     onMouseLeave={() => setHovered(null)}
     className={cn(
-      "transition-all duration-300 ease-out",
-      hovered !== null && hovered !== index && "blur-sm scale-[0.98] opacity-70"
+      'transition-all duration-300 ease-out',
+      hovered !== null && hovered !== index && 'blur-sm scale-[0.98] opacity-70'
     )}
   >
     <Card className="group relative overflow-hidden border border-border/30 hover:border-primary/40 transition-all duration-500 hover:shadow-xl sm:hover:shadow-2xl hover:shadow-primary/10 bg-card/95 backdrop-blur-sm hover:bg-card/100 min-h-[380px] sm:min-h-[420px]">
@@ -80,7 +80,7 @@ export const ProjectFocusCard = ({
                 className="flex-1"
               >
                 <Button
-                  size={windowWidth < 640 ? "sm" : "default"}
+                  size={windowWidth < 640 ? 'sm' : 'default'}
                   className="w-full bg-gradient-to-r from-primary to-secondary hover:from-primary/90 hover:to-secondary/90 text-primary-foreground border-0 shadow-lg hover:shadow-primary/25 transition-all duration-300 font-medium touch-manipulation"
                 >
                   <ExternalLink className="mr-1.5 sm:mr-2 h-3 w-3 sm:h-4 sm:w-4" />
@@ -98,7 +98,7 @@ export const ProjectFocusCard = ({
               >
                 <Button
                   variant="outline"
-                  size={windowWidth < 640 ? "sm" : "default"}
+                  size={windowWidth < 640 ? 'sm' : 'default'}
                   className="w-full border border-primary/20 hover:border-primary/40 bg-background/50 backdrop-blur-sm hover:bg-primary/5 transition-all duration-300 font-medium touch-manipulation"
                 >
                   <Github className="mr-1.5 sm:mr-2 h-3 w-3 sm:h-4 sm:w-4" />
@@ -108,10 +108,13 @@ export const ProjectFocusCard = ({
             )}
           </div>
 
-          <Link href={`/projects/${project.inline?.id || project.inline.id}`} className="w-full sm:mt-0">
+          <Link
+            href={`/projects/${project.inline?.id || project.inline.id}`}
+            className="w-full sm:mt-0"
+          >
             <Button
               variant="ghost"
-              size={windowWidth < 640 ? "sm" : "default"}
+              size={windowWidth < 640 ? 'sm' : 'default'}
               className="w-full group/btn relative overflow-hidden hover:bg-secondary/10 transition-all duration-300 font-medium touch-manipulation"
             >
               <span className="relative flex items-center justify-center text-foreground group-hover/btn:text-secondary text-xs sm:text-sm">
@@ -124,18 +127,18 @@ export const ProjectFocusCard = ({
       </div>
     </Card>
   </div>
-);
+)
 
-export const ProjectFocusCards = ({ 
-  projects, 
-  startIndex, 
-  windowWidth 
-}: { 
-  projects: Project[];
-  startIndex: number;
-  windowWidth: number;
+export const ProjectFocusCards = ({
+  projects,
+  startIndex,
+  windowWidth,
+}: {
+  projects: Project[]
+  startIndex: number
+  windowWidth: number
 }) => {
-  const [hovered, setHovered] = useState<number | null>(null);
+  const [hovered, setHovered] = useState<number | null>(null)
 
   return (
     <div className="grid gap-4 sm:gap-6 lg:gap-8 grid-cols-1 lg:grid-cols-2">
@@ -151,5 +154,5 @@ export const ProjectFocusCards = ({
         />
       ))}
     </div>
-  );
-};
+  )
+}

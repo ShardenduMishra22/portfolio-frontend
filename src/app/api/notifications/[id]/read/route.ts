@@ -1,21 +1,18 @@
-import { db } from "@/index";
-import { eq } from "drizzle-orm";
-import { notificationsTable } from "@/db/schema";
-import { NextRequest, NextResponse } from "next/server";
+import { db } from '@/index'
+import { eq } from 'drizzle-orm'
+import { notificationsTable } from '@/db/schema'
+import { NextRequest, NextResponse } from 'next/server'
 
 // PATCH /api/notifications/:id/read - Mark notification as read
-export async function PATCH(
-  request: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
-) {
+export async function PATCH(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
-    const notificationId = parseInt((await params).id);
+    const notificationId = parseInt((await params).id)
 
     if (isNaN(notificationId)) {
       return NextResponse.json(
-        { success: false, error: "Invalid notification ID" },
+        { success: false, error: 'Invalid notification ID' },
         { status: 400 }
-      );
+      )
     }
 
     // Check if notification exists
@@ -23,13 +20,10 @@ export async function PATCH(
       .select()
       .from(notificationsTable)
       .where(eq(notificationsTable.id, notificationId))
-      .limit(1);
+      .limit(1)
 
     if (existingNotification.length === 0) {
-      return NextResponse.json(
-        { success: false, error: "Notification not found" },
-        { status: 404 }
-      );
+      return NextResponse.json({ success: false, error: 'Notification not found' }, { status: 404 })
     }
 
     // Mark notification as read
@@ -48,17 +42,17 @@ export async function PATCH(
         relatedId: notificationsTable.relatedId,
         isRead: notificationsTable.isRead,
         createdAt: notificationsTable.createdAt,
-      });
+      })
 
     return NextResponse.json({
       success: true,
       data: updatedNotification,
-    });
+    })
   } catch (error) {
-    console.error("Error marking notification as read:", error);
+    console.error('Error marking notification as read:', error)
     return NextResponse.json(
-      { success: false, error: "Failed to mark notification as read" },
+      { success: false, error: 'Failed to mark notification as read' },
       { status: 500 }
-    );
+    )
   }
-} 
+}

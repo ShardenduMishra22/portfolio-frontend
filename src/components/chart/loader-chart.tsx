@@ -1,4 +1,4 @@
-import { Loader2, Sparkles } from "lucide-react"
+import { Loader2, Sparkles } from 'lucide-react'
 
 export const LoadingScreen = () => {
   return (

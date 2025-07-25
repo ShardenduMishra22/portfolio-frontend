@@ -2,23 +2,23 @@ import backendAPI from '../api'
 import { ApiResponse } from '../types'
 
 export interface LoginRequest {
-  email: string;
-  password: string;
+  email: string
+  password: string
 }
 
 export interface RegisterRequest {
-  email: string;
-  username: string;
-  password: string;
+  email: string
+  username: string
+  password: string
 }
 
 export interface AuthResponse {
   user: {
-    id: number;
-    email: string;
-    username: string;
-  };
-  token: string;
+    id: number
+    email: string
+    username: string
+  }
+  token: string
 }
 
 export const authService = {
@@ -56,5 +56,5 @@ export const authService = {
   verifyToken: async (token: string): Promise<ApiResponse<{ valid: boolean }>> => {
     const response = await backendAPI.post('/auth/verify', { token })
     return response.data
-  }
-} 
+  },
+}

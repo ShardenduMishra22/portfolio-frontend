@@ -1,7 +1,7 @@
-import { Project } from '../../data/types.data';
+import { Project } from '../../data/types.data'
 
 interface ProjectJsonLdProps {
-  project: Project;
+  project: Project
 }
 
 export function ProjectJsonLd({ project }: ProjectJsonLdProps) {
@@ -18,12 +18,12 @@ export function ProjectJsonLd({ project }: ProjectJsonLdProps) {
     dateCreated: project.created_at,
     keywords: project.skills,
     image: project.images || [],
-  };
+  }
 
   return (
-    <script 
-      type="application/ld+json" 
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} 
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
     />
-  );
+  )
 }

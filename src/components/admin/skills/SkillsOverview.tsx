@@ -1,10 +1,10 @@
-import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '../../ui/card';
-import { Badge } from '../../ui/badge';
-import React from 'react';
+import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '../../ui/card'
+import { Badge } from '../../ui/badge'
+import React from 'react'
 
 type SkillsOverviewProps = {
-  skills: string[];
-};
+  skills: string[]
+}
 
 export function SkillsOverview({ skills }: SkillsOverviewProps) {
   return (
@@ -25,5 +25,5 @@ export function SkillsOverview({ skills }: SkillsOverviewProps) {
         </div>
       </CardContent>
     </Card>
-  );
+  )
 }

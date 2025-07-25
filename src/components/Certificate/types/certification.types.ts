@@ -1,10 +1,10 @@
 export interface CertificationPageProps {
   params: {
-    id: string;
-  };
+    id: string
+  }
 }
 
 export interface GitHubRepoInfo {
-  owner: string;
-  repo: string;
+  owner: string
+  repo: string
 }

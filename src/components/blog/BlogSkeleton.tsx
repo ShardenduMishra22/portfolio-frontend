@@ -28,14 +28,14 @@ export const BlogCardSkeleton = () => {
         <Skeleton className="h-6 w-3/4 mb-3" />
         <Skeleton className="h-4 w-full mb-2" />
         <Skeleton className="h-4 w-5/6 mb-3" />
-        
+
         {/* Tags */}
         <div className="flex flex-wrap gap-1 mb-4">
           <Skeleton className="h-5 w-12 rounded-full" />
           <Skeleton className="h-5 w-16 rounded-full" />
           <Skeleton className="h-5 w-14 rounded-full" />
         </div>
-        
+
         {/* Stats */}
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-4">
@@ -157,4 +157,4 @@ export const BlogCommentsSkeleton = () => {
       ))}
     </div>
   )
-} 
+}

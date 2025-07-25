@@ -1,20 +1,17 @@
-import { Button } from '../ui/button';
-import { Project } from '../../data/types.data';
-import { Github, Globe, Video } from 'lucide-react';
-import Link from 'next/link';
+import { Button } from '../ui/button'
+import { Project } from '../../data/types.data'
+import { Github, Globe, Video } from 'lucide-react'
+import Link from 'next/link'
 
 interface ProjectActionsProps {
-  project: Project;
-  size?: 'sm' | 'default' | 'lg';
+  project: Project
+  size?: 'sm' | 'default' | 'lg'
 }
 
-export function ProjectActions({
-  project,
-  size = 'default',
-}: ProjectActionsProps) {
+export function ProjectActions({ project, size = 'default' }: ProjectActionsProps) {
   // icon sizes keyed by our size prop
-  const iconSizes = { sm: 16, default: 20, lg: 24 };
-  const iconSize = iconSizes[size];
+  const iconSizes = { sm: 16, default: 20, lg: 24 }
+  const iconSize = iconSizes[size]
 
   // describe each possible action
   const actions = [
@@ -39,7 +36,7 @@ export function ProjectActions({
       icon: Video,
       variant: 'outline' as const,
     },
-  ];
+  ]
 
   return (
     <div className="flex flex-wrap justify-center gap-3">
@@ -64,14 +61,11 @@ export function ProjectActions({
                 group-hover:bg-accent/10
               "
             >
-              <Icon
-                size={iconSize}
-                className="flex-shrink-0 text-foreground"
-              />
+              <Icon size={iconSize} className="flex-shrink-0 text-foreground" />
               <span className="whitespace-nowrap">{label}</span>
             </Button>
           </Link>
         ))}
     </div>
-  );
+  )
 }

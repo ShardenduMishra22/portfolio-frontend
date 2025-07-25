@@ -25,7 +25,7 @@ export default function CertificationsSection({ certifications }: Certifications
 
   // Responsive items per page
   const getItemsPerPage = () => {
-    if (windowWidth < 640) return 1  // Mobile: 1 certification
+    if (windowWidth < 640) return 1 // Mobile: 1 certification
     if (windowWidth < 1024) return 2 // Tablet: 2 certifications
     return 2 // Desktop: 2 certifications
   }
@@ -37,7 +37,7 @@ export default function CertificationsSection({ certifications }: Certifications
     const startIndex = currentPage * itemsPerPage
     const endIndex = Math.min(startIndex + itemsPerPage, certifications.length)
     const currentPageCertifications = certifications.slice(startIndex, endIndex)
-    
+
     return { currentPageCertifications, startIndex, endIndex }
   }, [certifications, currentPage, itemsPerPage])
 
@@ -64,36 +64,38 @@ export default function CertificationsSection({ certifications }: Certifications
       if (currentPage < totalPages - 1) pages.push(currentPage + 1)
       return pages
     }
-    
+
     // Desktop: Show all pages if reasonable, otherwise use ellipsis
     if (totalPages <= 5) {
       return Array.from({ length: totalPages }, (_, i) => i)
     }
-    
+
     const delta = 1
     const range = []
     const rangeWithDots = []
-    
-    for (let i = Math.max(1, currentPage - delta); 
-         i <= Math.min(totalPages - 2, currentPage + delta); 
-         i++) {
+
+    for (
+      let i = Math.max(1, currentPage - delta);
+      i <= Math.min(totalPages - 2, currentPage + delta);
+      i++
+    ) {
       range.push(i)
     }
-    
+
     if (currentPage - delta > 1) {
       rangeWithDots.push(0, '...')
     } else {
       rangeWithDots.push(0)
     }
-    
+
     rangeWithDots.push(...range)
-    
+
     if (currentPage + delta < totalPages - 2) {
       rangeWithDots.push('...', totalPages - 1)
     } else {
       if (totalPages > 1) rangeWithDots.push(totalPages - 1)
     }
-    
+
     return rangeWithDots
   }
 
@@ -103,10 +105,10 @@ export default function CertificationsSection({ certifications }: Certifications
     <section className="relative py-8 sm:py-12 lg:py-16 bg-background overflow-hidden">
       <div
         className={cn(
-          "absolute inset-0",
-          "[background-size:20px_20px]",
-          "[background-image:radial-gradient(#d4d4d4_1px,transparent_1px)]",
-          "dark:[background-image:radial-gradient(#404040_1px,transparent_1px)]",
+          'absolute inset-0',
+          '[background-size:20px_20px]',
+          '[background-image:radial-gradient(#d4d4d4_1px,transparent_1px)]',
+          'dark:[background-image:radial-gradient(#404040_1px,transparent_1px)]'
         )}
       />
       <div className="pointer-events-none absolute inset-0 flex items-center justify-center bg-white [mask-image:radial-gradient(ellipse_at_center,transparent_20%,black)] dark:bg-black" />
@@ -117,7 +119,10 @@ export default function CertificationsSection({ certifications }: Certifications
 
       <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-2xl text-center">
-          <Badge variant="outline" className="mb-4 sm:mb-6 px-3 py-1.5 sm:px-4 sm:py-2 bg-card/80 backdrop-blur-sm border-primary/30 hover:border-primary/50 transition-colors">
+          <Badge
+            variant="outline"
+            className="mb-4 sm:mb-6 px-3 py-1.5 sm:px-4 sm:py-2 bg-card/80 backdrop-blur-sm border-primary/30 hover:border-primary/50 transition-colors"
+          >
             <Award className="mr-1.5 sm:mr-2 h-3 w-3 sm:h-4 sm:w-4 text-primary" />
             <span className="text-xs sm:text-sm text-card-foreground">Credentials</span>
           </Badge>
@@ -137,7 +142,8 @@ export default function CertificationsSection({ certifications }: Certifications
           {/* Summary info */}
           {certifications.length > 0 && (
             <div className="mt-3 sm:mt-4 text-xs sm:text-sm text-foreground/70">
-              Showing {startIndex + 1}-{Math.min(endIndex, certifications.length)} of {certifications.length} certifications
+              Showing {startIndex + 1}-{Math.min(endIndex, certifications.length)} of{' '}
+              {certifications.length} certifications
             </div>
           )}
         </div>
@@ -149,20 +155,18 @@ export default function CertificationsSection({ certifications }: Certifications
               <Button
                 onClick={prevPage}
                 variant="outline"
-                size={isMobile ? "sm" : "lg"}
+                size={isMobile ? 'sm' : 'lg'}
                 className="group bg-card hover:bg-primary/5 border-primary/20 hover:border-primary/30 transition-all duration-300 touch-manipulation"
                 disabled={currentPage === 0}
               >
                 <ChevronLeft className="mr-1 sm:mr-2 h-3 w-3 sm:h-4 sm:w-4 transition-transform group-hover:-translate-x-1" />
-                <span className="text-xs sm:text-sm">
-                  {isMobile ? 'Prev' : 'Previous'}
-                </span>
+                <span className="text-xs sm:text-sm">{isMobile ? 'Prev' : 'Previous'}</span>
               </Button>
 
               <Button
                 onClick={nextPage}
                 variant="outline"
-                size={isMobile ? "sm" : "lg"}
+                size={isMobile ? 'sm' : 'lg'}
                 className="group bg-card hover:bg-primary/5 border-primary/20 hover:border-primary/30 transition-all duration-300 touch-manipulation"
                 disabled={currentPage === totalPages - 1}
               >
@@ -176,7 +180,10 @@ export default function CertificationsSection({ certifications }: Certifications
               {getVisiblePageNumbers().map((pageNum, index) => {
                 if (pageNum === '...') {
                   return (
-                    <span key={`dots-${index}`} className="px-2 py-1 text-xs sm:text-sm text-foreground/50">
+                    <span
+                      key={`dots-${index}`}
+                      className="px-2 py-1 text-xs sm:text-sm text-foreground/50"
+                    >
                       ...
                     </span>
                   )
@@ -216,18 +223,24 @@ export default function CertificationsSection({ certifications }: Certifications
                   <Award className="h-8 w-8 sm:h-10 sm:w-10 text-primary" />
                   <div className="absolute inset-0 bg-primary/5 rounded-full animate-ping" />
                 </div>
-                <h3 className="text-lg sm:text-xl font-semibold text-foreground mb-2 sm:mb-3">No certifications yet</h3>
+                <h3 className="text-lg sm:text-xl font-semibold text-foreground mb-2 sm:mb-3">
+                  No certifications yet
+                </h3>
                 <p className="text-sm sm:text-base text-foreground mb-4 sm:mb-6 max-w-sm sm:max-w-md mx-auto">
-                  Professional certifications will appear here when earned and added to the portfolio.
+                  Professional certifications will appear here when earned and added to the
+                  portfolio.
                 </p>
-                <Badge variant="secondary" className="px-3 py-1.5 sm:px-4 sm:py-2 bg-gradient-to-r from-primary/10 to-secondary/10 text-foreground border-primary/20">
+                <Badge
+                  variant="secondary"
+                  className="px-3 py-1.5 sm:px-4 sm:py-2 bg-gradient-to-r from-primary/10 to-secondary/10 text-foreground border-primary/20"
+                >
                   Coming Soon
                 </Badge>
               </CardContent>
             </Card>
           </div>
         ) : (
-          <CertificationFocusCards 
+          <CertificationFocusCards
             certifications={currentPageCertifications}
             startIndex={startIndex}
             isMobile={isMobile}
@@ -238,7 +251,9 @@ export default function CertificationsSection({ certifications }: Certifications
           <div className="mt-12 sm:mt-20 text-center px-4 sm:px-0">
             <div className="inline-flex flex-col sm:flex-row items-center gap-4 sm:gap-6 p-4 sm:p-6 bg-gradient-to-r from-card via-card/90 to-card rounded-xl sm:rounded-2xl border border-border/50 backdrop-blur-sm shadow-lg max-w-sm sm:max-w-none mx-auto">
               <div className="text-center sm:text-left">
-                <h3 className="text-base sm:text-lg font-semibold text-foreground">More Certifications</h3>
+                <h3 className="text-base sm:text-lg font-semibold text-foreground">
+                  More Certifications
+                </h3>
                 <p className="text-xs sm:text-sm text-foreground/70 mt-1">
                   Explore {certifications.length - itemsPerPage} additional certifications
                 </p>
@@ -246,7 +261,7 @@ export default function CertificationsSection({ certifications }: Certifications
               <Link href="/certifications">
                 <Button
                   variant="outline"
-                  size={isMobile ? "sm" : "lg"}
+                  size={isMobile ? 'sm' : 'lg'}
                   className="group bg-gradient-to-r from-primary/10 to-secondary/10 hover:from-primary/20 hover:to-secondary/20 border-primary/30 hover:border-primary/50 transition-all duration-300 touch-manipulation"
                 >
                   <span className="text-xs sm:text-sm">View All</span>

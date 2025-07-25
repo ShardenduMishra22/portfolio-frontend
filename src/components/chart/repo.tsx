@@ -1,8 +1,7 @@
-import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card"
-import { Repository } from "@/data/types.data"
-import { TrendingUp } from "lucide-react"
-import { RepoCard } from "./helper"
-
+import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'
+import { Repository } from '@/data/types.data'
+import { TrendingUp } from 'lucide-react'
+import { RepoCard } from './helper'
 
 interface TopRepositoriesCardProps {
   topRepos: Repository[]
@@ -12,7 +11,7 @@ export const TopRepositoriesCard = ({ topRepos }: TopRepositoriesCardProps) => {
   return (
     <Card className="col-span-1 lg:col-span-2 relative overflow-hidden group hover:shadow-2xl transition-all duration-500 border-0">
       <div className="absolute inset-0 bg-gradient-to-br from-chart-2/5 to-chart-5/5"></div>
-      
+
       <CardHeader className="relative">
         <div className="flex items-center gap-4">
           <div className="relative">

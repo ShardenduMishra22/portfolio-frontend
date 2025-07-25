@@ -14,7 +14,7 @@ import {
   GraduationCap,
   Briefcase,
   Award,
-  Phone
+  Phone,
 } from 'lucide-react'
 import { Button } from '../ui/button'
 import { useState, useEffect } from 'react'
@@ -28,7 +28,7 @@ import {
   YouTubeChannel,
   CodeChefProfile,
   LinkedInProfile,
-  CodeforcesProfile
+  CodeforcesProfile,
 } from '@/data/static_link'
 import { StarsBackground } from '../ui/stars-background'
 
@@ -57,7 +57,7 @@ export default function FooterSection() {
       <div className="absolute inset-0 bg-grid-pattern opacity-20" />
       <div className="absolute top-0 left-0 w-96 h-96 bg-primary/3 rounded-full blur-3xl" />
       <div className="absolute bottom-0 right-0 w-96 h-96 bg-secondary/3 rounded-full blur-3xl" />
-      
+
       {/* Floating accent elements */}
       <div className="absolute top-20 right-20 w-8 h-8 bg-primary/20 rounded-full animate-pulse hidden lg:block" />
       <div className="absolute bottom-20 left-20 w-6 h-6 bg-secondary/20 rounded-full animate-pulse delay-1000 hidden lg:block" />
@@ -65,7 +65,6 @@ export default function FooterSection() {
       <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         {/* Main Footer Content */}
         <div className="py-12 lg:py-16">
-          
           {/* Brand Section */}
           <div className="text-center lg:text-left mb-12 lg:mb-16">
             <div className="flex items-center justify-center lg:justify-start space-x-4 mb-6">
@@ -76,11 +75,12 @@ export default function FooterSection() {
                 Shardendu Mishra
               </h3>
             </div>
-            
+
             <p className="text-muted-foreground text-base lg:text-lg leading-relaxed max-w-2xl mx-auto lg:mx-0 mb-6">
-              Software Engineer passionate about creating innovative solutions and building amazing user experiences.
+              Software Engineer passionate about creating innovative solutions and building amazing
+              user experiences.
             </p>
-            
+
             <div className="flex items-center justify-center lg:justify-start space-x-3 text-sm text-muted-foreground mb-6">
               <span>Made with</span>
               <Heart className="h-4 w-4 text-red-500 fill-current animate-pulse" />
@@ -92,7 +92,10 @@ export default function FooterSection() {
             {/* Tech Stack Indicators */}
             <div className="flex flex-wrap gap-2 justify-center lg:justify-start">
               {['Next.js', 'React', 'TypeScript', 'Tailwind'].map((tech) => (
-                <div key={tech} className="px-3 py-1 bg-primary/10 rounded-full text-xs font-medium text-primary border border-primary/20">
+                <div
+                  key={tech}
+                  className="px-3 py-1 bg-primary/10 rounded-full text-xs font-medium text-primary border border-primary/20"
+                >
                   {tech}
                 </div>
               ))}
@@ -101,7 +104,6 @@ export default function FooterSection() {
 
           {/* Links Grid - Mobile gets 2 columns, Desktop gets 4 */}
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-12 mb-12">
-            
             {/* Quick Links */}
             <div className="space-y-4 lg:space-y-6">
               <h4 className="text-base lg:text-lg font-semibold text-foreground flex items-center space-x-2 justify-center lg:justify-start">
@@ -110,42 +112,42 @@ export default function FooterSection() {
               </h4>
               <div className={`${isMobile ? 'space-y-2' : 'space-y-3'}`}>
                 {[
-                  { 
-                    href: '/admin/login', 
+                  {
+                    href: '/admin/login',
                     label: 'Admin Dashboard',
                     shortLabel: 'Admin',
-                    icon: <Settings className="h-3 lg:h-4 w-3 lg:w-4" />
+                    icon: <Settings className="h-3 lg:h-4 w-3 lg:w-4" />,
                   },
-                  { 
-                    href: '#education', 
+                  {
+                    href: '#education',
                     label: 'Education',
                     shortLabel: 'Education',
-                    icon: <GraduationCap className="h-3 lg:h-4 w-3 lg:w-4" />
+                    icon: <GraduationCap className="h-3 lg:h-4 w-3 lg:w-4" />,
                   },
-                  { 
-                    href: '#projects', 
+                  {
+                    href: '#projects',
                     label: 'Projects',
                     shortLabel: 'Projects',
-                    icon: <Code className="h-3 lg:h-4 w-3 lg:w-4" />
+                    icon: <Code className="h-3 lg:h-4 w-3 lg:w-4" />,
                   },
-                  { 
-                    href: '#experience', 
+                  {
+                    href: '#experience',
                     label: 'Experience',
                     shortLabel: 'Exp',
-                    icon: <Briefcase className="h-3 lg:h-4 w-3 lg:w-4" />
+                    icon: <Briefcase className="h-3 lg:h-4 w-3 lg:w-4" />,
                   },
-                  { 
-                    href: '#certifications', 
+                  {
+                    href: '#certifications',
                     label: 'Certifications',
                     shortLabel: 'Certs',
-                    icon: <Award className="h-3 lg:h-4 w-3 lg:w-4" />
+                    icon: <Award className="h-3 lg:h-4 w-3 lg:w-4" />,
                   },
-                  { 
-                    href: '#contact', 
+                  {
+                    href: '#contact',
                     label: 'Contact Me',
                     shortLabel: 'Contact',
-                    icon: <Phone className="h-3 lg:h-4 w-3 lg:w-4" />
-                  }
+                    icon: <Phone className="h-3 lg:h-4 w-3 lg:w-4" />,
+                  },
                 ].map((link) => (
                   <a
                     key={link.href}
@@ -176,33 +178,41 @@ export default function FooterSection() {
                     label: 'Twitter / X',
                     shortLabel: 'X',
                     icon: (
-                      <svg className="h-3 lg:h-4 w-3 lg:w-4" fill="currentColor" viewBox="0 0 24 24">
+                      <svg
+                        className="h-3 lg:h-4 w-3 lg:w-4"
+                        fill="currentColor"
+                        viewBox="0 0 24 24"
+                      >
                         <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
                       </svg>
-                    )
+                    ),
                   },
                   {
                     href: LinkedInProfile,
                     label: 'LinkedIn',
                     shortLabel: 'LinkedIn',
-                    icon: <Linkedin className="h-3 lg:h-4 w-3 lg:w-4" />
+                    icon: <Linkedin className="h-3 lg:h-4 w-3 lg:w-4" />,
                   },
                   {
                     href: YouTubeChannel,
                     label: 'YouTube',
                     shortLabel: 'YouTube',
                     icon: (
-                      <svg className="h-3 lg:h-4 w-3 lg:w-4" fill="currentColor" viewBox="0 0 24 24">
+                      <svg
+                        className="h-3 lg:h-4 w-3 lg:w-4"
+                        fill="currentColor"
+                        viewBox="0 0 24 24"
+                      >
                         <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
                       </svg>
-                    )
+                    ),
                   },
                   {
                     href: 'mailto:shardendumishra01@gmail.com',
                     label: 'Email',
                     shortLabel: 'Email',
-                    icon: <Mail className="h-3 lg:h-4 w-3 lg:w-4" />
-                  }
+                    icon: <Mail className="h-3 lg:h-4 w-3 lg:w-4" />,
+                  },
                 ].map((social) => (
                   <a
                     key={social.href}
@@ -234,26 +244,26 @@ export default function FooterSection() {
                     href: GitHubProject,
                     label: 'GitHub Main',
                     shortLabel: 'Main',
-                    icon: <Github className="h-3 lg:h-4 w-3 lg:w-4" />
+                    icon: <Github className="h-3 lg:h-4 w-3 lg:w-4" />,
                   },
                   {
                     href: GitHubLearning,
                     label: 'GitHub Learning',
                     shortLabel: 'Learning',
-                    icon: <Github className="h-3 lg:h-4 w-3 lg:w-4" />
+                    icon: <Github className="h-3 lg:h-4 w-3 lg:w-4" />,
                   },
                   {
                     href: GitHubOrganistaion,
                     label: 'Team Parashuram',
                     shortLabel: 'Team',
-                    icon: <Github className="h-3 lg:h-4 w-3 lg:w-4" />
+                    icon: <Github className="h-3 lg:h-4 w-3 lg:w-4" />,
                   },
                   {
                     href: LeetCodeProfile,
                     label: 'LeetCode',
                     shortLabel: 'LeetCode',
-                    icon: <Code className="h-3 lg:h-4 w-3 lg:w-4" />
-                  }
+                    icon: <Code className="h-3 lg:h-4 w-3 lg:w-4" />,
+                  },
                 ].map((profile) => (
                   <a
                     key={profile.href}
@@ -285,14 +295,14 @@ export default function FooterSection() {
                     href: CodeChefProfile,
                     label: 'CodeChef',
                     shortLabel: 'CodeChef',
-                    icon: <Code className="h-3 lg:h-4 w-3 lg:w-4" />
+                    icon: <Code className="h-3 lg:h-4 w-3 lg:w-4" />,
                   },
                   {
                     href: CodeforcesProfile,
                     label: 'Codeforces',
                     shortLabel: 'Codeforces',
-                    icon: <Code className="h-3 lg:h-4 w-3 lg:w-4" />
-                  }
+                    icon: <Code className="h-3 lg:h-4 w-3 lg:w-4" />,
+                  },
                 ].map((profile) => (
                   <a
                     key={profile.href}
@@ -316,17 +326,31 @@ export default function FooterSection() {
           {/* Mobile Quick Connect - Only for very small screens */}
           {isMobile && windowWidth < 480 && (
             <div className="border-t border-border/20 py-8 mb-8">
-              <h4 className="text-lg font-semibold text-foreground text-center mb-6">Quick Connect</h4>
+              <h4 className="text-lg font-semibold text-foreground text-center mb-6">
+                Quick Connect
+              </h4>
               <div className="grid grid-cols-4 gap-3">
                 {[
                   { href: GitHubProject, label: 'GitHub', icon: <Github className="h-4 w-4" /> },
-                  { href: LinkedInProfile, label: 'LinkedIn', icon: <Linkedin className="h-4 w-4" /> },
-                  { href: XProfile, label: 'Twitter', icon: (
-                    <svg className="h-4 w-4" fill="currentColor" viewBox="0 0 24 24">
-                      <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
-                    </svg>
-                  ) },
-                  { href: 'mailto:shardendumishra01@gmail.com', label: 'Email', icon: <Mail className="h-4 w-4" /> }
+                  {
+                    href: LinkedInProfile,
+                    label: 'LinkedIn',
+                    icon: <Linkedin className="h-4 w-4" />,
+                  },
+                  {
+                    href: XProfile,
+                    label: 'Twitter',
+                    icon: (
+                      <svg className="h-4 w-4" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+                      </svg>
+                    ),
+                  },
+                  {
+                    href: 'mailto:shardendumishra01@gmail.com',
+                    label: 'Email',
+                    icon: <Mail className="h-4 w-4" />,
+                  },
                 ].map((social) => (
                   <a
                     key={social.href}
@@ -363,7 +387,7 @@ export default function FooterSection() {
             <Button
               onClick={scrollToTop}
               variant="outline"
-              size={isMobile ? "sm" : "default"}
+              size={isMobile ? 'sm' : 'default'}
               className="group bg-background/50 backdrop-blur-sm border-primary/20 hover:border-primary/40 hover:bg-primary/5 transition-all duration-300 h-12 px-6"
             >
               <ArrowUp className="h-4 w-4 mr-2 transition-transform group-hover:-translate-y-1" />

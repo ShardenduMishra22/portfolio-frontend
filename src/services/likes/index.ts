@@ -12,5 +12,5 @@ export const likesService = {
   unlikeBlog: async (blogId: string): Promise<ApiResponse<{ message: string }>> => {
     const response = await backendAPI.post(`/blogs/${blogId}/unlike`)
     return response.data
-  }
-} 
+  },
+}

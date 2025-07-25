@@ -1,13 +1,13 @@
-import { Button } from '@/components/ui/button';
-import { ChevronLeft, ChevronRight, MoreHorizontal } from 'lucide-react';
+import { Button } from '@/components/ui/button'
+import { ChevronLeft, ChevronRight, MoreHorizontal } from 'lucide-react'
 
 interface ExperiencePaginationProps {
-  currentPage: number;
-  totalPages: number;
-  onPageChange: (page: number) => void;
-  startIndex: number;
-  endIndex: number;
-  totalItems: number;
+  currentPage: number
+  totalPages: number
+  onPageChange: (page: number) => void
+  startIndex: number
+  endIndex: number
+  totalItems: number
 }
 
 export default function ExperiencePagination({
@@ -16,35 +16,39 @@ export default function ExperiencePagination({
   onPageChange,
   startIndex,
   endIndex,
-  totalItems
+  totalItems,
 }: ExperiencePaginationProps) {
   const getPaginationNumbers = () => {
-    const delta = 2;
-    const range = [];
-    const rangeWithDots = [];
+    const delta = 2
+    const range = []
+    const rangeWithDots = []
 
-    for (let i = Math.max(2, currentPage - delta); i <= Math.min(totalPages - 1, currentPage + delta); i++) {
-      range.push(i);
+    for (
+      let i = Math.max(2, currentPage - delta);
+      i <= Math.min(totalPages - 1, currentPage + delta);
+      i++
+    ) {
+      range.push(i)
     }
 
     if (currentPage - delta > 2) {
-      rangeWithDots.push(1, '...');
+      rangeWithDots.push(1, '...')
     } else {
-      rangeWithDots.push(1);
+      rangeWithDots.push(1)
     }
 
-    rangeWithDots.push(...range);
+    rangeWithDots.push(...range)
 
     if (currentPage + delta < totalPages - 1) {
-      rangeWithDots.push('...', totalPages);
+      rangeWithDots.push('...', totalPages)
     } else {
-      rangeWithDots.push(totalPages);
+      rangeWithDots.push(totalPages)
     }
 
-    return rangeWithDots;
-  };
+    return rangeWithDots
+  }
 
-  if (totalPages <= 1) return null;
+  if (totalPages <= 1) return null
 
   return (
     <>
@@ -68,7 +72,7 @@ export default function ExperiencePagination({
                 </Button>
               ) : (
                 <Button
-                  variant={currentPage === pageNumber ? "default" : "outline"}
+                  variant={currentPage === pageNumber ? 'default' : 'outline'}
                   size="sm"
                   onClick={() => onPageChange(pageNumber as number)}
                 >
@@ -91,8 +95,9 @@ export default function ExperiencePagination({
       </div>
 
       <div className="text-center text-sm text-foreground">
-        Showing {totalItems === 0 ? 0 : startIndex + 1}-{Math.min(endIndex, totalItems)} of {totalItems} experiences
+        Showing {totalItems === 0 ? 0 : startIndex + 1}-{Math.min(endIndex, totalItems)} of{' '}
+        {totalItems} experiences
       </div>
     </>
-  );
+  )
 }

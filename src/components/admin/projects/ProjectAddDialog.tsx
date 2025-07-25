@@ -1,27 +1,34 @@
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '../../ui/dialog';
-import { Button } from '../../ui/button';
-import { Input } from '../../ui/input';
-import { Label } from '../../ui/label';
-import { Textarea } from '../../ui/textarea';
-import { Checkbox } from '../../ui/checkbox';
-import { Popover, PopoverTrigger, PopoverContent } from '../../ui/popover';
-import { Plus } from 'lucide-react';
-import React from 'react';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '../../ui/dialog'
+import { Button } from '../../ui/button'
+import { Input } from '../../ui/input'
+import { Label } from '../../ui/label'
+import { Textarea } from '../../ui/textarea'
+import { Checkbox } from '../../ui/checkbox'
+import { Popover, PopoverTrigger, PopoverContent } from '../../ui/popover'
+import { Plus } from 'lucide-react'
+import React from 'react'
 
 type ProjectAddDialogProps = {
-  open: boolean;
-  setOpen: (open: boolean) => void;
-  onSubmit: (data: any) => Promise<void>;
-  errors: any;
-  register: any;
-  handleSubmit: any;
-  reset: () => void;
-  setValue: any;
-  watch: any;
-  editingProject: any;
-  allSkills: string[];
-  openDialog: () => void;
-};
+  open: boolean
+  setOpen: (open: boolean) => void
+  onSubmit: (data: any) => Promise<void>
+  errors: any
+  register: any
+  handleSubmit: any
+  reset: () => void
+  setValue: any
+  watch: any
+  editingProject: any
+  allSkills: string[]
+  openDialog: () => void
+}
 
 export function ProjectAddDialog({
   open,
@@ -34,9 +41,9 @@ export function ProjectAddDialog({
   watch,
   editingProject,
   allSkills,
-  openDialog
+  openDialog,
 }: ProjectAddDialogProps) {
-  const selectedSkills = watch('skills') || [];
+  const selectedSkills = watch('skills') || []
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -48,11 +55,11 @@ export function ProjectAddDialog({
       </DialogTrigger>
       <DialogContent className="w-[80vw] max-w-none max-h-[90vh] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle>
-            {editingProject ? 'Edit Project' : 'Add New Project'}
-          </DialogTitle>
+          <DialogTitle>{editingProject ? 'Edit Project' : 'Add New Project'}</DialogTitle>
           <DialogDescription>
-            {editingProject ? 'Update your project details.' : 'Add a new project to your portfolio.'}
+            {editingProject
+              ? 'Update your project details.'
+              : 'Add a new project to your portfolio.'}
           </DialogDescription>
         </DialogHeader>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
@@ -80,12 +87,19 @@ export function ProjectAddDialog({
                 </PopoverTrigger>
                 <PopoverContent className="max-h-64 overflow-y-auto w-72 p-2">
                   {allSkills.map((skill) => (
-                    <label key={skill} className="flex items-center gap-2 py-1 px-2 hover:bg-gray-100 rounded cursor-pointer">
+                    <label
+                      key={skill}
+                      className="flex items-center gap-2 py-1 px-2 hover:bg-gray-100 rounded cursor-pointer"
+                    >
                       <Checkbox
                         checked={selectedSkills.includes(skill)}
                         onCheckedChange={(checked) => {
-                          if (checked) setValue('skills', [...selectedSkills, skill]);
-                          else setValue('skills', selectedSkills.filter((s: string) => s !== skill));
+                          if (checked) setValue('skills', [...selectedSkills, skill])
+                          else
+                            setValue(
+                              'skills',
+                              selectedSkills.filter((s: string) => s !== skill)
+                            )
                         }}
                       />
                       <span>{skill}</span>
@@ -158,12 +172,10 @@ export function ProjectAddDialog({
             <Button type="button" variant="outline" onClick={() => setOpen(false)}>
               Cancel
             </Button>
-            <Button type="submit">
-              {editingProject ? 'Update Project' : 'Create Project'}
-            </Button>
+            <Button type="submit">{editingProject ? 'Update Project' : 'Create Project'}</Button>
           </div>
         </form>
       </DialogContent>
     </Dialog>
-  );
+  )
 }

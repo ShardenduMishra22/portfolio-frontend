@@ -1,9 +1,7 @@
 import axios from 'axios'
 
-const isServer = typeof window === 'undefined';
-const baseURL = isServer
-  ? process.env.NEXT_PUBLIC_BASE_URL + '/api'
-  : '/api';
+const isServer = typeof window === 'undefined'
+const baseURL = isServer ? process.env.NEXT_PUBLIC_BASE_URL + '/api' : '/api'
 
 const backendAPI = axios.create({
   baseURL,
@@ -11,7 +9,7 @@ const backendAPI = axios.create({
   headers: {
     'Content-Type': 'application/json',
   },
-});
+})
 
 // Request interceptor to add JWT token
 backendAPI.interceptors.request.use(
@@ -46,4 +44,4 @@ backendAPI.interceptors.response.use(
   }
 )
 
-export default backendAPI 
+export default backendAPI

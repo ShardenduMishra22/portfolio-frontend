@@ -1,11 +1,11 @@
-import { ReactNode } from 'react';
-import { certificationsAPI } from '../../../util/apiResponse.util';
+import { ReactNode } from 'react'
+import { certificationsAPI } from '../../../util/apiResponse.util'
 
 export async function generateMetadata({ params }: { params: any }) {
-  const { id } = await params;
-  const response = await certificationsAPI.getCertificationById(id);
-  const cert = response.data;
-  if (!cert) return {};
+  const { id } = await params
+  const response = await certificationsAPI.getCertificationById(id)
+  const cert = response.data
+  if (!cert) return {}
   return {
     title: `${cert.title} | Certification | Mishra Shardendu Portfolio`,
     description: cert.description,
@@ -23,9 +23,9 @@ export async function generateMetadata({ params }: { params: any }) {
       description: cert.description,
       images: cert.images || [],
     },
-  };
+  }
 }
 
 export default function CertificationDetailLayout({ children }: { children: ReactNode }) {
-  return <>{children}</>;
-} 
+  return <>{children}</>
+}

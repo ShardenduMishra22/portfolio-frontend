@@ -1,22 +1,22 @@
-import { db } from "@/index";
-import { eq, desc } from "drizzle-orm";
-import { reportsTable } from "@/db/schema";
-import { user as usersTable } from "@/db/authSchema";
-import { NextRequest, NextResponse } from "next/server";
+import { db } from '@/index'
+import { eq, desc } from 'drizzle-orm'
+import { reportsTable } from '@/db/schema'
+import { user as usersTable } from '@/db/authSchema'
+import { NextRequest, NextResponse } from 'next/server'
 
 // GET /api/reports - List reports (admin only)
 export async function GET(request: NextRequest) {
   try {
-    const { searchParams } = new URL(request.url);
-    const page = parseInt(searchParams.get("page") || "1");
-    const limit = parseInt(searchParams.get("limit") || "10");
-    const status = searchParams.get("status");
-    const offset = (page - 1) * limit;
+    const { searchParams } = new URL(request.url)
+    const page = parseInt(searchParams.get('page') || '1')
+    const limit = parseInt(searchParams.get('limit') || '10')
+    const status = searchParams.get('status')
+    const offset = (page - 1) * limit
 
     // Build where conditions
-    let whereCondition = undefined;
+    let whereCondition = undefined
     if (status) {
-      whereCondition = eq(reportsTable.status, status);
+      whereCondition = eq(reportsTable.status, status)
     }
 
     const reports = await db
@@ -40,12 +40,12 @@ export async function GET(request: NextRequest) {
       .where(whereCondition)
       .orderBy(desc(reportsTable.createdAt))
       .limit(limit)
-      .offset(offset);
+      .offset(offset)
 
     const totalCount = await db
       .select({ count: reportsTable.id })
       .from(reportsTable)
-      .where(whereCondition);
+      .where(whereCondition)
 
     return NextResponse.json({
       success: true,
@@ -56,27 +56,24 @@ export async function GET(request: NextRequest) {
         total: totalCount.length,
         totalPages: Math.ceil(totalCount.length / limit),
       },
-    });
+    })
   } catch (error) {
-    console.error("Error fetching reports:", error);
-    return NextResponse.json(
-      { success: false, error: "Failed to fetch reports" },
-      { status: 500 }
-    );
+    console.error('Error fetching reports:', error)
+    return NextResponse.json({ success: false, error: 'Failed to fetch reports' }, { status: 500 })
   }
 }
 
 // POST /api/reports - Create a new report
 export async function POST(request: NextRequest) {
   try {
-    const body = await request.json();
-    const { reporterId, contentType, contentId, reason, description } = body;
+    const body = await request.json()
+    const { reporterId, contentType, contentId, reason, description } = body
 
     if (!reporterId || !contentType || !contentId || !reason) {
       return NextResponse.json(
-        { success: false, error: "ReporterId, contentType, contentId, and reason are required" },
+        { success: false, error: 'ReporterId, contentType, contentId, and reason are required' },
         { status: 400 }
-      );
+      )
     }
 
     // Check if reporter exists
@@ -84,13 +81,10 @@ export async function POST(request: NextRequest) {
       .select()
       .from(usersTable)
       .where(eq(usersTable.id, reporterId))
-      .limit(1);
+      .limit(1)
 
     if (reporter.length === 0) {
-      return NextResponse.json(
-        { success: false, error: "Reporter not found" },
-        { status: 404 }
-      );
+      return NextResponse.json({ success: false, error: 'Reporter not found' }, { status: 404 })
     }
 
     // Create new report
@@ -102,7 +96,7 @@ export async function POST(request: NextRequest) {
         contentId,
         reason,
         description,
-        status: "pending",
+        status: 'pending',
       })
       .returning({
         id: reportsTable.id,
@@ -114,17 +108,11 @@ export async function POST(request: NextRequest) {
         status: reportsTable.status,
         createdAt: reportsTable.createdAt,
         resolvedAt: reportsTable.resolvedAt,
-      });
+      })
 
-    return NextResponse.json(
-      { success: true, data: newReport },
-      { status: 201 }
-    );
+    return NextResponse.json({ success: true, data: newReport }, { status: 201 })
   } catch (error) {
-    console.error("Error creating report:", error);
-    return NextResponse.json(
-      { success: false, error: "Failed to create report" },
-      { status: 500 }
-    );
+    console.error('Error creating report:', error)
+    return NextResponse.json({ success: false, error: 'Failed to create report' }, { status: 500 })
   }
-} 
+}

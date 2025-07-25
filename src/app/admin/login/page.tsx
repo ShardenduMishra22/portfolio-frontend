@@ -9,7 +9,13 @@ import { useAuth } from '../../../hooks/use-auth'
 import { Button } from '../../../components/ui/button'
 import { Input } from '../../../components/ui/input'
 import { Label } from '../../../components/ui/label'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../../../components/ui/card'
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '../../../components/ui/card'
 import { Alert, AlertDescription } from '../../../components/ui/alert'
 import { Eye, EyeOff, Lock, Mail, Shield, X } from 'lucide-react'
 
@@ -44,7 +50,10 @@ export default function AdminLoginPage() {
       if (result.success) {
         router.push('/admin/dashboard')
       } else {
-        setError(result.error || 'Invalid credentials. Please check your email, password, and admin password.')
+        setError(
+          result.error ||
+            'Invalid credentials. Please check your email, password, and admin password.'
+        )
       }
     } catch {
       setError('Something went wrong. Please try again later.')
@@ -104,7 +113,9 @@ export default function AdminLoginPage() {
                   {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                 </button>
               </div>
-              {errors.password && <p className="text-sm text-destructive">{errors.password.message}</p>}
+              {errors.password && (
+                <p className="text-sm text-destructive">{errors.password.message}</p>
+              )}
             </div>
 
             <div className="space-y-1">
@@ -126,23 +137,30 @@ export default function AdminLoginPage() {
                   {showAdminPass ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                 </button>
               </div>
-              {errors.admin_pass && <p className="text-sm text-destructive">{errors.admin_pass.message}</p>}
+              {errors.admin_pass && (
+                <p className="text-sm text-destructive">{errors.admin_pass.message}</p>
+              )}
             </div>
 
-            <Button
-              type="submit"
-              className="w-full mt-2"
-              disabled={isLoading}
-            >
+            <Button type="submit" className="w-full mt-2" disabled={isLoading}>
               {isLoading ? (
                 <span className="flex items-center justify-center">
                   <svg className="animate-spin h-4 w-4 mr-2" viewBox="0 0 24 24" fill="none">
-                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                    <circle
+                      className="opacity-25"
+                      cx="12"
+                      cy="12"
+                      r="10"
+                      stroke="currentColor"
+                      strokeWidth="4"
+                    />
                     <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z" />
                   </svg>
                   Signing in...
                 </span>
-              ) : 'Sign In'}
+              ) : (
+                'Sign In'
+              )}
             </Button>
           </form>
         </CardContent>

@@ -1,5 +1,4 @@
-import { fetchAllStats } from "./fetch"
-
+import { fetchAllStats } from './fetch'
 
 let cachedStats: any = null
 

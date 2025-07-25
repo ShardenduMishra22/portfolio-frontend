@@ -9,10 +9,7 @@ import Education from '@/components/main/education'
 import FooterSection from '@/components/main/footer'
 import ContactSection from '@/components/main/contact'
 
-
-import { 
-  SkillsSkeleton, 
-} from '@/components/main/loading'
+import { SkillsSkeleton } from '@/components/main/loading'
 import { navItems } from '@/data/static_link'
 import { DesktopSidebar } from '@/data/sidebar'
 import { MobileNavigation } from '@/components/mobile-nav'
@@ -34,8 +31,8 @@ export default function HomePage() {
   useEffect(() => {
     const handleScroll = () => {
       // Update active section based on scroll position
-      const sections = navItems.map(item => item.href.substring(1))
-      const currentSection = sections.find(section => {
+      const sections = navItems.map((item) => item.href.substring(1))
+      const currentSection = sections.find((section) => {
         const element = document.getElementById(section)
         if (element) {
           const rect = element.getBoundingClientRect()
@@ -43,7 +40,7 @@ export default function HomePage() {
         }
         return false
       })
-      
+
       if (currentSection) {
         setActiveSection(currentSection)
       }
@@ -59,8 +56,8 @@ export default function HomePage() {
         // Only fetch skills immediately since they're needed early
         const skillsRes = await skillsAPI.getSkills()
         setSkills(Array.isArray(skillsRes.data) ? skillsRes.data : [])
-        setLoading(prev => ({ ...prev, skills: false }))
-        
+        setLoading((prev) => ({ ...prev, skills: false }))
+
         toast.success('Initial data loaded!')
       } catch (err) {
         setError('Failed to load initial data')
@@ -68,7 +65,7 @@ export default function HomePage() {
         setLoading({ skills: false })
       }
     }
-    
+
     fetchInitialData()
   }, [])
 
@@ -87,13 +84,13 @@ export default function HomePage() {
     <div className="min-h-screen bg-background scroll-smooth">
       <DesktopSidebar activeSection={activeSection} />
       <MobileNavigation activeSection={activeSection} />
-      
+
       <div className="md:pl-20 transition-all duration-500 ease-out">
         <section id="hero" className="relative">
           <HeroSection />
           <ShootingStars />
         </section>
-        
+
         {/* Education renders immediately since it's static data */}
         <section id="education" className="scroll-mt-20 relative">
           <div className="absolute inset-0 bg-gradient-to-r from-transparent via-secondary/5 to-transparent opacity-50 pointer-events-none" />
@@ -104,7 +101,7 @@ export default function HomePage() {
         <section id="skills" className="scroll-mt-20 relative">
           {loading.skills ? <SkillsSkeleton /> : <SkillsSection skills={skills} />}
         </section>
-        
+
         {/* Lazy loaded sections */}
         <section id="projects">
           <LazyProjectsSection />
@@ -113,16 +110,16 @@ export default function HomePage() {
         <section id="experience">
           <LazyExperienceSection />
         </section>
-        
+
         <section id="certifications">
           <LazyCertificationsSection />
         </section>
-        
+
         <section id="contact" className="scroll-mt-20 relative">
           <ContactSection />
           <StarsBackground />
         </section>
-        
+
         <section>
           <FooterSection />
         </section>

@@ -18,14 +18,14 @@ import { common, createLowlight } from 'lowlight'
 import { Markdown } from 'tiptap-markdown'
 import 'highlight.js/styles/github.css'
 import { Button } from './ui/button'
-import { 
-  Bold, 
-  Italic, 
-  Underline, 
-  Strikethrough, 
-  Code2, 
-  Heading1, 
-  Heading2, 
+import {
+  Bold,
+  Italic,
+  Underline,
+  Strikethrough,
+  Code2,
+  Heading1,
+  Heading2,
   Heading3,
   List,
   ListOrdered,
@@ -63,13 +63,13 @@ const DropdownMenu: React.FC<DropdownMenuProps> = ({ trigger, children, isOpen, 
         className="h-9 px-3 hover:bg-gray-50 border-gray-200"
       >
         {trigger}
-        <ChevronDown className={`ml-2 h-3 w-3 transition-transform ${isOpen ? 'rotate-180' : ''}`} />
+        <ChevronDown
+          className={`ml-2 h-3 w-3 transition-transform ${isOpen ? 'rotate-180' : ''}`}
+        />
       </Button>
       {isOpen && (
         <div className="absolute top-full left-0 mt-1 bg-white border border-gray-200 rounded-md shadow-lg z-50 min-w-[160px]">
-          <div className="py-1">
-            {children}
-          </div>
+          <div className="py-1">{children}</div>
         </div>
       )}
     </div>
@@ -96,10 +96,16 @@ const DropdownItem: React.FC<DropdownItemProps> = ({ icon: Icon, label, onClick,
 )
 
 // Compact Tiptap Editor for Modals
-export const TiptapModalEditor = ({ value, onChange }: { value: string; onChange: (val: string) => void }) => {
+export const TiptapModalEditor = ({
+  value,
+  onChange,
+}: {
+  value: string
+  onChange: (val: string) => void
+}) => {
   const lowlight = createLowlight(common)
   const [openDropdown, setOpenDropdown] = useState<string | null>(null)
-  
+
   const editor = useEditor({
     extensions: [
       StarterKit,
@@ -175,9 +181,9 @@ export const TiptapModalEditor = ({ value, onChange }: { value: string; onChange
           >
             <Underline className="h-4 w-4" />
           </Button>
-          
+
           <div className="w-px h-6 bg-border mx-1" />
-          
+
           {/* Headings */}
           <Button
             variant="ghost"
@@ -195,9 +201,9 @@ export const TiptapModalEditor = ({ value, onChange }: { value: string; onChange
           >
             <Heading2 className="h-4 w-4" />
           </Button>
-          
+
           <div className="w-px h-6 bg-border mx-1" />
-          
+
           {/* Lists */}
           <Button
             variant="ghost"
@@ -215,9 +221,9 @@ export const TiptapModalEditor = ({ value, onChange }: { value: string; onChange
           >
             <ListOrdered className="h-4 w-4" />
           </Button>
-          
+
           <div className="w-px h-6 bg-border mx-1" />
-          
+
           {/* Code */}
           <Button
             variant="ghost"
@@ -235,9 +241,9 @@ export const TiptapModalEditor = ({ value, onChange }: { value: string; onChange
           >
             <FileCode className="h-4 w-4" />
           </Button>
-          
+
           <div className="w-px h-6 bg-border mx-1" />
-          
+
           {/* Quote */}
           <Button
             variant="ghost"
@@ -247,9 +253,9 @@ export const TiptapModalEditor = ({ value, onChange }: { value: string; onChange
           >
             <Quote className="h-4 w-4" />
           </Button>
-          
+
           <div className="w-px h-6 bg-border mx-1" />
-          
+
           {/* Undo/Redo */}
           <Button
             variant="ghost"
@@ -269,14 +275,14 @@ export const TiptapModalEditor = ({ value, onChange }: { value: string; onChange
           >
             <Redo className="h-4 w-4" />
           </Button>
-          
+
           {/* Character count */}
           <div className="ml-auto text-xs text-black dark:text-white">
             {characterCount}/{characterLimit}
           </div>
         </div>
       </div>
-      
+
       {/* Editor Content */}
       <div className="p-4 min-h-[300px] max-h-[500px] overflow-y-auto">
         <EditorContent editor={editor} className="prose prose-sm max-w-none focus:outline-none" />
@@ -290,7 +296,7 @@ const TiptapEditor = ({ value, onChange }: { value: string; onChange: (val: stri
   const lowlight = createLowlight(common)
   const [preview, setPreview] = useState(false)
   const [openDropdown, setOpenDropdown] = useState<string | null>(null)
-  
+
   const editor = useEditor({
     extensions: [
       StarterKit,
@@ -307,20 +313,20 @@ const TiptapEditor = ({ value, onChange }: { value: string; onChange: (val: stri
       Placeholder.configure({ placeholder: 'Start writing your markdown content...' }),
       Markdown.configure({ html: true }),
     ],
-    content: '# Welcome to Your Markdown Editor\n\nStart creating beautiful content with **markdown** support!',
+    content:
+      '# Welcome to Your Markdown Editor\n\nStart creating beautiful content with **markdown** support!',
   })
 
-useEffect(() => {
-  if (!editor) return
+  useEffect(() => {
+    if (!editor) return
 
-  const updateContent = () => onChange(editor.storage.markdown.getMarkdown())
-  editor.on('update', updateContent)
+    const updateContent = () => onChange(editor.storage.markdown.getMarkdown())
+    editor.on('update', updateContent)
 
-  return () => {
-    editor.off('update', updateContent)
-  }
-}, [editor, onChange]);
-
+    return () => {
+      editor.off('update', updateContent)
+    }
+  }, [editor, onChange])
 
   if (!editor) return null
 
@@ -334,14 +340,18 @@ useEffect(() => {
 
   return (
     <div className="mx-auto max-w-5xl space-y-6 p-6">
-
       {/* Toolbar */}
       <div className="bg-white border border-gray-200 rounded-lg shadow-sm">
         <div className="flex items-center justify-between p-4 border-b border-gray-100">
           <div className="flex items-center gap-3">
             {/* Format Dropdown */}
             <DropdownMenu
-              trigger={<><Palette className="h-4 w-4" /><span className="text-sm font-medium">Format</span></>}
+              trigger={
+                <>
+                  <Palette className="h-4 w-4" />
+                  <span className="text-sm font-medium">Format</span>
+                </>
+              }
               isOpen={openDropdown === 'format'}
               onToggle={() => toggleDropdown('format')}
             >
@@ -379,7 +389,12 @@ useEffect(() => {
 
             {/* Headings Dropdown */}
             <DropdownMenu
-              trigger={<><Heading1 className="h-4 w-4" /><span className="text-sm font-medium">Headings</span></>}
+              trigger={
+                <>
+                  <Heading1 className="h-4 w-4" />
+                  <span className="text-sm font-medium">Headings</span>
+                </>
+              }
               isOpen={openDropdown === 'headings'}
               onToggle={() => toggleDropdown('headings')}
             >
@@ -405,7 +420,12 @@ useEffect(() => {
 
             {/* Insert Dropdown */}
             <DropdownMenu
-              trigger={<><Plus className="h-4 w-4" /><span className="text-sm font-medium">Insert</span></>}
+              trigger={
+                <>
+                  <Plus className="h-4 w-4" />
+                  <span className="text-sm font-medium">Insert</span>
+                </>
+              }
               isOpen={openDropdown === 'insert'}
               onToggle={() => toggleDropdown('insert')}
             >
@@ -518,7 +538,9 @@ useEffect(() => {
           <div className="flex items-center gap-4 text-sm text-gray-600">
             <span>{characterCount} characters</span>
             <span>{wordCount} words</span>
-            <span className={`${characterCount > characterLimit * 0.9 ? 'text-orange-600' : 'text-gray-600'}`}>
+            <span
+              className={`${characterCount > characterLimit * 0.9 ? 'text-orange-600' : 'text-gray-600'}`}
+            >
               {Math.round((characterCount / characterLimit) * 100)}% of limit
             </span>
           </div>

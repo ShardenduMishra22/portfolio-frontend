@@ -1,39 +1,26 @@
-import { NextRequest, NextResponse } from "next/server";
-import { db } from "@/index";
-import { blogRevisionsTable, blogTable } from "@/db/schema";
-import { eq, desc } from "drizzle-orm";
+import { NextRequest, NextResponse } from 'next/server'
+import { db } from '@/index'
+import { blogRevisionsTable, blogTable } from '@/db/schema'
+import { eq, desc } from 'drizzle-orm'
 
 // GET /api/blogs/:id/revisions - Get revisions for a blog
-export async function GET(
-  request: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
-) {
+export async function GET(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
-    const blogId = parseInt((await params).id);
-    const { searchParams } = new URL(request.url);
-    const page = parseInt(searchParams.get("page") || "1");
-    const limit = parseInt(searchParams.get("limit") || "10");
-    const offset = (page - 1) * limit;
+    const blogId = parseInt((await params).id)
+    const { searchParams } = new URL(request.url)
+    const page = parseInt(searchParams.get('page') || '1')
+    const limit = parseInt(searchParams.get('limit') || '10')
+    const offset = (page - 1) * limit
 
     if (isNaN(blogId)) {
-      return NextResponse.json(
-        { success: false, error: "Invalid blog ID" },
-        { status: 400 }
-      );
+      return NextResponse.json({ success: false, error: 'Invalid blog ID' }, { status: 400 })
     }
 
     // Check if blog exists
-    const blog = await db
-      .select()
-      .from(blogTable)
-      .where(eq(blogTable.id, blogId))
-      .limit(1);
+    const blog = await db.select().from(blogTable).where(eq(blogTable.id, blogId)).limit(1)
 
     if (blog.length === 0) {
-      return NextResponse.json(
-        { success: false, error: "Blog not found" },
-        { status: 404 }
-      );
+      return NextResponse.json({ success: false, error: 'Blog not found' }, { status: 404 })
     }
 
     // Get revisions for the blog
@@ -51,13 +38,13 @@ export async function GET(
       .where(eq(blogRevisionsTable.blogId, blogId))
       .orderBy(desc(blogRevisionsTable.version))
       .limit(limit)
-      .offset(offset);
+      .offset(offset)
 
     // Get total count for pagination
     const totalCount = await db
       .select({ count: blogRevisionsTable.id })
       .from(blogRevisionsTable)
-      .where(eq(blogRevisionsTable.blogId, blogId));
+      .where(eq(blogRevisionsTable.blogId, blogId))
 
     return NextResponse.json({
       success: true,
@@ -68,52 +55,39 @@ export async function GET(
         total: totalCount.length,
         totalPages: Math.ceil(totalCount.length / limit),
       },
-    });
+    })
   } catch (error) {
-    console.error("Error fetching revisions:", error);
+    console.error('Error fetching revisions:', error)
     return NextResponse.json(
-      { success: false, error: "Failed to fetch revisions" },
+      { success: false, error: 'Failed to fetch revisions' },
       { status: 500 }
-    );
+    )
   }
 }
 
 // POST /api/blogs/:id/revisions - Create a new revision
-export async function POST(
-  request: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
-) {
+export async function POST(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
-    const blogId = parseInt((await params).id);
-    const body = await request.json();
-    const { title, content, tags } = body;
+    const blogId = parseInt((await params).id)
+    const body = await request.json()
+    const { title, content, tags } = body
 
     if (isNaN(blogId)) {
-      return NextResponse.json(
-        { success: false, error: "Invalid blog ID" },
-        { status: 400 }
-      );
+      return NextResponse.json({ success: false, error: 'Invalid blog ID' }, { status: 400 })
     }
 
     if (!title || !content) {
       return NextResponse.json(
-        { success: false, error: "Title and content are required" },
+        { success: false, error: 'Title and content are required' },
         { status: 400 }
-      );
+      )
     }
 
     // Check if blog exists
-    const blog = await db
-      .select()
-      .from(blogTable)
-      .where(eq(blogTable.id, blogId))
-      .limit(1);
+    const blog = await db.select().from(blogTable).where(eq(blogTable.id, blogId)).limit(1)
 
     if (blog.length === 0) {
-      return NextResponse.json(
-        { success: false, error: "Blog not found" },
-        { status: 404 }
-      );
+      return NextResponse.json({ success: false, error: 'Blog not found' }, { status: 404 })
     }
 
     // Get the latest version number
@@ -122,9 +96,9 @@ export async function POST(
       .from(blogRevisionsTable)
       .where(eq(blogRevisionsTable.blogId, blogId))
       .orderBy(desc(blogRevisionsTable.version))
-      .limit(1);
+      .limit(1)
 
-    const nextVersion = latestRevision.length > 0 ? latestRevision[0].version + 1 : 1;
+    const nextVersion = latestRevision.length > 0 ? latestRevision[0].version + 1 : 1
 
     // Create new revision
     const [newRevision] = await db
@@ -144,17 +118,14 @@ export async function POST(
         tags: blogRevisionsTable.tags,
         version: blogRevisionsTable.version,
         createdAt: blogRevisionsTable.createdAt,
-      });
+      })
 
-    return NextResponse.json(
-      { success: true, data: newRevision },
-      { status: 201 }
-    );
+    return NextResponse.json({ success: true, data: newRevision }, { status: 201 })
   } catch (error) {
-    console.error("Error creating revision:", error);
+    console.error('Error creating revision:', error)
     return NextResponse.json(
-      { success: false, error: "Failed to create revision" },
+      { success: false, error: 'Failed to create revision' },
       { status: 500 }
-    );
+    )
   }
-} 
+}

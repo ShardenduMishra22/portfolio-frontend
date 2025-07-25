@@ -1,10 +1,10 @@
-import toast from "react-hot-toast"
-import { useIntersectionObserver } from "./obs"
-import { Certification } from "@/data/types.data"
-import CertificationsSection from "../main/certificate"
-import { CertificationsSkeleton } from "../main/loading"
-import { certificationsAPI } from "@/util/apiResponse.util"
-import { useCallback, useEffect, useRef, useState } from "react"
+import toast from 'react-hot-toast'
+import { useIntersectionObserver } from './obs'
+import { Certification } from '@/data/types.data'
+import CertificationsSection from '../main/certificate'
+import { CertificationsSkeleton } from '../main/loading'
+import { certificationsAPI } from '@/util/apiResponse.util'
+import { useCallback, useEffect, useRef, useState } from 'react'
 
 export const LazyCertificationsSection = () => {
   const [certifications, setCertifications] = useState<Certification[]>([])
@@ -13,12 +13,12 @@ export const LazyCertificationsSection = () => {
   const sectionRef = useRef<HTMLDivElement>(null)
   const { hasBeenVisible } = useIntersectionObserver(sectionRef as React.RefObject<Element>, {
     threshold: 0.1,
-    rootMargin: '200px'
+    rootMargin: '200px',
   })
 
   const fetchCertifications = useCallback(async () => {
     if (loaded || loading) return
-    
+
     setLoading(true)
     try {
       const certificationsRes = await certificationsAPI.getAllCertifications()

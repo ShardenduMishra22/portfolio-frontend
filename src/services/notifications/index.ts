@@ -1,5 +1,11 @@
 import backendAPI from '../api'
-import { ApiResponse, Notification, CreateNotificationRequest, PaginationParams, PaginatedResponse } from '../types'
+import {
+  ApiResponse,
+  Notification,
+  CreateNotificationRequest,
+  PaginationParams,
+  PaginatedResponse,
+} from '../types'
 
 export const notificationsService = {
   // Get notification by ID
@@ -21,8 +27,10 @@ export const notificationsService = {
   },
 
   // Create notification (admin only)
-  createNotification: async (notificationData: CreateNotificationRequest): Promise<ApiResponse<Notification>> => {
+  createNotification: async (
+    notificationData: CreateNotificationRequest
+  ): Promise<ApiResponse<Notification>> => {
     const response = await backendAPI.post('/notifications', notificationData)
     return response.data
-  }
-} 
+  },
+}

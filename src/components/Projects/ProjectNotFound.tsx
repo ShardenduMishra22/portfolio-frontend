@@ -1,10 +1,10 @@
-import { Button } from '../ui/button';
-import { ArrowLeft } from 'lucide-react';
-import Link from 'next/link';
-import { ErrorState } from './Load-Error';
+import { Button } from '../ui/button'
+import { ArrowLeft } from 'lucide-react'
+import Link from 'next/link'
+import { ErrorState } from './Load-Error'
 
 interface ProjectNotFoundProps {
-  error: string;
+  error: string
 }
 
 export function ProjectNotFound({ error }: ProjectNotFoundProps) {
@@ -22,5 +22,5 @@ export function ProjectNotFound({ error }: ProjectNotFoundProps) {
         </div>
       </div>
     </div>
-  );
+  )
 }

@@ -1,8 +1,8 @@
-import { ReactNode } from "react";
+import { ReactNode } from 'react'
 
 export const metadata = {
-  title: "Admin | Certifications | Mishra Shardendu Portfolio",
-  description: "Admin panel for managing certifications in the Mishra Shardendu portfolio.",
+  title: 'Admin | Certifications | Mishra Shardendu Portfolio',
+  description: 'Admin panel for managing certifications in the Mishra Shardendu portfolio.',
   robots: {
     index: false,
     follow: false,
@@ -12,19 +12,19 @@ export const metadata = {
     },
   },
   openGraph: {
-    title: "Admin | Certifications | Mishra Shardendu Portfolio",
-    description: "Admin panel for managing certifications in the Mishra Shardendu portfolio.",
-    url: "https://mishrashardendu22.is-a.dev/admin/certifications",
-    type: "website",
-    siteName: "Shardendu Mishra Portfolio",
+    title: 'Admin | Certifications | Mishra Shardendu Portfolio',
+    description: 'Admin panel for managing certifications in the Mishra Shardendu portfolio.',
+    url: 'https://mishrashardendu22.is-a.dev/admin/certifications',
+    type: 'website',
+    siteName: 'Shardendu Mishra Portfolio',
   },
   twitter: {
-    card: "summary",
-    title: "Admin | Certifications | Mishra Shardendu Portfolio",
-    description: "Admin panel for managing certifications in the Mishra Shardendu portfolio.",
+    card: 'summary',
+    title: 'Admin | Certifications | Mishra Shardendu Portfolio',
+    description: 'Admin panel for managing certifications in the Mishra Shardendu portfolio.',
   },
-};
+}
 
 export default function AdminCertificationsLayout({ children }: { children: ReactNode }) {
-  return <>{children}</>;
-} 
+  return <>{children}</>
+}

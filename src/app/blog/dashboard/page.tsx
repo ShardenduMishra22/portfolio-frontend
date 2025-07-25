@@ -7,10 +7,10 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import { 
-  BookOpen, 
-  Plus, 
-  Search, 
+import {
+  BookOpen,
+  Plus,
+  Search,
   Calendar,
   Eye,
   Heart,
@@ -18,7 +18,7 @@ import {
   ArrowRight,
   Trash2,
   BarChart3,
-  AlertTriangle
+  AlertTriangle,
 } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import { blogsService } from '@/services/blogs'
@@ -63,9 +63,9 @@ const BlogDashboardPage = () => {
     try {
       setLoading(true)
       setError('')
-      
+
       const response = await blogsService.getBlogs()
-      
+
       if (response.success && response.data) {
         const blogsArray = Array.isArray(response.data) ? response.data : []
         setBlogs(blogsArray)
@@ -86,7 +86,7 @@ const BlogDashboardPage = () => {
     return new Date(dateString).toLocaleDateString('en-US', {
       year: 'numeric',
       month: 'short',
-      day: 'numeric'
+      day: 'numeric',
     })
   }
 
@@ -98,15 +98,19 @@ const BlogDashboardPage = () => {
   const sortBlogs = (blogs: Blog[]) => {
     switch (sortBy) {
       case 'newest':
-        return [...blogs].sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
+        return [...blogs].sort(
+          (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+        )
       case 'oldest':
-        return [...blogs].sort((a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime())
+        return [...blogs].sort(
+          (a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
+        )
       case 'title':
         return [...blogs].sort((a, b) => a.title.localeCompare(b.title))
       case 'popular':
         return [...blogs].sort((a, b) => {
-          const aViews = Array.isArray(a.views) ? a.views.length : (a.views || 0)
-          const bViews = Array.isArray(b.views) ? b.views.length : (b.views || 0)
+          const aViews = Array.isArray(a.views) ? a.views.length : a.views || 0
+          const bViews = Array.isArray(b.views) ? b.views.length : b.views || 0
           return bViews - aViews
         })
       default:
@@ -115,9 +119,10 @@ const BlogDashboardPage = () => {
   }
 
   const filteredAndSortedBlogs = sortBlogs(
-    blogs.filter(blog => {
-      const matchesSearch = blog.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                           blog.content.toLowerCase().includes(searchTerm.toLowerCase())
+    blogs.filter((blog) => {
+      const matchesSearch =
+        blog.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        blog.content.toLowerCase().includes(searchTerm.toLowerCase())
       const matchesTab = activeTab === 'all' || blog.tags?.includes(activeTab)
       return matchesSearch && matchesTab
     })
@@ -125,17 +130,17 @@ const BlogDashboardPage = () => {
 
   const getTotalStats = () => {
     const totalViews = blogs.reduce((sum, blog) => {
-      const views = Array.isArray(blog.views) ? blog.views.length : (blog.views || 0)
+      const views = Array.isArray(blog.views) ? blog.views.length : blog.views || 0
       return sum + views
     }, 0)
-    
+
     const totalLikes = blogs.reduce((sum, blog) => {
-      const likes = Array.isArray(blog.likes) ? blog.likes.length : (blog.likes || 0)
+      const likes = Array.isArray(blog.likes) ? blog.likes.length : blog.likes || 0
       return sum + likes
     }, 0)
-    
+
     const totalComments = blogs.reduce((sum, blog) => {
-      const comments = Array.isArray(blog.comments) ? blog.comments.length : (blog.comments || 0)
+      const comments = Array.isArray(blog.comments) ? blog.comments.length : blog.comments || 0
       return sum + comments
     }, 0)
 
@@ -148,10 +153,10 @@ const BlogDashboardPage = () => {
     try {
       setDeletingBlogId(blogId)
       const response = await blogsService.deleteBlog(blogId)
-      
+
       if (response.success) {
         toast.success('Blog post deleted successfully')
-        setBlogs(blogs.filter(blog => String(blog.id) !== String(blogId)))
+        setBlogs(blogs.filter((blog) => String(blog.id) !== String(blogId)))
       } else {
         toast.error(response.error || 'Failed to delete blog post')
       }
@@ -193,7 +198,7 @@ const BlogDashboardPage = () => {
             {Array.from({ length: 9 }).map((_, i) => (
               <div key={i} className="bg-card border border-border rounded-lg">
                 <div className="aspect-[16/10] bg-muted/50 relative overflow-hidden rounded-t-lg" />
-                
+
                 <div className="p-4">
                   <div className="flex items-center space-x-3 mb-3">
                     <div className="w-8 h-8 bg-muted/50 rounded-full animate-pulse" />
@@ -202,17 +207,17 @@ const BlogDashboardPage = () => {
                       <div className="h-3 w-16 bg-muted/50 rounded animate-pulse" />
                     </div>
                   </div>
-                  
+
                   <div className="h-6 w-3/4 bg-muted/50 rounded animate-pulse mb-2" />
                   <div className="h-4 w-full bg-muted/50 rounded animate-pulse mb-1" />
                   <div className="h-4 w-5/6 bg-muted/50 rounded animate-pulse mb-3" />
-                  
+
                   <div className="flex flex-wrap gap-1 mb-4">
                     <div className="h-5 w-12 bg-muted/50 rounded-full animate-pulse" />
                     <div className="h-5 w-16 bg-muted/50 rounded-full animate-pulse" />
                     <div className="h-5 w-14 bg-muted/50 rounded-full animate-pulse" />
                   </div>
-                  
+
                   <div className="flex items-center justify-between">
                     <div className="flex items-center space-x-4">
                       <div className="flex items-center space-x-1">
@@ -247,10 +252,14 @@ const BlogDashboardPage = () => {
           <div className="w-16 h-16 bg-primary/10 rounded-2xl flex items-center justify-center mx-auto mb-4">
             <BarChart3 className="w-8 h-8 text-primary" />
           </div>
-          <h2 className="text-xl font-bold font-heading text-foreground mb-2">Authentication Required</h2>
-          <p className="text-foreground mb-6 text-sm">Please log in to access your blog dashboard.</p>
-          <Button 
-            onClick={() => authClient.signIn.social({ provider: 'google' })} 
+          <h2 className="text-xl font-bold font-heading text-foreground mb-2">
+            Authentication Required
+          </h2>
+          <p className="text-foreground mb-6 text-sm">
+            Please log in to access your blog dashboard.
+          </p>
+          <Button
+            onClick={() => authClient.signIn.social({ provider: 'google' })}
             className="h-10 px-6"
           >
             Login with Google
@@ -275,11 +284,8 @@ const BlogDashboardPage = () => {
                 <p className="text-sm text-foreground">Manage your blog posts</p>
               </div>
             </div>
-            
-            <Button
-              onClick={() => router.push('/blog/create')}
-              className="h-9 px-4"
-            >
+
+            <Button onClick={() => router.push('/blog/create')} className="h-9 px-4">
               <Plus className="w-4 h-4 mr-2" />
               Create Post
             </Button>
@@ -303,7 +309,7 @@ const BlogDashboardPage = () => {
               <p className="text-xs text-foreground">Published articles</p>
             </CardContent>
           </Card>
-          
+
           <Card className="bg-card border-border hover:bg-accent/5 hover:border-secondary/20 transition-all">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-xs font-medium text-foreground">Views</CardTitle>
@@ -316,7 +322,7 @@ const BlogDashboardPage = () => {
               <p className="text-xs text-foreground">Page visits</p>
             </CardContent>
           </Card>
-          
+
           <Card className="bg-card border-border hover:bg-accent/5 hover:border-destructive/20 transition-all">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-xs font-medium text-foreground">Likes</CardTitle>
@@ -329,7 +335,7 @@ const BlogDashboardPage = () => {
               <p className="text-xs text-foreground">User reactions</p>
             </CardContent>
           </Card>
-          
+
           <Card className="bg-card border-border hover:bg-accent/5 hover:border-accent/40 transition-all">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-xs font-medium text-foreground">Comments</CardTitle>
@@ -357,7 +363,7 @@ const BlogDashboardPage = () => {
                   className="pl-10 h-10 bg-background border-border"
                 />
               </div>
-              
+
               <div className="flex items-center space-x-3">
                 <select
                   value={sortBy}
@@ -369,7 +375,7 @@ const BlogDashboardPage = () => {
                   <option value="title">Alphabetical</option>
                   <option value="popular">Most Popular</option>
                 </select>
-                
+
                 <div className="px-3 py-1 bg-primary/10 text-primary rounded-md text-sm">
                   {filteredAndSortedBlogs.length} of {blogs.length}
                 </div>
@@ -388,25 +394,25 @@ const BlogDashboardPage = () => {
         {/* Tabs */}
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
           <TabsList className="inline-flex h-10 items-center justify-center rounded-lg bg-muted/50 p-1 text-foreground shadow-sm">
-            <TabsTrigger 
+            <TabsTrigger
               value="all"
               className="inline-flex items-center justify-center whitespace-nowrap rounded-md px-3 py-1.5 text-sm font-medium ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 data-[state=active]:bg-background data-[state=active]:text-foreground data-[state=active]:shadow-sm hover:bg-background/50"
             >
               All Posts
             </TabsTrigger>
-            <TabsTrigger 
+            <TabsTrigger
               value="technology"
               className="inline-flex items-center justify-center whitespace-nowrap rounded-md px-3 py-1.5 text-sm font-medium ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 data-[state=active]:bg-background data-[state=active]:text-foreground data-[state=active]:shadow-sm hover:bg-background/50"
             >
               Technology
             </TabsTrigger>
-            <TabsTrigger 
+            <TabsTrigger
               value="lifestyle"
               className="inline-flex items-center justify-center whitespace-nowrap rounded-md px-3 py-1.5 text-sm font-medium ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 data-[state=active]:bg-background data-[state=active]:text-foreground data-[state=active]:shadow-sm hover:bg-background/50"
             >
               Lifestyle
             </TabsTrigger>
-            <TabsTrigger 
+            <TabsTrigger
               value="tutorial"
               className="inline-flex items-center justify-center whitespace-nowrap rounded-md px-3 py-1.5 text-sm font-medium ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 data-[state=active]:bg-background data-[state=active]:text-foreground data-[state=active]:shadow-sm hover:bg-background/50"
             >
@@ -424,7 +430,9 @@ const BlogDashboardPage = () => {
                   {searchTerm ? 'No blogs found' : 'No blogs yet'}
                 </h3>
                 <p className="text-foreground text-sm max-w-md mx-auto mb-6">
-                  {searchTerm ? 'Try adjusting your search terms' : 'Start your blogging journey by creating your first post'}
+                  {searchTerm
+                    ? 'Try adjusting your search terms'
+                    : 'Start your blogging journey by creating your first post'}
                 </p>
                 {!searchTerm && (
                   <Button onClick={() => router.push('/blog/create')}>
@@ -436,7 +444,10 @@ const BlogDashboardPage = () => {
             ) : (
               <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
                 {filteredAndSortedBlogs.map((blog) => (
-                  <Card key={blog.id} className="bg-card border-border hover:bg-accent/5 hover:border-primary/20 transition-all group">
+                  <Card
+                    key={blog.id}
+                    className="bg-card border-border hover:bg-accent/5 hover:border-primary/20 transition-all group"
+                  >
                     <CardHeader className="pb-3">
                       <div className="flex items-center space-x-3">
                         <Avatar className="w-8 h-8">
@@ -444,16 +455,14 @@ const BlogDashboardPage = () => {
                           <AvatarFallback className="bg-primary/10 text-primary text-xs">
                             {blog.author?.name
                               ? `${blog.author.name.charAt(0)}`
-                              : blog.author?.email?.charAt(0).toUpperCase() || 'U'
-                            }
+                              : blog.author?.email?.charAt(0).toUpperCase() || 'U'}
                           </AvatarFallback>
                         </Avatar>
                         <div className="flex-1 min-w-0">
                           <p className="font-medium text-sm truncate">
                             {blog.author?.name
                               ? blog.author.name
-                              : blog.author?.email || 'Unknown Author'
-                            }
+                              : blog.author?.email || 'Unknown Author'}
                           </p>
                           <p className="text-xs text-foreground flex items-center">
                             <Calendar className="w-3 h-3 mr-1" />
@@ -462,17 +471,15 @@ const BlogDashboardPage = () => {
                         </div>
                       </div>
                     </CardHeader>
-                    
+
                     <CardContent className="pt-0 pb-3">
                       <CardTitle className="text-base mb-2 line-clamp-2 group-hover:text-primary transition-colors font-heading">
                         {blog.title}
                       </CardTitle>
                       <CardDescription className="line-clamp-3 text-sm mb-3">
-                        <ReactMarkdown>
-                          {truncateText(blog.content)}
-                        </ReactMarkdown>
+                        <ReactMarkdown>{truncateText(blog.content)}</ReactMarkdown>
                       </CardDescription>
-                      
+
                       {blog.tags && blog.tags.length > 0 && (
                         <div className="flex flex-wrap gap-1 mb-3">
                           {blog.tags.slice(0, 2).map((tag, index) => (
@@ -488,24 +495,32 @@ const BlogDashboardPage = () => {
                         </div>
                       )}
                     </CardContent>
-                    
+
                     <CardContent className="pt-0 border-t border-border">
                       <div className="flex items-center justify-between">
                         <div className="flex items-center space-x-3 text-xs text-foreground">
                           <div className="flex items-center space-x-1">
                             <Eye className="w-3 h-3" />
-                            <span>{Array.isArray(blog.views) ? blog.views.length : (blog.views || 0)}</span>
+                            <span>
+                              {Array.isArray(blog.views) ? blog.views.length : blog.views || 0}
+                            </span>
                           </div>
                           <div className="flex items-center space-x-1">
                             <Heart className="w-3 h-3" />
-                            <span>{Array.isArray(blog.likes) ? blog.likes.length : (blog.likes || 0)}</span>
+                            <span>
+                              {Array.isArray(blog.likes) ? blog.likes.length : blog.likes || 0}
+                            </span>
                           </div>
                           <div className="flex items-center space-x-1">
                             <MessageCircle className="w-3 h-3" />
-                            <span>{Array.isArray(blog.comments) ? blog.comments.length : (blog.comments || 0)}</span>
+                            <span>
+                              {Array.isArray(blog.comments)
+                                ? blog.comments.length
+                                : blog.comments || 0}
+                            </span>
                           </div>
                         </div>
-                        
+
                         <div className="flex items-center space-x-1">
                           <Button
                             variant="ghost"
@@ -516,7 +531,7 @@ const BlogDashboardPage = () => {
                             Read More
                             <ArrowRight className="w-3 h-3 ml-1 group-hover:translate-x-0.5 transition-transform" />
                           </Button>
-                          
+
                           {isAuthor(blog.authorId) && (
                             <AlertDialog>
                               <AlertDialogTrigger asChild>
@@ -540,7 +555,9 @@ const BlogDashboardPage = () => {
                                     Delete Blog Post
                                   </AlertDialogTitle>
                                   <AlertDialogDescription>
-                                    Are you sure you want to delete &quot;{blog.title}&quot;? This action cannot be undone and will permanently remove the blog post and all its associated data.
+                                    Are you sure you want to delete &quot;{blog.title}&quot;? This
+                                    action cannot be undone and will permanently remove the blog
+                                    post and all its associated data.
                                   </AlertDialogDescription>
                                 </AlertDialogHeader>
                                 <AlertDialogFooter>

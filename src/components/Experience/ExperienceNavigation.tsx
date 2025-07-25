@@ -1,24 +1,24 @@
-'use client';
+'use client'
 
-import { useRouter } from 'next/navigation';
-import { Button } from '@/components/ui/button';
-import { ArrowLeft, Building2 } from 'lucide-react';
-import { Experience } from '@/data/types.data';
+import { useRouter } from 'next/navigation'
+import { Button } from '@/components/ui/button'
+import { ArrowLeft, Building2 } from 'lucide-react'
+import { Experience } from '@/data/types.data'
 
 interface ExperienceNavigationProps {
-  experience: Experience;
+  experience: Experience
 }
 
 export function ExperienceNavigation({ experience }: ExperienceNavigationProps) {
-  const router = useRouter();
+  const router = useRouter()
 
   const handleBack = () => {
     if (window.history.length > 2) {
-      router.back();
+      router.back()
     } else {
-      router.push('/experiences');
+      router.push('/experiences')
     }
-  };
+  }
 
   return (
     <div className="sticky top-0 z-50 bg-background/80 backdrop-blur-md border-b border-border/40">
@@ -32,7 +32,7 @@ export function ExperienceNavigation({ experience }: ExperienceNavigationProps) 
             <ArrowLeft className="w-4 h-4" />
             <span className="font-medium">Back</span>
           </Button>
-          
+
           <div className="flex items-center gap-2 text-sm text-muted-foreground">
             <Building2 className="w-4 h-4" />
             <span>{experience.company_name}</span>
@@ -40,5 +40,5 @@ export function ExperienceNavigation({ experience }: ExperienceNavigationProps) 
         </div>
       </div>
     </div>
-  );
+  )
 }

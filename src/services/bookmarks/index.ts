@@ -12,5 +12,5 @@ export const bookmarksService = {
   unbookmarkBlog: async (blogId: string): Promise<ApiResponse<{ message: string }>> => {
     const response = await backendAPI.post(`/blogs/${blogId}/unbookmark`)
     return response.data
-  }
-} 
+  },
+}

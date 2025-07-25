@@ -1,18 +1,22 @@
-import { Sparkles } from 'lucide-react';
-import { ProjectHeaderProps } from '@/data/static_link';
+import { Sparkles } from 'lucide-react'
+import { ProjectHeaderProps } from '@/data/static_link'
 
-export default function ProjectHeader({ totalProjects, totalPages, currentPage }: ProjectHeaderProps) {
+export default function ProjectHeader({
+  totalProjects,
+  totalPages,
+  currentPage,
+}: ProjectHeaderProps) {
   return (
     <div className="text-center mb-8 space-y-4">
       <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20">
         <Sparkles className="w-4 h-4 text-primary" />
         <span className="text-sm font-medium text-primary">Portfolio Showcase</span>
       </div>
-      
+
       <h1 className="text-4xl md:text-5xl font-heading font-bold bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent leading-tight">
         Projects
       </h1>
-      
+
       <p className="text-base text-foreground max-w-3xl mx-auto leading-relaxed">
         A curated collection of my latest work, experiments, and contributions to the world of code
       </p>
@@ -33,5 +37,5 @@ export default function ProjectHeader({ totalProjects, totalPages, currentPage }
         </div>
       </div>
     </div>
-  );
+  )
 }

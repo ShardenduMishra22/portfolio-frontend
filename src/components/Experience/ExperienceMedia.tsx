@@ -1,13 +1,13 @@
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
-import { ImageIcon, ExternalLink } from 'lucide-react';
-import { Experience } from '@/data/types.data';
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
+import { ImageIcon, ExternalLink } from 'lucide-react'
+import { Experience } from '@/data/types.data'
 
 interface ExperienceMediaProps {
-  experience: Experience;
+  experience: Experience
 }
 
 export function ExperienceMedia({ experience }: ExperienceMediaProps) {
-  if (experience.images.length === 0) return null;
+  if (experience.images.length === 0) return null
 
   return (
     <Card className="border border-border/50 bg-card/50">
@@ -36,12 +36,12 @@ export function ExperienceMedia({ experience }: ExperienceMediaProps) {
                     allowFullScreen
                     title={`Media content ${i + 1}`}
                     className="w-full h-full"
-                    style={{ 
+                    style={{
                       border: 'none',
                       transform: 'scale(0.45)',
                       transformOrigin: 'top left',
                       width: '220%',
-                      height: '250%'
+                      height: '250%',
                     }}
                   />
                 </div>
@@ -62,5 +62,5 @@ export function ExperienceMedia({ experience }: ExperienceMediaProps) {
         </div>
       </CardContent>
     </Card>
-  );
+  )
 }

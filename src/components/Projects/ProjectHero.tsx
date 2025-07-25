@@ -1,7 +1,7 @@
-import { Project } from '../../data/types.data';
+import { Project } from '../../data/types.data'
 
 interface ProjectHeroProps {
-  project: Project;
+  project: Project
 }
 
 export function ProjectHero({ project }: ProjectHeroProps) {
@@ -16,5 +16,5 @@ export function ProjectHero({ project }: ProjectHeroProps) {
         </p>
       </div>
     </div>
-  );
+  )
 }

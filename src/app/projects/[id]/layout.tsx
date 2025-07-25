@@ -1,11 +1,11 @@
-import { projectsAPI } from '../../../util/apiResponse.util';
+import { projectsAPI } from '../../../util/apiResponse.util'
 
-export async function generateMetadata({ params }: { params : any}) {
+export async function generateMetadata({ params }: { params: any }) {
   const { id } = await params
-  const response = await projectsAPI.getProjectById(id);
+  const response = await projectsAPI.getProjectById(id)
 
-  const project = response.data;
-  if (!project) return {};
+  const project = response.data
+  if (!project) return {}
   return {
     title: `${project.project_name} | Project | Mishra Shardendu Portfolio`,
     description: project.small_description,
@@ -23,9 +23,9 @@ export async function generateMetadata({ params }: { params : any}) {
       description: project.small_description,
       images: project.images || [],
     },
-  };
+  }
 }
 
 export default function ProjectDetailLayout({ children }: { children: React.ReactNode }) {
-  return <>{children}</>;
-} 
+  return <>{children}</>
+}

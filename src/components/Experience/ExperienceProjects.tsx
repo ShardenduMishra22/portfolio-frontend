@@ -1,15 +1,15 @@
-import Link from 'next/link';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
-import { FolderOpen, ExternalLink } from 'lucide-react';
-import { Experience } from '@/data/types.data';
+import Link from 'next/link'
+import { Button } from '@/components/ui/button'
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
+import { FolderOpen, ExternalLink } from 'lucide-react'
+import { Experience } from '@/data/types.data'
 
 interface ExperienceProjectsProps {
-  experience: Experience;
+  experience: Experience
 }
 
 export function ExperienceProjects({ experience }: ExperienceProjectsProps) {
-  if (experience.projects.length === 0) return null;
+  if (experience.projects.length === 0) return null
 
   return (
     <Card className="border border-border/50 bg-card/50">
@@ -22,8 +22,11 @@ export function ExperienceProjects({ experience }: ExperienceProjectsProps) {
       </CardHeader>
       <CardContent>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {experience.projects.map(id => (
-            <div key={id} className="bg-muted/50 rounded-lg p-4 border hover:shadow-md transition-shadow">
+          {experience.projects.map((id) => (
+            <div
+              key={id}
+              className="bg-muted/50 rounded-lg p-4 border hover:shadow-md transition-shadow"
+            >
               <div className="flex items-center gap-2 mb-3">
                 <FolderOpen className="w-4 h-4" />
                 <span className="text-sm font-medium">Project Preview</span>
@@ -36,12 +39,12 @@ export function ExperienceProjects({ experience }: ExperienceProjectsProps) {
                   frameBorder="0"
                   title={`Project ${id}`}
                   className="w-full h-full"
-                  style={{ 
+                  style={{
                     border: 'none',
                     transform: 'scale(0.45)',
                     transformOrigin: 'top left',
                     width: '220%',
-                    height: '250%'
+                    height: '250%',
                   }}
                 />
               </div>
@@ -58,5 +61,5 @@ export function ExperienceProjects({ experience }: ExperienceProjectsProps) {
         </div>
       </CardContent>
     </Card>
-  );
+  )
 }

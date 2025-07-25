@@ -1,24 +1,23 @@
-import { NextRequest, NextResponse } from "next/server";
-import { db } from "@/index";
-import { blogTable, userProfilesTable, likesTable, commentsTable, blogViewsTable } from "@/db/schema";
-import { eq, count } from "drizzle-orm";
-import { user as usersTable } from "@/db/authSchema";
-import { auth } from "@/lib/auth";
+import { NextRequest, NextResponse } from 'next/server'
+import { db } from '@/index'
+import {
+  blogTable,
+  userProfilesTable,
+  likesTable,
+  commentsTable,
+  blogViewsTable,
+} from '@/db/schema'
+import { eq, count } from 'drizzle-orm'
+import { user as usersTable } from '@/db/authSchema'
+import { auth } from '@/lib/auth'
 // GET /api/blogs/:id - Get blog by ID
-export async function GET(
-  request: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
-) {
+export async function GET(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
-    const blogId = parseInt((await params).id);
+    const blogId = parseInt((await params).id)
 
     if (isNaN(blogId)) {
-      return NextResponse.json(
-        { success: false, error: "Invalid blog ID" },
-        { status: 400 }
-      );
+      return NextResponse.json({ success: false, error: 'Invalid blog ID' }, { status: 400 })
     }
-
 
     const blog = await db
       .select({
@@ -45,71 +44,52 @@ export async function GET(
       .leftJoin(usersTable, eq(blogTable.authorId, usersTable.id))
       .leftJoin(userProfilesTable, eq(usersTable.id, userProfilesTable.userId))
       .where(eq(blogTable.id, blogId))
-      .limit(1);
+      .limit(1)
 
     if (blog.length === 0) {
-      return NextResponse.json(
-        { success: false, error: "Blog not found" },
-        { status: 404 }
-      );
+      return NextResponse.json({ success: false, error: 'Blog not found' }, { status: 404 })
     }
 
     // Get counts for likes, comments, and views
     const [likesCount, commentsCount, viewsCount] = await Promise.all([
       db.select({ count: count() }).from(likesTable).where(eq(likesTable.blogId, blogId)),
       db.select({ count: count() }).from(commentsTable).where(eq(commentsTable.blogId, blogId)),
-      db.select({ count: count() }).from(blogViewsTable).where(eq(blogViewsTable.blogId, blogId))
-    ]);
+      db.select({ count: count() }).from(blogViewsTable).where(eq(blogViewsTable.blogId, blogId)),
+    ])
 
     const blogWithCounts = {
       ...blog[0],
       likes: likesCount[0]?.count || 0,
       comments: commentsCount[0]?.count || 0,
       views: viewsCount[0]?.count || 0,
-    };
+    }
 
     return NextResponse.json({
       success: true,
       data: blogWithCounts,
-    });
+    })
   } catch (error) {
-    console.error("Error fetching blog:", error);
-    return NextResponse.json(
-      { success: false, error: "Failed to fetch blog" },
-      { status: 500 }
-    );
+    console.error('Error fetching blog:', error)
+    return NextResponse.json({ success: false, error: 'Failed to fetch blog' }, { status: 500 })
   }
 }
 
 // PATCH /api/blogs/:id - Update blog
-export async function PATCH(
-  request: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
-) {
+export async function PATCH(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
-    const blogId = parseInt((await params).id);
-    const body = await request.json();
-    const { title, content, tags } = body;
+    const blogId = parseInt((await params).id)
+    const body = await request.json()
+    const { title, content, tags } = body
 
     if (isNaN(blogId)) {
-      return NextResponse.json(
-        { success: false, error: "Invalid blog ID" },
-        { status: 400 }
-      );
+      return NextResponse.json({ success: false, error: 'Invalid blog ID' }, { status: 400 })
     }
 
     // Check if blog exists
-    const existingBlog = await db
-      .select()
-      .from(blogTable)
-      .where(eq(blogTable.id, blogId))
-      .limit(1);
+    const existingBlog = await db.select().from(blogTable).where(eq(blogTable.id, blogId)).limit(1)
 
     if (existingBlog.length === 0) {
-      return NextResponse.json(
-        { success: false, error: "Blog not found" },
-        { status: 404 }
-      );
+      return NextResponse.json({ success: false, error: 'Blog not found' }, { status: 404 })
     }
 
     // Update blog
@@ -130,18 +110,15 @@ export async function PATCH(
         authorId: blogTable.authorId,
         createdAt: blogTable.createdAt,
         updatedAt: blogTable.updatedAt,
-      });
+      })
 
     return NextResponse.json({
       success: true,
       data: updatedBlog,
-    });
+    })
   } catch (error) {
-    console.error("Error updating blog:", error);
-    return NextResponse.json(
-      { success: false, error: "Failed to update blog" },
-      { status: 500 }
-    );
+    console.error('Error updating blog:', error)
+    return NextResponse.json({ success: false, error: 'Failed to update blog' }, { status: 500 })
   }
 }
 
@@ -151,61 +128,48 @@ export async function DELETE(
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const blogId = parseInt((await params).id);
+    const blogId = parseInt((await params).id)
 
     if (isNaN(blogId)) {
-      return NextResponse.json(
-        { success: false, error: "Invalid blog ID" },
-        { status: 400 }
-      );
+      return NextResponse.json({ success: false, error: 'Invalid blog ID' }, { status: 400 })
     }
 
     // Get current user session
-    const session = await auth.api.getSession({ headers: request.headers });
-    
+    const session = await auth.api.getSession({ headers: request.headers })
+
     if (!session) {
       return NextResponse.json(
-        { success: false, error: "Authentication required" },
+        { success: false, error: 'Authentication required' },
         { status: 401 }
-      );
+      )
     }
 
-    const currentUserId = session.user.id;
+    const currentUserId = session.user.id
 
     // Check if blog exists
-    const existingBlog = await db
-      .select()
-      .from(blogTable)
-      .where(eq(blogTable.id, blogId))
-      .limit(1);
+    const existingBlog = await db.select().from(blogTable).where(eq(blogTable.id, blogId)).limit(1)
 
     if (existingBlog.length === 0) {
-      return NextResponse.json(
-        { success: false, error: "Blog not found" },
-        { status: 404 }
-      );
+      return NextResponse.json({ success: false, error: 'Blog not found' }, { status: 404 })
     }
 
     // Check if current user is the author of the blog
     if (existingBlog[0].authorId !== currentUserId) {
       return NextResponse.json(
-        { success: false, error: "You can only delete your own blog posts" },
+        { success: false, error: 'You can only delete your own blog posts' },
         { status: 403 }
-      );
+      )
     }
 
     // Delete blog
-    await db.delete(blogTable).where(eq(blogTable.id, blogId));
+    await db.delete(blogTable).where(eq(blogTable.id, blogId))
 
     return NextResponse.json({
       success: true,
-      message: "Blog deleted successfully",
-    });
+      message: 'Blog deleted successfully',
+    })
   } catch (error) {
-    console.error("Error deleting blog:", error);
-    return NextResponse.json(
-      { success: false, error: "Failed to delete blog" },
-      { status: 500 }
-    );
+    console.error('Error deleting blog:', error)
+    return NextResponse.json({ success: false, error: 'Failed to delete blog' }, { status: 500 })
   }
-} 
+}

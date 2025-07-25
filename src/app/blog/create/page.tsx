@@ -9,21 +9,28 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Badge } from '@/components/ui/badge'
 import { Separator } from '@/components/ui/separator'
 import { Alert, AlertDescription } from '@/components/ui/alert'
-import { 
-  ArrowLeft, 
-  Save, 
-  Eye, 
-  Tag, 
+import {
+  ArrowLeft,
+  Save,
+  Eye,
+  Tag,
   Plus,
   X,
   BookOpen,
   Sparkles,
   CheckCircle,
-  AlertCircle
+  AlertCircle,
 } from 'lucide-react'
 import { blogsService } from '@/services/blogs'
 import { TiptapModalEditor } from '@/components/TipTap'
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogClose } from '@/components/ui/dialog'
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+  DialogClose,
+} from '@/components/ui/dialog'
 import ReactMarkdown from 'react-markdown'
 
 const CreateBlogPage = () => {
@@ -43,8 +50,8 @@ const CreateBlogPage = () => {
     // Split by comma, trim, filter out empty, and avoid duplicates
     const newTags = newTag
       .split(',')
-      .map(t => t.trim())
-      .filter(t => t && !tags.includes(t))
+      .map((t) => t.trim())
+      .filter((t) => t && !tags.includes(t))
     if (newTags.length > 0) {
       setTags([...tags, ...newTags])
       setNewTag('')
@@ -52,7 +59,7 @@ const CreateBlogPage = () => {
   }
 
   const handleRemoveTag = (tagToRemove: string) => {
-    setTags(tags.filter(tag => tag !== tagToRemove))
+    setTags(tags.filter((tag) => tag !== tagToRemove))
   }
 
   const handleSubmit = async () => {
@@ -62,7 +69,7 @@ const CreateBlogPage = () => {
     }
 
     const userId = session?.data?.user?.id
-    
+
     if (!userId) {
       setError('No user ID found in session. Please log in again.')
       return
@@ -72,7 +79,7 @@ const CreateBlogPage = () => {
       setIsSubmitting(true)
       setError('')
       setSuccess('')
-      
+
       const response = await blogsService.createBlog({
         title: title.trim(),
         content: content.trim(),
@@ -122,17 +129,17 @@ const CreateBlogPage = () => {
               <div className="h-4 w-16 bg-muted/50 rounded animate-pulse mb-2" />
               <div className="h-10 w-full bg-muted/50 rounded-lg animate-pulse" />
             </div>
-            
+
             <div>
               <div className="h-4 w-24 bg-muted/50 rounded animate-pulse mb-2" />
               <div className="h-32 w-full bg-muted/50 rounded-lg animate-pulse" />
             </div>
-            
+
             <div>
               <div className="h-4 w-20 bg-muted/50 rounded animate-pulse mb-2" />
               <div className="h-10 w-full bg-muted/50 rounded-lg animate-pulse" />
             </div>
-            
+
             <div className="flex space-x-3">
               <div className="h-10 w-24 bg-muted/50 rounded-lg animate-pulse" />
               <div className="h-10 w-24 bg-muted/50 rounded-lg animate-pulse" />
@@ -151,22 +158,22 @@ const CreateBlogPage = () => {
             <div className="w-16 h-16 bg-primary/10 rounded-2xl flex items-center justify-center mx-auto mb-4">
               <BookOpen className="w-8 h-8 text-primary" />
             </div>
-            <CardTitle className="text-xl font-heading text-black dark:text-white">Create Blog Post</CardTitle>
-            <CardDescription className="text-black dark:text-white">You need to be logged in to create a blog post</CardDescription>
+            <CardTitle className="text-xl font-heading text-black dark:text-white">
+              Create Blog Post
+            </CardTitle>
+            <CardDescription className="text-black dark:text-white">
+              You need to be logged in to create a blog post
+            </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
-            <Button 
+            <Button
               onClick={() => authClient.signIn.social({ provider: 'google' })}
               className="w-full h-10"
             >
               <Sparkles className="w-4 h-4 mr-2" />
               Login with Google
             </Button>
-            <Button 
-              variant="outline"
-              onClick={() => router.push('/blog')}
-              className="w-full h-10"
-            >
+            <Button variant="outline" onClick={() => router.push('/blog')} className="w-full h-10">
               <ArrowLeft className="w-4 h-4 mr-2" />
               Back to Blog
             </Button>
@@ -183,11 +190,7 @@ const CreateBlogPage = () => {
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-4">
-              <Button
-                variant="ghost"
-                onClick={() => router.back()}
-                className="h-9 px-3"
-              >
+              <Button variant="ghost" onClick={() => router.back()} className="h-9 px-3">
                 <ArrowLeft className="w-4 h-4 mr-2" />
                 Back
               </Button>
@@ -196,22 +199,20 @@ const CreateBlogPage = () => {
                   <BookOpen className="w-4 h-4 text-primary-foreground" />
                 </div>
                 <div>
-                  <h1 className="text-xl font-bold font-heading text-black dark:text-white">Create New Post</h1>
+                  <h1 className="text-xl font-bold font-heading text-black dark:text-white">
+                    Create New Post
+                  </h1>
                   <p className="text-sm text-black dark:text-white">Share your thoughts</p>
                 </div>
               </div>
             </div>
-            
+
             <div className="flex items-center space-x-2">
-              <Button
-                variant="outline"
-                onClick={() => setPreviewOpen(true)}
-                className="h-9 px-3"
-              >
+              <Button variant="outline" onClick={() => setPreviewOpen(true)} className="h-9 px-3">
                 <Eye className="w-4 h-4 mr-2" />
                 Preview
               </Button>
-              
+
               <Button
                 onClick={handleSubmit}
                 disabled={isSubmitting || !title.trim() || !content.trim()}
@@ -234,7 +235,7 @@ const CreateBlogPage = () => {
             <AlertDescription className="text-destructive text-sm">{error}</AlertDescription>
           </Alert>
         )}
-        
+
         {success && (
           <Alert className="mb-4 bg-green-500/10 border-green-500/20">
             <CheckCircle className="h-4 w-4 text-green-600" />
@@ -283,10 +284,7 @@ const CreateBlogPage = () => {
               </CardHeader>
               <CardContent className="pt-0">
                 <div className="min-h-[400px] bg-background rounded-lg p-4 ">
-                  <TiptapModalEditor
-                    value={content}
-                    onChange={setContent}
-                  />
+                  <TiptapModalEditor value={content} onChange={setContent} />
                 </div>
               </CardContent>
             </Card>
@@ -315,8 +313,8 @@ const CreateBlogPage = () => {
                     onChange={(e) => setNewTag(e.target.value)}
                     onKeyPress={(e) => {
                       if (e.key === 'Enter') {
-                        e.preventDefault();
-                        handleAddTag();
+                        e.preventDefault()
+                        handleAddTag()
                       }
                     }}
                     className="bg-background border-border h-9"
@@ -330,7 +328,7 @@ const CreateBlogPage = () => {
                     <Plus className="w-4 h-4" />
                   </Button>
                 </div>
-                
+
                 {tags.length > 0 && (
                   <div className="flex flex-wrap gap-2">
                     {tags.map((tag, index) => (
@@ -353,38 +351,43 @@ const CreateBlogPage = () => {
               </CardContent>
             </Card>
 
-<Dialog open={previewOpen} onOpenChange={setPreviewOpen}>
-  <DialogContent className="max-w-6xl w-full max-h-[100%] min-h-[40vh] overflow-y-auto flex flex-col justify-center items-center">
-    <DialogHeader className="w-full">
-      <DialogTitle>Preview Blog Post</DialogTitle>
-      <DialogDescription>How your post will appear to readers</DialogDescription>
-    </DialogHeader>
-    <div className="space-y-4 bg-muted/50 rounded-xl p-10 w-full max-w-5xl mx-auto shadow-lg">
-      <h1 className="text-4xl font-extrabold font-heading text-black dark:text-white mb-4 text-center tracking-tight leading-tight">
-        {title || 'Your post title will appear here'}
-      </h1>
-      <Separator />
-      <div className="prose prose-lg max-w-none text-black dark:text-white mx-auto px-2">
-        <ReactMarkdown>{content || 'Your post content will appear here.'}</ReactMarkdown>
-      </div>
-      {tags.length > 0 && (
-        <div className="flex flex-wrap gap-3 pt-4 justify-center">
-          {tags.map((tag, index) => (
-            <Badge key={index} variant="outline" className="text-sm px-3 py-1 rounded-2xl">
-              {tag}
-            </Badge>
-          ))}
-        </div>
-      )}
-      <DialogClose asChild>
-        <Button className="mt-6 w-1/4 min-w-[150px] mx-auto" variant="outline">
-          Close Preview
-        </Button>
-      </DialogClose>
-    </div>
-  </DialogContent>
-</Dialog>
-
+            <Dialog open={previewOpen} onOpenChange={setPreviewOpen}>
+              <DialogContent className="max-w-6xl w-full max-h-[100%] min-h-[40vh] overflow-y-auto flex flex-col justify-center items-center">
+                <DialogHeader className="w-full">
+                  <DialogTitle>Preview Blog Post</DialogTitle>
+                  <DialogDescription>How your post will appear to readers</DialogDescription>
+                </DialogHeader>
+                <div className="space-y-4 bg-muted/50 rounded-xl p-10 w-full max-w-5xl mx-auto shadow-lg">
+                  <h1 className="text-4xl font-extrabold font-heading text-black dark:text-white mb-4 text-center tracking-tight leading-tight">
+                    {title || 'Your post title will appear here'}
+                  </h1>
+                  <Separator />
+                  <div className="prose prose-lg max-w-none text-black dark:text-white mx-auto px-2">
+                    <ReactMarkdown>
+                      {content || 'Your post content will appear here.'}
+                    </ReactMarkdown>
+                  </div>
+                  {tags.length > 0 && (
+                    <div className="flex flex-wrap gap-3 pt-4 justify-center">
+                      {tags.map((tag, index) => (
+                        <Badge
+                          key={index}
+                          variant="outline"
+                          className="text-sm px-3 py-1 rounded-2xl"
+                        >
+                          {tag}
+                        </Badge>
+                      ))}
+                    </div>
+                  )}
+                  <DialogClose asChild>
+                    <Button className="mt-6 w-1/4 min-w-[150px] mx-auto" variant="outline">
+                      Close Preview
+                    </Button>
+                  </DialogClose>
+                </div>
+              </DialogContent>
+            </Dialog>
 
             {/* Publishing Tips */}
             <Card className="bg-card border-border">
@@ -399,27 +402,19 @@ const CreateBlogPage = () => {
               <CardContent className="pt-0 space-y-3">
                 <div className="flex items-start space-x-3">
                   <div className="w-2 h-2 bg-primary rounded-full mt-2 flex-shrink-0"></div>
-                  <p className="text-sm text-black dark:text-white">
-                    Write a compelling title
-                  </p>
+                  <p className="text-sm text-black dark:text-white">Write a compelling title</p>
                 </div>
                 <div className="flex items-start space-x-3">
                   <div className="w-2 h-2 bg-secondary rounded-full mt-2 flex-shrink-0"></div>
-                  <p className="text-sm text-black dark:text-white">
-                    Use clear, engaging content
-                  </p>
+                  <p className="text-sm text-black dark:text-white">Use clear, engaging content</p>
                 </div>
                 <div className="flex items-start space-x-3">
                   <div className="w-2 h-2 bg-accent rounded-full mt-2 flex-shrink-0"></div>
-                  <p className="text-sm text-black dark:text-white">
-                    Add relevant tags
-                  </p>
+                  <p className="text-sm text-black dark:text-white">Add relevant tags</p>
                 </div>
                 <div className="flex items-start space-x-3">
                   <div className="w-2 h-2 bg-destructive rounded-full mt-2 flex-shrink-0"></div>
-                  <p className="text-sm text-black dark:text-white">
-                    Preview before publishing
-                  </p>
+                  <p className="text-sm text-black dark:text-white">Preview before publishing</p>
                 </div>
               </CardContent>
             </Card>

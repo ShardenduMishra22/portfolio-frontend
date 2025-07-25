@@ -1,10 +1,10 @@
-import toast from "react-hot-toast"
-import ExperienceSection from "../main/exp"
-import { Experience } from "@/data/types.data"
-import { useIntersectionObserver } from "./obs"
-import { ExperienceSkeleton } from "../main/loading"
-import { experiencesAPI } from "@/util/apiResponse.util"
-import { useCallback, useEffect, useRef, useState } from "react"
+import toast from 'react-hot-toast'
+import ExperienceSection from '../main/exp'
+import { Experience } from '@/data/types.data'
+import { useIntersectionObserver } from './obs'
+import { ExperienceSkeleton } from '../main/loading'
+import { experiencesAPI } from '@/util/apiResponse.util'
+import { useCallback, useEffect, useRef, useState } from 'react'
 
 export const LazyExperienceSection = () => {
   const [experiences, setExperiences] = useState<Experience[]>([])
@@ -13,12 +13,12 @@ export const LazyExperienceSection = () => {
   const sectionRef = useRef<HTMLDivElement>(null)
   const { hasBeenVisible } = useIntersectionObserver(sectionRef as React.RefObject<Element>, {
     threshold: 0.1,
-    rootMargin: '200px'
+    rootMargin: '200px',
   })
 
   const fetchExperiences = useCallback(async () => {
     if (loaded || loading) return
-    
+
     setLoading(true)
     try {
       const experiencesRes = await experiencesAPI.getAllExperiences()

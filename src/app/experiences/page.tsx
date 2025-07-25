@@ -1,55 +1,72 @@
-'use client';
+'use client'
 
-import Link from 'next/link';
-import toast from 'react-hot-toast';
-import { useEffect, useState } from 'react';
-import { Input } from '@/components/ui/input';
-import { Experience } from '@/data/types.data';
-import { Button } from '@/components/ui/button';
-import { ArrowLeft, Building2 } from 'lucide-react';
-import { experiencesAPI } from '@/util/apiResponse.util';
-import ExperienceGrid from '@/components/Experience/grid';
-import { useRouter, useSearchParams } from 'next/navigation';
-import ExperiencePagination from '@/components/Experience/pagination';
-import { EmptyState, ErrorState, LoadingState } from '@/components/Experience/load-error';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import Link from 'next/link'
+import toast from 'react-hot-toast'
+import { useEffect, useState } from 'react'
+import { Input } from '@/components/ui/input'
+import { Experience } from '@/data/types.data'
+import { Button } from '@/components/ui/button'
+import { ArrowLeft, Building2 } from 'lucide-react'
+import { experiencesAPI } from '@/util/apiResponse.util'
+import ExperienceGrid from '@/components/Experience/grid'
+import { useRouter, useSearchParams } from 'next/navigation'
+import ExperiencePagination from '@/components/Experience/pagination'
+import { EmptyState, ErrorState, LoadingState } from '@/components/Experience/load-error'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
 
 export default function ExperiencePageContent() {
-  const [experiences, setExperiences] = useState<Experience[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState('');
-  const [currentPage, setCurrentPage] = useState(1);
-  const experiencesPerPage = 6;
-  const [selectedTech, setSelectedTech] = useState<string>("__all__");
-  const [selectedCompany, setSelectedCompany] = useState<string>("__all__");
-  const [selectedYear, setSelectedYear] = useState<string>("__all__");
-  const router = useRouter();
-  const searchParams = useSearchParams();
-  const initialSearch = searchParams.get('search')?.toLowerCase() || '';
-  const [searchTerm, setSearchTerm] = useState(initialSearch);
+  const [experiences, setExperiences] = useState<Experience[]>([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState('')
+  const [currentPage, setCurrentPage] = useState(1)
+  const experiencesPerPage = 6
+  const [selectedTech, setSelectedTech] = useState<string>('__all__')
+  const [selectedCompany, setSelectedCompany] = useState<string>('__all__')
+  const [selectedYear, setSelectedYear] = useState<string>('__all__')
+  const router = useRouter()
+  const searchParams = useSearchParams()
+  const initialSearch = searchParams.get('search')?.toLowerCase() || ''
+  const [searchTerm, setSearchTerm] = useState(initialSearch)
 
-  const allTechs = Array.from(new Set(experiences.flatMap(e => e.technologies)));
-  const allCompanies = Array.from(new Set(experiences.map(e => e.company_name)));
-  const allYears = Array.from(new Set(experiences.map(e => e.start_date ? new Date(e.start_date).getFullYear().toString() : ''))).filter(Boolean);
+  const allTechs = Array.from(new Set(experiences.flatMap((e) => e.technologies)))
+  const allCompanies = Array.from(new Set(experiences.map((e) => e.company_name)))
+  const allYears = Array.from(
+    new Set(
+      experiences.map((e) => (e.start_date ? new Date(e.start_date).getFullYear().toString() : ''))
+    )
+  ).filter(Boolean)
 
-  const filteredExperiences = experiences.filter(experience => {
-    const matchesTech = selectedTech !== "__all__" ? experience.technologies.includes(selectedTech) : true;
-    const matchesCompany = selectedCompany !== "__all__" ? experience.company_name === selectedCompany : true;
-    const matchesYear = selectedYear !== "__all__" ? (experience.start_date && new Date(experience.start_date).getFullYear().toString() === selectedYear) : true;
-    const matchesSearch = searchTerm === '' || 
+  const filteredExperiences = experiences.filter((experience) => {
+    const matchesTech =
+      selectedTech !== '__all__' ? experience.technologies.includes(selectedTech) : true
+    const matchesCompany =
+      selectedCompany !== '__all__' ? experience.company_name === selectedCompany : true
+    const matchesYear =
+      selectedYear !== '__all__'
+        ? experience.start_date &&
+          new Date(experience.start_date).getFullYear().toString() === selectedYear
+        : true
+    const matchesSearch =
+      searchTerm === '' ||
       experience.position.toLowerCase().includes(searchTerm.toLowerCase()) ||
       experience.company_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      experience.description.toLowerCase().includes(searchTerm.toLowerCase());
-    
-    return matchesTech && matchesCompany && matchesYear && matchesSearch;
-  });
+      experience.description.toLowerCase().includes(searchTerm.toLowerCase())
 
-  const totalPages = Math.ceil(filteredExperiences.length / experiencesPerPage);
-  const startIndex = (currentPage - 1) * experiencesPerPage;
-  const endIndex = startIndex + experiencesPerPage;
-  const currentExperiences = filteredExperiences.slice(startIndex, endIndex);
+    return matchesTech && matchesCompany && matchesYear && matchesSearch
+  })
 
-  const transformedExperiences = currentExperiences.map(experience => ({
+  const totalPages = Math.ceil(filteredExperiences.length / experiencesPerPage)
+  const startIndex = (currentPage - 1) * experiencesPerPage
+  const endIndex = startIndex + experiencesPerPage
+  const currentExperiences = filteredExperiences.slice(startIndex, endIndex)
+
+  const transformedExperiences = currentExperiences.map((experience) => ({
     title: experience.position,
     company: experience.company_name,
     description: experience.description,
@@ -58,49 +75,49 @@ export default function ExperiencePageContent() {
     certificateUrl: experience.certificate_url,
     startDate: experience.start_date,
     endDate: experience.end_date,
-  }));
+  }))
 
   useEffect(() => {
     const fetchExperiences = async () => {
       try {
-        const response = await experiencesAPI.getAllExperiences();
-        setExperiences(Array.isArray(response.data) ? response.data : []);
+        const response = await experiencesAPI.getAllExperiences()
+        setExperiences(Array.isArray(response.data) ? response.data : [])
       } catch (err) {
-        setError('Failed to load experiences');
+        setError('Failed to load experiences')
       } finally {
-        setLoading(false);
+        setLoading(false)
       }
-    };
-    fetchExperiences();
-  }, []);
+    }
+    fetchExperiences()
+  }, [])
 
   const handlePageChange = (page: number) => {
-    setCurrentPage(page);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
+    setCurrentPage(page)
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
 
   const handleSearchChange = (value: string) => {
-    setSearchTerm(value);
-    const params = new URLSearchParams(window.location.search);
+    setSearchTerm(value)
+    const params = new URLSearchParams(window.location.search)
     if (value) {
-      params.set('search', value);
+      params.set('search', value)
     } else {
-      params.delete('search');
+      params.delete('search')
     }
-    router.push(`?${params.toString()}`);
-  };
+    router.push(`?${params.toString()}`)
+  }
 
   // Loading state
   if (loading) {
-    return <LoadingState />;
+    return <LoadingState />
   }
 
   // Error state
   if (error) {
     toast.error(error, {
       style: { zIndex: 30 },
-    });
-    return <ErrorState error={error} />;
+    })
+    return <ErrorState error={error} />
   }
 
   return (
@@ -109,16 +126,19 @@ export default function ExperiencePageContent() {
       <div className="sticky top-0 z-40 border-b border-border/50 bg-background/95 backdrop-blur-md">
         <div className="container mx-auto px-6 py-4 max-w-full">
           <div className="flex items-center justify-between gap-8">
-            
             {/* Left Side: Back Button + Title + Stats */}
             <div className="flex items-center gap-6 flex-shrink-0">
               <Link href="/">
-                <Button variant="ghost" size="sm" className="flex items-center gap-2 hover:bg-muted">
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="flex items-center gap-2 hover:bg-muted"
+                >
                   <ArrowLeft className="w-4 h-4" />
                   Back to Home
                 </Button>
               </Link>
-              
+
               <div className="flex items-center gap-4">
                 <div className="flex items-center gap-2">
                   <Building2 className="w-5 h-5 text-primary" />
@@ -126,7 +146,7 @@ export default function ExperiencePageContent() {
                     Experience
                   </h1>
                 </div>
-                
+
                 {/* Compact Stats */}
                 <div className="hidden lg:flex items-center gap-3 text-sm">
                   <div className="flex items-center gap-1">
@@ -181,8 +201,10 @@ export default function ExperiencePageContent() {
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="__all__">All Technologies</SelectItem>
-                {allTechs.map(tech => (
-                  <SelectItem key={tech} value={tech}>{tech}</SelectItem>
+                {allTechs.map((tech) => (
+                  <SelectItem key={tech} value={tech}>
+                    {tech}
+                  </SelectItem>
                 ))}
               </SelectContent>
             </Select>
@@ -193,10 +215,11 @@ export default function ExperiencePageContent() {
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="__all__">All Companies</SelectItem>
-                {allCompanies.map(company => (
-                  <SelectItem key={company} value={company}>{company}</SelectItem>
+                {allCompanies.map((company) => (
+                  <SelectItem key={company} value={company}>
+                    {company}
+                  </SelectItem>
                 ))}
-                
               </SelectContent>
             </Select>
 
@@ -206,27 +229,31 @@ export default function ExperiencePageContent() {
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="__all__">All Years</SelectItem>
-                {allYears.map(year => (
-                  <SelectItem key={year} value={year}>{year}</SelectItem>
+                {allYears.map((year) => (
+                  <SelectItem key={year} value={year}>
+                    {year}
+                  </SelectItem>
                 ))}
               </SelectContent>
             </Select>
-            
-            {(selectedTech !== "__all__" || selectedCompany !== "__all__" || selectedYear !== "__all__") && (
+
+            {(selectedTech !== '__all__' ||
+              selectedCompany !== '__all__' ||
+              selectedYear !== '__all__') && (
               <Button
                 variant="secondary"
                 size="sm"
-                onClick={() => { 
-                  setSelectedTech("__all__"); 
-                  setSelectedCompany("__all__"); 
-                  setSelectedYear("__all__"); 
+                onClick={() => {
+                  setSelectedTech('__all__')
+                  setSelectedCompany('__all__')
+                  setSelectedYear('__all__')
                 }}
                 className="h-9"
               >
                 Clear Filters
               </Button>
             )}
-            
+
             {/* Mobile Stats */}
             <div className="lg:hidden flex items-center gap-3 text-sm ml-4">
               <div className="flex items-center gap-1">
@@ -254,8 +281,8 @@ export default function ExperiencePageContent() {
           ) : (
             <div className="mb-8">
               <div className="prose-md">
-                <ExperienceGrid 
-                  items={transformedExperiences} 
+                <ExperienceGrid
+                  items={transformedExperiences}
                   className="grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
                 />
               </div>
@@ -265,14 +292,14 @@ export default function ExperiencePageContent() {
           {/* Bottom Info Bar */}
           <div className="flex items-center justify-between pt-6 border-t border-border/30 text-sm text-muted-foreground">
             <p>
-              Showing {filteredExperiences.length === 0 ? 0 : startIndex + 1}-{Math.min(endIndex, filteredExperiences.length)} of {filteredExperiences.length} experiences
+              Showing {filteredExperiences.length === 0 ? 0 : startIndex + 1}-
+              {Math.min(endIndex, filteredExperiences.length)} of {filteredExperiences.length}{' '}
+              experiences
             </p>
-            <p className="text-xs">
-              Professional journey and work experience
-            </p>
+            <p className="text-xs">Professional journey and work experience</p>
           </div>
         </div>
       </div>
     </div>
-  );
+  )
 }

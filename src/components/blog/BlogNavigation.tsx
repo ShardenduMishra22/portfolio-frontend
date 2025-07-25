@@ -13,31 +13,31 @@ const navigationItems = [
     name: 'Read Blogs',
     href: '/blog',
     icon: Glasses,
-    description: 'Read the latest blog posts'
+    description: 'Read the latest blog posts',
   },
   {
     name: 'Dashboard',
     href: '/blog/dashboard',
     icon: BookOpen,
-    description: 'Manage your blog posts'
+    description: 'Manage your blog posts',
   },
   {
     name: 'Analytics',
     href: '/blog/stats',
     icon: BarChart3,
-    description: 'View blog statistics'
+    description: 'View blog statistics',
   },
   {
     name: 'Create Post',
     href: '/blog/create',
     icon: Plus,
-    description: 'Write a new blog post'
+    description: 'Write a new blog post',
   },
   {
     name: 'Main Website',
     href: '/',
     icon: User2Icon,
-    description: 'Go back to the main website'
+    description: 'Go back to the main website',
   },
 ]
 
@@ -85,30 +85,40 @@ export default function BlogNavigation() {
                   href={item.href}
                   onClick={() => setIsMobileMenuOpen(false)}
                   className={cn(
-                    "flex items-center space-x-3 w-full max-w-xs p-4 rounded-lg transition-all",
+                    'flex items-center space-x-3 w-full max-w-xs p-4 rounded-lg transition-all',
                     isActive
-                      ? "bg-primary text-primary-foreground"
-                      : "bg-card hover:bg-accent/20 border border-border"
+                      ? 'bg-primary text-primary-foreground'
+                      : 'bg-card hover:bg-accent/20 border border-border'
                   )}
                 >
-                  <item.icon className={cn(
-                    "h-5 w-5",
-                    isActive ? "text-primary-foreground" : "text-foreground"
-                  )} />
+                  <item.icon
+                    className={cn(
+                      'h-5 w-5',
+                      isActive ? 'text-primary-foreground' : 'text-foreground'
+                    )}
+                  />
                   <div>
-                    <div className={cn(
-                      "font-medium",
-                      isActive ? "text-primary-foreground" : "text-foreground"
-                    )}>{item.name}</div>
-                    <div className={cn(
-                      "text-xs opacity-70",
-                      isActive ? "text-primary-foreground" : "text-foreground"
-                    )}>{item.description}</div>
+                    <div
+                      className={cn(
+                        'font-medium',
+                        isActive ? 'text-primary-foreground' : 'text-foreground'
+                      )}
+                    >
+                      {item.name}
+                    </div>
+                    <div
+                      className={cn(
+                        'text-xs opacity-70',
+                        isActive ? 'text-primary-foreground' : 'text-foreground'
+                      )}
+                    >
+                      {item.description}
+                    </div>
                   </div>
                 </Link>
               )
             })}
-            
+
             {session.data ? (
               <Button
                 onClick={handleLogout}
@@ -124,7 +134,7 @@ export default function BlogNavigation() {
                 {isLoggingOut ? 'Signing out...' : 'Sign Out'}
               </Button>
             ) : (
-              <Button 
+              <Button
                 onClick={async () => {
                   try {
                     await authClient.signIn.social({ provider: 'google' })
@@ -132,7 +142,7 @@ export default function BlogNavigation() {
                   } catch (error) {
                     console.error('Login error:', error)
                   }
-                }} 
+                }}
                 className="w-full max-w-xs"
               >
                 Login with Google
@@ -145,7 +155,6 @@ export default function BlogNavigation() {
       {/* Desktop Sidebar */}
       <div className="hidden lg:flex lg:flex-col lg:w-64 lg:fixed lg:inset-y-0 lg:z-50">
         <div className="flex flex-col flex-grow bg-background border-r border-border">
-          
           {/* Header */}
           <div className="flex items-center p-6 border-b border-border">
             <div className="flex items-center space-x-3">
@@ -168,25 +177,35 @@ export default function BlogNavigation() {
                   key={item.name}
                   href={item.href}
                   className={cn(
-                    "flex items-center space-x-3 px-4 py-3 rounded-lg transition-colors",
+                    'flex items-center space-x-3 px-4 py-3 rounded-lg transition-colors',
                     isActive
-                      ? "bg-primary text-primary-foreground"
-                      : "text-foreground hover:bg-accent/20"
+                      ? 'bg-primary text-primary-foreground'
+                      : 'text-foreground hover:bg-accent/20'
                   )}
                 >
-                  <item.icon className={cn(
-                    "h-4 w-4",
-                    isActive ? "text-primary-foreground" : "text-foreground"
-                  )} />
+                  <item.icon
+                    className={cn(
+                      'h-4 w-4',
+                      isActive ? 'text-primary-foreground' : 'text-foreground'
+                    )}
+                  />
                   <div>
-                    <div className={cn(
-                      "font-medium text-sm",
-                      isActive ? "text-primary-foreground" : "text-foreground"
-                    )}>{item.name}</div>
-                    <div className={cn(
-                      "text-xs opacity-70",
-                      isActive ? "text-primary-foreground" : "text-foreground"
-                    )}>{item.description}</div>
+                    <div
+                      className={cn(
+                        'font-medium text-sm',
+                        isActive ? 'text-primary-foreground' : 'text-foreground'
+                      )}
+                    >
+                      {item.name}
+                    </div>
+                    <div
+                      className={cn(
+                        'text-xs opacity-70',
+                        isActive ? 'text-primary-foreground' : 'text-foreground'
+                      )}
+                    >
+                      {item.description}
+                    </div>
                   </div>
                 </Link>
               )
@@ -212,18 +231,18 @@ export default function BlogNavigation() {
             ) : (
               <div className="text-center space-y-3">
                 <p className="text-sm text-foreground">Please log in to continue</p>
-                <Button 
+                <Button
                   onClick={async () => {
                     try {
                       await authClient.signIn.social({
                         provider: 'google',
                         callbackURL: '/blog',
-                        errorCallbackURL: '/login?error=oauth'
-                      });
+                        errorCallbackURL: '/login?error=oauth',
+                      })
                     } catch (error) {
                       console.error('Login error:', error)
                     }
-                  }} 
+                  }}
                   className="w-full"
                 >
                   Login with Google

@@ -3,16 +3,7 @@
 import React from 'react'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
-import { 
-  PenTool, 
-  Eye, 
-  Heart, 
-  MessageCircle, 
-  TrendingUp,
-  Users,
-  BookOpen,
-  Star
-} from 'lucide-react'
+import { PenTool, Eye, Heart, MessageCircle, TrendingUp, Users, BookOpen, Star } from 'lucide-react'
 
 interface BlogStatsProps {
   totalPosts: number
@@ -42,7 +33,7 @@ const BlogStats: React.FC<BlogStatsProps> = ({
   totalBookmarks = 0,
   averageViews = 0,
   topPerformingPost,
-  recentActivity = []
+  recentActivity = [],
 }) => {
   const formatNumber = (num: number) => {
     if (num >= 1000000) {
@@ -138,7 +129,9 @@ const BlogStats: React.FC<BlogStatsProps> = ({
               <div className="w-8 h-8 bg-accent/10 rounded-lg flex items-center justify-center">
                 <MessageCircle className="w-4 h-4 text-accent" />
               </div>
-              <span className="text-xl font-bold text-foreground">{formatNumber(totalComments)}</span>
+              <span className="text-xl font-bold text-foreground">
+                {formatNumber(totalComments)}
+              </span>
             </div>
           </CardContent>
         </Card>
@@ -196,7 +189,10 @@ const BlogStats: React.FC<BlogStatsProps> = ({
                   {topPerformingPost.title}
                 </h4>
                 <div className="flex items-center justify-between">
-                  <Badge variant="secondary" className="bg-primary/10 text-primary border-primary/20">
+                  <Badge
+                    variant="secondary"
+                    className="bg-primary/10 text-primary border-primary/20"
+                  >
                     {formatNumber(topPerformingPost.views)} views
                   </Badge>
                   <div className="flex items-center space-x-1 text-xs text-foreground">
@@ -253,7 +249,8 @@ const BlogStats: React.FC<BlogStatsProps> = ({
                     {getActivityIcon(activity.type)}
                     <div>
                       <p className="text-sm font-medium text-foreground">
-                        {activity.count} {activity.type}{activity.count !== 1 ? 's' : ''}
+                        {activity.count} {activity.type}
+                        {activity.count !== 1 ? 's' : ''}
                       </p>
                       <p className="text-xs text-foreground">{activity.timeAgo}</p>
                     </div>

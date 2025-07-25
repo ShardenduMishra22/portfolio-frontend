@@ -1,5 +1,14 @@
 import backendAPI from '../api'
-import { ApiResponse, User, CreateUserRequest, UpdateUserRequest, Profile, UpdateProfileRequest, PaginationParams, PaginatedResponse } from '../types'
+import {
+  ApiResponse,
+  User,
+  CreateUserRequest,
+  UpdateUserRequest,
+  Profile,
+  UpdateProfileRequest,
+  PaginationParams,
+  PaginatedResponse,
+} from '../types'
 
 export const usersService = {
   // Get all users with pagination
@@ -39,25 +48,37 @@ export const usersService = {
   },
 
   // Update user profile
-  updateUserProfile: async (id: string, profileData: UpdateProfileRequest): Promise<ApiResponse<Profile>> => {
+  updateUserProfile: async (
+    id: string,
+    profileData: UpdateProfileRequest
+  ): Promise<ApiResponse<Profile>> => {
     const response = await backendAPI.put(`/users/${id}/profile`, profileData)
     return response.data
   },
 
   // Get user bookmarks
-  getUserBookmarks: async (id: string, params?: PaginationParams): Promise<ApiResponse<PaginatedResponse<any>>> => {
+  getUserBookmarks: async (
+    id: string,
+    params?: PaginationParams
+  ): Promise<ApiResponse<PaginatedResponse<any>>> => {
     const response = await backendAPI.get(`/users/${id}/bookmarks`, { params })
     return response.data
   },
 
   // Get user history
-  getUserHistory: async (id: string, params?: PaginationParams): Promise<ApiResponse<PaginatedResponse<any>>> => {
+  getUserHistory: async (
+    id: string,
+    params?: PaginationParams
+  ): Promise<ApiResponse<PaginatedResponse<any>>> => {
     const response = await backendAPI.get(`/users/${id}/history`, { params })
     return response.data
   },
 
   // Get user notifications
-  getUserNotifications: async (id: string, params?: PaginationParams): Promise<ApiResponse<PaginatedResponse<any>>> => {
+  getUserNotifications: async (
+    id: string,
+    params?: PaginationParams
+  ): Promise<ApiResponse<PaginatedResponse<any>>> => {
     const response = await backendAPI.get(`/users/${id}/notifications`, { params })
     return response.data
   },
@@ -75,14 +96,20 @@ export const usersService = {
   },
 
   // Get user followers
-  getUserFollowers: async (id: string, params?: PaginationParams): Promise<ApiResponse<PaginatedResponse<any>>> => {
+  getUserFollowers: async (
+    id: string,
+    params?: PaginationParams
+  ): Promise<ApiResponse<PaginatedResponse<any>>> => {
     const response = await backendAPI.get(`/users/${id}/followers`, { params })
     return response.data
   },
 
   // Get user following
-  getUserFollowing: async (id: string, params?: PaginationParams): Promise<ApiResponse<PaginatedResponse<any>>> => {
+  getUserFollowing: async (
+    id: string,
+    params?: PaginationParams
+  ): Promise<ApiResponse<PaginatedResponse<any>>> => {
     const response = await backendAPI.get(`/users/${id}/following`, { params })
     return response.data
-  }
-} 
+  },
+}

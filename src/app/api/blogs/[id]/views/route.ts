@@ -1,37 +1,24 @@
-import { NextRequest, NextResponse } from "next/server";
-import { db } from "@/index";
-import { blogViewsTable, blogTable } from "@/db/schema";
-import { eq } from "drizzle-orm";
+import { NextRequest, NextResponse } from 'next/server'
+import { db } from '@/index'
+import { blogViewsTable, blogTable } from '@/db/schema'
+import { eq } from 'drizzle-orm'
 
 // POST /api/blogs/:id/views - Add view to blog
-export async function POST(
-  request: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
-) {
+export async function POST(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
-    const blogId = parseInt((await params).id);
-    const body = await request.json();
-    const { userId, ipAddress, userAgent } = body;
+    const blogId = parseInt((await params).id)
+    const body = await request.json()
+    const { userId, ipAddress, userAgent } = body
 
     if (isNaN(blogId)) {
-      return NextResponse.json(
-        { success: false, error: "Invalid blog ID" },
-        { status: 400 }
-      );
+      return NextResponse.json({ success: false, error: 'Invalid blog ID' }, { status: 400 })
     }
 
     // Check if blog exists
-    const blog = await db
-      .select()
-      .from(blogTable)
-      .where(eq(blogTable.id, blogId))
-      .limit(1);
+    const blog = await db.select().from(blogTable).where(eq(blogTable.id, blogId)).limit(1)
 
     if (blog.length === 0) {
-      return NextResponse.json(
-        { success: false, error: "Blog not found" },
-        { status: 404 }
-      );
+      return NextResponse.json({ success: false, error: 'Blog not found' }, { status: 404 })
     }
 
     // Create view entry
@@ -50,52 +37,33 @@ export async function POST(
         ipAddress: blogViewsTable.ipAddress,
         userAgent: blogViewsTable.userAgent,
         createdAt: blogViewsTable.createdAt,
-      });
+      })
 
-    return NextResponse.json(
-      { success: true, data: newView },
-      { status: 201 }
-    );
+    return NextResponse.json({ success: true, data: newView }, { status: 201 })
   } catch (error) {
-    console.error("Error adding view:", error);
-    return NextResponse.json(
-      { success: false, error: "Failed to add view" },
-      { status: 500 }
-    );
+    console.error('Error adding view:', error)
+    return NextResponse.json({ success: false, error: 'Failed to add view' }, { status: 500 })
   }
 }
 
 // GET /api/blogs/:id/views - Get views for a blog
-export async function GET(
-  request: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
-) {
+export async function GET(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
-    const blogId = parseInt((await params).id);
-    const { searchParams } = new URL(request.url);
-    const page = parseInt(searchParams.get("page") || "1");
-    const limit = parseInt(searchParams.get("limit") || "10");
-    const offset = (page - 1) * limit;
+    const blogId = parseInt((await params).id)
+    const { searchParams } = new URL(request.url)
+    const page = parseInt(searchParams.get('page') || '1')
+    const limit = parseInt(searchParams.get('limit') || '10')
+    const offset = (page - 1) * limit
 
     if (isNaN(blogId)) {
-      return NextResponse.json(
-        { success: false, error: "Invalid blog ID" },
-        { status: 400 }
-      );
+      return NextResponse.json({ success: false, error: 'Invalid blog ID' }, { status: 400 })
     }
 
     // Check if blog exists
-    const blog = await db
-      .select()
-      .from(blogTable)
-      .where(eq(blogTable.id, blogId))
-      .limit(1);
+    const blog = await db.select().from(blogTable).where(eq(blogTable.id, blogId)).limit(1)
 
     if (blog.length === 0) {
-      return NextResponse.json(
-        { success: false, error: "Blog not found" },
-        { status: 404 }
-      );
+      return NextResponse.json({ success: false, error: 'Blog not found' }, { status: 404 })
     }
 
     // Get views for the blog
@@ -112,13 +80,13 @@ export async function GET(
       .where(eq(blogViewsTable.blogId, blogId))
       .orderBy(blogViewsTable.createdAt)
       .limit(limit)
-      .offset(offset);
+      .offset(offset)
 
     // Get total count for pagination
     const totalCount = await db
       .select({ count: blogViewsTable.id })
       .from(blogViewsTable)
-      .where(eq(blogViewsTable.blogId, blogId));
+      .where(eq(blogViewsTable.blogId, blogId))
 
     return NextResponse.json({
       success: true,
@@ -129,12 +97,9 @@ export async function GET(
         total: totalCount.length,
         totalPages: Math.ceil(totalCount.length / limit),
       },
-    });
+    })
   } catch (error) {
-    console.error("Error fetching views:", error);
-    return NextResponse.json(
-      { success: false, error: "Failed to fetch views" },
-      { status: 500 }
-    );
+    console.error('Error fetching views:', error)
+    return NextResponse.json({ success: false, error: 'Failed to fetch views' }, { status: 500 })
   }
-} 
+}

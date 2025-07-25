@@ -1,8 +1,8 @@
-import { motion } from "motion/react";
-import { useState } from "react";
-import { Sparkles } from "lucide-react";
-import { AnimatePresence } from "motion/react";
-import { CanvasRevealEffect } from "../ui/canvas-reveal-effect";
+import { motion } from 'motion/react'
+import { useState } from 'react'
+import { Sparkles } from 'lucide-react'
+import { AnimatePresence } from 'motion/react'
+import { CanvasRevealEffect } from '../ui/canvas-reveal-effect'
 
 export const CanvasCard = ({
   title,
@@ -10,18 +10,18 @@ export const CanvasCard = ({
   children,
   canvasProps,
 }: {
-  title: string;
-  icon: React.ReactNode;
-  children: React.ReactNode;
+  title: string
+  icon: React.ReactNode
+  children: React.ReactNode
   canvasProps: {
-    animationSpeed: number;
-    containerClassName: string;
-    colors: number[][];
-    dotSize: number;
-  };
+    animationSpeed: number
+    containerClassName: string
+    colors: number[][]
+    dotSize: number
+  }
 }) => {
-  const [hovered, setHovered] = useState(false);
-  
+  const [hovered, setHovered] = useState(false)
+
   return (
     <div
       onMouseEnter={() => setHovered(true)}
@@ -68,5 +68,5 @@ export const CanvasCard = ({
         </div>
       </div>
     </div>
-  );
-};
+  )
+}

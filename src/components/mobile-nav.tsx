@@ -39,10 +39,10 @@ export function MobileNavigation({ activeSection }: { activeSection: string }) {
       <button
         onClick={() => setIsOpen(!isOpen)}
         className={cn(
-          "fixed top-4 right-4 z-50 p-3 rounded-xl transition-all duration-300",
-          "bg-sidebar/95 backdrop-blur-xl border border-sidebar-border/50 shadow-lg",
-          "hover:bg-sidebar-accent/20 hover:scale-105 active:scale-95",
-          "focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
+          'fixed top-4 right-4 z-50 p-3 rounded-xl transition-all duration-300',
+          'bg-sidebar/95 backdrop-blur-xl border border-sidebar-border/50 shadow-lg',
+          'hover:bg-sidebar-accent/20 hover:scale-105 active:scale-95',
+          'focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2'
         )}
         aria-label="Toggle navigation menu"
       >
@@ -55,21 +55,23 @@ export function MobileNavigation({ activeSection }: { activeSection: string }) {
 
       {/* Backdrop */}
       {isOpen && (
-        <div 
+        <div
           className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40 transition-opacity duration-300 animate-in fade-in"
           onClick={closeMobileMenu}
         />
       )}
 
       {/* Mobile Menu Panel */}
-      <div className={cn(
-        "fixed top-0 right-0 h-full w-80 max-w-[85vw] z-40 transition-transform duration-300 ease-out",
-        "bg-sidebar/95 backdrop-blur-xl border-l border-sidebar-border/50 shadow-2xl",
-        isOpen ? "translate-x-0" : "translate-x-full"
-      )}>
+      <div
+        className={cn(
+          'fixed top-0 right-0 h-full w-80 max-w-[85vw] z-40 transition-transform duration-300 ease-out',
+          'bg-sidebar/95 backdrop-blur-xl border-l border-sidebar-border/50 shadow-2xl',
+          isOpen ? 'translate-x-0' : 'translate-x-full'
+        )}
+      >
         {/* Animated gradient border */}
         <div className="absolute inset-0 bg-gradient-to-b from-sidebar-primary/10 via-transparent to-sidebar-accent/10 opacity-50 pointer-events-none" />
-        
+
         {/* Header */}
         <div className="p-6 pt-20 border-b border-sidebar-border/50">
           <div className="flex items-center gap-3">
@@ -79,11 +81,9 @@ export function MobileNavigation({ activeSection }: { activeSection: string }) {
               </div>
               <div className="absolute -top-1 -right-1 w-3 h-3 bg-secondary rounded-full border-2 border-sidebar animate-pulse" />
             </div>
-            
+
             <div className="flex-1">
-              <div className="text-lg font-bold text-sidebar-foreground mb-1">
-                Shardendu Mishra
-              </div>
+              <div className="text-lg font-bold text-sidebar-foreground mb-1">Shardendu Mishra</div>
               <div className="text-sm font-semibold bg-gradient-to-r from-pink-500 via-yellow-400 to-green-500 bg-[length:200%_100%] bg-clip-text text-transparent animate-blast">
                 I Love Golang and Fedora
               </div>

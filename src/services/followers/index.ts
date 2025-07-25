@@ -12,5 +12,5 @@ export const followersService = {
   unfollowUser: async (userId: string): Promise<ApiResponse<{ message: string }>> => {
     const response = await backendAPI.post(`/users/${userId}/unfollow`)
     return response.data
-  }
-} 
+  },
+}

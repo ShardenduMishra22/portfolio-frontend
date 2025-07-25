@@ -7,7 +7,7 @@ const Skeleton = ({ className, ...props }: React.HTMLAttributes<HTMLDivElement>)
   return (
     <div
       className={cn(
-        "animate-pulse rounded-md bg-gradient-to-r from-muted/40 via-muted/60 to-muted/40 backdrop-blur-sm bg-[length:200%_100%] animate-shimmer",
+        'animate-pulse rounded-md bg-gradient-to-r from-muted/40 via-muted/60 to-muted/40 backdrop-blur-sm bg-[length:200%_100%] animate-shimmer',
         className
       )}
       {...props}
@@ -84,27 +84,27 @@ export const ProjectsSkeleton = () => {
                     <Skeleton className="h-8 w-8 sm:h-10 sm:w-10 rounded-full" />
                   </div>
                 </div>
-                
+
                 {/* Project Content */}
                 <div className="p-4 sm:p-6 lg:p-8 space-y-4 sm:space-y-6">
                   <div className="pr-10 sm:pr-12">
                     <Skeleton className="h-6 w-3/4 sm:h-7 lg:h-8 mb-2 sm:mb-3" />
                     <Skeleton className="h-4 w-1/2 sm:h-5 mb-3 sm:mb-4" />
                   </div>
-                  
+
                   <div className="space-y-2">
                     <Skeleton className="h-4 w-full" />
                     <Skeleton className="h-4 w-5/6" />
                     <Skeleton className="h-4 w-4/5" />
                   </div>
-                  
+
                   {/* Tech Stack */}
                   <div className="flex flex-wrap gap-1.5 sm:gap-2">
                     {Array.from({ length: 4 }).map((_, j) => (
                       <Skeleton key={j} className="h-6 w-12 sm:w-16 rounded-full" />
                     ))}
                   </div>
-                  
+
                   {/* Buttons */}
                   <div className="flex flex-col sm:flex-row gap-2 sm:gap-3 mt-4 sm:mt-6">
                     <Skeleton className="h-8 w-full sm:h-9 sm:w-24 rounded-lg" />
@@ -156,26 +156,26 @@ export const ExperienceSkeleton = () => {
                 <div className="absolute top-4 right-4">
                   <Skeleton className="h-8 w-8 sm:h-10 sm:w-10 rounded-full" />
                 </div>
-                
+
                 <div className="pr-10 sm:pr-12 mb-4 sm:mb-6">
                   <Skeleton className="h-6 w-3/4 sm:h-7 lg:h-8 mb-2 sm:mb-3" />
                   <Skeleton className="h-4 w-1/2 sm:h-5 mb-2 sm:mb-3" />
                   <Skeleton className="h-4 w-32 sm:w-40 rounded-lg" />
                 </div>
-                
+
                 <div className="space-y-2 mb-4">
                   <Skeleton className="h-4 w-full" />
                   <Skeleton className="h-4 w-5/6" />
                   <Skeleton className="h-4 w-4/5" />
                 </div>
-                
+
                 {/* Tech badges */}
                 <div className="flex flex-wrap gap-1.5 sm:gap-2 mb-4 sm:mb-6">
                   {Array.from({ length: 4 }).map((_, j) => (
                     <Skeleton key={j} className="h-6 w-12 sm:w-16 rounded-full" />
                   ))}
                 </div>
-                
+
                 {/* Action buttons */}
                 <div className="flex flex-col gap-2 sm:gap-3">
                   <Skeleton className="h-8 w-full sm:h-9 rounded-lg" />
@@ -224,25 +224,25 @@ export const CertificationsSkeleton = () => {
                 <div className="absolute top-3 sm:top-4 right-3 sm:right-4">
                   <Skeleton className="h-6 w-6 sm:h-8 sm:w-8 rounded-full" />
                 </div>
-                
+
                 <div className="pr-8 sm:pr-10 mb-4">
                   <Skeleton className="h-5 w-3/4 sm:h-6 mb-2" />
                   <Skeleton className="h-4 w-1/2 mb-2" />
                   <Skeleton className="h-3 w-24 sm:w-32 rounded-full" />
                 </div>
-                
+
                 <div className="space-y-2 mb-4">
                   <Skeleton className="h-3 w-full sm:h-4" />
                   <Skeleton className="h-3 w-4/5 sm:h-4" />
                 </div>
-                
+
                 {/* Skills */}
                 <div className="flex flex-wrap gap-1.5 sm:gap-2 mb-4">
                   {Array.from({ length: 3 }).map((_, j) => (
                     <Skeleton key={j} className="h-5 w-12 sm:h-6 sm:w-16 rounded-full" />
                   ))}
                 </div>
-                
+
                 {/* Action buttons */}
                 <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
                   <Skeleton className="h-8 w-full sm:h-9 sm:w-24 rounded-lg" />
@@ -296,7 +296,7 @@ export const EducationSkeleton = () => {
               </div>
               <Skeleton className="h-6 w-12 sm:h-8 sm:w-16 rounded-full" />
             </div>
-            
+
             <Skeleton className="h-4 w-full sm:h-5 mb-2" />
             <Skeleton className="h-3 w-3/4 sm:h-4 mb-3 sm:mb-4" />
             <Skeleton className="h-12 w-full sm:h-16 rounded-lg" />
@@ -311,10 +311,10 @@ export const EducationSkeleton = () => {
                 <Skeleton className="h-3 w-20 sm:h-4 sm:w-24" />
               </div>
             </div>
-            
+
             <Skeleton className="h-4 w-full sm:h-5 mb-2" />
             <Skeleton className="h-3 w-3/4 sm:h-4 mb-3 sm:mb-4" />
-            
+
             {/* Grades grid */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-3">
               <Skeleton className="h-16 w-full sm:h-20 rounded-lg" />
@@ -334,7 +334,7 @@ export const EducationSkeleton = () => {
                 <Skeleton className="h-3 w-16 sm:h-4 sm:w-20" />
               </div>
             </div>
-            
+
             <div className="flex flex-wrap gap-1.5 sm:gap-2">
               {Array.from({ length: 3 }).map((_, i) => (
                 <Skeleton key={i} className="h-6 w-12 sm:h-7 sm:w-16 rounded-full" />
@@ -382,7 +382,6 @@ export const HeroSkeleton = () => {
     <div className="py-8 sm:py-12 lg:py-16 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-background via-background to-primary/5">
       <div className="max-w-7xl mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-12 lg:gap-16 items-center">
-          
           {/* Image Section */}
           <div className="flex justify-center lg:justify-start order-1 lg:order-1">
             <div className="relative">
@@ -401,7 +400,7 @@ export const HeroSkeleton = () => {
                 <Skeleton className="h-10 w-40 sm:h-12 sm:w-56 lg:h-16 lg:w-72 mx-auto lg:mx-0" />
                 <Skeleton className="h-1 w-12 sm:w-16 mx-auto lg:mx-0" />
               </div>
-              
+
               {/* Description */}
               <div className="space-y-3 sm:space-y-4 px-4 sm:px-0">
                 <Skeleton className="h-4 w-full sm:h-5 max-w-lg mx-auto lg:mx-0" />
@@ -410,7 +409,7 @@ export const HeroSkeleton = () => {
 
               {/* Email */}
               <Skeleton className="h-10 w-64 sm:w-80 mx-auto lg:mx-0 rounded-full" />
-              
+
               {/* Buttons */}
               <div className="flex flex-col gap-3 sm:gap-4 px-4 sm:px-0">
                 <Skeleton className="h-10 w-full sm:h-12 sm:w-auto rounded-full" />
@@ -419,7 +418,7 @@ export const HeroSkeleton = () => {
             </div>
           </div>
         </div>
-        
+
         {/* Bottom accent */}
         <div className="mt-12 sm:mt-20 flex justify-center space-x-4 sm:space-x-6">
           <Skeleton className="w-1 h-1 sm:w-1.5 sm:h-1.5 rounded-full" />

@@ -52,7 +52,10 @@ export const projectsAPI = {
     return response.data
   },
 
-  updateProject: async (id: string, project: UpdateProjectRequest): Promise<ApiResponse<Project>> => {
+  updateProject: async (
+    id: string,
+    project: UpdateProjectRequest
+  ): Promise<ApiResponse<Project>> => {
     const response = await api.put(`/projects/${id}`, project)
     return response.data
   },
@@ -75,12 +78,17 @@ export const experiencesAPI = {
     return response.data
   },
 
-  createExperience: async (experience: CreateExperienceRequest): Promise<ApiResponse<Experience>> => {
+  createExperience: async (
+    experience: CreateExperienceRequest
+  ): Promise<ApiResponse<Experience>> => {
     const response = await api.post('/experiences', experience)
     return response.data
   },
 
-  updateExperience: async (id: string, experience: UpdateExperienceRequest): Promise<ApiResponse<Experience>> => {
+  updateExperience: async (
+    id: string,
+    experience: UpdateExperienceRequest
+  ): Promise<ApiResponse<Experience>> => {
     const response = await api.put(`/experiences/${id}`, experience)
     return response.data
   },
@@ -103,12 +111,17 @@ export const certificationsAPI = {
     return response.data
   },
 
-  createCertification: async (cert: CreateCertificationRequest): Promise<ApiResponse<Certification>> => {
+  createCertification: async (
+    cert: CreateCertificationRequest
+  ): Promise<ApiResponse<Certification>> => {
     const response = await api.post('/certifications', cert)
     return response.data
   },
 
-  updateCertification: async (id: string, cert: UpdateCertificationRequest): Promise<ApiResponse<Certification>> => {
+  updateCertification: async (
+    id: string,
+    cert: UpdateCertificationRequest
+  ): Promise<ApiResponse<Certification>> => {
     const response = await api.put(`/certifications/${id}`, cert)
     return response.data
   },
@@ -120,7 +133,7 @@ export const certificationsAPI = {
 }
 
 // Achievements API (alias for certifications if same contract)
-export const achievementsAPI = certificationsAPI;
+export const achievementsAPI = certificationsAPI
 
 // Test API
 export const testAPI = {

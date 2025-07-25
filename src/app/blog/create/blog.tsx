@@ -1,10 +1,10 @@
 type BlogPostPreviewModalProps = {
-  open: boolean;
-  onClose: () => void;
-  title?: string;
-  content?: string;
-  tags?: string[];
-};
+  open: boolean
+  onClose: () => void
+  title?: string
+  content?: string
+  tags?: string[]
+}
 
 export default function BlogPostPreviewModal({
   open,
@@ -13,7 +13,7 @@ export default function BlogPostPreviewModal({
   content,
   tags = [],
 }: BlogPostPreviewModalProps) {
-  if (!open) return null;
+  if (!open) return null
 
   return (
     <div className="fixed inset-0 flex items-center justify-center z-50 bg-black/40">
@@ -31,12 +31,12 @@ export default function BlogPostPreviewModal({
         {/* Content */}
         <div className="flex-1 px-10 py-8 bg-zinc-50 dark:bg-zinc-800 flex flex-col gap-6 items-center max-w-5xl mx-auto w-full">
           <h1 className="text-4xl font-extrabold text-zinc-900 dark:text-white mb-2 text-center leading-tight tracking-tight">
-            {title || "Your post title will appear here"}
+            {title || 'Your post title will appear here'}
           </h1>
           <div className="w-16 h-1 bg-zinc-300 dark:bg-zinc-600 rounded mb-4"></div>
           <div className="prose prose-lg dark:prose-invert max-w-none w-full text-zinc-800 dark:text-zinc-100 px-1 text-center">
             {/* You can use react-markdown here for rich content */}
-            {content || "Your post content will appear here."}
+            {content || 'Your post content will appear here.'}
           </div>
           {Array.isArray(tags) && tags.length > 0 && (
             <div className="flex flex-wrap gap-3 justify-center pt-2">
@@ -62,5 +62,5 @@ export default function BlogPostPreviewModal({
         </div>
       </div>
     </div>
-  );
+  )
 }

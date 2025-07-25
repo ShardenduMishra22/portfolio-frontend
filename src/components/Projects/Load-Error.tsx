@@ -1,5 +1,5 @@
-import { Code2, Zap } from 'lucide-react';
-import { Card, CardContent } from '@/components/ui/card';
+import { Code2, Zap } from 'lucide-react'
+import { Card, CardContent } from '@/components/ui/card'
 
 export function LoadingState() {
   return (
@@ -15,7 +15,7 @@ export function LoadingState() {
         </div>
       </div>
     </div>
-  );
+  )
 }
 
 export function ErrorState({ error }: { error: string }) {
@@ -31,7 +31,7 @@ export function ErrorState({ error }: { error: string }) {
         </div>
       </div>
     </div>
-  );
+  )
 }
 
 export function EmptyState() {
@@ -42,7 +42,7 @@ export function EmptyState() {
           <div className="w-16 h-16 mx-auto rounded-full bg-muted flex items-center justify-center">
             <Code2 className="w-8 h-8 text-foreground" />
           </div>
-          
+
           <div className="space-y-2">
             <h3 className="text-lg font-heading text-foreground">No projects yet</h3>
             <p className="text-foreground text-sm">
@@ -52,5 +52,5 @@ export function EmptyState() {
         </CardContent>
       </Card>
     </div>
-  );
+  )
 }

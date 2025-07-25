@@ -1,16 +1,16 @@
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../../ui/card';
-import { Button } from '../../ui/button';
-import { Badge } from '../../ui/badge';
-import { Edit, Trash2, ExternalLink } from 'lucide-react';
-import Image from 'next/image';
-import React from 'react';
-import { Certification } from '@/data/types.data';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../../ui/card'
+import { Button } from '../../ui/button'
+import { Badge } from '../../ui/badge'
+import { Edit, Trash2, ExternalLink } from 'lucide-react'
+import Image from 'next/image'
+import React from 'react'
+import { Certification } from '@/data/types.data'
 
 type CertificationCardProps = {
-  cert: Certification;
-  onEdit: (cert: Certification) => void;
-  onDelete: (certId: string) => void;
-};
+  cert: Certification
+  onEdit: (cert: Certification) => void
+  onDelete: (certId: string) => void
+}
 
 export function CertificationCard({ cert, onEdit, onDelete }: CertificationCardProps) {
   return (
@@ -57,7 +57,7 @@ export function CertificationCard({ cert, onEdit, onDelete }: CertificationCardP
             <div className="relative h-8 w-8">
               <Image
                 src={cert.images[0]}
-                alt={cert.title + " certificate image"}
+                alt={cert.title + ' certificate image'}
                 fill
                 className="object-contain"
               />
@@ -66,5 +66,5 @@ export function CertificationCard({ cert, onEdit, onDelete }: CertificationCardP
         </div>
       </CardContent>
     </Card>
-  );
+  )
 }

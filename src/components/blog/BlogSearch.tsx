@@ -5,16 +5,14 @@ import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
-import { 
-  Search, 
-  Filter, 
-  X, 
-  Calendar,
-  TrendingUp,
-  Clock,
-  Star
-} from 'lucide-react'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
+import { Search, Filter, X, Calendar, TrendingUp, Clock, Star } from 'lucide-react'
 
 interface BlogSearchProps {
   searchTerm: string
@@ -41,7 +39,7 @@ const BlogSearch: React.FC<BlogSearchProps> = ({
   onTagsChange,
   availableTags,
   showAdvancedFilters = false,
-  onToggleAdvancedFilters
+  onToggleAdvancedFilters,
 }) => {
   const [isExpanded, setIsExpanded] = useState(false)
 
@@ -51,19 +49,19 @@ const BlogSearch: React.FC<BlogSearchProps> = ({
     { value: 'lifestyle', label: 'Lifestyle' },
     { value: 'tutorial', label: 'Tutorial' },
     { value: 'news', label: 'News' },
-    { value: 'opinion', label: 'Opinion' }
+    { value: 'opinion', label: 'Opinion' },
   ]
 
   const sortOptions = [
     { value: 'newest', label: 'Newest', icon: Calendar },
     { value: 'oldest', label: 'Oldest', icon: Clock },
     { value: 'popular', label: 'Popular', icon: TrendingUp },
-    { value: 'trending', label: 'Trending', icon: Star }
+    { value: 'trending', label: 'Trending', icon: Star },
   ]
 
   const handleTagToggle = (tag: string) => {
     if (selectedTags.includes(tag)) {
-      onTagsChange(selectedTags.filter(t => t !== tag))
+      onTagsChange(selectedTags.filter((t) => t !== tag))
     } else {
       onTagsChange([...selectedTags, tag])
     }
@@ -76,7 +74,8 @@ const BlogSearch: React.FC<BlogSearchProps> = ({
     onTagsChange([])
   }
 
-  const hasActiveFilters = searchTerm || selectedCategory !== 'all' || selectedSort !== 'newest' || selectedTags.length > 0
+  const hasActiveFilters =
+    searchTerm || selectedCategory !== 'all' || selectedSort !== 'newest' || selectedTags.length > 0
 
   return (
     <div className="space-y-3">
@@ -101,7 +100,7 @@ const BlogSearch: React.FC<BlogSearchProps> = ({
             </Button>
           )}
         </div>
-        
+
         <div className="flex gap-2">
           <Select value={selectedCategory} onValueChange={onCategoryChange}>
             <SelectTrigger className="w-[140px] bg-background border-border">
@@ -115,7 +114,7 @@ const BlogSearch: React.FC<BlogSearchProps> = ({
               ))}
             </SelectContent>
           </Select>
-          
+
           <Select value={selectedSort} onValueChange={onSortChange}>
             <SelectTrigger className="w-[120px] bg-background border-border">
               <SelectValue placeholder="Sort" />
@@ -134,7 +133,7 @@ const BlogSearch: React.FC<BlogSearchProps> = ({
               })}
             </SelectContent>
           </Select>
-          
+
           <Button
             variant="outline"
             onClick={() => setIsExpanded(!isExpanded)}
@@ -173,7 +172,7 @@ const BlogSearch: React.FC<BlogSearchProps> = ({
                 {availableTags.map((tag) => (
                   <Badge
                     key={tag}
-                    variant={selectedTags.includes(tag) ? "default" : "outline"}
+                    variant={selectedTags.includes(tag) ? 'default' : 'outline'}
                     className={`cursor-pointer transition-colors text-xs ${
                       selectedTags.includes(tag)
                         ? 'bg-primary text-primary-foreground hover:bg-primary/90'
@@ -194,7 +193,11 @@ const BlogSearch: React.FC<BlogSearchProps> = ({
                 <div className="flex flex-wrap gap-1">
                   {searchTerm && (
                     <Badge variant="secondary" className="flex items-center space-x-1 text-xs">
-                      <span>&quot;{searchTerm.length > 20 ? searchTerm.substring(0, 20) + '...' : searchTerm}&quot;</span>
+                      <span>
+                        &quot;
+                        {searchTerm.length > 20 ? searchTerm.substring(0, 20) + '...' : searchTerm}
+                        &quot;
+                      </span>
                       <button
                         onClick={() => onSearchChange('')}
                         className="ml-1 hover:text-foreground"
@@ -203,10 +206,10 @@ const BlogSearch: React.FC<BlogSearchProps> = ({
                       </button>
                     </Badge>
                   )}
-                  
+
                   {selectedCategory !== 'all' && (
                     <Badge variant="secondary" className="flex items-center space-x-1 text-xs">
-                      <span>{categories.find(c => c.value === selectedCategory)?.label}</span>
+                      <span>{categories.find((c) => c.value === selectedCategory)?.label}</span>
                       <button
                         onClick={() => onCategoryChange('all')}
                         className="ml-1 hover:text-foreground"
@@ -215,10 +218,10 @@ const BlogSearch: React.FC<BlogSearchProps> = ({
                       </button>
                     </Badge>
                   )}
-                  
+
                   {selectedSort !== 'newest' && (
                     <Badge variant="secondary" className="flex items-center space-x-1 text-xs">
-                      <span>{sortOptions.find(s => s.value === selectedSort)?.label}</span>
+                      <span>{sortOptions.find((s) => s.value === selectedSort)?.label}</span>
                       <button
                         onClick={() => onSortChange('newest')}
                         className="ml-1 hover:text-foreground"
@@ -227,9 +230,13 @@ const BlogSearch: React.FC<BlogSearchProps> = ({
                       </button>
                     </Badge>
                   )}
-                  
+
                   {selectedTags.map((tag) => (
-                    <Badge key={tag} variant="secondary" className="flex items-center space-x-1 text-xs">
+                    <Badge
+                      key={tag}
+                      variant="secondary"
+                      className="flex items-center space-x-1 text-xs"
+                    >
                       <span>{tag}</span>
                       <button
                         onClick={() => handleTagToggle(tag)}
@@ -252,19 +259,19 @@ const BlogSearch: React.FC<BlogSearchProps> = ({
           {searchTerm && (
             <Badge variant="secondary" className="flex items-center space-x-1 text-xs">
               <Search className="w-3 h-3" />
-              <span>&quot;{searchTerm.length > 15 ? searchTerm.substring(0, 15) + '...' : searchTerm}&quot;</span>
-              <button
-                onClick={() => onSearchChange('')}
-                className="ml-1 hover:text-foreground"
-              >
+              <span>
+                &quot;{searchTerm.length > 15 ? searchTerm.substring(0, 15) + '...' : searchTerm}
+                &quot;
+              </span>
+              <button onClick={() => onSearchChange('')} className="ml-1 hover:text-foreground">
                 <X className="w-3 h-3" />
               </button>
             </Badge>
           )}
-          
+
           {selectedCategory !== 'all' && (
             <Badge variant="secondary" className="flex items-center space-x-1 text-xs">
-              <span>{categories.find(c => c.value === selectedCategory)?.label}</span>
+              <span>{categories.find((c) => c.value === selectedCategory)?.label}</span>
               <button
                 onClick={() => onCategoryChange('all')}
                 className="ml-1 hover:text-foreground"
@@ -273,25 +280,22 @@ const BlogSearch: React.FC<BlogSearchProps> = ({
               </button>
             </Badge>
           )}
-          
+
           {selectedTags.slice(0, 3).map((tag) => (
             <Badge key={tag} variant="secondary" className="flex items-center space-x-1 text-xs">
               <span>{tag}</span>
-              <button
-                onClick={() => handleTagToggle(tag)}
-                className="ml-1 hover:text-foreground"
-              >
+              <button onClick={() => handleTagToggle(tag)} className="ml-1 hover:text-foreground">
                 <X className="w-3 h-3" />
               </button>
             </Badge>
           ))}
-          
+
           {selectedTags.length > 3 && (
             <Badge variant="outline" className="text-xs">
               +{selectedTags.length - 3} tags
             </Badge>
           )}
-          
+
           <Button
             variant="ghost"
             size="sm"

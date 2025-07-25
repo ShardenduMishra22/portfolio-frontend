@@ -1,9 +1,9 @@
-import Link from 'next/link';
-import { Button } from '@/components/ui/button';
-import { ArrowLeft, Zap } from 'lucide-react';
+import Link from 'next/link'
+import { Button } from '@/components/ui/button'
+import { ArrowLeft, Zap } from 'lucide-react'
 
 interface ErrorStateProps {
-  error?: string;
+  error?: string
 }
 
 export function ErrorState({ error }: ErrorStateProps) {
@@ -17,7 +17,7 @@ export function ErrorState({ error }: ErrorStateProps) {
             </div>
             <h2 className="text-2xl font-bold">Experience Not Found</h2>
             <p className="text-foreground max-w-md">
-              {error || 'The experience you\'re looking for doesn\'t exist or has been removed.'}
+              {error || "The experience you're looking for doesn't exist or has been removed."}
             </p>
             <Link href="/experiences">
               <Button variant="outline" className="mt-4">
@@ -29,5 +29,5 @@ export function ErrorState({ error }: ErrorStateProps) {
         </div>
       </div>
     </div>
-  );
+  )
 }

@@ -1,7 +1,7 @@
-import { db } from "@/index";
-import { eq } from "drizzle-orm";
-import { notificationsTable } from "@/db/schema";
-import { NextRequest, NextResponse } from "next/server";
+import { db } from '@/index'
+import { eq } from 'drizzle-orm'
+import { notificationsTable } from '@/db/schema'
+import { NextRequest, NextResponse } from 'next/server'
 
 // DELETE /api/notifications/:id - Delete notification
 export async function DELETE(
@@ -9,13 +9,13 @@ export async function DELETE(
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const notificationId = parseInt((await params).id);
+    const notificationId = parseInt((await params).id)
 
     if (isNaN(notificationId)) {
       return NextResponse.json(
-        { success: false, error: "Invalid notification ID" },
+        { success: false, error: 'Invalid notification ID' },
         { status: 400 }
-      );
+      )
     }
 
     // Check if notification exists
@@ -23,27 +23,24 @@ export async function DELETE(
       .select()
       .from(notificationsTable)
       .where(eq(notificationsTable.id, notificationId))
-      .limit(1);
+      .limit(1)
 
     if (existingNotification.length === 0) {
-      return NextResponse.json(
-        { success: false, error: "Notification not found" },
-        { status: 404 }
-      );
+      return NextResponse.json({ success: false, error: 'Notification not found' }, { status: 404 })
     }
 
     // Delete notification
-    await db.delete(notificationsTable).where(eq(notificationsTable.id, notificationId));
+    await db.delete(notificationsTable).where(eq(notificationsTable.id, notificationId))
 
     return NextResponse.json({
       success: true,
-      message: "Notification deleted successfully",
-    });
+      message: 'Notification deleted successfully',
+    })
   } catch (error) {
-    console.error("Error deleting notification:", error);
+    console.error('Error deleting notification:', error)
     return NextResponse.json(
-      { success: false, error: "Failed to delete notification" },
+      { success: false, error: 'Failed to delete notification' },
       { status: 500 }
-    );
+    )
   }
-} 
+}

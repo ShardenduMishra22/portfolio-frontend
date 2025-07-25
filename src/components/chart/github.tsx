@@ -1,8 +1,7 @@
-import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card"
-import { GitHubData } from "@/data/types.data"
-import { Github, Users, Code, Star, User, MapPin, BookOpen } from "lucide-react"
-import { StatsCard } from "./helper"
-
+import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'
+import { GitHubData } from '@/data/types.data'
+import { Github, Users, Code, Star, User, MapPin, BookOpen } from 'lucide-react'
+import { StatsCard } from './helper'
 
 interface GitHubProfileCardProps {
   github: GitHubData
@@ -14,7 +13,7 @@ export const GitHubProfileCard = ({ github, stars }: GitHubProfileCardProps) => 
     <Card className="relative overflow-hidden group hover:shadow-2xl transition-all duration-500 border-0">
       <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-secondary/5"></div>
       <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl from-primary/10 to-transparent rounded-bl-full"></div>
-      
+
       <CardHeader className="relative pb-4">
         <div className="flex items-center gap-4">
           <div className="relative">
@@ -32,25 +31,25 @@ export const GitHubProfileCard = ({ github, stars }: GitHubProfileCardProps) => 
 
       <CardContent className="relative space-y-4">
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <StatsCard 
-            icon={Users} 
-            label="Followers" 
+          <StatsCard
+            icon={Users}
+            label="Followers"
             value={github.followers}
             color="from-blue-500/20 to-blue-600/20"
             iconColor="text-blue-600"
           />
-          <StatsCard 
-            icon={Code} 
-            label="Repositories" 
+          <StatsCard
+            icon={Code}
+            label="Repositories"
             value={github.public_repos}
-            color="from-green-500/20 to-green-600/20" 
+            color="from-green-500/20 to-green-600/20"
             iconColor="text-green-600"
           />
         </div>
-        
-        <StatsCard 
-          icon={Star} 
-          label="Total Stars" 
+
+        <StatsCard
+          icon={Star}
+          label="Total Stars"
           value={stars}
           color="from-yellow-500/20 to-yellow-600/20"
           iconColor="text-yellow-600"

@@ -1,8 +1,8 @@
-import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card"
-import { getLanguageColor, getThemeColors } from "@/util/theme"
+import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'
+import { getLanguageColor, getThemeColors } from '@/util/theme'
 import { ResponsivePie } from '@nivo/pie'
-import { Code } from "lucide-react"
-import { LanguageBar } from "./helper"
+import { Code } from 'lucide-react'
+import { LanguageBar } from './helper'
 
 interface TechnologyStackCardProps {
   languages: Record<string, number>
@@ -11,7 +11,7 @@ interface TechnologyStackCardProps {
 export const TechnologyStackCard = ({ languages }: TechnologyStackCardProps) => {
   const processLanguageData = () => {
     const total = Object.values(languages).reduce((a, b) => a + b, 0)
-    
+
     return Object.entries(languages)
       .sort((a, b) => b[1] - a[1])
       .slice(0, 6)
@@ -19,7 +19,7 @@ export const TechnologyStackCard = ({ languages }: TechnologyStackCardProps) => 
         id: lang,
         label: lang,
         value: Number(((bytes / total) * 100).toFixed(1)),
-        color: getLanguageColor(lang, index)
+        color: getLanguageColor(lang, index),
       }))
   }
 
@@ -29,7 +29,7 @@ export const TechnologyStackCard = ({ languages }: TechnologyStackCardProps) => 
   return (
     <Card className="col-span-1 lg:col-span-2 relative overflow-hidden group hover:shadow-2xl transition-all duration-500 border-0">
       <div className="absolute inset-0 bg-gradient-to-br from-violet-500/5 to-cyan-500/5"></div>
-      
+
       <CardHeader className="relative">
         <div className="flex items-center gap-4">
           <div className="relative">
@@ -68,7 +68,7 @@ export const TechnologyStackCard = ({ languages }: TechnologyStackCardProps) => 
                     fontSize: 12,
                     fill: themeColors.text,
                     outlineWidth: 0,
-                    outlineColor: 'transparent'
+                    outlineColor: 'transparent',
                   },
                   tooltip: {
                     container: {
@@ -76,16 +76,17 @@ export const TechnologyStackCard = ({ languages }: TechnologyStackCardProps) => 
                       color: themeColors.text,
                       fontSize: 12,
                       borderRadius: '8px',
-                      boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
-                      border: `1px solid ${themeColors.text}20`
-                    }
-                  }
+                      boxShadow:
+                        '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
+                      border: `1px solid ${themeColors.text}20`,
+                    },
+                  },
                 }}
                 tooltip={({ datum }) => (
                   <div className="bg-popover text-popover-foreground p-3 rounded-lg shadow-xl border">
                     <div className="flex items-center gap-2 mb-1">
-                      <div 
-                        className="w-3 h-3 rounded-full" 
+                      <div
+                        className="w-3 h-3 rounded-full"
                         style={{ backgroundColor: datum.color }}
                       />
                       <span className="font-medium">{datum.label}</span>
@@ -95,24 +96,22 @@ export const TechnologyStackCard = ({ languages }: TechnologyStackCardProps) => 
                 )}
               />
             </div>
-            
+
             <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
               <div className="text-center">
                 <div className="text-2xl font-bold text-foreground">{chartData.length}</div>
                 <div className="text-sm text-muted-foreground mb-2">Languages</div>
                 <div className="flex items-center gap-1 justify-center">
-                  <div 
+                  <div
                     className="w-2 h-2 rounded-full"
                     style={{ backgroundColor: chartData[0]?.color }}
                   />
-                  <div className="text-xs text-muted-foreground">
-                    {chartData[0]?.label} leads
-                  </div>
+                  <div className="text-xs text-muted-foreground">{chartData[0]?.label} leads</div>
                 </div>
               </div>
             </div>
           </div>
-          
+
           <div className="lg:col-span-2 space-y-3">
             <h4 className="font-semibold text-foreground mb-4">Language Breakdown</h4>
             {chartData.map((lang) => (

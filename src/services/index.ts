@@ -15,4 +15,4 @@ export { followersService } from './followers'
 export * from './types'
 
 // Export base API instance
-export { default as backendAPI } from './api' 
+export { default as backendAPI } from './api'

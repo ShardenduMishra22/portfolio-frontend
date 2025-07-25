@@ -1,29 +1,30 @@
-import { LoadingState } from "@/components/Experience/load-error";
-import { Suspense } from "react";
+import { LoadingState } from '@/components/Experience/load-error'
+import { Suspense } from 'react'
 
 export const metadata = {
-  title: "Experiences | Mishra Shardendu Portfolio",
-  description: "Explore the professional experiences and roles held by Mishra Shardendu, including responsibilities and accomplishments.",
+  title: 'Experiences | Mishra Shardendu Portfolio',
+  description:
+    'Explore the professional experiences and roles held by Mishra Shardendu, including responsibilities and accomplishments.',
   openGraph: {
-    title: "Experiences | Mishra Shardendu Portfolio",
-    description: "Explore the professional experiences and roles held by Mishra Shardendu, including responsibilities and accomplishments.",
-    url: "https://mishrashardendu22.is-a.dev/experiences",
-    type: "website",
-    siteName: "Shardendu Mishra Portfolio",
+    title: 'Experiences | Mishra Shardendu Portfolio',
+    description:
+      'Explore the professional experiences and roles held by Mishra Shardendu, including responsibilities and accomplishments.',
+    url: 'https://mishrashardendu22.is-a.dev/experiences',
+    type: 'website',
+    siteName: 'Shardendu Mishra Portfolio',
   },
   twitter: {
-    card: "summary_large_image",
-    title: "Experiences | Mishra Shardendu Portfolio",
-    description: "Explore the professional experiences and roles held by Mishra Shardendu, including responsibilities and accomplishments.",
+    card: 'summary_large_image',
+    title: 'Experiences | Mishra Shardendu Portfolio',
+    description:
+      'Explore the professional experiences and roles held by Mishra Shardendu, including responsibilities and accomplishments.',
   },
-};
+}
 
 export default function ExperiencesLayout({ children }: { children: React.ReactNode }) {
   return (
     <>
-     <Suspense fallback={<LoadingState />}>
-      {children}
-     </Suspense>
+      <Suspense fallback={<LoadingState />}>{children}</Suspense>
     </>
-  );
+  )
 }

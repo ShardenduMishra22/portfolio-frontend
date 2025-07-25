@@ -1,7 +1,7 @@
-"use client";
+'use client'
 
-import React, { useState } from "react";
-import { cn } from "@/lib/utils";
+import React, { useState } from 'react'
+import { cn } from '@/lib/utils'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './card'
 import { Button } from './button'
 import { Badge } from './badge'
@@ -19,19 +19,19 @@ export const CertificationFocusCard = React.memo(
     startIndex,
     isMobile,
   }: {
-    cert: Certification;
-    index: number;
-    hovered: number | null;
-    setHovered: React.Dispatch<React.SetStateAction<number | null>>;
-    startIndex: number;
-    isMobile: boolean;
+    cert: Certification
+    index: number
+    hovered: number | null
+    setHovered: React.Dispatch<React.SetStateAction<number | null>>
+    startIndex: number
+    isMobile: boolean
   }) => (
     <div
       onMouseEnter={() => setHovered(index)}
       onMouseLeave={() => setHovered(null)}
       className={cn(
-        "transition-all duration-300 ease-out",
-        hovered !== null && hovered !== index && "blur-sm scale-[0.98] opacity-70"
+        'transition-all duration-300 ease-out',
+        hovered !== null && hovered !== index && 'blur-sm scale-[0.98] opacity-70'
       )}
     >
       <Card className="group relative overflow-hidden min-h-[20rem] hover:shadow-xl sm:hover:shadow-2xl hover:shadow-primary/10 transition-all duration-500 border-border/50 hover:border-primary/30 bg-card/80 backdrop-blur-sm">
@@ -66,9 +66,9 @@ export const CertificationFocusCard = React.memo(
               <ReactMarkdown>
                 {isMobile && cert.description.length > 100
                   ? `${cert.description.substring(0, 100)}...`
-                : cert.description.length > 120 
-                ? `${cert.description.substring(0, 120)}...` 
-                : cert.description}
+                  : cert.description.length > 120
+                    ? `${cert.description.substring(0, 120)}...`
+                    : cert.description}
               </ReactMarkdown>
             </div>
           </div>
@@ -84,17 +84,23 @@ export const CertificationFocusCard = React.memo(
               </Badge>
             ))}
             {cert.skills.length > (isMobile ? 3 : 4) && (
-              <Badge variant="outline" className="text-xs px-2 py-0.5 sm:px-3 sm:py-1 bg-primary/5 border-primary/20 text-foreground">
+              <Badge
+                variant="outline"
+                className="text-xs px-2 py-0.5 sm:px-3 sm:py-1 bg-primary/5 border-primary/20 text-foreground"
+              >
                 +{cert.skills.length - (isMobile ? 3 : 4)} more
               </Badge>
             )}
           </div>
 
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 pt-3 border-t border-border/30">
-            <Link href={`/certifications/${cert.inline?.id || cert.inline.id}`} className="w-full sm:w-auto">
-              <Button 
-                variant="outline" 
-                size={isMobile ? "sm" : "default"}
+            <Link
+              href={`/certifications/${cert.inline?.id || cert.inline.id}`}
+              className="w-full sm:w-auto"
+            >
+              <Button
+                variant="outline"
+                size={isMobile ? 'sm' : 'default'}
                 className="group/btn hover:bg-primary/10 hover:border-primary/30 transition-all duration-300 w-full sm:w-auto touch-manipulation"
               >
                 <span className="text-foreground text-xs sm:text-sm">View Details</span>
@@ -121,20 +127,20 @@ export const CertificationFocusCard = React.memo(
       </Card>
     </div>
   )
-);
+)
 
-CertificationFocusCard.displayName = "CertificationFocusCard";
+CertificationFocusCard.displayName = 'CertificationFocusCard'
 
-export function CertificationFocusCards({ 
-  certifications, 
-  startIndex, 
-  isMobile 
-}: { 
-  certifications: Certification[];
-  startIndex: number;
-  isMobile: boolean;
+export function CertificationFocusCards({
+  certifications,
+  startIndex,
+  isMobile,
+}: {
+  certifications: Certification[]
+  startIndex: number
+  isMobile: boolean
 }) {
-  const [hovered, setHovered] = useState<number | null>(null);
+  const [hovered, setHovered] = useState<number | null>(null)
 
   return (
     <div className="mx-auto mt-8 sm:mt-16 lg:mt-20 grid max-w-2xl grid-cols-1 gap-4 sm:gap-6 lg:mx-0 lg:max-w-none lg:grid-cols-2">
@@ -150,5 +156,5 @@ export function CertificationFocusCards({
         />
       ))}
     </div>
-  );
+  )
 }

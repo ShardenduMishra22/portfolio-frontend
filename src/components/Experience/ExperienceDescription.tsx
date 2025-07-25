@@ -1,21 +1,23 @@
-import ReactMarkdown from 'react-markdown';
-import { Card, CardContent } from '@/components/ui/card';
-import { ScrollText } from 'lucide-react';
-import { Experience } from '@/data/types.data';
+import ReactMarkdown from 'react-markdown'
+import { Card, CardContent } from '@/components/ui/card'
+import { ScrollText } from 'lucide-react'
+import { Experience } from '@/data/types.data'
 
 interface ExperienceDescriptionProps {
-  experience: Experience;
+  experience: Experience
 }
 
 export function ExperienceDescription({ experience }: ExperienceDescriptionProps) {
-  const isShortDescription = (experience?.description?.length || 0) < 500;
+  const isShortDescription = (experience?.description?.length || 0) < 500
 
   return (
     <Card className="border border-border/50 bg-card/50 shadow-sm">
-      <CardContent className={`${isShortDescription ? 'min-h-[400px]' : 'min-h-[600px]'} flex flex-col relative overflow-hidden`}>
+      <CardContent
+        className={`${isShortDescription ? 'min-h-[400px]' : 'min-h-[600px]'} flex flex-col relative overflow-hidden`}
+      >
         {/* Background Pattern */}
         <div className="absolute inset-0 opacity-[0.02] bg-[radial-gradient(circle_at_50%_50%,_theme(colors.primary)_1px,_transparent_1px)] bg-[length:32px_32px]" />
-        
+
         <div className="flex-grow relative z-10">
           <div className="prose prose-lg max-w-none dark:prose-invert">
             <ReactMarkdown
@@ -52,47 +54,42 @@ export function ExperienceDescription({ experience }: ExperienceDescriptionProps
                 ),
                 // Enhanced Paragraphs
                 p: ({ children }) => (
-                  <p className="mb-5 text-lg text-foreground/90 leading-relaxed">
-                    {children}
-                  </p>
+                  <p className="mb-5 text-lg text-foreground/90 leading-relaxed">{children}</p>
                 ),
                 // Custom Lists with Better Styling
-                ul: ({ children }) => (
-                  <ul className="mb-6 space-y-3 list-none pl-0">
-                    {children}
-                  </ul>
-                ),
+                ul: ({ children }) => <ul className="mb-6 space-y-3 list-none pl-0">{children}</ul>,
                 ol: ({ children }) => (
-                  <ol className="mb-6 space-y-3 list-none pl-0 counter-reset-list" style={{ counterReset: 'list-counter' }}>
+                  <ol
+                    className="mb-6 space-y-3 list-none pl-0 counter-reset-list"
+                    style={{ counterReset: 'list-counter' }}
+                  >
                     {children}
                   </ol>
                 ),
                 li: ({ children }) => (
                   <li className="flex items-start gap-4 text-lg text-foreground/90 leading-relaxed pl-2">
                     <div className="flex-shrink-0 w-3 h-3 bg-gradient-to-br from-primary to-primary/70 rounded-full mt-2.5 shadow-sm" />
-                    <div className="flex-1 min-w-0">
-                      {children}
-                    </div>
+                    <div className="flex-1 min-w-0">{children}</div>
                   </li>
                 ),
                 // Enhanced Code Blocks
                 code: ({ children, className, ...props }) => {
-                  const isInline = !className || !className.startsWith('language-');
+                  const isInline = !className || !className.startsWith('language-')
                   if (isInline) {
                     return (
-                      <code 
+                      <code
                         className="bg-primary/10 text-primary px-2 py-1 rounded-md text-base font-mono border border-primary/20 shadow-sm"
                         {...props}
                       >
                         {children}
                       </code>
-                    );
+                    )
                   }
                   return (
                     <code className="font-mono text-base" {...props}>
                       {children}
                     </code>
-                  );
+                  )
                 },
                 pre: ({ children }) => (
                   <div className="mb-6 relative">
@@ -110,10 +107,10 @@ export function ExperienceDescription({ experience }: ExperienceDescriptionProps
                     <div className="absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b from-primary via-primary/70 to-primary/30 rounded-full" />
                     <blockquote className="pl-6 py-4 italic text-lg text-foreground/80 bg-muted/30 rounded-r-lg border-y border-r border-border/30">
                       <div className="relative">
-                        <div className="absolute -top-2 -left-2 text-primary/30 text-4xl font-serif">&quot;</div>
-                        <div className="pt-4">
-                          {children}
+                        <div className="absolute -top-2 -left-2 text-primary/30 text-4xl font-serif">
+                          &quot;
                         </div>
+                        <div className="pt-4">{children}</div>
                       </div>
                     </blockquote>
                   </div>
@@ -155,9 +152,7 @@ export function ExperienceDescription({ experience }: ExperienceDescriptionProps
                 // Enhanced Tables
                 table: ({ children }) => (
                   <div className="overflow-x-auto my-6 rounded-lg border border-border/50 shadow-sm">
-                    <table className="w-full border-collapse bg-card/50">
-                      {children}
-                    </table>
+                    <table className="w-full border-collapse bg-card/50">{children}</table>
                   </div>
                 ),
                 th: ({ children }) => (
@@ -193,7 +188,7 @@ export function ExperienceDescription({ experience }: ExperienceDescriptionProps
                 <div className="h-px bg-gradient-to-l from-transparent via-border to-transparent w-20" />
               </div>
             </div>
-            
+
             {/* Enhanced Quick Facts */}
             <div className="relative">
               <div className="bg-gradient-to-br from-muted/40 to-muted/20 backdrop-blur-sm rounded-xl p-6 border border-border/30 shadow-sm">
@@ -203,7 +198,7 @@ export function ExperienceDescription({ experience }: ExperienceDescriptionProps
                   </h3>
                   <div className="w-12 h-0.5 bg-gradient-to-r from-primary to-primary/60 rounded-full mx-auto" />
                 </div>
-                
+
                 <div className="grid grid-cols-2 gap-4">
                   <div className="relative group">
                     <div className="absolute inset-0 bg-gradient-to-br from-background/80 to-background/60 rounded-lg" />
@@ -233,5 +228,5 @@ export function ExperienceDescription({ experience }: ExperienceDescriptionProps
         )}
       </CardContent>
     </Card>
-  );
+  )
 }

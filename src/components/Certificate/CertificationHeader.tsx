@@ -1,26 +1,26 @@
-'use client';
+'use client'
 
-import React from 'react';
-import { useRouter } from 'next/navigation';
-import { Button } from '@/components/ui/button';
-import { ArrowLeft, Calendar, Award } from 'lucide-react';
-import { Certification } from '@/data/types.data';
-import { formatDate } from './utils/urlHelpers';
+import React from 'react'
+import { useRouter } from 'next/navigation'
+import { Button } from '@/components/ui/button'
+import { ArrowLeft, Calendar, Award } from 'lucide-react'
+import { Certification } from '@/data/types.data'
+import { formatDate } from './utils/urlHelpers'
 
 interface CertificationHeaderProps {
-  certification: Certification;
+  certification: Certification
 }
 
 export const CertificationHeader: React.FC<CertificationHeaderProps> = ({ certification }) => {
-  const router = useRouter();
+  const router = useRouter()
 
   const handleBack = () => {
     if (window.history.length > 2) {
-      router.back();
+      router.back()
     } else {
-      router.push('/certifications');
+      router.push('/certifications')
     }
-  };
+  }
 
   return (
     <>
@@ -36,7 +36,7 @@ export const CertificationHeader: React.FC<CertificationHeaderProps> = ({ certif
               <ArrowLeft className="w-4 h-4" />
               <span className="font-medium">Back</span>
             </Button>
-            
+
             <div className="flex items-center gap-2 text-sm text-muted-foreground">
               <Award className="w-4 h-4" />
               <span>{certification.issuer}</span>
@@ -66,5 +66,5 @@ export const CertificationHeader: React.FC<CertificationHeaderProps> = ({ certif
         </div>
       </section>
     </>
-  );
-};
+  )
+}

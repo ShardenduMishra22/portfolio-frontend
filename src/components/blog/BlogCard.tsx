@@ -1,18 +1,18 @@
 'use client'
 
 import React from 'react'
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
-import { 
-  Heart, 
-  Bookmark, 
-  Eye, 
-  MessageCircle, 
-  Calendar,
-  ArrowRight
-} from 'lucide-react'
+import { Heart, Bookmark, Eye, MessageCircle, Calendar, ArrowRight } from 'lucide-react'
 import { Blog } from '@/services/types'
 
 interface BlogCardProps {
@@ -32,13 +32,13 @@ const BlogCard: React.FC<BlogCardProps> = ({
   onReadMore,
   isLiked = false,
   isBookmarked = false,
-  showActions = true
+  showActions = true,
 }) => {
   const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString('en-US', {
       year: 'numeric',
       month: 'short',
-      day: 'numeric'
+      day: 'numeric',
     })
   }
 
@@ -61,16 +61,12 @@ const BlogCard: React.FC<BlogCardProps> = ({
               <AvatarFallback className="bg-primary/10 text-primary text-xs">
                 {blog.author.name && blog.author.name
                   ? getInitials(blog.author.name, blog.author.name)
-                  : blog.author.email?.charAt(0).toUpperCase() || 'U'
-                }
+                  : blog.author.email?.charAt(0).toUpperCase() || 'U'}
               </AvatarFallback>
             </Avatar>
             <div className="flex-1 min-w-0">
               <p className="font-medium text-foreground text-sm truncate">
-                {blog.author?.name
-                  ? blog.author.name
-                  : blog.author?.email || 'Unknown Author'
-                }
+                {blog.author?.name ? blog.author.name : blog.author?.email || 'Unknown Author'}
               </p>
               <p className="text-xs text-foreground flex items-center">
                 <Calendar className="w-3 h-3 mr-1" />
@@ -79,20 +75,22 @@ const BlogCard: React.FC<BlogCardProps> = ({
             </div>
           </div>
           {showActions && (
-            <Button 
-              variant="ghost" 
-              size="sm" 
+            <Button
+              variant="ghost"
+              size="sm"
               className="h-8 w-8 p-0 opacity-0 group-hover:opacity-100 transition-opacity"
               onClick={() => onBookmark?.(blog.id.toString())}
             >
-              <Bookmark className={`w-4 h-4 ${
-                isBookmarked ? 'fill-current text-primary' : 'text-foreground'
-              }`} />
+              <Bookmark
+                className={`w-4 h-4 ${
+                  isBookmarked ? 'fill-current text-primary' : 'text-foreground'
+                }`}
+              />
             </Button>
           )}
         </div>
       </CardHeader>
-      
+
       <CardContent className="pt-0 pb-3">
         <CardTitle className="text-lg mb-2 line-clamp-2 group-hover:text-primary transition-colors font-heading">
           {blog.title}
@@ -100,7 +98,7 @@ const BlogCard: React.FC<BlogCardProps> = ({
         <CardDescription className="line-clamp-3 text-sm mb-3">
           {truncateText(blog.content)}
         </CardDescription>
-        
+
         {blog.tags && blog.tags.length > 0 && (
           <div className="flex flex-wrap gap-1">
             {blog.tags.slice(0, 2).map((tag, index) => (
@@ -116,35 +114,25 @@ const BlogCard: React.FC<BlogCardProps> = ({
           </div>
         )}
       </CardContent>
-      
+
       <CardFooter className="pt-0 flex items-center justify-between">
         <div className="flex items-center space-x-3 text-xs text-foreground">
           <div className="flex items-center space-x-1">
             <Eye className="w-3 h-3" />
-            <span>
-              {Array.isArray(blog.views)
-                ? blog.views.length
-                : blog.views ?? 0}
-            </span>
+            <span>{Array.isArray(blog.views) ? blog.views.length : (blog.views ?? 0)}</span>
           </div>
           <div className="flex items-center space-x-1">
             <Heart className={`w-3 h-3 ${isLiked ? 'fill-current text-destructive' : ''}`} />
-            <span>
-              {Array.isArray(blog.likes)
-                ? blog.likes.length
-                : blog.likes ?? 0}
-            </span>
+            <span>{Array.isArray(blog.likes) ? blog.likes.length : (blog.likes ?? 0)}</span>
           </div>
           <div className="flex items-center space-x-1">
             <MessageCircle className="w-3 h-3" />
             <span>
-              {Array.isArray(blog.comments)
-                ? blog.comments.length
-                : blog.comments ?? 0}
+              {Array.isArray(blog.comments) ? blog.comments.length : (blog.comments ?? 0)}
             </span>
           </div>
         </div>
-        
+
         <div className="flex items-center space-x-1">
           {showActions && onLike && (
             <Button
@@ -158,7 +146,7 @@ const BlogCard: React.FC<BlogCardProps> = ({
               <Heart className={`w-4 h-4 ${isLiked ? 'fill-current' : ''}`} />
             </Button>
           )}
-          
+
           <Button
             variant="ghost"
             size="sm"

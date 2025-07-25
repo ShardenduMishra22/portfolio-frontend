@@ -1,10 +1,10 @@
-"use client";
+'use client'
 
-import { cn } from "@/lib/utils";
+import { cn } from '@/lib/utils'
 import Link from 'next/link'
 import { Badge } from './badge'
 import { Button } from './button'
-import React, { useState } from "react";
+import React, { useState } from 'react'
 import ReactMarkdown from 'react-markdown'
 import { Experience } from '@/data/types.data'
 import { Card, CardDescription, CardTitle } from './card'
@@ -19,19 +19,19 @@ export const ExperienceFocusCard = React.memo(
     startIndex,
     isMobile,
   }: {
-    exp: Experience;
-    index: number;
-    hovered: number | null;
-    setHovered: React.Dispatch<React.SetStateAction<number | null>>;
-    startIndex: number;
-    isMobile: boolean;
+    exp: Experience
+    index: number
+    hovered: number | null
+    setHovered: React.Dispatch<React.SetStateAction<number | null>>
+    startIndex: number
+    isMobile: boolean
   }) => (
     <div
       onMouseEnter={() => setHovered(index)}
       onMouseLeave={() => setHovered(null)}
       className={cn(
-        "transition-all duration-300 ease-out",
-        hovered !== null && hovered !== index && "blur-sm scale-[0.98] opacity-70"
+        'transition-all duration-300 ease-out',
+        hovered !== null && hovered !== index && 'blur-sm scale-[0.98] opacity-70'
       )}
     >
       <Card className="group relative overflow-hidden border border-border/30 hover:border-primary/40 transition-all duration-500 hover:shadow-xl sm:hover:shadow-2xl hover:shadow-primary/10 bg-card/95 backdrop-blur-sm hover:bg-card/100 min-h-[500px] sm:min-h-[420px]">
@@ -55,8 +55,15 @@ export const ExperienceFocusCard = React.memo(
               <div className="flex items-center text-xs sm:text-sm text-foreground/60 bg-secondary/5 px-2 sm:px-3 py-1.5 sm:py-2 rounded-lg border border-secondary/20">
                 <Calendar className="mr-1.5 sm:mr-2 h-3 w-3 sm:h-4 sm:w-4 text-primary/60 flex-shrink-0" />
                 <span className="truncate">
-                  {new Date(exp.start_date).toLocaleDateString('en-US', { year: 'numeric', month: 'short' })} -{' '}
-                  {new Date(exp.end_date).toLocaleDateString('en-US', { year: 'numeric', month: 'short' })}
+                  {new Date(exp.start_date).toLocaleDateString('en-US', {
+                    year: 'numeric',
+                    month: 'short',
+                  })}{' '}
+                  -{' '}
+                  {new Date(exp.end_date).toLocaleDateString('en-US', {
+                    year: 'numeric',
+                    month: 'short',
+                  })}
                 </span>
               </div>
             </div>
@@ -65,23 +72,30 @@ export const ExperienceFocusCard = React.memo(
               <div className="text-foreground/80 leading-relaxed text-xs sm:text-sm lg:text-base">
                 <div className="prose-md">
                   <ReactMarkdown>
-                    {isMobile && exp.description.length > 120 
-                      ? `${exp.description.substring(0, 120)}...` 
-                      : exp.description.length > 150 
-                      ? `${exp.description.substring(0, 150)}...` 
-                      : exp.description}
+                    {isMobile && exp.description.length > 120
+                      ? `${exp.description.substring(0, 120)}...`
+                      : exp.description.length > 150
+                        ? `${exp.description.substring(0, 150)}...`
+                        : exp.description}
                   </ReactMarkdown>
                 </div>
               </div>
 
               <div className="flex flex-wrap gap-1.5 sm:gap-2">
                 {exp.technologies.slice(0, isMobile ? 3 : 4).map((tech, i) => (
-                  <Badge key={i} variant="outline" className="text-xs px-2 py-0.5 sm:px-3 sm:py-1 bg-primary/5 border-primary/20 hover:bg-primary/10 transition-colors font-medium">
+                  <Badge
+                    key={i}
+                    variant="outline"
+                    className="text-xs px-2 py-0.5 sm:px-3 sm:py-1 bg-primary/5 border-primary/20 hover:bg-primary/10 transition-colors font-medium"
+                  >
                     {tech}
                   </Badge>
                 ))}
                 {exp.technologies.length > (isMobile ? 3 : 4) && (
-                  <Badge variant="outline" className="text-xs px-2 py-0.5 sm:px-3 sm:py-1 bg-secondary/5 border-secondary/20 hover:bg-secondary/10 transition-colors font-medium">
+                  <Badge
+                    variant="outline"
+                    className="text-xs px-2 py-0.5 sm:px-3 sm:py-1 bg-secondary/5 border-secondary/20 hover:bg-secondary/10 transition-colors font-medium"
+                  >
                     +{exp.technologies.length - (isMobile ? 3 : 4)} more
                   </Badge>
                 )}
@@ -92,7 +106,7 @@ export const ExperienceFocusCard = React.memo(
           <div className="flex flex-col gap-2 sm:gap-3 mt-4 sm:mt-6">
             <Link href={`/experiences/${exp.inline?.id || exp.inline.id}`} className="w-full">
               <Button
-                size={isMobile ? "sm" : "default"}
+                size={isMobile ? 'sm' : 'default'}
                 className="w-full bg-gradient-to-r from-primary to-secondary hover:from-primary/90 hover:to-secondary/90 text-primary-foreground border-0 shadow-lg hover:shadow-primary/25 transition-all duration-300 font-semibold touch-manipulation"
               >
                 <span className="text-xs sm:text-sm">View Details</span>
@@ -101,10 +115,15 @@ export const ExperienceFocusCard = React.memo(
             </Link>
 
             {exp.certificate_url ? (
-              <Link href={exp.certificate_url} target="_blank" rel="noopener noreferrer" className="w-full">
+              <Link
+                href={exp.certificate_url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-full"
+              >
                 <Button
                   variant="outline"
-                  size={isMobile ? "sm" : "default"}
+                  size={isMobile ? 'sm' : 'default'}
                   className="w-full text-primary hover:text-primary/80 transition-colors bg-primary/5 hover:bg-primary/10 border-primary/20 hover:border-primary/30 font-medium shadow-sm hover:shadow-md touch-manipulation"
                 >
                   <Award className="mr-1.5 sm:mr-2 h-3 w-3 sm:h-4 sm:w-4" />
@@ -112,10 +131,10 @@ export const ExperienceFocusCard = React.memo(
                 </Button>
               </Link>
             ) : (
-              <Link href={"#"} target="_blank" rel="noopener noreferrer" className="w-full">
+              <Link href={'#'} target="_blank" rel="noopener noreferrer" className="w-full">
                 <Button
                   variant="outline"
-                  size={isMobile ? "sm" : "default"}
+                  size={isMobile ? 'sm' : 'default'}
                   className="w-full text-primary hover:text-primary/80 transition-colors bg-primary/5 hover:bg-primary/10 border-primary/20 hover:border-primary/30 font-medium shadow-sm hover:shadow-md touch-manipulation"
                 >
                   <Award className="mr-1.5 sm:mr-2 h-3 w-3 sm:h-4 sm:w-4" />
@@ -128,20 +147,20 @@ export const ExperienceFocusCard = React.memo(
       </Card>
     </div>
   )
-);
+)
 
-ExperienceFocusCard.displayName = "ExperienceFocusCard";
+ExperienceFocusCard.displayName = 'ExperienceFocusCard'
 
-export function ExperienceFocusCards({ 
-  experiences, 
-  startIndex, 
-  isMobile 
-}: { 
-  experiences: Experience[];
-  startIndex: number;
-  isMobile: boolean;
+export function ExperienceFocusCards({
+  experiences,
+  startIndex,
+  isMobile,
+}: {
+  experiences: Experience[]
+  startIndex: number
+  isMobile: boolean
 }) {
-  const [hovered, setHovered] = useState<number | null>(null);
+  const [hovered, setHovered] = useState<number | null>(null)
 
   return (
     <div className="mx-auto mt-12 sm:mt-20 lg:mt-24 max-w-7xl">
@@ -159,5 +178,5 @@ export function ExperienceFocusCards({
         ))}
       </div>
     </div>
-  );
+  )
 }

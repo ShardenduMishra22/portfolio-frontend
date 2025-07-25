@@ -1,56 +1,75 @@
-'use client';
+'use client'
 
-import Link from 'next/link';
-import toast from 'react-hot-toast';
-import { ArrowLeft, Award } from 'lucide-react';
-import { Suspense, useEffect, useState } from 'react';
-import { useRouter, useSearchParams } from 'next/navigation';
-import { Certification } from '@/data/types.data';
-import { certificationsAPI } from '@/util/apiResponse.util';
-import { EmptyState, ErrorState, LoadingState } from '@/components/Certificate/load-error';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import CertificationPagination from '@/components/Certificate/pagination';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import CertificationGrid from '@/components/Certificate/grid';
+import Link from 'next/link'
+import toast from 'react-hot-toast'
+import { ArrowLeft, Award } from 'lucide-react'
+import { Suspense, useEffect, useState } from 'react'
+import { useRouter, useSearchParams } from 'next/navigation'
+import { Certification } from '@/data/types.data'
+import { certificationsAPI } from '@/util/apiResponse.util'
+import { EmptyState, ErrorState, LoadingState } from '@/components/Certificate/load-error'
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+import CertificationPagination from '@/components/Certificate/pagination'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
+import CertificationGrid from '@/components/Certificate/grid'
 
 export default function CertificationPageContent() {
-  const [certifications, setCertifications] = useState<Certification[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState('');
-  const [currentPage, setCurrentPage] = useState(1);
-  const certificationsPerPage = 6;
-  const [selectedSkill, setSelectedSkill] = useState<string>("__all__");
-  const [selectedIssuer, setSelectedIssuer] = useState<string>("__all__");
-  const [selectedYear, setSelectedYear] = useState<string>("__all__");
-  const router = useRouter();
-  const searchParams = useSearchParams();
-  const initialSearch = searchParams.get('search')?.toLowerCase() || '';
-  const [searchTerm, setSearchTerm] = useState(initialSearch);
+  const [certifications, setCertifications] = useState<Certification[]>([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState('')
+  const [currentPage, setCurrentPage] = useState(1)
+  const certificationsPerPage = 6
+  const [selectedSkill, setSelectedSkill] = useState<string>('__all__')
+  const [selectedIssuer, setSelectedIssuer] = useState<string>('__all__')
+  const [selectedYear, setSelectedYear] = useState<string>('__all__')
+  const router = useRouter()
+  const searchParams = useSearchParams()
+  const initialSearch = searchParams.get('search')?.toLowerCase() || ''
+  const [searchTerm, setSearchTerm] = useState(initialSearch)
 
-  const allSkills = Array.from(new Set(certifications.flatMap(c => c.skills)));
-  const allIssuers = Array.from(new Set(certifications.map(c => c.issuer)));
-  const allYears = Array.from(new Set(certifications.map(c => c.issue_date ? new Date(c.issue_date).getFullYear().toString() : ''))).filter(Boolean);
+  const allSkills = Array.from(new Set(certifications.flatMap((c) => c.skills)))
+  const allIssuers = Array.from(new Set(certifications.map((c) => c.issuer)))
+  const allYears = Array.from(
+    new Set(
+      certifications.map((c) =>
+        c.issue_date ? new Date(c.issue_date).getFullYear().toString() : ''
+      )
+    )
+  ).filter(Boolean)
 
-  const filteredCertifications = certifications.filter(certification => {
-    const matchesSkill = selectedSkill !== "__all__" ? certification.skills.includes(selectedSkill) : true;
-    const matchesIssuer = selectedIssuer !== "__all__" ? certification.issuer === selectedIssuer : true;
-    const matchesYear = selectedYear !== "__all__" ? (certification.issue_date && new Date(certification.issue_date).getFullYear().toString() === selectedYear) : true;
-    const matchesSearch = searchTerm === '' || 
+  const filteredCertifications = certifications.filter((certification) => {
+    const matchesSkill =
+      selectedSkill !== '__all__' ? certification.skills.includes(selectedSkill) : true
+    const matchesIssuer =
+      selectedIssuer !== '__all__' ? certification.issuer === selectedIssuer : true
+    const matchesYear =
+      selectedYear !== '__all__'
+        ? certification.issue_date &&
+          new Date(certification.issue_date).getFullYear().toString() === selectedYear
+        : true
+    const matchesSearch =
+      searchTerm === '' ||
       certification.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
       certification.issuer.toLowerCase().includes(searchTerm.toLowerCase()) ||
       certification.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      certification.skills.some(skill => skill.toLowerCase().includes(searchTerm.toLowerCase()));
-    
-    return matchesSkill && matchesIssuer && matchesYear && matchesSearch;
-  });
+      certification.skills.some((skill) => skill.toLowerCase().includes(searchTerm.toLowerCase()))
 
-  const totalPages = Math.ceil(filteredCertifications.length / certificationsPerPage);
-  const startIndex = (currentPage - 1) * certificationsPerPage;
-  const endIndex = startIndex + certificationsPerPage;
-  const currentCertifications = filteredCertifications.slice(startIndex, endIndex);
+    return matchesSkill && matchesIssuer && matchesYear && matchesSearch
+  })
 
-  const transformedCertifications = currentCertifications.map(certification => ({
+  const totalPages = Math.ceil(filteredCertifications.length / certificationsPerPage)
+  const startIndex = (currentPage - 1) * certificationsPerPage
+  const endIndex = startIndex + certificationsPerPage
+  const currentCertifications = filteredCertifications.slice(startIndex, endIndex)
+
+  const transformedCertifications = currentCertifications.map((certification) => ({
     title: certification.title,
     issuer: certification.issuer,
     description: certification.description,
@@ -58,69 +77,71 @@ export default function CertificationPageContent() {
     skills: certification.skills,
     certificateUrl: certification.certificate_url,
     issueDate: certification.issue_date,
-  }));
+  }))
 
   useEffect(() => {
     const fetchCertifications = async () => {
       try {
-        const response = await certificationsAPI.getAllCertifications();
-        setCertifications(Array.isArray(response.data) ? response.data : []);
+        const response = await certificationsAPI.getAllCertifications()
+        setCertifications(Array.isArray(response.data) ? response.data : [])
       } catch (err) {
-        setError('Failed to load certifications');
+        setError('Failed to load certifications')
       } finally {
-        setLoading(false);
+        setLoading(false)
       }
-    };
-    fetchCertifications();
-  }, []);
+    }
+    fetchCertifications()
+  }, [])
 
   const handlePageChange = (page: number) => {
-    setCurrentPage(page);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
+    setCurrentPage(page)
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
 
   const handleSearchChange = (value: string) => {
-    setSearchTerm(value);
-    const params = new URLSearchParams(window.location.search);
+    setSearchTerm(value)
+    const params = new URLSearchParams(window.location.search)
     if (value) {
-      params.set('search', value);
+      params.set('search', value)
     } else {
-      params.delete('search');
+      params.delete('search')
     }
-    router.push(`?${params.toString()}`);
-  };
+    router.push(`?${params.toString()}`)
+  }
 
   // Loading state
   if (loading) {
-    return <LoadingState />;
+    return <LoadingState />
   }
 
   // Error state
   if (error) {
     toast.error(error, {
       style: { zIndex: 30 },
-    });
-    return <ErrorState error={error} />;
+    })
+    return <ErrorState error={error} />
   }
 
   return (
     <Suspense fallback={<LoadingState />}>
       <div className="min-h-screen bg-gradient-to-br from-background via-background to-muted/20">
-        
         {/* Top Header Bar - Left: Title, Middle: Search, Right: Navigation */}
         <div className="sticky top-0 z-40 border-b border-border/50 bg-background/95 backdrop-blur-md">
           <div className="container mx-auto px-6 py-4 max-w-full">
             <div className="flex items-center justify-between gap-8">
-              
               {/* Left Side: Back Button + Title + Stats */}
               <div className="flex items-center gap-6 flex-shrink-0">
                 <Link href="/">
-                  <Button variant="ghost" size="sm" className="flex items-center gap-2 hover:bg-muted">
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className="flex items-center gap-2 hover:bg-muted"
+                  >
                     <ArrowLeft className="w-4 h-4" />
                     Back to Home
                   </Button>
                 </Link>
-                
+
                 <div className="flex items-center gap-4">
                   <div className="flex items-center gap-2">
                     <Award className="w-5 h-5 text-primary" />
@@ -128,7 +149,7 @@ export default function CertificationPageContent() {
                       Certifications
                     </h1>
                   </div>
-                  
+
                   {/* Compact Stats */}
                   <div className="hidden lg:flex items-center gap-3 text-sm">
                     <div className="flex items-center gap-1">
@@ -183,8 +204,10 @@ export default function CertificationPageContent() {
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="__all__">All Skills</SelectItem>
-                  {allSkills.map(skill => (
-                    <SelectItem key={skill} value={skill}>{skill}</SelectItem>
+                  {allSkills.map((skill) => (
+                    <SelectItem key={skill} value={skill}>
+                      {skill}
+                    </SelectItem>
                   ))}
                 </SelectContent>
               </Select>
@@ -195,8 +218,10 @@ export default function CertificationPageContent() {
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="__all__">All Issuers</SelectItem>
-                  {allIssuers.map(issuer => (
-                    <SelectItem key={issuer} value={issuer}>{issuer}</SelectItem>
+                  {allIssuers.map((issuer) => (
+                    <SelectItem key={issuer} value={issuer}>
+                      {issuer}
+                    </SelectItem>
                   ))}
                 </SelectContent>
               </Select>
@@ -207,27 +232,31 @@ export default function CertificationPageContent() {
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="__all__">All Years</SelectItem>
-                  {allYears.map(year => (
-                    <SelectItem key={year} value={year}>{year}</SelectItem>
+                  {allYears.map((year) => (
+                    <SelectItem key={year} value={year}>
+                      {year}
+                    </SelectItem>
                   ))}
                 </SelectContent>
               </Select>
-              
-              {(selectedSkill !== "__all__" || selectedIssuer !== "__all__" || selectedYear !== "__all__") && (
+
+              {(selectedSkill !== '__all__' ||
+                selectedIssuer !== '__all__' ||
+                selectedYear !== '__all__') && (
                 <Button
                   variant="secondary"
                   size="sm"
-                  onClick={() => { 
-                    setSelectedSkill("__all__"); 
-                    setSelectedIssuer("__all__"); 
-                    setSelectedYear("__all__"); 
+                  onClick={() => {
+                    setSelectedSkill('__all__')
+                    setSelectedIssuer('__all__')
+                    setSelectedYear('__all__')
                   }}
                   className="h-9"
                 >
                   Clear Filters
                 </Button>
               )}
-              
+
               {/* Mobile Stats */}
               <div className="lg:hidden flex items-center gap-3 text-sm ml-4">
                 <div className="flex items-center gap-1">
@@ -254,8 +283,8 @@ export default function CertificationPageContent() {
               </div>
             ) : (
               <div className="mb-8">
-                <CertificationGrid 
-                  items={transformedCertifications} 
+                <CertificationGrid
+                  items={transformedCertifications}
                   className="grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
                 />
               </div>
@@ -264,15 +293,15 @@ export default function CertificationPageContent() {
             {/* Bottom Info Bar */}
             <div className="flex items-center justify-between pt-6 border-t border-border/30 text-sm text-muted-foreground">
               <p>
-                Showing {filteredCertifications.length === 0 ? 0 : startIndex + 1}-{Math.min(endIndex, filteredCertifications.length)} of {filteredCertifications.length} certifications
+                Showing {filteredCertifications.length === 0 ? 0 : startIndex + 1}-
+                {Math.min(endIndex, filteredCertifications.length)} of{' '}
+                {filteredCertifications.length} certifications
               </p>
-              <p className="text-xs">
-                Verified credentials and professional achievements
-              </p>
+              <p className="text-xs">Verified credentials and professional achievements</p>
             </div>
           </div>
         </div>
       </div>
     </Suspense>
-  );
+  )
 }

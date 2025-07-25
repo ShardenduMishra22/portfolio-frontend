@@ -7,16 +7,16 @@ import { Button } from '@/components/ui/button'
 import { Textarea } from '@/components/ui/textarea'
 import { Badge } from '@/components/ui/badge'
 import { Separator } from '@/components/ui/separator'
-import { 
-  MessageCircle, 
-  Send, 
-  ThumbsUp, 
-  Reply, 
+import {
+  MessageCircle,
+  Send,
+  ThumbsUp,
+  Reply,
   MoreHorizontal,
   Flag,
   Edit,
   Trash2,
-  User
+  User,
 } from 'lucide-react'
 import {
   DropdownMenu,
@@ -65,7 +65,7 @@ const BlogComments: React.FC<BlogCommentsProps> = ({
   onEditComment,
   onDeleteComment,
   onReportComment,
-  loading = false
+  loading = false,
 }) => {
   const [newComment, setNewComment] = useState('')
   const [replyingTo, setReplyingTo] = useState<number | null>(null)
@@ -77,15 +77,15 @@ const BlogComments: React.FC<BlogCommentsProps> = ({
     const date = new Date(dateString)
     const now = new Date()
     const diffInHours = Math.floor((now.getTime() - date.getTime()) / (1000 * 60 * 60))
-    
+
     if (diffInHours < 1) return 'Just now'
     if (diffInHours < 24) return `${diffInHours}h ago`
     if (diffInHours < 168) return `${Math.floor(diffInHours / 24)}d ago`
-    
+
     return date.toLocaleDateString('en-US', {
       year: 'numeric',
       month: 'short',
-      day: 'numeric'
+      day: 'numeric',
     })
   }
 
@@ -137,7 +137,10 @@ const BlogComments: React.FC<BlogCommentsProps> = ({
   }
 
   const renderComment = (comment: Comment, isReply = false) => (
-    <div key={comment.id} className={`space-y-2 ${isReply ? 'ml-6 border-l-2 border-border pl-3' : ''}`}>
+    <div
+      key={comment.id}
+      className={`space-y-2 ${isReply ? 'ml-6 border-l-2 border-border pl-3' : ''}`}
+    >
       <div className="flex items-start space-x-2">
         <Avatar className="w-7 h-7 flex-shrink-0">
           <AvatarImage src={comment.userProfile?.avatar || ''} />
@@ -145,7 +148,7 @@ const BlogComments: React.FC<BlogCommentsProps> = ({
             {getInitials(comment.userProfile?.firstName || '', comment.userProfile?.lastName || '')}
           </AvatarFallback>
         </Avatar>
-        
+
         <div className="flex-1 space-y-2">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-2">
@@ -157,11 +160,9 @@ const BlogComments: React.FC<BlogCommentsProps> = ({
                   Author
                 </Badge>
               )}
-              <p className="text-xs text-foreground">
-                {formatDate(comment.createdAt)}
-              </p>
+              <p className="text-xs text-foreground">{formatDate(comment.createdAt)}</p>
             </div>
-            
+
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button variant="ghost" size="sm" className="h-6 w-6 p-0 hover:bg-muted">
@@ -175,7 +176,7 @@ const BlogComments: React.FC<BlogCommentsProps> = ({
                       <Edit className="w-3 h-3 mr-2" />
                       Edit
                     </DropdownMenuItem>
-                    <DropdownMenuItem 
+                    <DropdownMenuItem
                       onClick={() => onDeleteComment?.(comment.id)}
                       className="text-destructive"
                     >
@@ -192,7 +193,7 @@ const BlogComments: React.FC<BlogCommentsProps> = ({
               </DropdownMenuContent>
             </DropdownMenu>
           </div>
-          
+
           {editingComment === comment.id ? (
             <div className="space-y-2">
               <Textarea
@@ -210,12 +211,7 @@ const BlogComments: React.FC<BlogCommentsProps> = ({
                 >
                   Save
                 </Button>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={cancelEdit}
-                  className="h-7 px-3 text-xs"
-                >
+                <Button variant="ghost" size="sm" onClick={cancelEdit} className="h-7 px-3 text-xs">
                   Cancel
                 </Button>
               </div>
@@ -223,7 +219,7 @@ const BlogComments: React.FC<BlogCommentsProps> = ({
           ) : (
             <p className="text-foreground text-sm leading-relaxed">{comment.content}</p>
           )}
-          
+
           <div className="flex items-center space-x-3">
             <Button
               variant="ghost"
@@ -236,7 +232,7 @@ const BlogComments: React.FC<BlogCommentsProps> = ({
               <ThumbsUp className={`w-3 h-3 ${comment.isLiked ? 'fill-current' : ''}`} />
               <span className="text-xs">{comment.likes || 0}</span>
             </Button>
-            
+
             <Button
               variant="ghost"
               size="sm"
@@ -247,7 +243,7 @@ const BlogComments: React.FC<BlogCommentsProps> = ({
               <span className="text-xs">Reply</span>
             </Button>
           </div>
-          
+
           {replyingTo === comment.id && (
             <div className="space-y-2">
               <Textarea
@@ -279,7 +275,7 @@ const BlogComments: React.FC<BlogCommentsProps> = ({
           )}
         </div>
       </div>
-      
+
       {/* Render replies */}
       {comment.replies && comment.replies.length > 0 && (
         <div className="space-y-2">
@@ -299,7 +295,7 @@ const BlogComments: React.FC<BlogCommentsProps> = ({
           <span>Comments ({comments.length})</span>
         </CardTitle>
       </CardHeader>
-      
+
       <CardContent className="pt-0 space-y-4">
         {/* Add Comment */}
         {currentUserId && (
@@ -319,9 +315,7 @@ const BlogComments: React.FC<BlogCommentsProps> = ({
                   className="min-h-[70px] bg-background border-border resize-none"
                 />
                 <div className="flex items-center justify-between">
-                  <p className="text-xs text-foreground">
-                    Press Ctrl+Enter to submit
-                  </p>
+                  <p className="text-xs text-foreground">Press Ctrl+Enter to submit</p>
                   <Button
                     onClick={handleSubmitComment}
                     disabled={loading || !newComment.trim()}

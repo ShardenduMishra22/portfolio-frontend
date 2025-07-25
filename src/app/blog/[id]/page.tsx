@@ -8,18 +8,18 @@ import { Badge } from '@/components/ui/badge'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Separator } from '@/components/ui/separator'
 import { Textarea } from '@/components/ui/textarea'
-import { 
-  ArrowLeft, 
-  Heart, 
-  Bookmark, 
-  Eye, 
-  MessageCircle, 
+import {
+  ArrowLeft,
+  Heart,
+  Bookmark,
+  Eye,
+  MessageCircle,
   Share2,
   Calendar,
   Send,
   BookOpen,
   Clock,
-  Check // Added for success feedback
+  Check, // Added for success feedback
 } from 'lucide-react'
 import { blogsService } from '@/services/blogs'
 import { Blog } from '@/services/types'
@@ -72,7 +72,7 @@ const BlogPostPage = ({ params }: { params: Promise<{ id: string }> }) => {
     } finally {
       setLoading(false)
     }
-  }, [resolvedParams.id]);
+  }, [resolvedParams.id])
 
   const fetchComments = useCallback(async () => {
     try {
@@ -83,7 +83,7 @@ const BlogPostPage = ({ params }: { params: Promise<{ id: string }> }) => {
     } catch (error) {
       console.error('Error fetching comments:', error)
     }
-  }, [resolvedParams.id]);
+  }, [resolvedParams.id])
 
   const addView = useCallback(async () => {
     try {
@@ -91,13 +91,13 @@ const BlogPostPage = ({ params }: { params: Promise<{ id: string }> }) => {
         await blogsService.addBlogView(resolvedParams.id, {
           userId: session.data.user.id,
           ipAddress: '127.0.0.1',
-          userAgent: navigator.userAgent
+          userAgent: navigator.userAgent,
         })
       }
     } catch (error) {
       console.error('Error adding view:', error)
     }
-  }, [resolvedParams.id, session?.data?.user?.id]);
+  }, [resolvedParams.id, session?.data?.user?.id])
 
   useEffect(() => {
     if (resolvedParams.id) {
@@ -109,14 +109,14 @@ const BlogPostPage = ({ params }: { params: Promise<{ id: string }> }) => {
 
   const handleLike = async () => {
     if (!session?.data?.user?.id) return
-    
+
     try {
       if (isLiked) {
         await blogsService.unlikeBlog(resolvedParams.id, { userId: session.data.user.id })
-        setLikesCount(prev => prev - 1)
+        setLikesCount((prev) => prev - 1)
       } else {
         await blogsService.likeBlog(resolvedParams.id, { userId: session.data.user.id })
-        setLikesCount(prev => prev + 1)
+        setLikesCount((prev) => prev + 1)
       }
       setIsLiked(!isLiked)
     } catch (error) {
@@ -126,7 +126,7 @@ const BlogPostPage = ({ params }: { params: Promise<{ id: string }> }) => {
 
   const handleBookmark = async () => {
     if (!session?.data?.user?.id) return
-    
+
     try {
       if (isBookmarked) {
         await blogsService.unbookmarkBlog(resolvedParams.id, { userId: session.data.user.id })
@@ -144,7 +144,7 @@ const BlogPostPage = ({ params }: { params: Promise<{ id: string }> }) => {
     try {
       const currentUrl = window.location.href
       await navigator.clipboard.writeText(currentUrl)
-      
+
       // Show success feedback
       setShareSuccess(true)
       setTimeout(() => setShareSuccess(false), 2000)
@@ -168,17 +168,17 @@ const BlogPostPage = ({ params }: { params: Promise<{ id: string }> }) => {
 
   const handleAddComment = async () => {
     if (!session?.data?.user?.id || !newComment.trim()) return
-    
+
     try {
       const response = await blogsService.addBlogComment(resolvedParams.id, {
         content: newComment.trim(),
-        userId: session.data.user.id
+        userId: session.data.user.id,
       })
-      
+
       if (response.success) {
         setNewComment('')
         fetchComments()
-        setCommentsCount(prev => prev + 1)
+        setCommentsCount((prev) => prev + 1)
       }
     } catch (error) {
       console.error('Error adding comment:', error)
@@ -191,7 +191,7 @@ const BlogPostPage = ({ params }: { params: Promise<{ id: string }> }) => {
       month: 'long',
       day: 'numeric',
       hour: '2-digit',
-      minute: '2-digit'
+      minute: '2-digit',
     })
   }
 
@@ -248,7 +248,9 @@ const BlogPostPage = ({ params }: { params: Promise<{ id: string }> }) => {
             <BookOpen className="w-10 h-10 text-destructive" />
           </div>
           <h2 className="text-2xl font-bold font-heading text-foreground mb-4">Blog not found</h2>
-          <p className="text-foreground text-base mb-8">The blog post you&apos;re looking for doesn&apos;t exist.</p>
+          <p className="text-foreground text-base mb-8">
+            The blog post you&apos;re looking for doesn&apos;t exist.
+          </p>
           <Button size="lg" onClick={() => router.push('/blog/landing')}>
             <ArrowLeft className="w-4 h-4 mr-2" />
             Back to Blog
@@ -273,15 +275,15 @@ const BlogPostPage = ({ params }: { params: Promise<{ id: string }> }) => {
               <ArrowLeft className="w-4 h-4 mr-2" />
               Back
             </Button>
-            
+
             <div className="flex items-center space-x-3">
-              <Button 
-                variant="outline" 
+              <Button
+                variant="outline"
                 size="default"
                 onClick={handleShare}
                 className={`transition-all duration-200 ${
-                  shareSuccess 
-                    ? 'bg-green-50 border-green-200 text-green-700 dark:bg-green-950/20 dark:border-green-800 dark:text-green-400' 
+                  shareSuccess
+                    ? 'bg-green-50 border-green-200 text-green-700 dark:bg-green-950/20 dark:border-green-800 dark:text-green-400'
                     : ''
                 }`}
               >
@@ -310,7 +312,7 @@ const BlogPostPage = ({ params }: { params: Promise<{ id: string }> }) => {
             <h1 className="text-5xl font-bold text-foreground font-heading mb-8 leading-tight">
               {blog.title}
             </h1>
-            
+
             <div className="flex items-center justify-between mb-8">
               <div className="flex items-center space-x-6">
                 <div>
@@ -326,7 +328,7 @@ const BlogPostPage = ({ params }: { params: Promise<{ id: string }> }) => {
                   </div>
                 </div>
               </div>
-              
+
               <div className="flex items-center space-x-6 text-sm text-foreground">
                 <span className="flex items-center bg-muted/50 px-3 py-2 rounded-full">
                   <Eye className="w-4 h-4 mr-2" />
@@ -338,7 +340,7 @@ const BlogPostPage = ({ params }: { params: Promise<{ id: string }> }) => {
                 </span>
               </div>
             </div>
-            
+
             {blog.tags && blog.tags.length > 0 && (
               <div className="flex flex-wrap gap-3 mb-10">
                 {blog.tags.map((tag, index) => (
@@ -353,9 +355,7 @@ const BlogPostPage = ({ params }: { params: Promise<{ id: string }> }) => {
           {/* Blog Content with ReactMarkdown */}
           <div className="mb-8">
             <div className="prose prose-xl max-w-none dark:prose-invert prose-headings:font-heading prose-headings:text-foreground prose-p:text-foreground prose-p:leading-relaxed prose-li:text-foreground prose-strong:text-foreground prose-em:text-foreground">
-              <ReactMarkdown>
-                {blog.content}
-              </ReactMarkdown>
+              <ReactMarkdown>{blog.content}</ReactMarkdown>
             </div>
           </div>
 
@@ -372,18 +372,18 @@ const BlogPostPage = ({ params }: { params: Promise<{ id: string }> }) => {
                   <Heart className={`w-5 h-5 ${isLiked ? 'fill-current' : ''}`} />
                   <span className="text-base font-medium">{likesCount}</span>
                 </Button>
-                
+
                 <div className="flex items-center space-x-2 text-foreground bg-muted/50 px-4 py-2 rounded-full">
                   <Eye className="w-5 h-5" />
                   <span className="text-base font-medium">{viewsCount}</span>
                 </div>
-                
+
                 <div className="flex items-center space-x-2 text-foreground bg-muted/50 px-4 py-2 rounded-full">
                   <MessageCircle className="w-5 h-5" />
                   <span className="text-base font-medium">{commentsCount}</span>
                 </div>
               </div>
-              
+
               <Button
                 variant="ghost"
                 onClick={handleBookmark}
@@ -405,7 +405,7 @@ const BlogPostPage = ({ params }: { params: Promise<{ id: string }> }) => {
                 <h3 className="text-xl font-bold font-heading">Comments ({commentsCount})</h3>
               </div>
             </div>
-            
+
             <div className="p-6 space-y-6">
               {/* Add Comment */}
               {session?.data?.user && (
@@ -414,7 +414,10 @@ const BlogPostPage = ({ params }: { params: Promise<{ id: string }> }) => {
                     <Avatar className="w-10 h-10">
                       <AvatarImage src={session.data.user.image || ''} />
                       <AvatarFallback className="bg-primary/10 text-primary text-sm">
-                        {getInitials(session.data.user.name?.split(' ')[0] || '', session.data.user.name?.split(' ')[1] || '')}
+                        {getInitials(
+                          session.data.user.name?.split(' ')[0] || '',
+                          session.data.user.name?.split(' ')[1] || ''
+                        )}
                       </AvatarFallback>
                     </Avatar>
                     <div className="flex-1 space-y-3">
@@ -425,9 +428,7 @@ const BlogPostPage = ({ params }: { params: Promise<{ id: string }> }) => {
                         className="min-h-[100px] bg-background border-border resize-none text-base"
                       />
                       <div className="flex items-center justify-between">
-                        <p className="text-xs text-foreground">
-                          Press Ctrl+Enter to submit
-                        </p>
+                        <p className="text-xs text-foreground">Press Ctrl+Enter to submit</p>
                         <Button
                           onClick={handleAddComment}
                           disabled={!newComment.trim()}
@@ -462,22 +463,22 @@ const BlogPostPage = ({ params }: { params: Promise<{ id: string }> }) => {
                         <p className="font-semibold text-foreground text-base">
                           {comment.user?.name}
                         </p>
-                        <p className="text-sm text-foreground">
-                          {formatDate(comment.createdAt)}
-                        </p>
+                        <p className="text-sm text-foreground">{formatDate(comment.createdAt)}</p>
                       </div>
                       <p className="text-foreground text-base leading-relaxed">{comment.content}</p>
                     </div>
                   </div>
                 ))}
-                
+
                 {comments.length === 0 && (
                   <div className="text-center py-12">
                     <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
                       <MessageCircle className="w-8 h-8 text-primary" />
                     </div>
                     <h4 className="text-lg font-semibold text-foreground mb-2">No comments yet</h4>
-                    <p className="text-foreground text-base">Be the first to share your thoughts!</p>
+                    <p className="text-foreground text-base">
+                      Be the first to share your thoughts!
+                    </p>
                   </div>
                 )}
               </div>

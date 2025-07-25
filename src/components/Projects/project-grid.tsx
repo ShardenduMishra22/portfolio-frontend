@@ -1,26 +1,26 @@
-import { useState } from "react";
-import { cn } from "@/lib/utils";
-import ProjectCards from "./project-card";
-import { AnimatePresence, motion } from "motion/react";
+import { useState } from 'react'
+import { cn } from '@/lib/utils'
+import ProjectCards from './project-card'
+import { AnimatePresence, motion } from 'motion/react'
 
 interface ProjectGridProps {
   items: {
-    title: string;
-    description: string;
-    link: string;
-    skills?: string[];
-    repository?: string;
-    liveLink?: string;
-    video?: string;
-  }[];
-  className?: string;
+    title: string
+    description: string
+    link: string
+    skills?: string[]
+    repository?: string
+    liveLink?: string
+    video?: string
+  }[]
+  className?: string
 }
 
 export default function ProjectGrid({ items, className }: ProjectGridProps) {
-  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null)
 
   return (
-    <div className={cn("grid auto-rows-fr py-6", className)}>
+    <div className={cn('grid auto-rows-fr py-6', className)}>
       {items.map((item, idx) => (
         <div
           key={item?.link}
@@ -54,11 +54,11 @@ export default function ProjectGrid({ items, className }: ProjectGridProps) {
             skills={item.skills}
             repository={item.repository}
             liveLink={item.liveLink}
-            video={item.video} 
-            isHovered={false}          
-           />
+            video={item.video}
+            isHovered={false}
+          />
         </div>
       ))}
     </div>
-  );
+  )
 }

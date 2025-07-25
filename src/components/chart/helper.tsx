@@ -1,6 +1,6 @@
-import { Badge } from "@/components/ui/badge"
-import { Repository } from "@/data/types.data"
-import { BookOpen, Star, ExternalLink } from "lucide-react"
+import { Badge } from '@/components/ui/badge'
+import { Repository } from '@/data/types.data'
+import { BookOpen, Star, ExternalLink } from 'lucide-react'
 
 interface StatsCardProps {
   icon: React.ComponentType<{ className?: string }>
@@ -11,8 +11,17 @@ interface StatsCardProps {
   fullWidth?: boolean
 }
 
-export const StatsCard = ({ icon: Icon, label, value, color, iconColor, fullWidth = false }: StatsCardProps) => (
-  <div className={`p-4 bg-gradient-to-r ${color} rounded-xl border backdrop-blur-sm hover:scale-105 transition-transform ${fullWidth ? 'col-span-full' : ''}`}>
+export const StatsCard = ({
+  icon: Icon,
+  label,
+  value,
+  color,
+  iconColor,
+  fullWidth = false,
+}: StatsCardProps) => (
+  <div
+    className={`p-4 bg-gradient-to-r ${color} rounded-xl border backdrop-blur-sm hover:scale-105 transition-transform ${fullWidth ? 'col-span-full' : ''}`}
+  >
     <div className="flex items-center gap-3">
       <Icon className={`w-5 h-5 ${iconColor}`} />
       <div>
@@ -52,43 +61,38 @@ interface LanguageBarProps {
 
 export const LanguageBar = ({ language }: LanguageBarProps) => {
   const usageDescriptions: Record<string, string> = {
-    "TypeScript": "Frontend & Backend Development",
-    "JavaScript": "Web Development & Scripting",
-    "Python": "Data Science & Backend",
-    "Go": "Microservices & DevOps",
-    "Java": "Enterprise Applications",
-    "C++": "System Programming",
-    "HTML": "Web Structure",
-    "CSS": "Web Styling"
+    TypeScript: 'Frontend & Backend Development',
+    JavaScript: 'Web Development & Scripting',
+    Python: 'Data Science & Backend',
+    Go: 'Microservices & DevOps',
+    Java: 'Enterprise Applications',
+    'C++': 'System Programming',
+    HTML: 'Web Structure',
+    CSS: 'Web Styling',
   }
 
   return (
     <div className="group p-3 bg-muted/30 rounded-lg hover:bg-muted/50 transition-all duration-200">
       <div className="flex items-center justify-between mb-2">
         <div className="flex items-center gap-2">
-          <div 
-            className="w-3 h-3 rounded-full"
-            style={{ backgroundColor: language.color }}
-          />
+          <div className="w-3 h-3 rounded-full" style={{ backgroundColor: language.color }} />
           <span className="font-medium text-foreground text-sm">{language.label}</span>
         </div>
         <span className="text-sm font-bold text-foreground">{language.value}%</span>
       </div>
-      
+
       <div className="w-full bg-muted rounded-full h-2 mb-1">
-        <div 
+        <div
           className="h-2 rounded-full transition-all duration-500 group-hover:shadow-lg"
-          style={{ 
+          style={{
             width: `${language.value}%`,
-            backgroundColor: language.color 
+            backgroundColor: language.color,
           }}
         />
       </div>
-      
+
       {usageDescriptions[language.label] && (
-        <p className="text-xs text-muted-foreground">
-          {usageDescriptions[language.label]}
-        </p>
+        <p className="text-xs text-muted-foreground">{usageDescriptions[language.label]}</p>
       )}
     </div>
   )
@@ -100,9 +104,9 @@ interface RepoCardProps {
 }
 
 export const RepoCard = ({ repo, index }: RepoCardProps) => (
-  <a 
-    href={repo.url} 
-    target="_blank" 
+  <a
+    href={repo.url}
+    target="_blank"
     rel="noopener noreferrer"
     className="group/repo block p-4 bg-card/50 rounded-xl border hover:bg-card/80 transition-all duration-300 hover:scale-[1.02] hover:shadow-lg backdrop-blur-sm"
   >

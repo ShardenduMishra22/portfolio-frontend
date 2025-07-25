@@ -11,9 +11,30 @@ import { TiptapModalEditor } from '@/components/TipTap'
 import { Alert, AlertDescription } from '../../../components/ui/alert'
 import { Experience, CreateExperienceRequest } from '../../../data/types.data'
 import { experiencesAPI, projectsAPI, skillsAPI } from '../../../util/apiResponse.util'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../../../components/ui/card'
-import { Plus, Edit, Trash2, Briefcase, GraduationCap, ChevronLeft, ChevronRight, X } from 'lucide-react'
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '../../../components/ui/dialog'
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '../../../components/ui/card'
+import {
+  Plus,
+  Edit,
+  Trash2,
+  Briefcase,
+  GraduationCap,
+  ChevronLeft,
+  ChevronRight,
+  X,
+} from 'lucide-react'
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '../../../components/ui/dialog'
 
 // Define form data type
 interface ExperienceFormData {
@@ -44,16 +65,11 @@ export default function AdminExperiencesPage() {
   const [page, setPage] = useState(1)
   const limit = 6
 
-  const {
-    register,
-    handleSubmit,
-    reset,
-    setValue,
-    watch,
-    getValues,
-  } = useForm<ExperienceFormData>({
-    defaultValues: { projects: [], technologies: [] },
-  })
+  const { register, handleSubmit, reset, setValue, watch, getValues } = useForm<ExperienceFormData>(
+    {
+      defaultValues: { projects: [], technologies: [] },
+    }
+  )
 
   const fetchExperiences = async () => {
     try {
@@ -69,10 +85,14 @@ export default function AdminExperiencesPage() {
 
   useEffect(() => {
     fetchExperiences()
-    projectsAPI.getAllProjects().then(res => {
-      setAllProjects(Array.isArray(res.data) ? res.data.map((p: any) => ({ id: p.inline.id, name: p.project_name })) : [])
+    projectsAPI.getAllProjects().then((res) => {
+      setAllProjects(
+        Array.isArray(res.data)
+          ? res.data.map((p: any) => ({ id: p.inline.id, name: p.project_name }))
+          : []
+      )
     })
-    skillsAPI.getSkills().then(res => {
+    skillsAPI.getSkills().then((res) => {
       setAllSkills(Array.isArray(res.data) ? res.data : [])
     })
   }, [])
@@ -93,22 +113,24 @@ export default function AdminExperiencesPage() {
     }
   }, [error])
 
-  if (loading) return (
-    <div className="min-h-[40vh] flex items-center justify-center">
-      <div className="animate-spin rounded-full h-12 w-12 border-t-4 border-primary border-solid"></div>
-    </div>
-  )
-  if (error && experiences.length === 0) return (
-    <div className="min-h-[40vh] flex flex-col items-center justify-center gap-4">
-      <div className="w-20 h-20 rounded-full bg-destructive/10 flex items-center justify-center">
-        <span className="text-4xl">😢</span>
+  if (loading)
+    return (
+      <div className="min-h-[40vh] flex items-center justify-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-4 border-primary border-solid"></div>
       </div>
-      <div className="text-center space-y-2">
-        <h2 className="text-2xl font-heading text-foreground">Oops! Something went wrong</h2>
-        <p className="text-foreground text-lg">{error}</p>
+    )
+  if (error && experiences.length === 0)
+    return (
+      <div className="min-h-[40vh] flex flex-col items-center justify-center gap-4">
+        <div className="w-20 h-20 rounded-full bg-destructive/10 flex items-center justify-center">
+          <span className="text-4xl">😢</span>
+        </div>
+        <div className="text-center space-y-2">
+          <h2 className="text-2xl font-heading text-foreground">Oops! Something went wrong</h2>
+          <p className="text-foreground text-lg">{error}</p>
+        </div>
       </div>
-    </div>
-  )
+    )
 
   const onSubmit = async (data: ExperienceFormData) => {
     try {
@@ -116,7 +138,7 @@ export default function AdminExperiencesPage() {
         ...data,
         technologies: selectedTechnologies,
         projects: selectedProjects,
-        images: data.images.split(',').map(img => img.trim()),
+        images: data.images.split(',').map((img) => img.trim()),
       }
       if (editingExperience) {
         await experiencesAPI.updateExperience(editingExperience.inline.id, experienceData)
@@ -185,14 +207,14 @@ export default function AdminExperiencesPage() {
   }
 
   const removeTechnology = (tech: string) => {
-    const updated = selectedTechnologies.filter(t => t !== tech)
+    const updated = selectedTechnologies.filter((t) => t !== tech)
     setSelectedTechnologies(updated)
     setValue('technologies', updated)
   }
 
   const toggleProject = (projectId: string) => {
     const updated = selectedProjects.includes(projectId)
-      ? selectedProjects.filter(p => p !== projectId)
+      ? selectedProjects.filter((p) => p !== projectId)
       : [...selectedProjects, projectId]
     setSelectedProjects(updated)
     setValue('projects', updated)
@@ -219,7 +241,10 @@ export default function AdminExperiencesPage() {
         </div>
         <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
           <DialogTrigger asChild>
-            <Button onClick={openDialog} className="shadow-md hover:shadow-xl transition-all duration-200 flex items-center">
+            <Button
+              onClick={openDialog}
+              className="shadow-md hover:shadow-xl transition-all duration-200 flex items-center"
+            >
               <Plus className="mr-2 h-5 w-5" /> Add Experience
             </Button>
           </DialogTrigger>
@@ -242,29 +267,17 @@ export default function AdminExperiencesPage() {
 
                 <div className="space-y-2">
                   <Label htmlFor="position">Position</Label>
-                  <Input
-                    id="position"
-                    {...register('position')}
-                    placeholder="Enter position"
-                  />
+                  <Input id="position" {...register('position')} placeholder="Enter position" />
                 </div>
 
                 <div className="space-y-2">
                   <Label htmlFor="start_date">Start Date</Label>
-                  <Input
-                    id="start_date"
-                    type="date"
-                    {...register('start_date')}
-                  />
+                  <Input id="start_date" type="date" {...register('start_date')} />
                 </div>
 
                 <div className="space-y-2">
                   <Label htmlFor="end_date">End Date</Label>
-                  <Input
-                    id="end_date"
-                    type="date"
-                    {...register('end_date')}
-                  />
+                  <Input id="end_date" type="date" {...register('end_date')} />
                 </div>
 
                 <div className="space-y-2">
@@ -286,10 +299,13 @@ export default function AdminExperiencesPage() {
                 </div>
               </div>
 
-                <div className="space-y-2">
-                  <Label htmlFor="description">Full Description (Markdown Editor)</Label>
-                  <TiptapModalEditor value={watch('description')} onChange={(value) => setValue('description', value)} />
-                </div>
+              <div className="space-y-2">
+                <Label htmlFor="description">Full Description (Markdown Editor)</Label>
+                <TiptapModalEditor
+                  value={watch('description')}
+                  onChange={(value) => setValue('description', value)}
+                />
+              </div>
 
               <div className="space-y-2">
                 <Label htmlFor="images">Images (comma-separated URLs)</Label>
@@ -347,11 +363,7 @@ export default function AdminExperiencesPage() {
               </div>
 
               <div className="flex justify-end gap-2">
-                <Button
-                  type="button"
-                  variant="outline"
-                  onClick={() => setIsDialogOpen(false)}
-                >
+                <Button type="button" variant="outline" onClick={() => setIsDialogOpen(false)}>
                   Cancel
                 </Button>
                 <Button type="submit">
@@ -378,10 +390,15 @@ export default function AdminExperiencesPage() {
         <div className="flex flex-col items-center justify-center py-16 animate-fade-in">
           <GraduationCap className="mx-auto h-16 w-16 text-foreground mb-4" />
           <h3 className="text-2xl font-semibold text-foreground mb-2">No experiences yet</h3>
-          <p className="text-lg text-foreground mb-6">Get started by adding your first experience.</p>
+          <p className="text-lg text-foreground mb-6">
+            Get started by adding your first experience.
+          </p>
           <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
             <DialogTrigger asChild>
-              <Button onClick={openDialog} className="shadow-md hover:shadow-xl transition-all duration-200 flex items-center">
+              <Button
+                onClick={openDialog}
+                className="shadow-md hover:shadow-xl transition-all duration-200 flex items-center"
+              >
                 <Plus className="mr-2 h-5 w-5" /> Add Experience
               </Button>
             </DialogTrigger>
@@ -401,12 +418,15 @@ export default function AdminExperiencesPage() {
                     {exp.position}
                   </CardTitle>
                   <CardDescription className="text-foreground">
-                    {exp.company_name} &bull; {formatDate(exp.start_date)} to {formatDate(exp.end_date)}
+                    {exp.company_name} &bull; {formatDate(exp.start_date)} to{' '}
+                    {formatDate(exp.end_date)}
                   </CardDescription>
                 </CardHeader>
                 <CardContent className="flex-1 flex flex-col gap-2 p-2">
                   <p className="text-base text-foreground line-clamp-4">
-                    {exp.description.length > 180 ? `${exp.description.substring(0, 180)}...` : exp.description}
+                    {exp.description.length > 180
+                      ? `${exp.description.substring(0, 180)}...`
+                      : exp.description}
                   </p>
                   <div className="flex flex-wrap gap-2 mb-2">
                     {exp.technologies.map((tech, idx) => (
@@ -420,10 +440,20 @@ export default function AdminExperiencesPage() {
                     ))}
                   </div>
                   <div className="flex gap-1 mt-auto">
-                    <Button size="sm" variant="outline" onClick={() => handleEdit(exp)} className="flex-1">
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      onClick={() => handleEdit(exp)}
+                      className="flex-1"
+                    >
                       <Edit className="h-4 w-4 mr-1" /> Edit
                     </Button>
-                    <Button size="sm" variant="destructive" onClick={() => handleDelete(exp.inline.id)} className="flex-1">
+                    <Button
+                      size="sm"
+                      variant="destructive"
+                      onClick={() => handleDelete(exp.inline.id)}
+                      className="flex-1"
+                    >
                       <Trash2 className="h-4 w-4 mr-1" /> Delete
                     </Button>
                   </div>
@@ -436,7 +466,7 @@ export default function AdminExperiencesPage() {
             <Button
               variant="outline"
               disabled={page === 1}
-              onClick={() => setPage(p => Math.max(1, p - 1))}
+              onClick={() => setPage((p) => Math.max(1, p - 1))}
               className="flex items-center gap-1"
             >
               <ChevronLeft className="h-4 w-4" /> Prev
@@ -447,7 +477,7 @@ export default function AdminExperiencesPage() {
             <Button
               variant="outline"
               disabled={page === totalPages}
-              onClick={() => setPage(p => Math.min(totalPages, p + 1))}
+              onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
               className="flex items-center gap-1"
             >
               Next <ChevronRight className="h-4 w-4" />

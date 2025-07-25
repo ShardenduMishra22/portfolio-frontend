@@ -25,10 +25,12 @@ export function ProtectedRoute({ children, fallback }: ProtectedRouteProps) {
   }, [hydrated, isAuthenticated, isLoading, router])
 
   if (!hydrated || isLoading) {
-    return fallback || (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-gray-900"></div>
-      </div>
+    return (
+      fallback || (
+        <div className="min-h-screen flex items-center justify-center">
+          <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-gray-900"></div>
+        </div>
+      )
     )
   }
 
@@ -37,4 +39,4 @@ export function ProtectedRoute({ children, fallback }: ProtectedRouteProps) {
   }
 
   return <>{children}</>
-} 
+}

@@ -24,7 +24,7 @@ export default function ExperienceSection({ experiences }: ExperienceSectionProp
 
   // Responsive items per page
   const getItemsPerPage = () => {
-    if (windowWidth < 640) return 1  // Mobile: 1 experience
+    if (windowWidth < 640) return 1 // Mobile: 1 experience
     if (windowWidth < 1024) return 2 // Tablet: 2 experiences
     return 2 // Desktop: 2 experiences
   }
@@ -36,7 +36,7 @@ export default function ExperienceSection({ experiences }: ExperienceSectionProp
     const startIndex = currentPage * itemsPerPage
     const endIndex = Math.min(startIndex + itemsPerPage, experiences.length)
     const currentPageExperiences = experiences.slice(startIndex, endIndex)
-    
+
     return { currentPageExperiences, startIndex, endIndex }
   }, [experiences, currentPage, itemsPerPage])
 
@@ -63,36 +63,38 @@ export default function ExperienceSection({ experiences }: ExperienceSectionProp
       if (currentPage < totalPages - 1) pages.push(currentPage + 1)
       return pages
     }
-    
+
     // Desktop: Show all pages if reasonable, otherwise use ellipsis
     if (totalPages <= 5) {
       return Array.from({ length: totalPages }, (_, i) => i)
     }
-    
+
     const delta = 1
     const range = []
     const rangeWithDots = []
-    
-    for (let i = Math.max(1, currentPage - delta); 
-         i <= Math.min(totalPages - 2, currentPage + delta); 
-         i++) {
+
+    for (
+      let i = Math.max(1, currentPage - delta);
+      i <= Math.min(totalPages - 2, currentPage + delta);
+      i++
+    ) {
       range.push(i)
     }
-    
+
     if (currentPage - delta > 1) {
       rangeWithDots.push(0, '...')
     } else {
       rangeWithDots.push(0)
     }
-    
+
     rangeWithDots.push(...range)
-    
+
     if (currentPage + delta < totalPages - 2) {
       rangeWithDots.push('...', totalPages - 1)
     } else {
       if (totalPages > 1) rangeWithDots.push(totalPages - 1)
     }
-    
+
     return rangeWithDots
   }
 
@@ -102,10 +104,10 @@ export default function ExperienceSection({ experiences }: ExperienceSectionProp
     <section className="relative overflow-hidden">
       <div
         className={cn(
-          "absolute inset-0",
-          "[background-size:20px_20px]",
-          "[background-image:radial-gradient(#d4d4d4_1px,transparent_1px)]",
-          "dark:[background-image:radial-gradient(#404040_1px,transparent_1px)]",
+          'absolute inset-0',
+          '[background-size:20px_20px]',
+          '[background-image:radial-gradient(#d4d4d4_1px,transparent_1px)]',
+          'dark:[background-image:radial-gradient(#404040_1px,transparent_1px)]'
         )}
       />
       <div className="pointer-events-none absolute inset-0 flex items-center justify-center bg-white [mask-image:radial-gradient(ellipse_at_center,transparent_20%,black)] dark:bg-black" />
@@ -113,7 +115,10 @@ export default function ExperienceSection({ experiences }: ExperienceSectionProp
       <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-4xl text-center">
           <div className="flex justify-center mb-6 sm:mb-8">
-            <Badge variant="outline" className="px-4 py-2 sm:px-6 sm:py-3 text-xs sm:text-sm font-medium border-primary/30 bg-primary/5 hover:bg-primary/10 transition-all duration-300 shadow-lg backdrop-blur-sm">
+            <Badge
+              variant="outline"
+              className="px-4 py-2 sm:px-6 sm:py-3 text-xs sm:text-sm font-medium border-primary/30 bg-primary/5 hover:bg-primary/10 transition-all duration-300 shadow-lg backdrop-blur-sm"
+            >
               <Briefcase className="mr-1.5 sm:mr-2 h-3 w-3 sm:h-4 sm:w-4 text-primary" />
               Professional Journey
             </Badge>
@@ -129,14 +134,15 @@ export default function ExperienceSection({ experiences }: ExperienceSectionProp
           <div className="mx-auto w-20 sm:w-32 h-1 sm:h-1.5 bg-gradient-to-r from-primary via-secondary to-accent rounded-full shadow-lg"></div>
 
           <p className="mt-4 sm:mt-8 text-sm sm:text-lg lg:text-xl leading-6 sm:leading-8 text-foreground/80 max-w-xl sm:max-w-3xl mx-auto font-medium px-4 sm:px-0">
-            My professional journey and contributions across different organizations,
-            showcasing growth and expertise in various domains
+            My professional journey and contributions across different organizations, showcasing
+            growth and expertise in various domains
           </p>
 
           {/* Summary info */}
           {experiences.length > 0 && (
             <div className="mt-3 sm:mt-4 text-xs sm:text-sm text-foreground/70">
-              Showing {startIndex + 1}-{Math.min(endIndex, experiences.length)} of {experiences.length} experiences
+              Showing {startIndex + 1}-{Math.min(endIndex, experiences.length)} of{' '}
+              {experiences.length} experiences
             </div>
           )}
         </div>
@@ -148,20 +154,18 @@ export default function ExperienceSection({ experiences }: ExperienceSectionProp
               <Button
                 onClick={prevPage}
                 variant="outline"
-                size={isMobile ? "sm" : "lg"}
+                size={isMobile ? 'sm' : 'lg'}
                 className="group bg-card hover:bg-primary/5 border-primary/20 hover:border-primary/30 transition-all duration-300 touch-manipulation"
                 disabled={currentPage === 0}
               >
                 <ChevronLeft className="mr-1 sm:mr-2 h-4 w-4 sm:h-5 sm:w-5 transition-transform group-hover:-translate-x-1" />
-                <span className="text-xs sm:text-sm">
-                  {isMobile ? 'Prev' : 'Previous'}
-                </span>
+                <span className="text-xs sm:text-sm">{isMobile ? 'Prev' : 'Previous'}</span>
               </Button>
 
               <Button
                 onClick={nextPage}
                 variant="outline"
-                size={isMobile ? "sm" : "lg"}
+                size={isMobile ? 'sm' : 'lg'}
                 className="group bg-card hover:bg-primary/5 border-primary/20 hover:border-primary/30 transition-all duration-300 touch-manipulation"
                 disabled={currentPage === totalPages - 1}
               >
@@ -175,7 +179,10 @@ export default function ExperienceSection({ experiences }: ExperienceSectionProp
               {getVisiblePageNumbers().map((pageNum, index) => {
                 if (pageNum === '...') {
                   return (
-                    <span key={`dots-${index}`} className="px-2 py-1 text-xs sm:text-sm text-foreground/50">
+                    <span
+                      key={`dots-${index}`}
+                      className="px-2 py-1 text-xs sm:text-sm text-foreground/50"
+                    >
                       ...
                     </span>
                   )
@@ -206,7 +213,7 @@ export default function ExperienceSection({ experiences }: ExperienceSectionProp
           </div>
         )}
 
-        <ExperienceFocusCards 
+        <ExperienceFocusCards
           experiences={currentPageExperiences}
           startIndex={startIndex}
           isMobile={isMobile}
@@ -217,7 +224,9 @@ export default function ExperienceSection({ experiences }: ExperienceSectionProp
           <div className="mt-12 sm:mt-20 text-center px-4 sm:px-0">
             <div className="inline-flex flex-col sm:flex-row items-center gap-4 sm:gap-6 p-4 sm:p-6 bg-gradient-to-r from-card via-card/90 to-card rounded-xl sm:rounded-2xl border border-border/50 backdrop-blur-sm shadow-lg max-w-sm sm:max-w-none mx-auto">
               <div className="text-center sm:text-left">
-                <h3 className="text-base sm:text-lg font-semibold text-foreground">More Experiences</h3>
+                <h3 className="text-base sm:text-lg font-semibold text-foreground">
+                  More Experiences
+                </h3>
                 <p className="text-xs sm:text-sm text-foreground/70 mt-1">
                   Explore {experiences.length - itemsPerPage} additional experiences
                 </p>
@@ -225,7 +234,7 @@ export default function ExperienceSection({ experiences }: ExperienceSectionProp
               <Link href="/experiences">
                 <Button
                   variant="outline"
-                  size={isMobile ? "sm" : "lg"}
+                  size={isMobile ? 'sm' : 'lg'}
                   className="group bg-gradient-to-r from-primary/10 to-secondary/10 hover:from-primary/20 hover:to-secondary/20 border-primary/30 hover:border-primary/50 transition-all duration-300 touch-manipulation"
                 >
                   <span className="text-xs sm:text-sm">View All</span>

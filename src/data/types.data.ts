@@ -43,7 +43,6 @@ export interface ChartTheme {
   primary: string
 }
 
-
 // API Response Types
 export interface ApiResponse<T> {
   message: string
@@ -71,7 +70,6 @@ export interface AuthResponse {
 
 // User Types
 export interface User {
-
   email: string
   skills: string[]
   projects: string[]
@@ -195,9 +193,9 @@ export interface CreateCertificationRequest {
   expiry_date: string
 }
 
-export type UpdateCertificationRequest = CreateCertificationRequest;
+export type UpdateCertificationRequest = CreateCertificationRequest
 
 // Achievement Types (if different, otherwise alias Certification)
-export type Achievement = Certification;
-export type CreateAchievementRequest = CreateCertificationRequest;
-export type UpdateAchievementRequest = UpdateCertificationRequest;
+export type Achievement = Certification
+export type CreateAchievementRequest = CreateCertificationRequest
+export type UpdateAchievementRequest = UpdateCertificationRequest

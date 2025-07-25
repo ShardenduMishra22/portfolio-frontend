@@ -1,45 +1,45 @@
-'use client';
+'use client'
 
-import Link from 'next/link';
-import toast from 'react-hot-toast';
-import { ArrowLeft, Sparkles } from 'lucide-react';
-import { useEffect, useState } from 'react';
-import { useRouter, useSearchParams } from 'next/navigation';
-import { Project } from '@/data/types.data';
-import { projectsAPI } from '@/util/apiResponse.util';
-import { EmptyState, ErrorState, LoadingState } from './Load-Error';
-import { Button } from '../ui/button';
-import { Input } from '../ui/input';
-import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from '../ui/select';
-import ProjectGrid from './project-grid';
-import ProjectPagination from './project-pagination';
+import Link from 'next/link'
+import toast from 'react-hot-toast'
+import { ArrowLeft, Sparkles } from 'lucide-react'
+import { useEffect, useState } from 'react'
+import { useRouter, useSearchParams } from 'next/navigation'
+import { Project } from '@/data/types.data'
+import { projectsAPI } from '@/util/apiResponse.util'
+import { EmptyState, ErrorState, LoadingState } from './Load-Error'
+import { Button } from '../ui/button'
+import { Input } from '../ui/input'
+import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from '../ui/select'
+import ProjectGrid from './project-grid'
+import ProjectPagination from './project-pagination'
 
 export default function ProjectPageContent() {
-  const [projects, setProjects] = useState<Project[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState('');
-  const [currentPage, setCurrentPage] = useState(1);
-  const projectsPerPage = 6;
-  const [selectedSkill, setSelectedSkill] = useState<string>("__all__");
-  const router = useRouter();
-  const searchParams = useSearchParams();
-  const initialSearch = searchParams.get('name_has')?.toLowerCase() || '';
-  const [searchTerm, setSearchTerm] = useState(initialSearch);
+  const [projects, setProjects] = useState<Project[]>([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState('')
+  const [currentPage, setCurrentPage] = useState(1)
+  const projectsPerPage = 6
+  const [selectedSkill, setSelectedSkill] = useState<string>('__all__')
+  const router = useRouter()
+  const searchParams = useSearchParams()
+  const initialSearch = searchParams.get('name_has')?.toLowerCase() || ''
+  const [searchTerm, setSearchTerm] = useState(initialSearch)
 
-  const allSkills = Array.from(new Set(projects.flatMap(p => p.skills)));
+  const allSkills = Array.from(new Set(projects.flatMap((p) => p.skills)))
 
-  const filteredProjects = projects.filter(project => {
-    const matchesSkill = selectedSkill !== "__all__" ? project.skills.includes(selectedSkill) : true;
-    const matchesName = project.project_name.toLowerCase().includes(searchTerm);
-    return matchesSkill && matchesName;
-  });
+  const filteredProjects = projects.filter((project) => {
+    const matchesSkill = selectedSkill !== '__all__' ? project.skills.includes(selectedSkill) : true
+    const matchesName = project.project_name.toLowerCase().includes(searchTerm)
+    return matchesSkill && matchesName
+  })
 
-  const totalPages = Math.ceil(filteredProjects.length / projectsPerPage);
-  const startIndex = (currentPage - 1) * projectsPerPage;
-  const endIndex = startIndex + projectsPerPage;
-  const currentProjects = filteredProjects.slice(startIndex, endIndex);
+  const totalPages = Math.ceil(filteredProjects.length / projectsPerPage)
+  const startIndex = (currentPage - 1) * projectsPerPage
+  const endIndex = startIndex + projectsPerPage
+  const currentProjects = filteredProjects.slice(startIndex, endIndex)
 
-  const transformedProjects = currentProjects.map(project => ({
+  const transformedProjects = currentProjects.map((project) => ({
     title: project.project_name,
     description: project.small_description,
     link: `/projects/${project.inline?.id || project.inline.id}`,
@@ -47,68 +47,70 @@ export default function ProjectPageContent() {
     repository: project.project_repository,
     liveLink: project.project_live_link,
     video: project.project_video,
-  }));
+  }))
 
   useEffect(() => {
     const fetchProjects = async () => {
       try {
-        const response = await projectsAPI.getAllProjects();
-        setProjects(Array.isArray(response.data) ? response.data : []);
+        const response = await projectsAPI.getAllProjects()
+        setProjects(Array.isArray(response.data) ? response.data : [])
       } catch (err) {
-        setError('Failed to load projects');
+        setError('Failed to load projects')
       } finally {
-        setLoading(false);
+        setLoading(false)
       }
-    };
-    fetchProjects();
-  }, []);
+    }
+    fetchProjects()
+  }, [])
 
   const handlePageChange = (page: number) => {
-    setCurrentPage(page);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
+    setCurrentPage(page)
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
 
   const handleSearchChange = (value: string) => {
-    setSearchTerm(value);
-    const params = new URLSearchParams(window.location.search);
+    setSearchTerm(value)
+    const params = new URLSearchParams(window.location.search)
     if (value) {
-      params.set('name_has', value);
+      params.set('name_has', value)
     } else {
-      params.delete('name_has');
+      params.delete('name_has')
     }
-    router.push(`?${params.toString()}`);
-  };
+    router.push(`?${params.toString()}`)
+  }
 
   // Loading state
   if (loading) {
-    return <LoadingState />;
+    return <LoadingState />
   }
 
   // Error state
   if (error) {
     toast.error(error, {
       style: { zIndex: 30 },
-    });
-    return <ErrorState error={error} />;
+    })
+    return <ErrorState error={error} />
   }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-background to-muted/20">
-      
       {/* Top Header Bar - Left: Title, Middle: Search, Right: Navigation */}
       <div className="sticky top-0 z-40 border-b border-border/50 bg-background/95 backdrop-blur-md">
         <div className="container mx-auto px-6 py-4 max-w-full">
           <div className="flex items-center justify-between gap-8">
-            
             {/* Left Side: Back Button + Title + Stats */}
             <div className="flex items-center gap-6 flex-shrink-0">
               <Link href="/">
-                <Button variant="ghost" size="sm" className="flex items-center gap-2 hover:bg-muted">
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="flex items-center gap-2 hover:bg-muted"
+                >
                   <ArrowLeft className="w-4 h-4" />
                   Back to Home
                 </Button>
               </Link>
-              
+
               <div className="flex items-center gap-4">
                 <div className="flex items-center gap-2">
                   <Sparkles className="w-5 h-5 text-primary" />
@@ -116,7 +118,7 @@ export default function ProjectPageContent() {
                     Projects
                   </h1>
                 </div>
-                
+
                 {/* Compact Stats */}
                 <div className="hidden lg:flex items-center gap-3 text-sm">
                   <div className="flex items-center gap-1">
@@ -171,23 +173,25 @@ export default function ProjectPageContent() {
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="__all__">All Skills</SelectItem>
-                {allSkills.map(skill => (
-                  <SelectItem key={skill} value={skill}>{skill}</SelectItem>
+                {allSkills.map((skill) => (
+                  <SelectItem key={skill} value={skill}>
+                    {skill}
+                  </SelectItem>
                 ))}
               </SelectContent>
             </Select>
-            
-            {selectedSkill !== "__all__" && (
+
+            {selectedSkill !== '__all__' && (
               <Button
                 variant="secondary"
                 size="sm"
-                onClick={() => setSelectedSkill("__all__")}
+                onClick={() => setSelectedSkill('__all__')}
                 className="h-9"
               >
                 Clear Filters
               </Button>
             )}
-            
+
             {/* Mobile Stats */}
             <div className="lg:hidden flex items-center gap-3 text-sm ml-4">
               <div className="flex items-center gap-1">
@@ -214,8 +218,8 @@ export default function ProjectPageContent() {
             </div>
           ) : (
             <div className="mb-8">
-              <ProjectGrid 
-                items={transformedProjects} 
+              <ProjectGrid
+                items={transformedProjects}
                 className="grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
               />
             </div>
@@ -224,14 +228,13 @@ export default function ProjectPageContent() {
           {/* Bottom Info Bar */}
           <div className="flex items-center justify-between pt-6 border-t border-border/30 text-sm text-muted-foreground">
             <p>
-              Showing {filteredProjects.length === 0 ? 0 : startIndex + 1}-{Math.min(endIndex, filteredProjects.length)} of {filteredProjects.length} projects
+              Showing {filteredProjects.length === 0 ? 0 : startIndex + 1}-
+              {Math.min(endIndex, filteredProjects.length)} of {filteredProjects.length} projects
             </p>
-            <p className="text-xs">
-              A curated collection of my latest work and contributions
-            </p>
+            <p className="text-xs">A curated collection of my latest work and contributions</p>
           </div>
         </div>
       </div>
     </div>
-  );
+  )
 }
