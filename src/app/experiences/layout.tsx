@@ -1,4 +1,4 @@
-import { LoadingState } from '@/components/Experience/load-error'
+import { LoadingState } from '@/components/experience/load-error'
 import { Suspense } from 'react'
 
 export const metadata = {

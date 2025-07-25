@@ -22,7 +22,7 @@ import {
 } from 'lucide-react'
 import { blogsService } from '@/services/blogs'
 import { Blog } from '@/services/types'
-import TipTap from '@/components/Extra/TipTap'
+import TipTap from '@/components/extra/TipTap'
 
 const BlogEditPage = ({ params }: { params: Promise<{ id: string }> }) => {
   const resolvedParams = React.use(params)

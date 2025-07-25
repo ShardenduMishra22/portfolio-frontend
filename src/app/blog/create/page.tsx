@@ -22,7 +22,7 @@ import {
   AlertCircle,
 } from 'lucide-react'
 import { blogsService } from '@/services/blogs'
-import { TiptapModalEditor } from '@/components/Extra/TipTap'
+import { TiptapModalEditor } from '@/components/extra/TipTap'
 import {
   Dialog,
   DialogContent,

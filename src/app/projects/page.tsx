@@ -1,6 +1,6 @@
 import { Suspense } from 'react'
-import { LoadingState } from '@/components/Projects/Load-Error'
-import ProjectPageContent from '../../components/Projects/ProjectPageContent'
+import { LoadingState } from '@/components/projects/Load-Error'
+import ProjectPageContent from '../../components/projects/ProjectPageContent'
 
 export default function ProjectsPage() {
   return (

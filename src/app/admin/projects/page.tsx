@@ -1,7 +1,7 @@
 'use client'
 import dynamic from 'next/dynamic'
 const TiptapModalEditor = dynamic(
-  () => import('../../../components/Extra/TipTap').then((mod) => ({ default: mod.TiptapModalEditor })),
+  () => import('../../../components/extra/TipTap').then((mod) => ({ default: mod.TiptapModalEditor })),
   { ssr: false }
 )
 

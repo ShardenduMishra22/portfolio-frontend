@@ -7,10 +7,10 @@ import { Suspense, useEffect, useState } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { Certification } from '@/data/types.data'
 import { certificationsAPI } from '@/util/apiResponse.util'
-import { EmptyState, ErrorState, LoadingState } from '@/components/Certificate/load-error'
+import { EmptyState, ErrorState, LoadingState } from '@/components/certificate/load-error'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import CertificationPagination from '@/components/Certificate/pagination'
+import CertificationPagination from '@/components/certificate/pagination'
 import {
   Select,
   SelectContent,
@@ -18,7 +18,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import CertificationGrid from '@/components/Certificate/grid'
+import CertificationGrid from '@/components/certificate/grid'
 
 export default function CertificationPageContent() {
   const [certifications, setCertifications] = useState<Certification[]>([])

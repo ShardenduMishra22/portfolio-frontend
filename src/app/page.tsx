@@ -1,7 +1,7 @@
 'use client'
 
 import toast from 'react-hot-toast'
-import Error from '@/components/Extra/Error'
+import Error from '@/components/extra/Error'
 import { useEffect, useState } from 'react'
 import HeroSection from '@/components/main/hero'
 import SkillsSection from '@/components/main/skill'
@@ -12,13 +12,13 @@ import ContactSection from '@/components/main/contact'
 import { SkillsSkeleton } from '@/components/main/loading'
 import { navItems } from '@/data/static_link'
 import { DesktopSidebar } from '@/data/sidebar'
-import { MobileNavigation } from '@/components/Extra/mobile-nav'
+import { MobileNavigation } from '@/components/extra/mobile-nav'
 import { ShootingStars } from '@/components/ui/shooting-stars'
 import { StarsBackground } from '@/components/ui/stars-background'
 import { skillsAPI } from '@/util/apiResponse.util'
-import { LazyProjectsSection } from '@/components/Lazy/proj'
-import { LazyExperienceSection } from '@/components/Lazy/exp'
-import { LazyCertificationsSection } from '@/components/Lazy/cert'
+import { LazyProjectsSection } from '@/components/lazy/proj'
+import { LazyExperienceSection } from '@/components/lazy/exp'
+import { LazyCertificationsSection } from '@/components/lazy/cert'
 
 export default function HomePage() {
   const [skills, setSkills] = useState<string[]>([])

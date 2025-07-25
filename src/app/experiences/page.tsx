@@ -8,10 +8,10 @@ import { Experience } from '@/data/types.data'
 import { Button } from '@/components/ui/button'
 import { ArrowLeft, Building2 } from 'lucide-react'
 import { experiencesAPI } from '@/util/apiResponse.util'
-import ExperienceGrid from '@/components/Experience/grid'
+import ExperienceGrid from '@/components/experience/grid'
 import { useRouter, useSearchParams } from 'next/navigation'
-import ExperiencePagination from '@/components/Experience/pagination'
-import { EmptyState, ErrorState, LoadingState } from '@/components/Experience/load-error'
+import ExperiencePagination from '@/components/experience/pagination'
+import { EmptyState, ErrorState, LoadingState } from '@/components/experience/load-error'
 import {
   Select,
   SelectContent,

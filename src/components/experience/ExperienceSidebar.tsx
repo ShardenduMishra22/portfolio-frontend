@@ -1,7 +1,7 @@
 import Image from 'next/image'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
-import { CanvasCard } from '@/components/Certificate/canva'
+import { CanvasCard } from '@/components/certificate/canva'
 import { Experience } from '@/data/types.data'
 import { Building2, Code2, Rocket, Star, Award, Clock, Share2, Copy, Check } from 'lucide-react'
 
