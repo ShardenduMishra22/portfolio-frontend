@@ -53,7 +53,6 @@ const EducationSection = () => {
   }, []);
 
   const isMobile = windowWidth < 768;
-  const isTablet = windowWidth >= 768 && windowWidth < 1024;
 
   return (
     <section className="py-20 relative overflow-hidden bg-gradient-to-b from-background to-background/50">
