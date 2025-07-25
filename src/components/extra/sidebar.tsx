@@ -1,8 +1,8 @@
+import { NavLink } from './nav'
 import { cn } from '@/lib/utils'
 import { Sparkles } from 'lucide-react'
 import { useEffect, useState } from 'react'
-import { navItems } from './static_link'
-import { NavLink } from './nav'
+import { navItems } from '@/data/static_link'
 
 export function DesktopSidebar({ activeSection }: { activeSection: string }) {
   const [isExpanded, setIsExpanded] = useState(false)

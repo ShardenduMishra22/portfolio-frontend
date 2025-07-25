@@ -1,8 +1,8 @@
-import { NavLink } from '@/data/nav'
-import { navItems } from '@/data/static_link'
+import { NavLink } from './nav'
 import { cn } from '@/lib/utils'
-import { Menu, Sparkles, X } from 'lucide-react'
 import { useState, useEffect } from 'react'
+import { navItems } from '@/data/static_link'
+import { Menu, Sparkles, X } from 'lucide-react'
 
 export function MobileNavigation({ activeSection }: { activeSection: string }) {
   const [isOpen, setIsOpen] = useState(false)

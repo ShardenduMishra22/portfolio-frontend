@@ -1,24 +1,23 @@
 'use client'
 
 import toast from 'react-hot-toast'
-import Error from '@/components/extra/Error'
 import { useEffect, useState } from 'react'
+import Error from '@/components/extra/Error'
+import { navItems } from '@/data/static_link'
 import HeroSection from '@/components/main/hero'
 import SkillsSection from '@/components/main/skill'
 import Education from '@/components/main/education'
+import { skillsAPI } from '@/util/apiResponse.util'
 import FooterSection from '@/components/main/footer'
 import ContactSection from '@/components/main/contact'
-
 import { SkillsSkeleton } from '@/components/main/loading'
-import { navItems } from '@/data/static_link'
-import { DesktopSidebar } from '@/data/sidebar'
-import { MobileNavigation } from '@/components/extra/mobile-nav'
-import { ShootingStars } from '@/components/ui/shooting-stars'
-import { StarsBackground } from '@/components/ui/stars-background'
-import { skillsAPI } from '@/util/apiResponse.util'
+import { DesktopSidebar } from '@/components/extra/sidebar'
 import { LazyProjectsSection } from '@/components/lazy/proj'
 import { LazyExperienceSection } from '@/components/lazy/exp'
+import { ShootingStars } from '@/components/ui/shooting-stars'
+import { MobileNavigation } from '@/components/extra/mobile-nav'
 import { LazyCertificationsSection } from '@/components/lazy/cert'
+import { StarsBackground } from '@/components/ui/stars-background'
 
 export default function HomePage() {
   const [skills, setSkills] = useState<string[]>([])
