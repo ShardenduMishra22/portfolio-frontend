@@ -7,13 +7,17 @@ import { Input } from '../../../components/ui/input'
 import { Label } from '../../../components/ui/label'
 import { Button } from '../../../components/ui/button'
 import { useEffect, useState } from 'react'
-import { TiptapModalEditor } from '@/components/TipTap'
+import dynamic from 'next/dynamic'
+
 import { Alert, AlertDescription } from '../../../components/ui/alert'
 import { Experience, CreateExperienceRequest } from '../../../data/types.data'
 import { experiencesAPI, projectsAPI, skillsAPI } from '../../../util/apiResponse.util'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../../../components/ui/card'
 import { Plus, Edit, Trash2, Briefcase, GraduationCap, ChevronLeft, ChevronRight, X } from 'lucide-react'
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '../../../components/ui/dialog'
+
+// Dynamically import the modal editor to avoid bundling TipTap server-side
+const TiptapModalEditor = dynamic(() => import('@/components/TipTap').then(mod => ({ default: mod.TiptapModalEditor })), { ssr: false })
 
 // Define form data type
 interface ExperienceFormData {

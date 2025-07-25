@@ -22,7 +22,10 @@ import {
 } from 'lucide-react'
 import { blogsService } from '@/services/blogs'
 import { Blog } from '@/services/types'
-import TipTap from '@/components/TipTap'
+import dynamic from 'next/dynamic'
+
+// Load the full TipTap editor only in the browser
+const TipTap = dynamic(() => import('@/components/TipTap'), { ssr: false })
 
 const BlogEditPage = ({ params }: { params: Promise<{ id: string }> }) => {
   const resolvedParams = React.use(params)

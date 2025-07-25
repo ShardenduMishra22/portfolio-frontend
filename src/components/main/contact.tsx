@@ -5,9 +5,13 @@ import { LoadingScreen } from "../chart/loader-chart"
 import { DashboardHeader } from "../chart/dash-heaed"
 import { GitHubProfileCard } from "../chart/github"
 import { LeetCodeStatsCard } from "../chart/leet-card"
-import { EnhancedCommitsChart } from "../chart/commit"
+import dynamic from 'next/dynamic'
+
 import { TechnologyStackCard } from "../chart/tech"
 import { TopRepositoriesCard } from "../chart/repo"
+
+// Dynamically load the Nivo chart only on the client
+const EnhancedCommitsChart = dynamic(() => import('@/components/chart/commit').then(mod => ({ default: mod.EnhancedCommitsChart })), { ssr: false })
 
 
 export default function ModernDeveloperDashboard() {

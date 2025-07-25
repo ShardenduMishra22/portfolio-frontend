@@ -22,9 +22,12 @@ import {
   AlertCircle
 } from 'lucide-react'
 import { blogsService } from '@/services/blogs'
-import { TiptapModalEditor } from '@/components/TipTap'
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogClose } from '@/components/ui/dialog'
+import dynamic from 'next/dynamic'
 import ReactMarkdown from 'react-markdown'
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogClose } from '@/components/ui/dialog'
+
+// Dynamically load the lightweight modal editor on the client only
+const TiptapModalEditor = dynamic(() => import('@/components/TipTap').then(mod => ({ default: mod.TiptapModalEditor })), { ssr: false })
 
 const CreateBlogPage = () => {
   const session = authClient.useSession()
