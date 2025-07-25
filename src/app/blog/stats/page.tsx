@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useMemo } from 'react'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
@@ -27,6 +27,7 @@ import {
 import { useRouter } from 'next/navigation'
 import { blogsService } from '@/services/blogs'
 import { Blog } from '@/services/types'
+import { debounce } from 'lodash' // Add lodash for debounce
 
 interface BlogStats {
   totalPosts: number
@@ -47,6 +48,7 @@ const BlogStatsPage = () => {
   const [blogs, setBlogs] = useState<Blog[]>([])
   const [loading, setLoading] = useState(true)
   const [searchTerm, setSearchTerm] = useState('')
+  const [debouncedSearchTerm, setDebouncedSearchTerm] = useState('')
   const [activeTab, setActiveTab] = useState('overview')
   const [sortBy, setSortBy] = useState('views')
   const [error, setError] = useState('')
@@ -55,6 +57,30 @@ const BlogStatsPage = () => {
   useEffect(() => {
     fetchStats()
   }, [])
+
+  // Debounce search input to avoid expensive filtering on every keystroke
+  useEffect(() => {
+    const handler = debounce((value) => setDebouncedSearchTerm(value), 300)
+    handler(searchTerm)
+    return () => handler.cancel()
+  }, [searchTerm])
+
+  // Memoize expensive stats calculation
+  const calculatedStats = useMemo(() => calculateStats(), [apiStats])
+
+  // Memoize filtered and sorted blogs
+  const filteredAndSortedBlogs = useMemo(() => {
+    return sortBlogs(
+      blogs.filter(blog => {
+        const lowerSearch = debouncedSearchTerm.toLowerCase()
+        return (
+          blog.title.toLowerCase().includes(lowerSearch) ||
+          blog.content.toLowerCase().includes(lowerSearch) ||
+          (blog.author.name && `${blog.author.name} ${blog.author.name}`.toLowerCase().includes(lowerSearch))
+        )
+      })
+    )
+  }, [blogs, debouncedSearchTerm, sortBy])
 
   const fetchStats = async () => {
     try {
@@ -191,18 +217,6 @@ const BlogStatsPage = () => {
         return blogs
     }
   }
-
-  const filteredAndSortedBlogs = sortBlogs(
-    blogs.filter(blog => {
-      const matchesSearch = blog.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                           blog.content.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                           (blog.author.name && blog.author.name &&
-                            `${blog.author.name} ${blog.author.name}`.toLowerCase().includes(searchTerm.toLowerCase()))
-      return matchesSearch
-    })
-  )
-
-  const calculatedStats = calculateStats()
 
   if (loading) {
     return (
