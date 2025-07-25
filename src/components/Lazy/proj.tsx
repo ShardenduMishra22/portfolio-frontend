@@ -1,10 +1,10 @@
-import { Project } from "@/data/types.data"
-import { useCallback, useEffect, useRef, useState } from "react"
-import { useIntersectionObserver } from "./obs"
-import { projectsAPI } from "@/util/apiResponse.util"
 import toast from "react-hot-toast"
-import { ProjectsSkeleton } from "../main/loading"
+import { Project } from "@/data/types.data"
 import ProjectsSection from "../main/project"
+import { useIntersectionObserver } from "./obs"
+import { ProjectsSkeleton } from "../main/loading"
+import { projectsAPI } from "@/util/apiResponse.util"
+import { useCallback, useEffect, useRef, useState } from "react"
 
 
 export const LazyProjectsSection = () => {
@@ -14,7 +14,7 @@ export const LazyProjectsSection = () => {
   const sectionRef = useRef<HTMLDivElement>(null)
   const { hasBeenVisible } = useIntersectionObserver(sectionRef as React.RefObject<Element>, {
     threshold: 0.1,
-    rootMargin: '500px'
+    rootMargin: '800px'
   })
 
   const fetchProjects = useCallback(async () => {
