@@ -22,18 +22,26 @@ export const useBackendServices = () => {
     error: null
   })
 
+  const setStateIfChanged = (updater: (prev: ServiceState<any>) => ServiceState<any>) => {
+    setState(prev => {
+      const next = updater(prev)
+      if (JSON.stringify(prev) === JSON.stringify(next)) return prev
+      return next
+    })
+  }
+
   const executeService = useCallback(async <T>(
     serviceCall: () => Promise<ApiResponse<T>>
   ): Promise<ApiResponse<T> | null> => {
-    setState(prev => ({ ...prev, loading: true, error: null }))
+    setStateIfChanged(prev => ({ ...prev, loading: true, error: null }))
     
     try {
       const response = await serviceCall()
       
       if (response.success) {
-        setState(prev => ({ ...prev, data: response.data, loading: false }))
+        setStateIfChanged(prev => ({ ...prev, data: response.data, loading: false }))
       } else {
-        setState(prev => ({ 
+        setStateIfChanged(prev => ({ 
           ...prev, 
           error: response.error || 'Operation failed', 
           loading: false 
@@ -43,13 +51,13 @@ export const useBackendServices = () => {
       return response
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : 'An error occurred'
-      setState(prev => ({ ...prev, error: errorMessage, loading: false }))
+      setStateIfChanged(prev => ({ ...prev, error: errorMessage, loading: false }))
       return null
     }
   }, [])
 
   const clearState = useCallback(() => {
-    setState({ data: null, loading: false, error: null })
+    setStateIfChanged(() => ({ data: null, loading: false, error: null }))
   }, [])
 
   return {

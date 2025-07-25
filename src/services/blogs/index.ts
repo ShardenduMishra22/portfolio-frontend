@@ -11,16 +11,38 @@ const localAPI = axios.create({
   },
 })
 
+// Simple in-memory cache for GET requests
+const cache: Record<string, { data: any, expiry: number }> = {}
+const CACHE_TTL = 30 * 1000 // 30 seconds
+
+function getCache(key: string) {
+  const entry = cache[key]
+  if (entry && entry.expiry > Date.now()) return entry.data
+  return null
+}
+
+function setCache(key: string, data: any) {
+  cache[key] = { data, expiry: Date.now() + CACHE_TTL }
+}
+
 export const blogsService = {
   // Get all blogs with pagination
   getBlogs: async (params?: PaginationParams): Promise<ApiResponse<Blog[]>> => {
+    const key = `getBlogs:${JSON.stringify(params)}`
+    const cached = getCache(key)
+    if (cached) return cached
     const response = await localAPI.get('/blogs', { params })
+    setCache(key, response.data)
     return response.data
   },
 
   // Get blog by ID
   getBlogById: async (id: string): Promise<ApiResponse<Blog>> => {
+    const key = `getBlogById:${id}`
+    const cached = getCache(key)
+    if (cached) return cached
     const response = await localAPI.get(`/blogs/${id}`)
+    setCache(key, response.data)
     return response.data
   },
 
@@ -44,7 +66,11 @@ export const blogsService = {
 
   // Get blog comments
   getBlogComments: async (id: string, params?: PaginationParams): Promise<ApiResponse<any[]>> => {
+    const key = `getBlogComments:${id}:${JSON.stringify(params)}`
+    const cached = getCache(key)
+    if (cached) return cached
     const response = await localAPI.get(`/blogs/${id}/comments`, { params })
+    setCache(key, response.data)
     return response.data
   },
 
@@ -56,7 +82,11 @@ export const blogsService = {
 
   // Get blog likes
   getBlogLikes: async (id: string, params?: PaginationParams): Promise<ApiResponse<PaginatedResponse<any>>> => {
+    const key = `getBlogLikes:${id}:${JSON.stringify(params)}`
+    const cached = getCache(key)
+    if (cached) return cached
     const response = await localAPI.get(`/blogs/${id}/likes`, { params })
+    setCache(key, response.data)
     return response.data
   },
 
@@ -92,7 +122,11 @@ export const blogsService = {
 
   // Get blog categories
   getBlogCategories: async (id: string): Promise<ApiResponse<any[]>> => {
+    const key = `getBlogCategories:${id}`
+    const cached = getCache(key)
+    if (cached) return cached
     const response = await localAPI.get(`/blogs/${id}/categories`)
+    setCache(key, response.data)
     return response.data
   },
 
@@ -110,7 +144,11 @@ export const blogsService = {
 
   // Get blog views
   getBlogViews: async (id: string, params?: PaginationParams): Promise<ApiResponse<PaginatedResponse<any>>> => {
+    const key = `getBlogViews:${id}:${JSON.stringify(params)}`
+    const cached = getCache(key)
+    if (cached) return cached
     const response = await localAPI.get(`/blogs/${id}/views`, { params })
+    setCache(key, response.data)
     return response.data
   },
 
@@ -122,7 +160,11 @@ export const blogsService = {
 
   // Get blog revisions
   getBlogRevisions: async (id: string, params?: PaginationParams): Promise<ApiResponse<PaginatedResponse<any>>> => {
+    const key = `getBlogRevisions:${id}:${JSON.stringify(params)}`
+    const cached = getCache(key)
+    if (cached) return cached
     const response = await localAPI.get(`/blogs/${id}/revisions`, { params })
+    setCache(key, response.data)
     return response.data
   },
 
@@ -134,13 +176,21 @@ export const blogsService = {
 
   // Get specific blog revision
   getBlogRevision: async (id: string, version: string): Promise<ApiResponse<any>> => {
+    const key = `getBlogRevision:${id}:${version}`
+    const cached = getCache(key)
+    if (cached) return cached
     const response = await localAPI.get(`/blogs/${id}/revisions/${version}`)
+    setCache(key, response.data)
     return response.data
   },
 
   // Get blog statistics
   getBlogStats: async (): Promise<ApiResponse<any>> => {
+    const key = `getBlogStats`
+    const cached = getCache(key)
+    if (cached) return cached
     const response = await localAPI.get('/blogs/stats')
+    setCache(key, response.data)
     return response.data
   }
 } 

@@ -25,7 +25,11 @@ export const authAPI = {
 // Skills API
 export const skillsAPI = {
   getSkills: async (): Promise<ApiResponse<SkillsResponse>> => {
+    const key = 'getSkills'
+    const cached = getCache(key)
+    if (cached) return cached
     const response = await api.get('/skills')
+    setCache(key, response.data)
     return response.data
   },
 
@@ -38,12 +42,20 @@ export const skillsAPI = {
 // Projects API
 export const projectsAPI = {
   getAllProjects: async (): Promise<ApiResponse<Project[]>> => {
+    const key = 'getAllProjects'
+    const cached = getCache(key)
+    if (cached) return cached
     const response = await api.get('/projects')
+    setCache(key, response.data)
     return response.data
   },
 
   getProjectById: async (id: string): Promise<ApiResponse<Project>> => {
+    const key = `getProjectById:${id}`
+    const cached = getCache(key)
+    if (cached) return cached
     const response = await api.get(`/projects/${id}`)
+    setCache(key, response.data)
     return response.data
   },
 
@@ -66,12 +78,20 @@ export const projectsAPI = {
 // Experiences API
 export const experiencesAPI = {
   getAllExperiences: async (): Promise<ApiResponse<Experience[]>> => {
+    const key = 'getAllExperiences'
+    const cached = getCache(key)
+    if (cached) return cached
     const response = await api.get('/experiences')
+    setCache(key, response.data)
     return response.data
   },
 
   getExperienceById: async (id: string): Promise<ApiResponse<Experience>> => {
+    const key = `getExperienceById:${id}`
+    const cached = getCache(key)
+    if (cached) return cached
     const response = await api.get(`/experiences/${id}`)
+    setCache(key, response.data)
     return response.data
   },
 
@@ -94,12 +114,20 @@ export const experiencesAPI = {
 // Certifications API
 export const certificationsAPI = {
   getAllCertifications: async (): Promise<ApiResponse<Certification[]>> => {
+    const key = 'getAllCertifications'
+    const cached = getCache(key)
+    if (cached) return cached
     const response = await api.get('/certifications')
+    setCache(key, response.data)
     return response.data
   },
 
   getCertificationById: async (id: string): Promise<ApiResponse<Certification>> => {
+    const key = `getCertificationById:${id}`
+    const cached = getCache(key)
+    if (cached) return cached
     const response = await api.get(`/certifications/${id}`)
+    setCache(key, response.data)
     return response.data
   },
 
@@ -128,4 +156,18 @@ export const testAPI = {
     const response = await api.get('/test')
     return response.data
   },
+}
+
+// Simple in-memory cache for GET requests
+const cache: Record<string, { data: any, expiry: number }> = {}
+const CACHE_TTL = 30 * 1000 // 30 seconds
+
+function getCache(key: string) {
+  const entry = cache[key]
+  if (entry && entry.expiry > Date.now()) return entry.data
+  return null
+}
+
+function setCache(key: string, data: any) {
+  cache[key] = { data, expiry: Date.now() + CACHE_TTL }
 }

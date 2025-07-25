@@ -46,7 +46,9 @@ api.interceptors.response.use(
         }
       }
     }
-    console.error('API Error:', error)
+    if (process.env.NODE_ENV !== 'production') {
+      console.error('API Error:', error)
+    }
     return Promise.reject(error)
   }
 )
