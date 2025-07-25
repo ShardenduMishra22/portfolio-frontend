@@ -11,21 +11,19 @@ import {
   Share2, 
   Copy, 
   Check, 
-  Clock,
   Star,
   Code2,
   Target,
 } from 'lucide-react';
+import { CanvasCard } from '@/components/Certificate/canva';
 import { MediaSection } from '@/components/Certificate/MediaSection';
 import { formatDate } from '@/components/Certificate/utils/urlHelpers';
 import { ProjectsSection } from '@/components/Certificate/ProjectsSection';
 import { ErrorState, LoadingState } from '@/components/Certificate/load-error';
 import { CertificationHeader } from '@/components/Certificate/CertificationHeader';
 import { CertificationDetails } from '@/components/Certificate/CertificationDetails';
-import { CertificationPageProps } from '@/components/Certificate/types/certification.types';
-import { CanvasCard } from '@/components/Certificate/canva';
 
-export default function CertificationDetailPage({ params }: CertificationPageProps) {
+export default function CertificationDetailPage({ params }: any) {
   const [certification, setCertification] = useState<Certification | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
