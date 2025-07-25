@@ -70,7 +70,7 @@ export interface ProjectPaginationProps {
   totalItems: number
 }
 
-export const GoLangIcon = ({ className = "h-16 w-16 text-blue-500" }) => (
+export const GoLangIcon = ({ className = "h-16 w-16 text-blue-500 m-2" }) => (
   <svg 
     className={className}
     viewBox="0 0 640 512" 
@@ -82,7 +82,7 @@ export const GoLangIcon = ({ className = "h-16 w-16 text-blue-500" }) => (
   </svg>
 );
 
-export const FedoraIcon = ({ className = "h-12 w-12" }) => (
+export const FedoraIcon = ({ className = "h-12 w-12 m-2" }) => (
   <svg 
     className={className}
     viewBox="0 0 512 512" 

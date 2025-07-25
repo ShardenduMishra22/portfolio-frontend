@@ -50,7 +50,7 @@ export const ProfileInfo = ({ currentYear }: ProfileInfoProps) => {
             © {currentYear} Shardendu Mishra. All rights reserved.
           </p>
           <p className="text-xs text-muted-foreground">
-            <span className="inline-flex items-center gap-1">
+            <span className="inline-flex items-center gap-1 font-semibold text-2xl">
               Made <GoLangIcon /> in mind and <FedoraIcon /> in Machine.
             </span>
           </p>
