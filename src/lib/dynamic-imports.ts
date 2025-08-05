@@ -57,8 +57,8 @@ export const DynamicCanvasRevealEffect = dynamic(
   }
 )
 
-export const DynamicSparkles = dynamic(
-  () => import('@/components/ui/sparkles').then((mod) => ({ default: mod.Sparkles })),
+export const DynamicSparklesCore = dynamic(
+  () => import('@/components/ui/sparkles').then((mod) => ({ default: mod.SparklesCore })),
   {
     ssr: false,
     loading: () => null,
@@ -66,8 +66,8 @@ export const DynamicSparkles = dynamic(
 )
 
 // Chart components
-export const DynamicTechChart = dynamic(
-  () => import('@/components/chart/tech').then((mod) => ({ default: mod.TechChart })),
+export const DynamicTechnologyStackCard = dynamic(
+  () => import('@/components/chart/tech').then((mod) => ({ default: mod.TechnologyStackCard })),
   {
     ssr: false,
     loading: () => React.createElement('div', { className: 'h-64 flex items-center justify-center' },
@@ -76,8 +76,8 @@ export const DynamicTechChart = dynamic(
   }
 )
 
-export const DynamicCommitChart = dynamic(
-  () => import('@/components/chart/commit').then((mod) => ({ default: mod.CommitChart })),
+export const DynamicEnhancedCommitsChart = dynamic(
+  () => import('@/components/chart/commit').then((mod) => ({ default: mod.EnhancedCommitsChart })),
   {
     ssr: false,
     loading: () => React.createElement('div', { className: 'h-64 flex items-center justify-center' },

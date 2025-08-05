@@ -59,8 +59,8 @@ export const ShootingStars: React.FC<ShootingStarsProps> = ({
 }) => {
   const [stars, setStars] = useState<ShootingStar[]>([])
   const svgRef = useRef<SVGSVGElement>(null)
-  const animationRef = useRef<number>()
-  const timeoutRef = useRef<NodeJS.Timeout>()
+  const animationRef = useRef<number | undefined>(undefined)
+  const timeoutRef = useRef<NodeJS.Timeout | undefined>(undefined)
 
   // Throttled star creation
   const createStar = useCallback(() => {
