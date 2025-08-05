@@ -1,5 +1,5 @@
 # Shardendu Mishra - Personal Website
-
+ 
 A modern, full-stack portfolio website built with Next.js 15, featuring a blog system, admin panel, and dual backend architecture with load balancing.
 
 ![Portfolio Preview](https://img.shields.io/badge/Next.js-15.3.5-black?style=for-the-badge&logo=next.js)
