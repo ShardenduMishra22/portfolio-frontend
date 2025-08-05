@@ -1,6 +1,6 @@
 'use client'
 import { cn } from '@/lib/utils'
-import React, { useEffect, useState, useRef } from 'react'
+import React, { useEffect, useState, useRef, useCallback } from 'react'
 
 interface ShootingStar {
   id: number
@@ -22,19 +22,21 @@ interface ShootingStarsProps {
   starWidth?: number
   starHeight?: number
   className?: string
+  maxStars?: number // New prop to limit stars
+  enabled?: boolean // New prop to enable/disable
 }
 
 const getRandomStartPoint = () => {
   const side = Math.floor(Math.random() * 4)
-  const offset = Math.random() * window.innerWidth
+  const offset = Math.random() * (typeof window !== 'undefined' ? window.innerWidth : 1200)
 
   switch (side) {
     case 0:
       return { x: offset, y: 0, angle: 45 }
     case 1:
-      return { x: window.innerWidth, y: offset, angle: 135 }
+      return { x: (typeof window !== 'undefined' ? window.innerWidth : 1200), y: offset, angle: 135 }
     case 2:
-      return { x: offset, y: window.innerHeight, angle: 225 }
+      return { x: offset, y: (typeof window !== 'undefined' ? window.innerHeight : 800), angle: 225 }
     case 3:
       return { x: 0, y: offset, angle: 315 }
     default:
@@ -43,81 +45,110 @@ const getRandomStartPoint = () => {
 }
 
 export const ShootingStars: React.FC<ShootingStarsProps> = ({
-  minSpeed = 10,
-  maxSpeed = 30,
-  minDelay = 1000,
-  maxDelay = 1200,
+  minSpeed = 8,
+  maxSpeed = 20,
+  minDelay = 2000,
+  maxDelay = 4000,
   starColor = '#9E00FF',
   trailColor = '#2EB9DF',
   starWidth = 20,
   starHeight = 1,
   className,
+  maxStars = 3, // Limit to 3 stars max for performance
+  enabled = true, // Default to enabled
 }) => {
-  // Changed from single star to array of stars
   const [stars, setStars] = useState<ShootingStar[]>([])
   const svgRef = useRef<SVGSVGElement>(null)
+  const animationRef = useRef<number>()
+  const timeoutRef = useRef<NodeJS.Timeout>()
+
+  // Throttled star creation
+  const createStar = useCallback(() => {
+    if (!enabled || stars.length >= maxStars) return
+
+    const { x, y, angle } = getRandomStartPoint()
+    const newStar: ShootingStar = {
+      id: Date.now() + Math.random(),
+      x,
+      y,
+      angle,
+      scale: 1,
+      speed: Math.random() * (maxSpeed - minSpeed) + minSpeed,
+      distance: 0,
+    }
+
+    setStars((prevStars) => [...prevStars, newStar])
+
+    // Schedule next star creation
+    const randomDelay = Math.random() * (maxDelay - minDelay) + minDelay
+    timeoutRef.current = setTimeout(createStar, randomDelay)
+  }, [enabled, stars.length, maxStars, minSpeed, maxSpeed, minDelay, maxDelay])
+
+  // Optimized star movement with throttling
+  const moveStars = useCallback(() => {
+    if (!enabled) return
+
+    setStars((prevStars) =>
+      prevStars
+        .map((star) => {
+          const newX = star.x + star.speed * Math.cos((star.angle * Math.PI) / 180)
+          const newY = star.y + star.speed * Math.sin((star.angle * Math.PI) / 180)
+          const newDistance = star.distance + star.speed
+          const newScale = 1 + newDistance / 100
+
+          return {
+            ...star,
+            x: newX,
+            y: newY,
+            distance: newDistance,
+            scale: newScale,
+          }
+        })
+        .filter(
+          (star) =>
+            star.x >= -20 &&
+            star.x <= (typeof window !== 'undefined' ? window.innerWidth : 1200) + 20 &&
+            star.y >= -20 &&
+            star.y <= (typeof window !== 'undefined' ? window.innerHeight : 800) + 20
+        )
+    )
+
+    animationRef.current = requestAnimationFrame(moveStars)
+  }, [enabled])
 
   useEffect(() => {
-    const createStar = () => {
-      const { x, y, angle } = getRandomStartPoint()
-      const newStar: ShootingStar = {
-        id: Date.now() + Math.random(), // More unique ID
-        x,
-        y,
-        angle,
-        scale: 1,
-        speed: Math.random() * (maxSpeed - minSpeed) + minSpeed,
-        distance: 0,
+    if (enabled) {
+      createStar()
+      animationRef.current = requestAnimationFrame(moveStars)
+    }
+
+    return () => {
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current)
       }
-
-      // Add new star to the array instead of replacing
-      setStars((prevStars) => [...prevStars, newStar])
-
-      const randomDelay = Math.random() * (maxDelay - minDelay) + minDelay
-      setTimeout(createStar, randomDelay)
+      if (animationRef.current) {
+        cancelAnimationFrame(animationRef.current)
+      }
     }
+  }, [enabled, createStar, moveStars])
 
-    createStar()
-
-    return () => {}
-  }, [minSpeed, maxSpeed, minDelay, maxDelay])
-
+  // Cleanup on unmount
   useEffect(() => {
-    const moveStars = () => {
-      setStars((prevStars) =>
-        prevStars
-          .map((star) => {
-            const newX = star.x + star.speed * Math.cos((star.angle * Math.PI) / 180)
-            const newY = star.y + star.speed * Math.sin((star.angle * Math.PI) / 180)
-            const newDistance = star.distance + star.speed
-            const newScale = 1 + newDistance / 100
-
-            return {
-              ...star,
-              x: newX,
-              y: newY,
-              distance: newDistance,
-              scale: newScale,
-            }
-          })
-          // Filter out stars that are off-screen
-          .filter(
-            (star) =>
-              star.x >= -20 &&
-              star.x <= window.innerWidth + 20 &&
-              star.y >= -20 &&
-              star.y <= window.innerHeight + 20
-          )
-      )
+    return () => {
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current)
+      }
+      if (animationRef.current) {
+        cancelAnimationFrame(animationRef.current)
+      }
     }
+  }, [])
 
-    const animationFrame = requestAnimationFrame(moveStars)
-    return () => cancelAnimationFrame(animationFrame)
-  }, [stars])
+  // Don't render if disabled
+  if (!enabled) return null
 
   return (
-    <svg ref={svgRef} className={cn('w-full h-full absolute inset-0', className)}>
-      {/* Render all stars from the array */}
+    <svg ref={svgRef} className={cn('w-full h-full absolute inset-0 pointer-events-none', className)}>
       {stars.map((star) => (
         <rect
           key={star.id}

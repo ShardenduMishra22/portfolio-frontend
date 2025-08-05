@@ -6,6 +6,8 @@ import { Analytics } from '@vercel/analytics/next'
 import { Fredoka, Poppins, Inter } from 'next/font/google'
 import { SpeedInsights } from '@vercel/speed-insights/next'
 import ThemeToggleClient from '@/components/extra/ThemeToggleClient'
+import { PerformanceMonitor } from '@/components/ui/performance-monitor'
+import ServiceWorkerRegistration from '@/components/ui/service-worker-registration'
 
 const fredoka = Fredoka({
   variable: '--font-heading',
@@ -71,11 +73,40 @@ export const metadata: Metadata = {
       'max-snippet': -1,
     },
   },
+  manifest: '/manifest.json',
+  themeColor: '#00c896',
+  viewport: {
+    width: 'device-width',
+    initialScale: 1,
+    maximumScale: 1,
+    userScalable: false,
+  },
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: 'default',
+    title: 'Shardendu Portfolio',
+  },
+  formatDetection: {
+    telephone: false,
+  },
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" suppressHydrationWarning>
+      <head>
+        <link rel="manifest" href="/manifest.json" />
+        <meta name="theme-color" content="#00c896" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+        <meta name="apple-mobile-web-app-title" content="Shardendu Portfolio" />
+        <link rel="apple-touch-icon" href="/icon-192x192.png" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/icon-32x32.png" />
+        <link rel="icon" type="image/png" sizes="16x16" href="/icon-16x16.png" />
+        <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#00c896" />
+        <meta name="msapplication-TileColor" content="#00c896" />
+        <meta name="msapplication-config" content="/browserconfig.xml" />
+      </head>
       <body className={`${fredoka.variable} ${poppins.variable} ${inter.variable} antialiased `}>
         <ThemeProvider
           attribute="class"
@@ -91,6 +122,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <Toaster position="top-right" reverseOrder />
             <Analytics />
             <SpeedInsights />
+            <PerformanceMonitor />
+            <ServiceWorkerRegistration />
           </div>
         </ThemeProvider>
       </body>

@@ -17,42 +17,53 @@ interface StarBackgroundProps {
   minTwinkleSpeed?: number
   maxTwinkleSpeed?: number
   className?: string
+  enabled?: boolean // New prop to enable/disable
+  maxStars?: number // New prop to limit stars
 }
 
 export const StarsBackground: React.FC<StarBackgroundProps> = ({
-  starDensity = 0.00015,
-  allStarsTwinkle = true,
-  twinkleProbability = 0.7,
-  minTwinkleSpeed = 0.5,
-  maxTwinkleSpeed = 1,
+  starDensity = 0.00008, // Reduced density for better performance
+  allStarsTwinkle = false, // Disabled by default for performance
+  twinkleProbability = 0.3, // Reduced probability
+  minTwinkleSpeed = 1,
+  maxTwinkleSpeed = 2,
   className,
+  enabled = true,
+  maxStars = 50, // Limit maximum stars
 }) => {
   const [stars, setStars] = useState<StarProps[]>([])
   const canvasRef = useRef<HTMLCanvasElement>(null)
+  const animationRef = useRef<number>()
 
   const generateStars = useCallback(
     (width: number, height: number): StarProps[] => {
+      if (!enabled) return []
+      
       const area = width * height
-      const numStars = Math.floor(area * starDensity)
+      const numStars = Math.min(
+        Math.floor(area * starDensity),
+        maxStars
+      )
+      
       return Array.from({ length: numStars }, () => {
         const shouldTwinkle = allStarsTwinkle || Math.random() < twinkleProbability
         return {
           x: Math.random() * width,
           y: Math.random() * height,
-          radius: Math.random() * 0.05 + 0.5,
-          opacity: Math.random() * 0.5 + 0.5,
+          radius: Math.random() * 0.03 + 0.3, // Smaller stars
+          opacity: Math.random() * 0.3 + 0.3, // Lower opacity
           twinkleSpeed: shouldTwinkle
             ? minTwinkleSpeed + Math.random() * (maxTwinkleSpeed - minTwinkleSpeed)
             : null,
         }
       })
     },
-    [starDensity, allStarsTwinkle, twinkleProbability, minTwinkleSpeed, maxTwinkleSpeed]
+    [starDensity, allStarsTwinkle, twinkleProbability, minTwinkleSpeed, maxTwinkleSpeed, enabled, maxStars]
   )
 
   useEffect(() => {
     const updateStars = () => {
-      if (canvasRef.current) {
+      if (canvasRef.current && enabled) {
         const canvas = canvasRef.current
         const ctx = canvas.getContext('2d')
         if (!ctx) return
@@ -84,39 +95,50 @@ export const StarsBackground: React.FC<StarBackgroundProps> = ({
     minTwinkleSpeed,
     maxTwinkleSpeed,
     generateStars,
+    enabled,
   ])
 
   useEffect(() => {
     const canvas = canvasRef.current
-    if (!canvas) return
+    if (!canvas || !enabled) return
 
     const ctx = canvas.getContext('2d')
     if (!ctx) return
 
-    let animationFrameId: number
-
     const render = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height)
+      
       stars.forEach((star) => {
         ctx.beginPath()
         ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2)
         ctx.fillStyle = `rgba(255, 255, 255, ${star.opacity})`
         ctx.fill()
 
-        if (star.twinkleSpeed !== null) {
-          star.opacity = 0.5 + Math.abs(Math.sin((Date.now() * 0.001) / star.twinkleSpeed) * 0.5)
+        // Only update twinkling stars occasionally for performance
+        if (star.twinkleSpeed !== null && Math.random() < 0.1) {
+          star.opacity = 0.3 + Math.abs(Math.sin((Date.now() * 0.0005) / star.twinkleSpeed) * 0.3)
         }
       })
 
-      animationFrameId = requestAnimationFrame(render)
+      animationRef.current = requestAnimationFrame(render)
     }
 
     render()
 
     return () => {
-      cancelAnimationFrame(animationFrameId)
+      if (animationRef.current) {
+        cancelAnimationFrame(animationRef.current)
+      }
     }
-  }, [stars])
+  }, [stars, enabled])
 
-  return <canvas ref={canvasRef} className={cn('h-full w-full absolute inset-0', className)} />
+  // Don't render if disabled
+  if (!enabled) return null
+
+  return (
+    <canvas 
+      ref={canvasRef} 
+      className={cn('h-full w-full absolute inset-0 pointer-events-none', className)} 
+    />
+  )
 }

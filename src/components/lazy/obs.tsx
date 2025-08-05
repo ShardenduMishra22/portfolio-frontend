@@ -1,33 +1,66 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef, useCallback, useMemo } from 'react'
+
+interface IntersectionObserverOptions extends IntersectionObserverInit {
+  threshold?: number | number[]
+  rootMargin?: string
+  root?: Element | null
+}
 
 export const useIntersectionObserver = (
   ref: React.RefObject<Element>,
-  options: IntersectionObserverInit = {}
+  options: IntersectionObserverOptions = {}
 ) => {
   const [isVisible, setIsVisible] = useState(false)
   const [hasBeenVisible, setHasBeenVisible] = useState(false)
+  const observerRef = useRef<IntersectionObserver | null>(null)
+
+  const defaultOptions = useMemo(() => ({
+    threshold: 0.1,
+    rootMargin: '100px',
+    ...options,
+  }), [options])
+
+  const handleIntersection = useCallback((entries: IntersectionObserverEntry[]) => {
+    const [entry] = entries
+    const isIntersecting = entry.isIntersecting
+    
+    setIsVisible(isIntersecting)
+    
+    if (isIntersecting && !hasBeenVisible) {
+      setHasBeenVisible(true)
+    }
+  }, [hasBeenVisible])
 
   useEffect(() => {
     const element = ref.current
     if (!element) return
 
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        setIsVisible(entry.isIntersecting)
-        if (entry.isIntersecting && !hasBeenVisible) {
-          setHasBeenVisible(true)
-        }
-      },
-      {
-        threshold: 0.1,
-        rootMargin: '100px',
-        ...options,
-      }
-    )
+    // Clean up existing observer
+    if (observerRef.current) {
+      observerRef.current.disconnect()
+    }
 
-    observer.observe(element)
-    return () => observer.disconnect()
-  }, [ref, hasBeenVisible, options])
+    // Create new observer
+    observerRef.current = new IntersectionObserver(handleIntersection, defaultOptions)
+    observerRef.current.observe(element)
+
+    return () => {
+      if (observerRef.current) {
+        observerRef.current.disconnect()
+        observerRef.current = null
+      }
+    }
+  }, [ref, handleIntersection, defaultOptions])
+
+  // Cleanup on unmount
+  useEffect(() => {
+    return () => {
+      if (observerRef.current) {
+        observerRef.current.disconnect()
+        observerRef.current = null
+      }
+    }
+  }, [])
 
   return { isVisible, hasBeenVisible }
 }
