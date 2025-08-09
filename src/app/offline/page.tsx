@@ -1,6 +1,5 @@
 'use client'
 
-import { Metadata } from 'next'
 import Link from 'next/link'
 
 export default function OfflinePage() {
@@ -25,10 +24,10 @@ export default function OfflinePage() {
             </svg>
           </div>
           <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
-            You're Offline
+            You&apos;re Offline
           </h1>
           <p className="text-gray-600 dark:text-gray-400 mb-8">
-            It looks like you're not connected to the internet. Don't worry, you can still browse some cached content.
+            It looks like you&apos;re not connected to the internet. Don&apos;t worry, you can still browse some cached content.
           </p>
         </div>
 
@@ -41,7 +40,7 @@ export default function OfflinePage() {
           </Link>
           
           <div className="text-sm text-gray-500 dark:text-gray-400">
-            <p>Try these when you're back online:</p>
+            <p>Try these when you&apos;re back online:</p>
             <div className="mt-2 space-x-4">
               <Link href="/projects" className="hover:underline">
                 Projects
