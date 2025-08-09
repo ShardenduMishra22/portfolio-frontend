@@ -1,11 +1,13 @@
 import './globals.css'
-import type { Metadata } from 'next'
+import type { Metadata, Viewport } from 'next'
 import { Toaster } from 'react-hot-toast'
 import { ThemeProvider } from 'next-themes'
 import { Analytics } from '@vercel/analytics/next'
 import { Fredoka, Poppins, Inter } from 'next/font/google'
 import { SpeedInsights } from '@vercel/speed-insights/next'
 import ThemeToggleClient from '@/components/extra/ThemeToggleClient'
+import PWARegister from '@/components/extra/PWARegister'
+import PWAInstallBanner from '@/components/extra/PWAInstallBanner'
 
 const fredoka = Fredoka({
   variable: '--font-heading',
@@ -45,6 +47,7 @@ export const metadata: Metadata = {
   ],
   authors: [{ name: 'Shardendu Mishra' }],
   creator: 'Shardendu Mishra',
+  manifest: '/manifest.json',
   openGraph: {
     type: 'website',
     locale: 'en_US',
@@ -71,6 +74,34 @@ export const metadata: Metadata = {
       'max-snippet': -1,
     },
   },
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: 'default',
+    title: 'Shardendu Portfolio',
+  },
+  formatDetection: {
+    telephone: false,
+  },
+  other: {
+    'mobile-web-app-capable': 'yes',
+    'apple-mobile-web-app-capable': 'yes',
+    'apple-mobile-web-app-status-bar-style': 'default',
+    'apple-mobile-web-app-title': 'Shardendu Portfolio',
+    'application-name': 'Shardendu Portfolio',
+    'msapplication-TileColor': '#000000',
+    'msapplication-config': '/browserconfig.xml',
+  },
+}
+
+export const viewport: Viewport = {
+  themeColor: [
+    { media: '(prefers-color-scheme: light)', color: '#ffffff' },
+    { media: '(prefers-color-scheme: dark)', color: '#000000' },
+  ],
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 1,
+  userScalable: false,
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
@@ -89,6 +120,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             </div>
             {children}
             <Toaster position="top-right" reverseOrder />
+            <PWAInstallBanner />
+            <PWARegister />
             <Analytics />
             <SpeedInsights />
           </div>
