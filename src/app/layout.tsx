@@ -120,7 +120,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             </div>
             {children}
             <Toaster position="top-right" reverseOrder />
-            <PWAInstallBanner />
+{/*             <PWAInstallBanner /> */}
             <PWARegister />
             <Analytics />
             <SpeedInsights />
