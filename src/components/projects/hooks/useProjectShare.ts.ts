@@ -5,22 +5,6 @@ import { Project } from '@/data/types.data' // Import your actual Project type
 export function useProjectShare(project: Project | null) {
   const [shareClicked, setShareClicked] = useState(false)
 
-  const getProjectUrl = () => {
-    if (!project) return ''
-
-    // Generate slug from title if slug doesn't exist
-    const slug =
-      (project as any).slug ||
-      project.title
-        ?.toLowerCase()
-        .replace(/[^a-z0-9]+/g, '-')
-        .replace(/(^-|-$)/g, '') ||
-      project.id ||
-      'project'
-
-    return `${window.location.origin}/projects/${slug}`
-  }
-
   const getShareText = () => {
     if (!project) return ''
     return project.description
@@ -29,12 +13,12 @@ export function useProjectShare(project: Project | null) {
   }
 
   const handleShare = async () => {
+    console.log(project)
     if (!project) return
 
-    const projectUrl = getProjectUrl()
+    const projectUrl = window.location.href;
     const shareText = getShareText()
 
-    // Create share data for native sharing
     const shareData = {
       title: project.title,
       text: shareText,
@@ -86,7 +70,6 @@ export function useProjectShare(project: Project | null) {
   return {
     handleShare,
     shareClicked,
-    getProjectUrl,
     getShareText,
     copyToClipboard,
   }

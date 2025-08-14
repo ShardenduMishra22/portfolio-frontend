@@ -18,6 +18,8 @@ import {
 } from 'lucide-react'
 import { Badge } from '../../../components/ui/badge'
 import { Button } from '../../../components/ui/button'
+import { SkillsLens } from '@/components/ui/skill-lens'
+import { CanvasCard } from '@/components/projects/canva'
 import { Separator } from '../../../components/ui/separator'
 import { ProjectHero } from '@/components/projects/ProjectHero'
 import { LoadingState } from '@/components/projects/Load-Error'
@@ -29,10 +31,6 @@ import { ProjectDescription } from '@/components/projects/ProjectDescription'
 import { useProjectShare } from '@/components/projects/hooks/useProjectShare.ts'
 import { ProjectNavigation } from '../../../components/projects/ProjectNavigation'
 import { Card, CardContent, CardHeader, CardTitle } from '../../../components/ui/card'
-import { SkillsLens } from '@/components/ui/skill-lens'
-import { CanvasRevealEffect } from '@/components/ui/canvas-reveal-effect'
-import { AnimatePresence, motion } from 'motion/react'
-import { CanvasCard } from '@/components/projects/canva'
 
 export default function ProjectDetailPage({ params }: any) {
   const { project, loading, error } = useProject(params)
@@ -66,7 +64,6 @@ ${project.project_video ? `- **Video Demo:** ${project.project_video}` : ''}
       if (navigator.clipboard && window.isSecureContext) {
         await navigator.clipboard.writeText(markdownContent)
       } else {
-        // Fallback for older browsers
         const textArea = document.createElement('textarea')
         textArea.value = markdownContent
         document.body.appendChild(textArea)
@@ -101,16 +98,12 @@ ${project.project_video ? `- **Video Demo:** ${project.project_video}` : ''}
         />
 
         <main className="w-full px-4 sm:px-6 lg:px-8 xl:px-12 py-8">
-          {/* Hero Section */}
           <section className="mb-8 w-full">
             <ProjectHero project={project} />
           </section>
 
-          {/* Balanced Content Grid */}
           <div className="grid lg:grid-cols-3 gap-8 mb-12 w-full">
-            {/* Main Content - Left Side (2/3 width) */}
             <div className="lg:col-span-2 space-y-8">
-              {/* About Project */}
               <Card className="border border-border/50 bg-card/50">
                 <CardHeader className="pb-4">
                   <CardTitle className="text-xl flex items-center gap-3">
@@ -212,7 +205,6 @@ ${project.project_video ? `- **Video Demo:** ${project.project_video}` : ''}
                     </p>
 
                     <div className="grid grid-cols-2 gap-2">
-                      {/* Share Button - Left */}
                       <Button
                         variant="outline"
                         onClick={handleShare}
