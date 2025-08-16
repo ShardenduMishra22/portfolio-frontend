@@ -20,7 +20,6 @@ export const navItems = [
   { href: '#experience', label: 'Experience', icon: User },
   { href: '#certifications', label: 'Certifications', icon: Award },
   { href: '#contact', label: 'Contact', icon: Mail },
-  { href: '/blog', label: 'Blog', icon: Glasses },
 ]
 
 export interface ProjectHeaderProps {
