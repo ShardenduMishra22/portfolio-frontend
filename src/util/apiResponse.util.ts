@@ -1,19 +1,26 @@
 import api from './api'
 import {
+  Project,
+  Experience,
   ApiResponse,
   AuthRequest,
   SkillsRequest,
+  Certification,
   SkillsResponse,
-  Project,
   CreateProjectRequest,
   UpdateProjectRequest,
-  Experience,
   CreateExperienceRequest,
   UpdateExperienceRequest,
-  Certification,
-  CreateCertificationRequest,
   UpdateCertificationRequest,
+  CreateCertificationRequest,
 } from '../data/types.data'
+
+export const testAPI = {
+  testEndpoint: async (): Promise<ApiResponse<{ message: string }>> => {
+    const response = await api.get('/api/test')
+    return response.data
+  },
+}
 
 export const authAPI = {
   login: async (credentials: AuthRequest): Promise<any> => {
@@ -22,7 +29,6 @@ export const authAPI = {
   },
 }
 
-// Skills API
 export const skillsAPI = {
   getSkills: async (): Promise<ApiResponse<SkillsResponse>> => {
     console.log('API Base URL:', api.defaults.baseURL)
@@ -37,7 +43,6 @@ export const skillsAPI = {
   },
 }
 
-// Projects API
 export const projectsAPI = {
   getAllProjects: async (): Promise<ApiResponse<Project[]>> => {
     const response = await api.get('/api/projects')
@@ -68,7 +73,6 @@ export const projectsAPI = {
   },
 }
 
-// Experiences API
 export const experiencesAPI = {
   getAllExperiences: async (): Promise<ApiResponse<Experience[]>> => {
     const response = await api.get('/api/experiences')
@@ -101,7 +105,6 @@ export const experiencesAPI = {
   },
 }
 
-// Certifications API
 export const certificationsAPI = {
   getAllCertifications: async (): Promise<ApiResponse<Certification[]>> => {
     const response = await api.get('/api/certifications')
@@ -134,13 +137,4 @@ export const certificationsAPI = {
   },
 }
 
-// Achievements API (alias for certifications if same contract)
 export const achievementsAPI = certificationsAPI
-
-// Test API
-export const testAPI = {
-  testEndpoint: async (): Promise<ApiResponse<{ message: string }>> => {
-    const response = await api.get('/api/test')
-    return response.data
-  },
-}

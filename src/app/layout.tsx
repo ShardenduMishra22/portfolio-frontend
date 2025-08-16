@@ -6,7 +6,6 @@ import { Analytics } from '@vercel/analytics/next'
 import { Fredoka, Poppins, Inter } from 'next/font/google'
 import { SpeedInsights } from '@vercel/speed-insights/next'
 import ThemeToggleClient from '@/components/extra/ThemeToggleClient'
-import PWARegister from '@/components/extra/PWARegister'
 
 const fredoka = Fredoka({
   variable: '--font-heading',
@@ -119,8 +118,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             </div>
             {children}
             <Toaster position="top-right" reverseOrder />
-{/*             <PWAInstallBanner /> */}
-            <PWARegister />
             <Analytics />
             <SpeedInsights />
           </div>
