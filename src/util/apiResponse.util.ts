@@ -17,7 +17,7 @@ import {
 
 export const authAPI = {
   login: async (credentials: AuthRequest): Promise<any> => {
-    const response = await api.post('/admin/auth', credentials)
+    const response = await api.post('/api/admin/auth', credentials)
     return response.data
   },
 }
@@ -25,12 +25,14 @@ export const authAPI = {
 // Skills API
 export const skillsAPI = {
   getSkills: async (): Promise<ApiResponse<SkillsResponse>> => {
-    const response = await api.get('/skills')
+    console.log('API Base URL:', api.defaults.baseURL)
+    console.log('Making request to: /api/skills')
+    const response = await api.get('/api/skills')
     return response.data
   },
 
   addSkills: async (skills: SkillsRequest): Promise<ApiResponse<SkillsResponse>> => {
-    const response = await api.post('/skills', skills)
+    const response = await api.post('/api/skills', skills)
     return response.data
   },
 }
@@ -38,17 +40,17 @@ export const skillsAPI = {
 // Projects API
 export const projectsAPI = {
   getAllProjects: async (): Promise<ApiResponse<Project[]>> => {
-    const response = await api.get('/projects')
+    const response = await api.get('/api/projects')
     return response.data
   },
 
   getProjectById: async (id: string): Promise<ApiResponse<Project>> => {
-    const response = await api.get(`/projects/${id}`)
+    const response = await api.get(`/api/projects/${id}`)
     return response.data
   },
 
   createProject: async (project: CreateProjectRequest): Promise<ApiResponse<Project>> => {
-    const response = await api.post('/projects', project)
+    const response = await api.post('/api/projects', project)
     return response.data
   },
 
@@ -56,12 +58,12 @@ export const projectsAPI = {
     id: string,
     project: UpdateProjectRequest
   ): Promise<ApiResponse<Project>> => {
-    const response = await api.put(`/projects/${id}`, project)
+    const response = await api.put(`/api/projects/${id}`, project)
     return response.data
   },
 
   deleteProject: async (id: string): Promise<ApiResponse<{ message: string }>> => {
-    const response = await api.delete(`/projects/${id}`)
+    const response = await api.delete(`/api/projects/${id}`)
     return response.data
   },
 }
@@ -69,19 +71,19 @@ export const projectsAPI = {
 // Experiences API
 export const experiencesAPI = {
   getAllExperiences: async (): Promise<ApiResponse<Experience[]>> => {
-    const response = await api.get('/experiences')
+    const response = await api.get('/api/experiences')
     return response.data
   },
 
   getExperienceById: async (id: string): Promise<ApiResponse<Experience>> => {
-    const response = await api.get(`/experiences/${id}`)
+    const response = await api.get(`/api/experiences/${id}`)
     return response.data
   },
 
   createExperience: async (
     experience: CreateExperienceRequest
   ): Promise<ApiResponse<Experience>> => {
-    const response = await api.post('/experiences', experience)
+    const response = await api.post('/api/experiences', experience)
     return response.data
   },
 
@@ -89,12 +91,12 @@ export const experiencesAPI = {
     id: string,
     experience: UpdateExperienceRequest
   ): Promise<ApiResponse<Experience>> => {
-    const response = await api.put(`/experiences/${id}`, experience)
+    const response = await api.put(`/api/experiences/${id}`, experience)
     return response.data
   },
 
   deleteExperience: async (id: string): Promise<ApiResponse<{ message: string }>> => {
-    const response = await api.delete(`/experiences/${id}`)
+    const response = await api.delete(`/api/experiences/${id}`)
     return response.data
   },
 }
@@ -102,19 +104,19 @@ export const experiencesAPI = {
 // Certifications API
 export const certificationsAPI = {
   getAllCertifications: async (): Promise<ApiResponse<Certification[]>> => {
-    const response = await api.get('/certifications')
+    const response = await api.get('/api/certifications')
     return response.data
   },
 
   getCertificationById: async (id: string): Promise<ApiResponse<Certification>> => {
-    const response = await api.get(`/certifications/${id}`)
+    const response = await api.get(`/api/certifications/${id}`)
     return response.data
   },
 
   createCertification: async (
     cert: CreateCertificationRequest
   ): Promise<ApiResponse<Certification>> => {
-    const response = await api.post('/certifications', cert)
+    const response = await api.post('/api/certifications', cert)
     return response.data
   },
 
@@ -122,12 +124,12 @@ export const certificationsAPI = {
     id: string,
     cert: UpdateCertificationRequest
   ): Promise<ApiResponse<Certification>> => {
-    const response = await api.put(`/certifications/${id}`, cert)
+    const response = await api.put(`/api/certifications/${id}`, cert)
     return response.data
   },
 
   deleteCertification: async (id: string): Promise<ApiResponse<{ message: string }>> => {
-    const response = await api.delete(`/certifications/${id}`)
+    const response = await api.delete(`/api/certifications/${id}`)
     return response.data
   },
 }
@@ -138,7 +140,7 @@ export const achievementsAPI = certificationsAPI
 // Test API
 export const testAPI = {
   testEndpoint: async (): Promise<ApiResponse<{ message: string }>> => {
-    const response = await api.get('/test')
+    const response = await api.get('/api/test')
     return response.data
   },
 }

@@ -11,7 +11,7 @@ import axios from 'axios'
 
 // Local API client for blog endpoints
 const localAPI = axios.create({
-  baseURL: '/api',
+  baseURL: process.env.NEXT_PUBLIC_BACKEND_1 || process.env.BACKEND_1,
   timeout: 10000,
   headers: {
     'Content-Type': 'application/json',
@@ -21,37 +21,37 @@ const localAPI = axios.create({
 export const blogsService = {
   // Get all blogs with pagination
   getBlogs: async (params?: PaginationParams): Promise<ApiResponse<Blog[]>> => {
-    const response = await localAPI.get('/blogs', { params })
+    const response = await localAPI.get('/api/blogs', { params })
     return response.data
   },
 
   // Get blog by ID
   getBlogById: async (id: string): Promise<ApiResponse<Blog>> => {
-    const response = await localAPI.get(`/blogs/${id}`)
+    const response = await localAPI.get(`/api/api/blogs/${id}`)
     return response.data
   },
 
   // Create new blog
   createBlog: async (blogData: CreateBlogRequest): Promise<ApiResponse<Blog>> => {
-    const response = await localAPI.post('/blogs', blogData)
+    const response = await localAPI.post('/api/blogs', blogData)
     return response.data
   },
 
   // Update blog
   updateBlog: async (id: string, blogData: UpdateBlogRequest): Promise<ApiResponse<Blog>> => {
-    const response = await localAPI.put(`/blogs/${id}`, blogData)
+    const response = await localAPI.put(`/api/blogs/${id}`, blogData)
     return response.data
   },
 
   // Delete blog
   deleteBlog: async (id: string): Promise<ApiResponse<{ message: string }>> => {
-    const response = await localAPI.delete(`/blogs/${id}`)
+    const response = await localAPI.delete(`/api/blogs/${id}`)
     return response.data
   },
 
   // Get blog comments
   getBlogComments: async (id: string, params?: PaginationParams): Promise<ApiResponse<any[]>> => {
-    const response = await localAPI.get(`/blogs/${id}/comments`, { params })
+    const response = await localAPI.get(`/api/blogs/${id}/comments`, { params })
     return response.data
   },
 
@@ -60,7 +60,7 @@ export const blogsService = {
     id: string,
     commentData: { content: string; userId: string }
   ): Promise<ApiResponse<any>> => {
-    const response = await localAPI.post(`/blogs/${id}/comments`, commentData)
+    const response = await localAPI.post(`/api/blogs/${id}/comments`, commentData)
     return response.data
   },
 
@@ -69,7 +69,7 @@ export const blogsService = {
     id: string,
     params?: PaginationParams
   ): Promise<ApiResponse<PaginatedResponse<any>>> => {
-    const response = await localAPI.get(`/blogs/${id}/likes`, { params })
+    const response = await localAPI.get(`/api/blogs/${id}/likes`, { params })
     return response.data
   },
 
@@ -78,7 +78,7 @@ export const blogsService = {
     id: string,
     data: { userId: string }
   ): Promise<ApiResponse<{ message: string }>> => {
-    const response = await localAPI.post(`/blogs/${id}/like`, data)
+    const response = await localAPI.post(`/api/blogs/${id}/like`, data)
     return response.data
   },
 
@@ -87,7 +87,7 @@ export const blogsService = {
     id: string,
     data: { userId: string }
   ): Promise<ApiResponse<{ message: string }>> => {
-    const response = await localAPI.post(`/blogs/${id}/unlike`, data)
+    const response = await localAPI.post(`/api/blogs/${id}/unlike`, data)
     return response.data
   },
 
@@ -96,7 +96,7 @@ export const blogsService = {
     id: string,
     data: { userId: string }
   ): Promise<ApiResponse<{ message: string }>> => {
-    const response = await localAPI.post(`/blogs/${id}/bookmark`, data)
+    const response = await localAPI.post(`/api/blogs/${id}/bookmark`, data)
     return response.data
   },
 
@@ -105,7 +105,7 @@ export const blogsService = {
     id: string,
     data: { userId: string }
   ): Promise<ApiResponse<{ message: string }>> => {
-    const response = await localAPI.post(`/blogs/${id}/unbookmark`, data)
+    const response = await localAPI.post(`/api/blogs/${id}/unbookmark`, data)
     return response.data
   },
 
@@ -114,13 +114,13 @@ export const blogsService = {
     id: string,
     data: { userId: string }
   ): Promise<ApiResponse<{ message: string }>> => {
-    const response = await localAPI.post(`/blogs/${id}/history`, data)
+    const response = await localAPI.post(`/api/blogs/${id}/history`, data)
     return response.data
   },
 
   // Get blog categories
   getBlogCategories: async (id: string): Promise<ApiResponse<any[]>> => {
-    const response = await localAPI.get(`/blogs/${id}/categories`)
+    const response = await localAPI.get(`/api/blogs/${id}/categories`)
     return response.data
   },
 
@@ -129,7 +129,7 @@ export const blogsService = {
     id: string,
     categoryId: number
   ): Promise<ApiResponse<{ message: string }>> => {
-    const response = await localAPI.post(`/blogs/${id}/categories`, { categoryId })
+    const response = await localAPI.post(`/api/blogs/${id}/categories`, { categoryId })
     return response.data
   },
 
@@ -138,7 +138,7 @@ export const blogsService = {
     id: string,
     categoryId: number
   ): Promise<ApiResponse<{ message: string }>> => {
-    const response = await localAPI.delete(`/blogs/${id}/categories/${categoryId}`)
+    const response = await localAPI.delete(`/api/blogs/${id}/categories/${categoryId}`)
     return response.data
   },
 
@@ -147,7 +147,7 @@ export const blogsService = {
     id: string,
     params?: PaginationParams
   ): Promise<ApiResponse<PaginatedResponse<any>>> => {
-    const response = await localAPI.get(`/blogs/${id}/views`, { params })
+    const response = await localAPI.get(`/api/blogs/${id}/views`, { params })
     return response.data
   },
 
@@ -156,7 +156,7 @@ export const blogsService = {
     id: string,
     data: { userId?: string; ipAddress?: string; userAgent?: string }
   ): Promise<ApiResponse<{ message: string }>> => {
-    const response = await localAPI.post(`/blogs/${id}/views`, data)
+    const response = await localAPI.post(`/api/blogs/${id}/views`, data)
     return response.data
   },
 
@@ -165,7 +165,7 @@ export const blogsService = {
     id: string,
     params?: PaginationParams
   ): Promise<ApiResponse<PaginatedResponse<any>>> => {
-    const response = await localAPI.get(`/blogs/${id}/revisions`, { params })
+    const response = await localAPI.get(`/api/blogs/${id}/revisions`, { params })
     return response.data
   },
 
@@ -174,19 +174,19 @@ export const blogsService = {
     id: string,
     revisionData: { content: string; version: string }
   ): Promise<ApiResponse<any>> => {
-    const response = await localAPI.post(`/blogs/${id}/revisions`, revisionData)
+    const response = await localAPI.post(`/api/blogs/${id}/revisions`, revisionData)
     return response.data
   },
 
   // Get specific blog revision
   getBlogRevision: async (id: string, version: string): Promise<ApiResponse<any>> => {
-    const response = await localAPI.get(`/blogs/${id}/revisions/${version}`)
+    const response = await localAPI.get(`/api/blogs/${id}/revisions/${version}`)
     return response.data
   },
 
   // Get blog statistics
   getBlogStats: async (): Promise<ApiResponse<any>> => {
-    const response = await localAPI.get('/blogs/stats')
+    const response = await localAPI.get('/api/api/blogs/stats')
     return response.data
   },
 }

@@ -1,10 +1,10 @@
 import React from 'react';
 
-export default function OfflinePage() {
+export default function SkillsPage() {
   return (
     <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
-      <h1>Offline</h1>
-      <p>You are currently offline. Please check your internet connection.</p>
+      <h1>Skills</h1>
+      <p>This is a placeholder for the Skills page. Implement your skills UI here.</p>
     </div>
   );
 }

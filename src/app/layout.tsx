@@ -7,7 +7,6 @@ import { Fredoka, Poppins, Inter } from 'next/font/google'
 import { SpeedInsights } from '@vercel/speed-insights/next'
 import ThemeToggleClient from '@/components/extra/ThemeToggleClient'
 import PWARegister from '@/components/extra/PWARegister'
-import PWAInstallBanner from '@/components/extra/PWAInstallBanner'
 
 const fredoka = Fredoka({
   variable: '--font-heading',

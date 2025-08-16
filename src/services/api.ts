@@ -1,7 +1,6 @@
 import axios from 'axios'
 
-const isServer = typeof window === 'undefined'
-const baseURL = isServer ? process.env.NEXT_PUBLIC_BASE_URL + '/api' : '/api'
+const baseURL = process.env.NEXT_PUBLIC_BACKEND_1 || process.env.BACKEND_1
 
 const backendAPI = axios.create({
   baseURL,
